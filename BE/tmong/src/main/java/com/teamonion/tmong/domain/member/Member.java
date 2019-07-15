@@ -19,4 +19,6 @@ public class Member {
     private String memberId;
 
     private String password;
+
+    private String point;
 }
