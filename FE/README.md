@@ -4,4 +4,4 @@
 
 ### npm start
 
-시작
+시작 go
