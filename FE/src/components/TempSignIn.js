@@ -23,13 +23,16 @@ const SignIn = () => {
           && typeof resultId === 'string'
           && `${resultId}님 환영합니다`}
       </div>
-      <input type="text" onChange={() => setInputID(inputId)} />
-      <input type="password" onChange={() => setInputPw(inputPw)} />
-      <input
-        type="button"
-        value="login"
-        onClick={() => setResultId(getResultId(inputId, inputPw, url))}
-      />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          return setResultId(getResultId(inputId, inputPw, url));
+        }}
+      >
+        <input type="text" onChange={() => setInputID(inputId)} />
+        <input type="password" onChange={() => setInputPw(inputPw)} />
+        <input type="submit" value="login" />
+      </form>
     </>
   );
 };
