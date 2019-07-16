@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const url = 'http://localhost:3000/';
+const url = '/members/login';
 
 const SignIn = () => {
   const [inputId, setInputID] = useState('');
@@ -9,10 +9,10 @@ const SignIn = () => {
   const [resultId, setResultId] = useState('');
   const getResultId = (id, pw, address) => axios
       .post(address, {
-        id,
-        pw,
+        menberId: id,
+        password: pw,
       })
-      .then(res => res.id)
+      .then(res => res.member.memberId)
       .catch(err => console.log('로그인 실패', err));
 
   return (
