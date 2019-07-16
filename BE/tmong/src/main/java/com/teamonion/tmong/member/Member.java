@@ -4,12 +4,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Setter
 @Getter
-@AllArgsConstructor
-@Builder
-@Entity
 @EqualsAndHashCode(of = "id")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
 public class Member {
 
     @Id
@@ -25,8 +23,11 @@ public class Member {
 
     private String point;
 
-    public Member() {
-        this.point = new String();
+    @Builder
+    public Member(String memberId, String password) {
+        this.memberId = memberId;
+        this.password = password;
         this.point = "0";
     }
 }
+

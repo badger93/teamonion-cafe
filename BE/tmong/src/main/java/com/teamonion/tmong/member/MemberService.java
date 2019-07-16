@@ -10,7 +10,8 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public Member save(Member member) {
+    public Member save(MemberSignUpRequestDto memberSignUpRequestDto) {
+        Member member = memberSignUpRequestDto.toEntity();
         return memberRepository.save(member);
     }
 

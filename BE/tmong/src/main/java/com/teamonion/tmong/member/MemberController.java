@@ -18,9 +18,9 @@ public class MemberController {
     private MemberService memberService;
 
     @PostMapping
-    public ResponseEntity signUp(@RequestBody Member member) {
+    public ResponseEntity signUp(@RequestBody MemberSignUpRequestDto memberSignUpRequestDto) {
         //TODO : dto 사용해서 valid
-        Member savedMember = memberService.save(member);
+        Member savedMember = memberService.save(memberSignUpRequestDto);
         return new ResponseEntity(HttpStatus.CREATED);
     }
     
@@ -35,5 +35,10 @@ public class MemberController {
             logger.info("not overlap");
         }
         return new ResponseEntity(overlap, HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody Member member ) {
+        return null;
     }
 }

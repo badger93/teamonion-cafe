@@ -32,16 +32,14 @@ public class MemberControllerTest {
 
     @Test
     public void signUp() throws Exception {
-        Member member = Member.builder()
-                .memberId("onion")
-                .password("pass")
-                .build();
+        MemberSignUpRequestDto memberSignUpRequestDto = new MemberSignUpRequestDto("onion", "pass");
 
-        Mockito.when(memberService.save(member)).thenReturn(member);
+        Mockito.when(memberService.save(memberSignUpRequestDto))
+                .thenReturn(memberSignUpRequestDto.toEntity());
 
         mockMvc.perform(post("/api/members")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(member))
+                .content(objectMapper.writeValueAsString(memberSignUpRequestDto))
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isCreated());
