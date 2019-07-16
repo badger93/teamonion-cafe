@@ -1,6 +1,10 @@
 .header_mobile-wrap {
+  @media (min-width: 961px) {
+    display: none;
+  }
   display: flex;
   justify-content: space-between;
+  height: 40px;
   background-color: #f6f5f0;
   padding: 0;
   margin: 0;
@@ -12,21 +16,21 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 60px;
-      height: 50px;
+      width: 52px;
+      height: 40px;
     }
     img {
       position: absolute;
       top: 0;
       bottom: 0;
-      width: 60px;
-      height: 50px;
+      width: 52px;
+      height: 40px;
     }
   }
   .header_mobile-column {
     display: flex;
     align-items: center;
-    font-size: 1.7rem;
+    font-size: 0.8rem;
     margin-right: 10px;
     a {
       cursor: pointer;
