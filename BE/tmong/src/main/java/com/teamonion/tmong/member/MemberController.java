@@ -1,14 +1,12 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.exception.MemberIdOverlapException;
+import com.teamonion.tmong.exception.MemberNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.NoSuchElementException;
 
 @RequestMapping("/api/members")
 @RestController
@@ -28,12 +26,13 @@ public class MemberController {
     
     @GetMapping("/overlap")
     public ResponseEntity overlapCheck(String memberId) {
-        boolean overlap = false;
+        boolean overlap = true;
         try {
             memberService.findByMemberId(memberId);
-        }catch (MemberIdOverlapException e){
             logger.info("MemberId({}) Overlap.", memberId);
-            overlap = true;
+        }catch (MemberNotFoundException e){
+            overlap = false;
+            logger.info("not overlap");
         }
         return new ResponseEntity(overlap, HttpStatus.OK);
     }

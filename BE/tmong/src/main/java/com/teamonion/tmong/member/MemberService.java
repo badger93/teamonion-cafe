@@ -1,10 +1,8 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.exception.MemberIdOverlapException;
+import com.teamonion.tmong.exception.MemberNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.NoSuchElementException;
 
 @Service
 public class MemberService {
@@ -16,7 +14,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member findByMemberId(String memberId) throws MemberIdOverlapException {
-        return memberRepository.findByMemberId(memberId).orElseThrow(MemberIdOverlapException::new);
+    public Member findByMemberId(String memberId) throws MemberNotFoundException {
+        return memberRepository.findByMemberId(memberId).orElseThrow(MemberNotFoundException::new);
     }
 }
