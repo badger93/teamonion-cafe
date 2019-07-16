@@ -1,8 +1,8 @@
 import React from 'react';
-import SignUpForm from './SignUpForm';
+import RootRouter from './RootRouter';
 
 function App() {
-  return <SignUpForm />;
+  return <RootRouter />;
 }
 
 export default App;

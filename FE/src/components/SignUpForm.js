@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import '../styles/SignUpForm.css';
+import '../styles/SignUpForm.scss';
 
 const SignUpForm = () => {
   const [id, setId] = useState('');
@@ -30,7 +30,7 @@ const SignUpForm = () => {
         alert('ID 중복검사가 필요합니다');
         return;
       }
-      //axios.post('', { id, password });
+      // axios.post('', { id, password });
       console.log({ id, password });
     },
     [password, passwordCheck, duplicateError, setPasswordError],
@@ -40,7 +40,7 @@ const SignUpForm = () => {
     (e) => {
       e.preventDefault();
       if (id.length > 0) {
-        //const result = axios.post('', { id });
+        // const result = axios.post('', { id });
         console.log(id);
         // alert(result);
         // if (result) {
@@ -64,10 +64,13 @@ const SignUpForm = () => {
     setPassword(e.target.value);
   }, []);
 
-  const onChangePasswordCheck = useCallback((e) => {
-    setPasswordError(e.target.value !== password); // 비밀번호체크
-    setPasswordCheck(e.target.value);
-  }, []);
+  const onChangePasswordCheck = useCallback(
+    (e) => {
+      setPasswordError(e.target.value !== password); // 비밀번호체크
+      setPasswordCheck(e.target.value);
+    },
+    [password],
+  );
 
   return (
     <form onSubmit={onSubmit} className="signup_form">
