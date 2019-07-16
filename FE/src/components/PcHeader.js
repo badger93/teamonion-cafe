@@ -5,13 +5,15 @@ import '../styles/PcHeader.scss';
 
 const PcHeader = () => {
   const dummyUser = { id: 'hyunjae' };
-  const isLogined = false;
+  const isLogined = true;
+  const isAdmin = true;
+
   return (
     <div className="header_pc">
       <div className="header_pc-wrap">
         <div className="header_pc-logo">
           <img src={tmonglogo} alt="logo" />
-          <Link to="/" />
+          {isAdmin ? <Link to="/admin/order-manage" /> : <Link to="/" />}
         </div>
         <div className="header_pc-column">
           <div className="header_pc-column-top">
@@ -29,14 +31,23 @@ const PcHeader = () => {
               </>
             )}
           </div>
+
           <div className="header_pc-column-bottom">
-            <Link to="/">Menu</Link>
-
-            <Link to="/myorder">MyOrder</Link>
-
-            <Link to="/user-info">MyPage</Link>
-
-            <Link to="/cart">Cart</Link>
+            {isAdmin ? (
+              <>
+                <Link to="/admin/order-manage">주문현황</Link>
+                <Link to="/admin/menu-manage">메뉴관리</Link>
+                <Link to="/admin/order-history">주문히스토리</Link>
+                <Link to="/admin/member-manage">사용자관리</Link>
+              </>
+            ) : (
+              <>
+                <Link to="/">Menu</Link>
+                <Link to="/myorder">MyOrder</Link>
+                <Link to="/user-info">MyPage</Link>
+                <Link to="/cart">Cart</Link>
+              </>
+            )}
           </div>
         </div>
       </div>
