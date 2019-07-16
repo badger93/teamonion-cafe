@@ -19,7 +19,6 @@ public class MemberController {
     @PostMapping
     public ResponseEntity signUp(@RequestBody Member member) {
         Member savedMember = memberRepository.save(member);
-        logger.info("Member : {}", savedMember.getPoint());
-        return new ResponseEntity(savedMember, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 }
