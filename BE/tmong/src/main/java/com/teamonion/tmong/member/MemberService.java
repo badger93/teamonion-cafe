@@ -18,4 +18,13 @@ public class MemberService {
     public Member findByMemberId(String memberId) throws MemberNotFoundException {
         return memberRepository.findByMemberId(memberId).orElseThrow(MemberNotFoundException::new);
     }
+
+    public void login(MemberLoginRequestDto memberLoginRequestDto) throws MemberNotFoundException {
+        Member member = memberRepository.findByMemberId(memberLoginRequestDto.getMemberId())
+                .orElseThrow(MemberNotFoundException::new);
+
+        if(!member.match(memberLoginRequestDto.getPassword())){
+            //TODO : 에러 던져서 처리해주기..
+        }
+    }
 }

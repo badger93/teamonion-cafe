@@ -29,5 +29,9 @@ public class Member {
         this.password = password;
         this.point = "0";
     }
+
+    public boolean match(String password) {
+        return this.password.equals(password);
+    }
 }
 
