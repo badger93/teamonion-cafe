@@ -10,6 +10,7 @@ body {
     Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   font-size: 12px;
   padding-top: 50px;
+  width: 100vw;
 }
 
 input {
