@@ -7,13 +7,17 @@ const SignIn = () => {
   const [inputId, setInputID] = useState('');
   const [inputPw, setInputPw] = useState('');
   const [resultId, setResultId] = useState('');
-  const getResultId = (id, pw, address) => axios
-      .post(address, {
-        menberId: id,
+  const getResultId = (id, pw, address) => {
+    axios
+      .get(address, {
+        memberId: id,
         password: pw,
       })
-      .then(res => res.member.memberId)
+      .then((res) => {
+        setResultId(res.data.memberId);
+      })
       .catch(err => console.log('로그인 실패', err));
+  };
 
   return (
     <>
@@ -26,7 +30,7 @@ const SignIn = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          return setResultId(getResultId(inputId, inputPw, url));
+          getResultId(inputId, inputPw, url);
         }}
       >
         <input type="text" onChange={() => setInputID(inputId)} />
