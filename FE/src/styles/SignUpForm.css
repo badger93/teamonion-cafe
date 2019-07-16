@@ -1,0 +1,32 @@
+.signup_form {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.signup_form_row {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 20px;
+  margin-top: 10px;
+}
+
+.signup_form_row .signup_input {
+  width: 100%;
+}
+
+.signup_id_input {
+  width: 80%;
+}
+
+.signup_form_row button {
+  width: 18%;
+}
+
+.signup_form_submit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
