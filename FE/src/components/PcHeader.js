@@ -6,7 +6,7 @@ import '../styles/PcHeader.scss';
 const PcHeader = () => {
   const dummyUser = { id: 'hyunjae' };
   const isLogined = true;
-  const isAdmin = true;
+  const isAdmin = false;
 
   return (
     <div className="header_pc">
