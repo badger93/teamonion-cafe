@@ -13,7 +13,7 @@ import javax.persistence.*;
 public class Member {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String memberId;
@@ -21,7 +21,7 @@ public class Member {
     private String password;
 
     @Enumerated(EnumType.STRING)
-    private MemberRole memberRole;
+    private MemberRole memberRole = MemberRole.NORMAL;
 
     private String point;
 
