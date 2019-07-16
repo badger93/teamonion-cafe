@@ -1,28 +1,29 @@
 .signup_form {
   display: flex;
-  width: 50%;
+  width: 100%;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  max-width: 500px;
 }
 .signup_form_row {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
-  height: 20px;
+  height: 30px;
   margin-top: 10px;
-}
-
-.signup_form_row .signup_input {
-  width: 100%;
-}
-
-.signup_id_input {
-  width: 80%;
-}
-
-.signup_form_row button {
-  width: 18%;
+  .signup_input {
+    width: 100%;
+  }
+  .signup_id_input {
+    width: 80%;
+  }
+  button {
+    width: 18%;
+    margin-right: 1%;
+    appearance: none;
+    border-radius: 5px;
+  }
 }
 
 .signup_form_submit {
