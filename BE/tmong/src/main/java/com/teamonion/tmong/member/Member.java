@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Setter
 @Getter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
@@ -25,4 +24,9 @@ public class Member {
     private MemberRole memberRole;
 
     private String point;
+
+    public Member() {
+        this.point = new String();
+        this.point = "0";
+    }
 }
