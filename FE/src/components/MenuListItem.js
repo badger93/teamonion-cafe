@@ -1,11 +1,10 @@
 import React from 'react';
 import propTypes from 'prop-types';
+import './MenuListItem.scss';
 
 const MenuListItem = (props) => {
   const {
-    item: {
- name, price, information, imagePath 
-},
+    item: { name, price, imagePath },
   } = props;
 
   return (
@@ -14,9 +13,8 @@ const MenuListItem = (props) => {
         <img src={imagePath} alt="상품이미지" />
       </div>
       <div className="info-area">
-        <p>{name}</p>
-        <p>{price}</p>
-        <p>{information}</p>
+        <p className="title">{name}</p>
+        <p className="price">{price}</p>
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ const MainPresenter = (props) => {
 
   return (
     <>
-      <div>Main</div>
+      <h1>MENU</h1>
       <div className="menulist">{mapMenuListItem}</div>
     </>
   );
