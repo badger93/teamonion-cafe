@@ -1,8 +1,15 @@
 .mainPresenter {
+  display: flex;
+  flex-direction: column;
   width: 80%;
   margin: 0 auto;
   margin-top: 40px;
   @media (max-width: 961px) {
     width: 100%;
+  }
+  .menulist {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
   }
 }
