@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MenuListItem from '../../../components/MenuListItem';
+import './style/MainPresenter.scss';
 
 const MainPresenter = (props) => {
   const { list } = props;
@@ -11,8 +12,10 @@ const MainPresenter = (props) => {
 
   return (
     <>
-      <h1>MENU</h1>
-      <div className="menulist">{mapMenuListItem}</div>
+      <div className="mainPresenter">
+        <h1>MENU</h1>
+        <div className="menulist">{mapMenuListItem}</div>
+      </div>
     </>
   );
 };

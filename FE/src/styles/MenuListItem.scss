@@ -2,6 +2,10 @@
   display: inline-block;
   margin: 50px 10px;
   width: 267px;
+  @media (max-width: 600px) {
+    width: 40%;
+    min-width: 160px;
+  }
   padding: 0;
   box-sizing: border-box;
   cursor: pointer;
@@ -9,6 +13,9 @@
   .img-area {
     width: 100%;
     height: 278px;
+    @media (max-width: 600px) {
+      height: 170px;
+    }
     position: relative;
     overflow: hidden;
     img {
