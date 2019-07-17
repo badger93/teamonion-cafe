@@ -4,6 +4,12 @@ import MainPresenter from './MainPresenter';
 
 const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
+  const [menuDetailData, setMenuDetailData] = useState({});
+
+  const mapDetailData = (data) => {
+    setMenuDetailData(data);
+    console.log(menuDetailData);
+  };
 
   const getList = (callback) => {
     axios
@@ -17,7 +23,13 @@ const MainContainer = () => {
   useEffect(() => {
     getList(setStoreList);
   }, []);
-  return <MainPresenter list={storeList} />;
+  return (
+    <MainPresenter
+      list={storeList}
+      menuDetailData={menuDetailData}
+      mapDetailData={mapDetailData}
+    />
+  );
 };
 
 export default MainContainer;
