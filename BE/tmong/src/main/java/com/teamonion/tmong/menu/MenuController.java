@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class MenuController {
 
+    private static Logger logger = LoggerFactory.getLogger(MenuController.class);
+
     @Autowired
     private MenuService menuService;
 
     @PostMapping
-    public ResponseEntity add(@RequestBody Menu menu) {
-        menuService.add(menu);
+    public ResponseEntity add(@RequestBody MenuAddDto menuAddDto) {
+        //TODO : menu image 처리
+        menuService.add(menuAddDto);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
