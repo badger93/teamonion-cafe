@@ -8,7 +8,6 @@ const MainContainer = () => {
 
   const mapDetailData = (data) => {
     setMenuDetailData(data);
-    console.log(menuDetailData);
   };
 
   const getList = (callback) => {

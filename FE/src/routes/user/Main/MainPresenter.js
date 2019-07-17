@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import MenuListItem from '../../../components/MenuListItem';
 import MenuDetail from '../../../components/MenuDetail';
+import './style/MainPresenter.scss';
 
 const MainPresenter = (props) => {
   const { list, mapDetailData, menuDetailData } = props;
@@ -15,7 +16,7 @@ const MainPresenter = (props) => {
   ));
 
   return (
-    <>
+    <div className="mainPresenter">
       <h1>MENU</h1>
       <div
         className="menulist"
@@ -24,7 +25,7 @@ const MainPresenter = (props) => {
         {mapMenuListItem}
       </div>
       <MenuDetail menuDetailData={menuDetailData} />
-    </>
+    </div>
   );
 };
 
