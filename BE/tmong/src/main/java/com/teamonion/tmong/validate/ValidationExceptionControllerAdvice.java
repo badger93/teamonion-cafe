@@ -1,0 +1,39 @@
+package com.teamonion.tmong.validate;
+
+import com.teamonion.tmong.exception.PasswordCheckNotValidException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class ValidationExceptionControllerAdvice {
+    private static final Logger log = LoggerFactory.getLogger(ValidationExceptionControllerAdvice.class);
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ValidationErrorsResponse handleValidationException(MethodArgumentNotValidException e) {
+        ValidationErrorsResponse response = new ValidationErrorsResponse();
+
+        for (ObjectError objectError : e.getBindingResult().getAllErrors()) {
+            FieldError fieldError = (FieldError) objectError;
+            log.info("Validation Error : {}", fieldError.getDefaultMessage());
+            response.addValidationError(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        return response;
+    }
+
+    @ExceptionHandler(PasswordCheckNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ValidationErrorsResponse handleValidationException(PasswordCheckNotValidException e) {
+        ValidationErrorsResponse response = new ValidationErrorsResponse();
+        log.info("Validation Error : {}", e.getMessage());
+        response.addValidationError("passwordCheck", e.getMessage());
+        return response;
+    }
+}

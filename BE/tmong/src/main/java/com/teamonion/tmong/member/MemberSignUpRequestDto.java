@@ -1,10 +1,10 @@
 package com.teamonion.tmong.member;
 
+import com.teamonion.tmong.exception.PasswordCheckNotValidException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
@@ -22,7 +22,6 @@ public class MemberSignUpRequestDto {
 
     private String passwordCheck;
 
-    @AssertTrue(message = "비밀번호가 일치하지 않습니다")
     private boolean isValidPassword() {
         if (password == null) {
             return false;
@@ -30,12 +29,10 @@ public class MemberSignUpRequestDto {
         return password.equals(passwordCheck);
     }
 
-    public void setPasswordCheck(String passwordCheck) {
-        this.passwordCheck = passwordCheck;
-        isValidPassword();
-    }
-
-    public Member toEntity() {
+    public Member toEntity() throws PasswordCheckNotValidException {
+        if(!isValidPassword()) {
+            throw new PasswordCheckNotValidException("비밀번호가 일치하지 않습니다");
+        }
         return Member.builder()
                 .memberId(memberId)
                 .password(password)

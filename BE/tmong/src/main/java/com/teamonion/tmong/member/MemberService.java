@@ -1,6 +1,7 @@
 package com.teamonion.tmong.member;
 
 import com.teamonion.tmong.exception.MemberNotFoundException;
+import com.teamonion.tmong.exception.PasswordCheckNotValidException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,7 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
-    public Member save(MemberSignUpRequestDto memberSignUpRequestDto) {
+    public Member save(MemberSignUpRequestDto memberSignUpRequestDto) throws PasswordCheckNotValidException {
         Member member = memberSignUpRequestDto.toEntity();
         return memberRepository.save(member);
     }
