@@ -7,18 +7,31 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/api/members")
 @RestController
 public class MemberController {
-
-    private static Logger logger = LoggerFactory.getLogger(MemberController.class);
+    private static Logger log = LoggerFactory.getLogger(MemberController.class);
 
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberService memberService;
 
     @PostMapping
-    public ResponseEntity signUp(@RequestBody Member member) {
-        Member savedMember = memberRepository.save(member);
+    public ResponseEntity signUp(@RequestBody @Valid MemberSignUpRequestDto memberSignUpRequestDto) {
+        memberService.save(memberSignUpRequestDto);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @GetMapping("/overlap")
+    public ResponseEntity overlapCheck(String memberId) {
+        return new ResponseEntity(memberService.isOverlap(memberId), HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody @Valid MemberLoginRequestDto memberLoginRequestDto) {
+        memberService.login(memberLoginRequestDto);
+        //TODO : 토큰 인증방식 사용
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

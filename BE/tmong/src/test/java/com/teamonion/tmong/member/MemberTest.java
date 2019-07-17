@@ -11,18 +11,20 @@ public class MemberTest {
         Member member = Member.builder()
                 .memberId("onion")
                 .password("pass")
-                .memberRole(MemberRole.NORMAL)
                 .build();
 
         assertThat(member).isNotNull();
     }
 
     @Test
-    public void javaBean() {
-        Member member = new Member();
-        member.setMemberId("onion");
-        member.setPassword("pass");
+    public void match_password() {
+        String password = "pass";
 
-        assertThat(member.getMemberId()).isEqualTo("onion");
+        Member member = Member.builder()
+                .memberId("onion")
+                .password(password)
+                .build();
+
+        assertThat(member.match(password)).isTrue();
     }
 }
