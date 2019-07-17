@@ -1,6 +1,6 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.exception.PasswordCheckNotValidException;
+import com.teamonion.tmong.exception.PasswordMismatchException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ public class MemberServiceTest {
     MemberService memberService;
 
     @Test
-    public void saveTest() throws PasswordCheckNotValidException {
+    public void saveTest() throws PasswordMismatchException {
         //given
         MemberSignUpRequestDto memberSignUpRequestDto = new MemberSignUpRequestDto();
         memberSignUpRequestDto.setMemberId("onion");

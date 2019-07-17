@@ -1,6 +1,8 @@
 package com.teamonion.tmong.validate;
 
-import com.teamonion.tmong.exception.PasswordCheckNotValidException;
+import com.teamonion.tmong.exception.MemberNotFoundException;
+import com.teamonion.tmong.exception.PasswordMismatchException;
+import com.teamonion.tmong.exception.ValidCustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -28,12 +30,24 @@ public class ValidationExceptionControllerAdvice {
         return response;
     }
 
-    @ExceptionHandler(PasswordCheckNotValidException.class)
+    @ExceptionHandler(PasswordMismatchException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ValidationErrorsResponse handleValidationException(PasswordCheckNotValidException e) {
-        ValidationErrorsResponse response = new ValidationErrorsResponse();
-        log.info("Validation Error : {}", e.getMessage());
-        response.addValidationError("passwordCheck", e.getMessage());
-        return response;
+    public ValidationError handleValidationException() {
+        log.info("PasswordMismatchException!!");
+        return new ValidationError("password", "비밀번호가 일치하지 않습니다");
+    }
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ValidationError handleMemberNotFoundException() {
+        log.info("MemberNotFoundException!!");
+        return new ValidationError("memberId", "존재하지 않는 아이디입니다");
+    }
+
+    @ExceptionHandler(ValidCustomException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ValidationError handleValidCustomException(ValidCustomException e) {
+        log.info("ValidCustomException!!");
+        return new ValidationError(e.getField(), e.getErrorMessage());
     }
 }

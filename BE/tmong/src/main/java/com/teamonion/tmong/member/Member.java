@@ -14,13 +14,17 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String memberId;
 
+    @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole = MemberRole.NORMAL;
 
+    @Column(nullable = false)
     private String point;
 
     @Builder

@@ -1,6 +1,6 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.exception.PasswordCheckNotValidException;
+import com.teamonion.tmong.exception.PasswordMismatchException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,9 +29,9 @@ public class MemberSignUpRequestDto {
         return password.equals(passwordCheck);
     }
 
-    public Member toEntity() throws PasswordCheckNotValidException {
+    public Member toEntity() throws PasswordMismatchException {
         if(!isValidPassword()) {
-            throw new PasswordCheckNotValidException("비밀번호가 일치하지 않습니다");
+            throw new PasswordMismatchException();
         }
         return Member.builder()
                 .memberId(memberId)

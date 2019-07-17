@@ -13,7 +13,7 @@ public class ValidationErrorsResponse {
         errors = new ArrayList<>();
     }
 
-    public void addValidationError(String fieldName, String errorMessage) {
-        errors.add(new ValidationError(fieldName, errorMessage));
+    public void addValidationError(String field, String errorMessage) {
+        errors.add(new ValidationError(field, errorMessage));
     }
 }
