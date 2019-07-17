@@ -1,31 +1,38 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 import MenuListItem from '../../../components/MenuListItem';
-import './style/MainPresenter.scss';
+import MenuDetail from '../../../components/MenuDetail';
 
 const MainPresenter = (props) => {
-  const { list } = props;
+  const { list, mapDetailData, menuDetailData } = props;
   const mapMenuListItem = list.map((item, index) => (
-    // eslint-disable-next-line react/no-array-index-key
-    <MenuListItem key={`item-${index}`} item={item} />
+    <MenuListItem
+      // eslint-disable-next-line react/no-array-index-key
+      key={`item-${index}`}
+      item={item}
+      mapDetailData={mapDetailData}
+    />
   ));
 
   return (
     <>
-      <div className="mainPresenter">
-        <h1>MENU</h1>
-        <div className="menulist">{mapMenuListItem}</div>
-      </div>
+      <h1>MENU</h1>
+      <div className="menulist">{mapMenuListItem}</div>
+      <MenuDetail menuDetailData={menuDetailData} />
     </>
   );
 };
 
 MainPresenter.defaultProps = {
   list: [],
+  mapDetailData: () => {},
+  menuDetailData: [],
 };
 
 MainPresenter.propTypes = {
-  list: PropTypes.arrayOf(PropTypes.object),
+  list: propTypes.arrayOf(propTypes.object),
+  mapDetailData: propTypes.func,
+  menuDetailData: propTypes.arrayOf(),
 };
 
 export default MainPresenter;

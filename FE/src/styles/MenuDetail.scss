@@ -1,0 +1,107 @@
+.menuDetail {
+  border: 1px inset #f6f5f0;
+  width: 650px;
+  height: 350px;
+  padding: 0;
+  overflow: hidden;
+  position: fixed;
+  display: none;
+  top: 200px;
+  left: 200px;
+  background-color: #fff;
+
+  aside {
+    width: 45%;
+    float: left;
+    height: 100%;
+
+    .img-area {
+      width: 200px;
+      height: 210px;
+      margin: 0 auto;
+      margin-top: 40px;
+      position: relative;
+      img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  main {
+    width: 55%;
+    float: left;
+    height: 100%;
+    position: relative;
+
+    .closeBtn {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      cursor: pointer;
+      border: none;
+      background: none;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: gray;
+    }
+
+    .titleArea {
+      height: 20%;
+      .title {
+        display: block;
+        margin-top: 20px;
+        vertical-align: middle;
+        font: {
+          size: 24px;
+          weight: 600;
+        }
+      }
+    }
+
+    .informationArea {
+      height: 55%;
+      position: relative;
+
+      .price {
+        position: absolute;
+        right: 10px;
+        font: {
+          size: 30px;
+        }
+      }
+
+      .information {
+        padding: 10px;
+        width: 250px;
+        font: {
+          size: 14px;
+        }
+      }
+    }
+
+    .btnArea {
+      height: 20%;
+      width: 80%;
+      margin: 0 auto;
+      .buyBtn {
+        display: inline-block;
+        width: 40%;
+        height: 40px;
+        border: none;
+        border-radius: 0;
+        background: none;
+        color: white;
+        cursor: pointer;
+        background-color: rgb(254, 102, 0);
+        margin: 0 10px;
+      }
+      .cartBtn {
+        @extend .buyBtn;
+        background-color: rgb(34, 32, 32);
+      }
+    }
+  }
+}
