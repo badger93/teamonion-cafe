@@ -19,15 +19,5 @@ public class MenuTest {
         assertThat(menu).isNotNull();
     }
 
-    @Test
-    public void javaBean() {
-        Menu menu = new Menu();
-        menu.setName("americano");
-        menu.setPrice("1000");
-        menu.setInformation("직장인의 기본음료");
-        menu.setImagePath("http://localhost:8080/example");
-
-        assertThat(menu.getName()).isEqualTo("americano");
-    }
 
 }

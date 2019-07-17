@@ -34,18 +34,13 @@ public class MenuControllerTest {
 
     @Test
     public void add() throws Exception {
-        Menu menu = Menu.builder()
-                .name("americano")
-                .price("1000")
-                .information("직장인의 기본 음료")
-                .imagePath("http://localhost:8080/example")
-                .build();
+        MenuAddDto menuAddDto = new MenuAddDto("americano", "1000", "직장인의 인기 메뉴", "example");
 
-        Mockito.when(menuService.add(menu)).thenReturn(menu);
+        Mockito.when(menuService.add(menuAddDto)).thenReturn(menuAddDto.toEntity());
 
         mockMvc.perform(post("/api/menus")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(menu)))
+                .content(objectMapper.writeValueAsString(menuAddDto)))
                 .andDo(print())
                 .andExpect(status().isCreated());
     }

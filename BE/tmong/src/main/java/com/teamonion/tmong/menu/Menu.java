@@ -7,9 +7,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 @Entity
+@Builder
+@Getter
 @EqualsAndHashCode(of = "id")
 public class Menu {
 
@@ -24,6 +27,5 @@ public class Menu {
     private String information;
 
     private String imagePath;
-
 
 }
