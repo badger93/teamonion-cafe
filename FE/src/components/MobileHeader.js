@@ -60,7 +60,7 @@ const MobileHeader = ({ isLogined, isAdmin, user }) => {
               setIsList((prev) => !prev);
             }}
           >
-            <FontAwesomeIcon icon={faTimes} size="1.3x" />
+            {/* <FontAwesomeIcon icon={faTimes} size="1.3x" /> */}
           </button>
           <Link to="/">
             <div

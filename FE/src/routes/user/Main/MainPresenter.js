@@ -17,7 +17,12 @@ const MainPresenter = (props) => {
   return (
     <>
       <h1>MENU</h1>
-      <div className="menulist">{mapMenuListItem}</div>
+      <div
+        className="menulist"
+        style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}
+      >
+        {mapMenuListItem}
+      </div>
       <MenuDetail menuDetailData={menuDetailData} />
     </>
   );
