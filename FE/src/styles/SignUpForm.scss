@@ -13,12 +13,13 @@
 
 button {
   width: 18%;
-  height: 30px;
+  height: 40px;
   margin-right: 1%;
   appearance: none;
   border-radius: 5px;
   background-color: #e67e22;
   cursor: pointer;
+  font-size: 0.8rem;
   &:hover {
     opacity: 0.7;
   }
@@ -28,10 +29,11 @@ button {
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 30px;
+  height: 40px;
   margin-top: 20px;
   .signup_input {
     width: 100%;
+    font-size: 0.8rem;
     &:hover {
       opacity: 0.8;
     }

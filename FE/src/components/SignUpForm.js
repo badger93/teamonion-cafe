@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import '../styles/SignUpForm.scss';
-import { duplicateCheckApi } from '../api/signUpApi';
+import { duplicateCheckApi } from '../api/userApi';
 
 const SignUpForm = () => {
   const [id, setId] = useState('');
