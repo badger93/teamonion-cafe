@@ -13,7 +13,7 @@ import {
 
 const MobileHeader = () => {
   const isAdmin = false;
-  const [isList, setIsList] = useState(true);
+  const [isList, setIsList] = useState(false);
 
   return (
     <>
@@ -50,27 +50,57 @@ const MobileHeader = () => {
             </>
           )}
         </div>
-      </div>
-      {isList && (
-        <div className="header_mobile-list">
-          <>
-            <div className="list-cover" />
-            <button
-              type="button"
-              className="list-button"
+        <div
+          className={isList ? 'header_mobile-list' : 'header_mobile-list-none'}
+        >
+          <div className="list-cover" />
+          <button
+            type="button"
+            className="list-button"
+            onClick={() => {
+              setIsList((prev) => !prev);
+            }}
+          >
+            <FontAwesomeIcon icon={faTimes} size="1.3x" />
+          </button>
+          <Link to="/">
+            <div
               onClick={() => {
-                setIsList(!isList);
+                setIsList((prev) => !prev);
               }}
             >
-              <FontAwesomeIcon icon={faTimes} size="1.3x" />
-            </button>
-            <Link to="/">Menu</Link>
-            <Link to="/myorder">MyOrder</Link>
-            <Link to="/user-info">MyPage</Link>
-            <Link to="/cart">Cart</Link>
-          </>
+              Menu
+            </div>
+          </Link>
+          <Link to="/myorder">
+            <div
+              onClick={() => {
+                setIsList((prev) => !prev);
+              }}
+            >
+              MyOrder
+            </div>
+          </Link>
+          <Link to="/user-info">
+            <div
+              onClick={() => {
+                setIsList((prev) => !prev);
+              }}
+            >
+              MyPage
+            </div>
+          </Link>
+          <Link to="/cart">
+            <div
+              onClick={() => {
+                setIsList((prev) => !prev);
+              }}
+            >
+              Cart
+            </div>
+          </Link>
         </div>
-      )}
+      </div>
     </>
   );
 };
