@@ -1,7 +1,6 @@
 package com.teamonion.tmong.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.teamonion.tmong.exception.MemberNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -31,7 +30,7 @@ public class MemberControllerTest {
     MemberService memberService;
 
     @Test
-    public void 회원가입_성공() throws Exception {
+    public void 회원가입() throws Exception {
         MemberSignUpRequestDto memberSignUpRequestDto = new MemberSignUpRequestDto();
         memberSignUpRequestDto.setMemberId("onion");
         memberSignUpRequestDto.setPassword("123456789a");
@@ -49,10 +48,10 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void 아이디_중복체크_중복아님() throws Exception {
+    public void 아이디_중복체크() throws Exception {
         String memberId = "onion";
 
-        Mockito.when(memberService.findByMemberId(memberId)).thenThrow(new MemberNotFoundException());
+        Mockito.when(memberService.isOverlap(memberId)).thenReturn(false);
 
         mockMvc.perform(get("/api/members/overlap")
                 .param("memberId", memberId))
@@ -62,25 +61,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void 아이디_중복체크_중복됨() throws Exception {
-        String memberId = "onion";
-
-        Member member = Member.builder()
-                .memberId(memberId)
-                .password("pass")
-                .build();
-
-        Mockito.when(memberService.findByMemberId(memberId)).thenReturn(member);
-
-        mockMvc.perform(get("/api/members/overlap")
-                .param("memberId", memberId))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string("true"));
-    }
-
-    @Test
-    public void 로그인_성공() throws Exception {
+    public void 로그인() throws Exception {
         MemberLoginRequestDto memberLoginRequestDto = new MemberLoginRequestDto();
         memberLoginRequestDto.setMemberId("onion");
         memberLoginRequestDto.setPassword("123456789a");

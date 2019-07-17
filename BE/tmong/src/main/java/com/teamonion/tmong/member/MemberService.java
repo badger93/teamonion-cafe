@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemberService {
@@ -15,6 +16,7 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Transactional
     public Member save(MemberSignUpRequestDto memberSignUpRequestDto) {
         if(isOverlap(memberSignUpRequestDto.getMemberId())) {
             throw new ValidCustomException("memberId", "이미 사용중인 아이디입니다");

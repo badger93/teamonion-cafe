@@ -1,12 +1,13 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.exception.PasswordMismatchException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -20,7 +21,7 @@ public class MemberServiceTest {
     MemberService memberService;
 
     @Test
-    public void saveTest() throws PasswordMismatchException {
+    public void saveTest() {
         //given
         MemberSignUpRequestDto memberSignUpRequestDto = new MemberSignUpRequestDto();
         memberSignUpRequestDto.setMemberId("onion");
@@ -39,5 +40,33 @@ public class MemberServiceTest {
     @Test
     public void 로그인테스트() {
         // 아직..
+    }
+
+    @Test
+    public void isOverlapTest_중복아님() {
+        //given
+        String memberId = "onion";
+
+        //when
+        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.empty());
+
+        //then
+        assertThat(memberService.isOverlap(memberId)).isFalse();
+    }
+
+    @Test
+    public void isOverlapTest_중복() {
+        //given
+        String memberId = "onion";
+
+        //when
+        Mockito.when(memberRepository.findByMemberId(memberId))
+                .thenReturn(Optional.of(Member.builder()
+                        .memberId(memberId)
+                        .password("123456789a")
+                        .build()));
+
+        //then
+        assertThat(memberService.isOverlap(memberId)).isTrue();
     }
 }
