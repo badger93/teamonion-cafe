@@ -11,8 +11,7 @@ import {
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
 
-const MobileHeader = () => {
-  const isAdmin = false;
+const MobileHeader = ({ isLogined, isAdmin, user }) => {
   const [isList, setIsList] = useState(false);
 
   return (
@@ -99,6 +98,16 @@ const MobileHeader = () => {
               Cart
             </div>
           </Link>
+          <div className="sign_link">
+            {isLogined ? (
+              <Link to="/logout">LogOut</Link>
+            ) : (
+              <>
+                <Link to="/signin">{'    '} SignIn</Link>
+                <Link to="/signup">{'    '} SignUp</Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </>

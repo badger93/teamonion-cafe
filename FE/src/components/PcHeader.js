@@ -3,11 +3,7 @@ import { Link } from 'react-router-dom';
 import tmonglogo from '../image/tmonglogo.png';
 import '../styles/PcHeader.scss';
 
-const PcHeader = () => {
-  const dummyUser = { id: 'hyunjae' };
-  const isLogined = true;
-  const isAdmin = false;
-
+const PcHeader = ({ isLogined, isAdmin, user }) => {
   return (
     <div className="header_pc">
       <div className="header_pc-wrap">
@@ -18,7 +14,7 @@ const PcHeader = () => {
         <div className="header_pc-column">
           <div className="header_pc-column-top">
             <span className="header_pc-welcome">{`반갑습니다 ${
-              dummyUser.id
+              user.id
             }님`}</span>
             <span className="divider">|</span>
             {isLogined ? (
