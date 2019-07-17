@@ -1,6 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import './MenuListItem.scss';
+import '../styles/MenuListItem.scss';
 
 const MenuListItem = (props) => {
   const {

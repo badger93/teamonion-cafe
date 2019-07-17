@@ -1,0 +1,61 @@
+.menuListItem {
+  display: inline-block;
+  margin: 50px 10px;
+  width: 267px;
+  @media (max-width: 600px) {
+    width: 40%;
+    min-width: 160px;
+  }
+  padding: 0;
+  box-sizing: border-box;
+  cursor: pointer;
+
+  .img-area {
+    width: 100%;
+    height: 278px;
+    @media (max-width: 600px) {
+      height: 170px;
+    }
+    position: relative;
+    overflow: hidden;
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    img:hover {
+      width: 100%;
+      height: 100%;
+      -webkit-transform: scale(1.1, 1.1);
+      transition: transform 1s;
+      transition-property: -webkit-transform;
+      transition-duration: 1s;
+      transition-timing-function: ease;
+      transition-delay: 0s;
+      -webkit-transition: -webkit-transform 1s;
+    }
+  }
+
+  .info-area {
+    overflow: hidden;
+    width: 80%;
+    margin: 0 auto;
+    font: {
+      family: 'nbg', '맑은 고딕', HelveticaNeue, DroidSans, Sans-serif,
+        Helvetica;
+      size: 14px;
+    }
+    .title {
+      width: 70%;
+      float: left;
+    }
+
+    .price {
+      float: left;
+      width: 30%;
+      text-align: right;
+    }
+  }
+}
