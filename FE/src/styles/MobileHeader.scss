@@ -32,6 +32,7 @@
     align-items: center;
     font-size: 0.8rem;
     margin-right: 10px;
+    color: rgba(0, 0, 0, 0.7);
     a {
       cursor: pointer;
       margin: 7px;
@@ -67,7 +68,7 @@
   flex-direction: column;
   height: 100vh;
   color: white;
-  font-size: 2rem;
+  font-size: 1.5rem;
   background-color: #95a5a6;
   padding-top: 50px;
   z-index: 5;
@@ -110,8 +111,7 @@
     font: inherit;
     color: inherit;
     background: none;
-
-    &:hover {
+    ß &:hover {
       opacity: 0.5;
     }
     z-index: 5;

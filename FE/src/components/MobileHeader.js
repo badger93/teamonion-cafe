@@ -98,13 +98,18 @@ const MobileHeader = ({ isLogined, isAdmin, user }) => {
               Cart
             </div>
           </Link>
-          <div className="sign_link">
+          <div
+            className="sign_link"
+            onClick={() => {
+              setIsList((prev) => !prev);
+            }}
+          >
             {isLogined ? (
               <Link to="/logout">LogOut</Link>
             ) : (
               <>
-                <Link to="/signin">{'    '} SignIn</Link>
-                <Link to="/signup">{'    '} SignUp</Link>
+                <Link to="/signin">SignIn</Link>
+                <Link to="/signup">SignUp</Link>
               </>
             )}
           </div>

@@ -1,0 +1,13 @@
+.user-card_section {
+  display: flex;
+  height: 10%;
+  margin-bottom: 40px;
+  margin-left: 10px;
+  .user-card_column {
+    width: 70px;
+  }
+
+  .user-card_title {
+    font-weight: 800;
+  }
+}
