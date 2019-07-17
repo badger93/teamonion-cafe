@@ -15,4 +15,16 @@ public class MemberTest {
 
         assertThat(member).isNotNull();
     }
+
+    @Test
+    public void match_password() {
+        String password = "pass";
+
+        Member member = Member.builder()
+                .memberId("onion")
+                .password(password)
+                .build();
+
+        assertThat(member.match(password)).isTrue();
+    }
 }

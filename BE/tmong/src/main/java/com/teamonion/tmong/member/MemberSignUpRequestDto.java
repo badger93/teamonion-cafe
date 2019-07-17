@@ -22,11 +22,6 @@ public class MemberSignUpRequestDto {
 
     private String passwordCheck;
 
-    public MemberSignUpRequestDto(String memberId, String password) {
-        this.memberId = memberId;
-        this.password = password;
-    }
-
     @AssertTrue(message = "비밀번호가 일치하지 않습니다")
     private boolean isValidPassword() {
         if (password == null) {

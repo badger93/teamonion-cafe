@@ -31,8 +31,11 @@ public class MemberControllerTest {
     MemberService memberService;
 
     @Test
-    public void signUp() throws Exception {
-        MemberSignUpRequestDto memberSignUpRequestDto = new MemberSignUpRequestDto("onion", "pass");
+    public void 회원가입_성공() throws Exception {
+        MemberSignUpRequestDto memberSignUpRequestDto = new MemberSignUpRequestDto();
+        memberSignUpRequestDto.setMemberId("onion");
+        memberSignUpRequestDto.setPassword("123456789a");
+        memberSignUpRequestDto.setPasswordCheck("123456789a");
 
         Mockito.when(memberService.save(memberSignUpRequestDto))
                 .thenReturn(memberSignUpRequestDto.toEntity());
@@ -46,7 +49,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void overlapCheck_중복아님() throws Exception {
+    public void 아이디_중복체크_중복아님() throws Exception {
         String memberId = "onion";
 
         Mockito.when(memberService.findByMemberId(memberId)).thenThrow(new MemberNotFoundException());
@@ -59,7 +62,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void overlapCheck_중복됨() throws Exception {
+    public void 아이디_중복체크_중복됨() throws Exception {
         String memberId = "onion";
 
         Member member = Member.builder()
@@ -74,5 +77,19 @@ public class MemberControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string("true"));
+    }
+
+    @Test
+    public void 로그인_성공() throws Exception {
+        MemberLoginRequestDto memberLoginRequestDto = new MemberLoginRequestDto();
+        memberLoginRequestDto.setMemberId("onion");
+        memberLoginRequestDto.setPassword("123456789a");
+
+        mockMvc.perform(post("/api/members/login")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(memberLoginRequestDto))
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
