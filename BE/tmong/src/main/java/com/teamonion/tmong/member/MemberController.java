@@ -31,6 +31,7 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid MemberLoginRequestDto memberLoginRequestDto) {
         memberService.login(memberLoginRequestDto);
+        //TODO : 토큰 인증방식 사용
         return new ResponseEntity(HttpStatus.OK);
     }
 }
