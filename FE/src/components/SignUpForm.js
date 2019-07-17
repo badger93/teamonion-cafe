@@ -1,6 +1,7 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 import '../styles/SignUpForm.scss';
+import { duplicateCheckApi } from '../api/signUpApi';
 
 const SignUpForm = () => {
   const [id, setId] = useState('');
@@ -30,7 +31,7 @@ const SignUpForm = () => {
         alert('ID 중복검사가 필요합니다');
         return;
       }
-      // axios.post('', { id, password });
+      // 사가에 회원가입 리퀘스트 액션 디스패치
       console.log({ id, password });
     },
     [password, passwordCheck, duplicateError, setPasswordError],
@@ -40,7 +41,7 @@ const SignUpForm = () => {
     (e) => {
       e.preventDefault();
       if (id.length > 0) {
-        // const result = axios.post('', { id });
+        // const result = duplicateCheckApi({memberID:id})
         console.log(id);
         // alert(result);
         // if (result) {
@@ -77,7 +78,7 @@ const SignUpForm = () => {
       <div className="signup_form_row">
         <input
           type="id"
-          placeholder="ID"
+          placeholder="ID를 입력해 주세요"
           className="signup_input signup_id_input"
           value={id}
           onChange={onChangeId}
@@ -89,7 +90,7 @@ const SignUpForm = () => {
       <div className="signup_form_row">
         <input
           type="password"
-          placeholder="비밀번호"
+          placeholder="비밀번호를 입력해주세요"
           className="signup_input"
           value={password}
           onChange={onChangePassword}
@@ -98,7 +99,7 @@ const SignUpForm = () => {
       <div className="signup_form_row">
         <input
           type="password"
-          placeholder="비밀번호 확인"
+          placeholder="비밀번호를 확인해주세요"
           className="signup_input"
           value={passwordCheck}
           onChange={onChangePasswordCheck}
@@ -109,7 +110,9 @@ const SignUpForm = () => {
       )}
 
       <div className="signup_form_row signup_form_submit">
-        <button type="submit">제출</button>
+        <button className="submit_button" type="submit">
+          Submit
+        </button>
       </div>
     </form>
   );
