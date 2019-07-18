@@ -1,9 +1,11 @@
 .cartform-container {
-  width: 80%;
+  width: 60%;
+  min-width: 350px;
+  min-height: 700px;
   height: 100vh;
   background-color: #f6f5f0;
   margin: 30px;
-  padding-top: 50px;
+  padding-top: 5%;
 
   .cartform-title {
     justify-content: flex-start;
@@ -12,8 +14,9 @@
     width: 100px;
     display: flex;
     justify-content: center;
+    margin-top: 5%;
     margin-left: 10%;
-    margin-bottom: 50px;
+    margin-bottom: 8%;
   }
   .cartform {
     display: flex;
@@ -27,7 +30,7 @@
     justify-content: space-around;
     width: 80%;
     height: 30px;
-    margin-top: 30px;
+    margin-top: 5%;
     padding-top: 30px;
     border-top: solid 1px rgba(0, 0, 0, 0.8);
     div {
@@ -43,7 +46,7 @@
     width: 100%;
   }
   button {
-    margin-top: 80px;
+    margin-top: 15%;
     width: 170px;
     height: 40px;
     font-size: 1.2rem;
