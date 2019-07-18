@@ -1,0 +1,85 @@
+.signInContainer {
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+  width: 100vw;
+  z-index: 99;
+  pointer-events: none;
+}
+
+.loginPopup * {
+  padding: 0;
+}
+
+.loginPopup {
+  position: fixed;
+  background-color: #fff;
+  z-index: 999;
+  width: 450px;
+  height: 380px;
+  border: 1px solid #222f3e;
+  border-radius: 20px;
+  display: none;
+  .closeBtn {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    cursor: pointer;
+    border: none;
+    background: none;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    color: #222f3e;
+  }
+  .login-logo {
+    width: 100px;
+    height: 80px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: block;
+  }
+  form {
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 10px;
+    h3 {
+      padding-left: 10px;
+    }
+    .id-area {
+      margin-top: 20px;
+      .idInput {
+        width: 100%;
+        height: 30px;
+      }
+    }
+    .pw-area {
+      .pwInput {
+        width: 100%;
+        height: 30px;
+      }
+    }
+
+    .signUp {
+      margin: 20px 15px 15px 0;
+      cursor: pointer;
+      font-size: 14px;
+      color: rgb(0, 162, 255);
+      text-align: right;
+    }
+
+    .submitBtn {
+      border: none;
+      cursor: pointer;
+      background-color: rgb(254, 102, 0);
+      margin-top: 0px;
+      width: 100%;
+      height: 30px;
+      font-size: 14px;
+      color: white;
+    }
+  }
+}

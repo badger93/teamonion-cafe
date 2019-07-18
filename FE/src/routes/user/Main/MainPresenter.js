@@ -6,6 +6,7 @@ import './style/MainPresenter.scss';
 
 const MainPresenter = (props) => {
   const { list, mapDetailData, menuDetailData } = props;
+  // 메뉴 리스트 뿌리기
   const mapMenuListItem = list.map((item, index) => (
     <MenuListItem
       // eslint-disable-next-line react/no-array-index-key
@@ -18,12 +19,7 @@ const MainPresenter = (props) => {
   return (
     <div className="mainPresenter">
       <h1>MENU</h1>
-      <div
-        className="menulist"
-        style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}
-      >
-        {mapMenuListItem}
-      </div>
+      <div className="menulist">{mapMenuListItem}</div>
       <MenuDetail menuDetailData={menuDetailData} />
     </div>
   );

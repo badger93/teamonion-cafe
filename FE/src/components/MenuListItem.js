@@ -10,15 +10,11 @@ const MenuListItem = (props) => {
   } = props;
   const { item, mapDetailData } = props;
 
-  const popup = document.querySelector('.menuDetail');
-
-  const popupLeft = (window.innerWidth - 650) / 2;
-  const popupTop = (window.innerHeight - 350) / 2;
-
-  const showPopup = (left, top) => {
+  const showPopup = () => {
+    const popup = document.querySelector('.menuDetail');
     popup.style.display = 'block';
-    popup.style.left = `${left}px`;
-    popup.style.top = `${top}px`;
+    popup.style.left = `${(window.innerWidth - 650) / 2}px`;
+    popup.style.top = `${(window.innerHeight - 350) / 2}px`;
   };
 
   return (
@@ -26,7 +22,7 @@ const MenuListItem = (props) => {
       className="menuListItem"
       onClick={() => {
         mapDetailData(item);
-        showPopup(popupLeft, popupTop);
+        showPopup();
       }}
     >
       <div className="img-area">

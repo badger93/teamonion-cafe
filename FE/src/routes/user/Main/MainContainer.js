@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import MainPresenter from './MainPresenter';
+import { getMenuList } from '../../../api/menuApi';
 
 const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
   const [menuDetailData, setMenuDetailData] = useState({});
 
+  // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
   const mapDetailData = (data) => {
     setMenuDetailData(data);
   };
 
-  const getList = (callback) => {
-    axios
-      .get('https://my-json-server.typicode.com/badger012/mockserver/menus')
-      .then((res) => {
-        callback(res.data.menu);
-      })
-      .catch(err => alert('상품로드 실패', err));
-  };
-
+  // 최초 리스트 불러오기
   useEffect(() => {
-    getList(setStoreList);
+    getMenuList(setStoreList);
   }, []);
+
   return (
     <MainPresenter
       list={storeList}

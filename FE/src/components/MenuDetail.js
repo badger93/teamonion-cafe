@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
 
@@ -8,14 +8,16 @@ const MenuDetail = (props) => {
  name, price, information, imagePath 
 },
   } = props;
+  const closeBtn = useRef(null);
 
+  // 팝업 닫기버튼 클릭
   const popupClose = () => {
-    document.querySelector('.menuDetail').style.display = 'none';
+    closeBtn.current.style.display = 'none';
   };
 
   return (
     <>
-      <div className="menuDetail">
+      <div className="menuDetail" ref={closeBtn}>
         <aside>
           <div className="img-area">
             <img src={imagePath} alt="제품이미지" />
