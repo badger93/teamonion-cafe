@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic|Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans+KR|Oswald|Nanum+Gothic|Roboto&display=swap');
 a {
   text-decoration: none;
   color: inherit;
@@ -7,7 +7,7 @@ a {
   box-sizing: border-box;
 }
 body {
-  font-family: 'Nanum Gothic', sans-serif;
+  font-family: 'Noto Sans KR', sans-serif;
   font-size: 12px;
   width: 100vw;
   padding: 0;
@@ -18,9 +18,9 @@ input {
   border: 1px solid #999;
   border-radius: 5px;
   outline-style: none;
-  appearance: none;
+  /* appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
+  -moz-appearance: none; */
   text-align: center;
 }
 

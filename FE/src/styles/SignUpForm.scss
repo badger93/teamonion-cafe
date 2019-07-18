@@ -17,7 +17,8 @@ button {
   margin-right: 1%;
   appearance: none;
   border-radius: 5px;
-  background-color: #e67e22;
+  background-color: #f96600;
+  color: rgba(255, 255, 255, 0.9);
   cursor: pointer;
   font-size: 0.8rem;
   &:hover {
@@ -52,7 +53,8 @@ button {
   justify-content: center;
   align-items: center;
   button {
-    background-color: #e67e22;
+    background-color: #f96600;
+    color: rgba(255, 255, 255, 0.9);
     width: 50%;
   }
 }

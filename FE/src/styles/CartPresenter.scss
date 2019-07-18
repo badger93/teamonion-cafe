@@ -1,0 +1,15 @@
+.cart-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
+  .cart-title {
+    font-size: 1.6rem;
+    margin-top: 40px;
+    margin-left: 90px;
+  }
+  .cart-container {
+    display: flex;
+    justify-content: center;
+  }
+}
