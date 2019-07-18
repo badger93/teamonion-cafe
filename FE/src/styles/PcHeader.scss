@@ -7,11 +7,13 @@
   align-items: center;
   width: 100%;
   height: 120px;
-  background-color: #f6f5f0;
+  background-color: #222f3e;
+  color: white;
+  // background-color: #f6f5f0;
   a {
     &:hover {
-      color: #fe6600;
-      opacity: 0.9;
+      //color: #fe6600;
+      color: #ffa502;
       transition: 0.1s ease-in-out;
     }
   }
