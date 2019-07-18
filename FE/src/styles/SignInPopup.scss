@@ -6,6 +6,8 @@
   align-items: center;
   height: 90vh;
   width: 100vw;
+  z-index: 99;
+  pointer-events: none;
 }
 
 .loginPopup * {

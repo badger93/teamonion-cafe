@@ -9,7 +9,6 @@ const MainContainer = () => {
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
   const mapDetailData = (data) => {
     setMenuDetailData(data);
-    console.log(menuDetailData);
   };
 
   // 최초 리스트 불러오기
