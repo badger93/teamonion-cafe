@@ -6,7 +6,6 @@ import './style/MainPresenter.scss';
 
 const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
   // 메뉴 리스트 뿌리기
-  console.log(list);
   const mapMenuListItem = list.map((item, index) => (
     <MenuListItem
       // eslint-disable-next-line react/no-array-index-key
