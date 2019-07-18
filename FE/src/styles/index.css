@@ -18,9 +18,9 @@ input {
   border: 1px solid #999;
   border-radius: 5px;
   outline-style: none;
-  appearance: none;
+  /* appearance: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
+  -moz-appearance: none; */
   text-align: center;
 }
 
