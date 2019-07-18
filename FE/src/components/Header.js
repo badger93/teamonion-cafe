@@ -1,6 +1,7 @@
 import React from 'react';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
+import SignInPopup from './SignInPopup';
 
 const Header = () => {
   const dummyUser = { id: 'hyunjae' };
@@ -10,6 +11,9 @@ const Header = () => {
     <>
       <MobileHeader isLogined={isLogined} isAdmin={isAdmin} user={dummyUser} />
       <PcHeader isLogined={isLogined} isAdmin={isAdmin} user={dummyUser} />
+      <div className="signInContainer">
+        <SignInPopup />
+      </div>
     </>
   );
 };
