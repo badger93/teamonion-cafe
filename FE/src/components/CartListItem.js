@@ -7,14 +7,14 @@ const CartListItem = ({
   menuName = 'none',
   menuPrice = 0,
   cart,
-  setStateCart,
+  setAllCart,
 }) => {
   const DeleteItem = () => {
     const deleteIndex = cart.findIndex((element) => element.menuId === menuId);
     const changedCart = cart;
     const deletedCart = cart.splice(deleteIndex, 1);
 
-    setStateCart([...changedCart]);
+    setAllCart([...changedCart]);
   };
 
   return (

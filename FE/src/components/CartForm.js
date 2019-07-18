@@ -2,8 +2,8 @@ import React from 'react';
 import '../styles/CartForm.scss';
 import CartListItem from './CartListItem';
 
-const CartForm = ({ cart, setStateCart }) => {
-  // const { cart, setAllCart } = handleCart;
+const CartForm = ({ handleCart }) => {
+  const { cart, setAllCart } = handleCart;
 
   return (
     <div className="cartform-container">
@@ -17,7 +17,7 @@ const CartForm = ({ cart, setStateCart }) => {
               menuName={item.menuName}
               menuPrice={item.menuPrice}
               cart={cart}
-              setStateCart={setStateCart}
+              setAllCart={setAllCart}
             />
           ))}
         </div>
