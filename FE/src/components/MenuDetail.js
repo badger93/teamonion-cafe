@@ -9,6 +9,7 @@ const MenuDetail = (props) => {
 },
   } = props;
 
+  // 팝업 닫기버튼 클릭
   const popupClose = () => {
     document.querySelector('.menuDetail').style.display = 'none';
   };
