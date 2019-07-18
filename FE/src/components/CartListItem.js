@@ -25,7 +25,7 @@ const CartListItem = ({
       setCheckedItem([...checkedItem]);
     }
 
-    const deletedCart = cart.splice(deleteIndex, 1);
+    cart.splice(deleteIndex, 1);
     setAllCart([...cart]);
   };
 
@@ -75,6 +75,10 @@ CartListItem.propTypes = {
   menuId: propTypes.number.isRequired,
   menuName: propTypes.string,
   menuPrice: propTypes.number,
+  cart: propTypes.array,
+  setAllCart: propTypes.func,
+  checkedItem: propTypes.array,
+  setCheckedItem: propTypes.func,
 };
 
 export default CartListItem;

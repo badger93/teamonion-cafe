@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import CartListItem from './CartListItem';
 
@@ -48,6 +49,15 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
   );
 };
 
-CartForm.propTypes = {};
+CartForm.propTypes = {
+  handleCart: propTypes.shape({
+    cart: propTypes.array.isRequired,
+    setAllCart: propTypes.func.isRequired,
+  }).isRequired,
+  handleCheckedCart: propTypes.shape({
+    checkedItem: propTypes.array.isRequired,
+    setCheckedItem: propTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default CartForm;
