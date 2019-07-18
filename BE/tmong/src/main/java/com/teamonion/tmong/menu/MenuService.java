@@ -24,7 +24,16 @@ public class MenuService {
 
     public void deleteByMenuId(Long menu_id) {
         //TODO : ExceptionHandler EntityNotFoundException으로 처리
-        Menu menu = menuRepository.findById(menu_id).orElseThrow(() -> new MenuNotFoundException(menu_id));
-        menuRepository.delete(menu);
+        if(!isExistMenu(menu_id)) {
+            throw new MenuNotFoundException(menu_id);
+        }
+        menuRepository.deleteById(menu_id);
+    }
+
+    public boolean isExistMenu(Long menu_id) {
+        if(menuRepository.findById(menu_id).isPresent()){
+            return true;
+        }
+        return false;
     }
 }
