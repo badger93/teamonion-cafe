@@ -4,17 +4,15 @@ import { getNonpickupAll } from '../../../api/adminOrderApi';
 
 const AdminOrderManageContainer = () => {
   const [currentOrderList, setCurrentOrderList] = useState([]);
-
   // 최초 api call
   useEffect(() => {
     getNonpickupAll(setCurrentOrderList);
-    console.log(currentOrderList);
   }, []);
 
   return (
     <AdminOrderManagePresenter
-      currentOrder={currentOrderList}
-      setCurrentOrder={setCurrentOrderList}
+      currentOrderList={currentOrderList}
+      setCurrentOrderList={setCurrentOrderList}
     />
   );
 };

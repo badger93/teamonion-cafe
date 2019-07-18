@@ -5,15 +5,22 @@ const AdminOrderManagePresenter = ({
   currentOrderList,
   setCurrentOrderList,
 }) => {
-  console.log(currentOrderList);
+  const lists = currentOrderList.map(i => <div>{i.toString()}</div>);
   return (
     <>
       <div>내주문</div>
-      <div>{currentOrderList}</div>
     </>
   );
 };
 
-AdminOrderManagePresenter.propTypes = {};
+AdminOrderManagePresenter.defaultProps = {
+  currentOrderList: [],
+  setCurrentOrderList: () => {},
+};
+
+AdminOrderManagePresenter.propTypes = {
+  currentOrderList: propTypes.arrayOf(propTypes.object),
+  setCurrentOrderList: propTypes.func,
+};
 
 export default AdminOrderManagePresenter;

@@ -1,18 +1,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React from 'react';
-import propTypes from 'prop-types';
-import '../styles/MenuListItem.scss';
+import React from "react";
+import propTypes from "prop-types";
+import "../styles/MenuListItem.scss";
 
-const MenuListItem = (props) => {
-  const {
-    item: { name, price, imagePath },
-  } = props;
-  const { item, mapDetailData } = props;
+const MenuListItem = ({ item, mapDetailData }) => {
+  const { name, price, imagePath } = item;
 
   const showPopup = () => {
-    const popup = document.querySelector('.menuDetail');
-    popup.style.display = 'block';
+    const popup = document.querySelector(".menuDetail");
+    popup.style.display = "block";
     popup.style.left = `${(window.innerWidth - 650) / 2}px`;
     popup.style.top = `${(window.innerHeight - 350) / 2}px`;
   };
@@ -38,14 +35,14 @@ const MenuListItem = (props) => {
 
 MenuListItem.defaultProps = {
   item: {},
-  mapDetailData: () => {},
+  mapDetailData: () => {}
 };
 
 MenuListItem.propTypes = {
   item: propTypes.objectOf(
-    propTypes.oneOfType([propTypes.number, propTypes.string]),
+    propTypes.oneOfType([propTypes.number, propTypes.string])
   ),
-  mapDetailData: propTypes.func,
+  mapDetailData: propTypes.func
 };
 
 export default MenuListItem;
