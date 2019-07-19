@@ -21,7 +21,7 @@ const PayForm = () => {
       <div className="payform-title">내역</div>
       <form action="submit" className="payform" onSubmit={onSubmit}>
         <div className="payform-list">
-          {itemsForPay.map(item => (
+          {Object.values(itemsForPay).map(item => (
             <PayListItem
               key={item.cartId}
               menuName={item.menuName}
@@ -33,7 +33,7 @@ const PayForm = () => {
         <div className="payform-total">
           <div>총결제액</div>
           <div className="payform-total-price">
-            {itemsForPay.forEach((element) => {
+            {Object.values(itemsForPay).forEach((element) => {
               totalPrice += element.menuPrice;
             })}
             {`${totalPrice}`}
