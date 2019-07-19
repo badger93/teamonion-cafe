@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import CartListItem from './CartListItem';
 
@@ -17,7 +18,7 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
       <div className="cartform-title">내역</div>
       <form action="submit" className="cartform">
         <div className="cartform-list">
-          {cart.map((item) => (
+          {cart.map(item => (
             <CartListItem
               key={item.menuId}
               menuId={item.menuId}
@@ -40,7 +41,7 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
             {`${totalPrice}`}
           </div>
         </div>
-        <button className="submit-button" onSubmit={onSubmit}>
+        <button type="button" className="submit-button" onSubmit={onSubmit}>
           결제하기
         </button>
       </form>
@@ -48,6 +49,15 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
   );
 };
 
-CartForm.propTypes = {};
+CartForm.propTypes = {
+  handleCart: propTypes.shape({
+    cart: propTypes.array.isRequired,
+    setAllCart: propTypes.func.isRequired,
+  }).isRequired,
+  handleCheckedCart: propTypes.shape({
+    checkedItem: propTypes.array.isRequired,
+    setCheckedItem: propTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default CartForm;
