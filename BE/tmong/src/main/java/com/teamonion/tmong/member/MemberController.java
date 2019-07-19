@@ -18,8 +18,8 @@ public class MemberController {
     private MemberService memberService;
 
     @PostMapping
-    public ResponseEntity signUp(@RequestBody @Valid MemberSignUpRequestDto memberSignUpRequestDto) {
-        memberService.save(memberSignUpRequestDto);
+    public ResponseEntity signUp(@RequestBody @Valid MemberSignUpRequest memberSignUpRequest) {
+        memberService.save(memberSignUpRequest);
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
@@ -29,7 +29,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity login(@RequestBody @Valid MemberLoginRequestDto memberLoginRequestDto) {
-        return new ResponseEntity(memberService.login(memberLoginRequestDto), HttpStatus.OK);
+    public ResponseEntity login(@RequestBody @Valid MemberLoginRequest memberLoginRequest) {
+        return new ResponseEntity(memberService.login(memberLoginRequest), HttpStatus.OK);
     }
 }

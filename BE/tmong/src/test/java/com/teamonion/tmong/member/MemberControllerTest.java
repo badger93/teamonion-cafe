@@ -31,17 +31,17 @@ public class MemberControllerTest {
 
     @Test
     public void 회원가입() throws Exception {
-        MemberSignUpRequestDto memberSignUpRequestDto = new MemberSignUpRequestDto();
-        memberSignUpRequestDto.setMemberId("onion");
-        memberSignUpRequestDto.setPassword("123456789a");
-        memberSignUpRequestDto.setPasswordCheck("123456789a");
+        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
+        memberSignUpRequest.setMemberId("onion");
+        memberSignUpRequest.setPassword("123456789a");
+        memberSignUpRequest.setPasswordCheck("123456789a");
 
-        Mockito.when(memberService.save(memberSignUpRequestDto))
-                .thenReturn(memberSignUpRequestDto.toEntity());
+        Mockito.when(memberService.save(memberSignUpRequest))
+                .thenReturn(memberSignUpRequest.toEntity());
 
         mockMvc.perform(post("/api/members")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(memberSignUpRequestDto))
+                .content(objectMapper.writeValueAsString(memberSignUpRequest))
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isCreated());
@@ -62,13 +62,13 @@ public class MemberControllerTest {
 
     @Test
     public void 로그인() throws Exception {
-        MemberLoginRequestDto memberLoginRequestDto = new MemberLoginRequestDto();
-        memberLoginRequestDto.setMemberId("onion");
-        memberLoginRequestDto.setPassword("123456789a");
+        MemberLoginRequest memberLoginRequest = new MemberLoginRequest();
+        memberLoginRequest.setMemberId("onion");
+        memberLoginRequest.setPassword("123456789a");
 
         mockMvc.perform(post("/api/members/login")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(memberLoginRequestDto))
+                .content(objectMapper.writeValueAsString(memberLoginRequest))
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk());
