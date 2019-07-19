@@ -2,10 +2,7 @@ package com.teamonion.tmong.menu;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 
 @NoArgsConstructor
@@ -26,6 +23,7 @@ public class Menu {
 
     private String information;
 
-    private String imagePath;
+    @Lob
+    private byte[] imageFile;
 
 }

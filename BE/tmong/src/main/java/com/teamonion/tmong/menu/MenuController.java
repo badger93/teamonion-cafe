@@ -1,15 +1,14 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.exception.MenuNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RequestMapping("/api/menus")
@@ -22,8 +21,12 @@ public class MenuController {
     private MenuService menuService;
 
     @PostMapping
-    public ResponseEntity add(@RequestBody @Valid MenuAddDto menuAddDto) {
-        //TODO : menu image 처리
+    public ResponseEntity add(@ModelAttribute @Valid MenuAddDto menuAddDto) throws IOException {
+        log.info(menuAddDto.getName());
+        log.info(menuAddDto.getPrice());
+        log.info(menuAddDto.getInformation());
+        log.info(menuAddDto.getImage().getOriginalFilename());
+        log.info(menuAddDto.getImage().getResource().getDescription());
 
         menuService.add(menuAddDto);
         return new ResponseEntity(HttpStatus.CREATED);

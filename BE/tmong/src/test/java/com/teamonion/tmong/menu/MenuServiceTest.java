@@ -7,16 +7,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.mockito.stubbing.OngoingStubbing;
-import sun.rmi.runtime.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.not;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MenuServiceTest {
@@ -28,13 +27,14 @@ public class MenuServiceTest {
     MenuService menuService;
 
     @Test
-    public void 메뉴추가테스트() {
+    public void 메뉴추가테스트() throws IOException {
+        //TODO : 이미지 파일이 없을 경우와 있을 경우로 나누어서 Test 진행
         //given
         MenuAddDto menuAddDto = new MenuAddDto();
         menuAddDto.setName("americano");
         menuAddDto.setPrice("1000");
         menuAddDto.setInformation("직장인의 인기 메뉴");
-        menuAddDto.setImagePath("example");
+        menuAddDto.setImage(null);
 
         Menu menu = menuAddDto.toEntity();
 
@@ -90,7 +90,7 @@ public class MenuServiceTest {
                 .name("americano")
                 .price("1000")
                 .information("직장인의 인기 메뉴")
-                .imagePath("example")
+                //.imagePath("example")
                 .build()));
 
 
