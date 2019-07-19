@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminOrderManagePresenter from './AdminOrderManagePresenter';
-import { getNonpickupAll } from '../../../api/adminOrderApi';
+import getNonpickupAll from '../../../api/adminOrderApi';
 
 const AdminOrderManageContainer = () => {
   const [currentOrderList, setCurrentOrderList] = useState([]);

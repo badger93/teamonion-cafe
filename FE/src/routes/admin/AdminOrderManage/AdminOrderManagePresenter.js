@@ -5,10 +5,28 @@ const AdminOrderManagePresenter = ({
   currentOrderList,
   setCurrentOrderList,
 }) => {
-  const lists = currentOrderList.map(i => <div>{i.toString()}</div>);
+  console.dir(currentOrderList);
   return (
     <>
-      <div>내주문</div>
+      <h1>주문현황</h1>
+      <div className="orderContainer">
+        <div className="premaking-area">
+          <h2>제작중</h2>
+          <div className="orderBoard">
+            <div className="orderLists">
+              <div className="orderListItem" />
+            </div>
+          </div>
+        </div>
+        <div className="premaking-area">
+          <h2>제작완료</h2>
+          <div className="orderBoard">
+            <div className="orderLists">
+              <div className="orderListItem" />
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
