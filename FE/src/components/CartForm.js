@@ -1,18 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
+import { useDispatch } from 'react-redux';
 import CartListItem from './CartListItem';
+import { CartDelete } from '../utils/cart';
+import { cartToPayAction } from '../redux/actions/payAction';
 
 
 const CartForm = ({ handleCart, handleCheckedCart }) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
+  const dispatch = useDispatch();
+
   let totalPrice = 0;
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(checkedItem);
+    await dispatch(cartToPayAction({ ...checkedItem }));
+
+    // 체크된 메뉴들 삭제
+    for (let i = 0; i < checkedItem.length; i + 1) {
+      CartDelete(cart, setAllCart, checkedItem[i].cartId, checkedItem, setCheckedItem);
+    }
+
+    // forEach문 쓰면 안된다 -> 하나씩 건너뛰면서 삭제함
+    // checkedItemClone.forEach((element) => {
+    //   console.log(element);
+    // });
   };
 
   return (

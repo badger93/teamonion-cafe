@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import '../styles/CartListItem.scss';
 import propTypes from 'prop-types';
+import { CartDelete } from '../utils/cart';
 
 const CartListItem = ({
   cartId = 0,
@@ -11,35 +12,16 @@ const CartListItem = ({
   checkedItem,
   setCheckedItem,
 }) => {
-  const DeleteItem = () => {
-    const deleteIndex = cart.findIndex(element => element.cartId === cartId);
-    // 체크해놓고 삭제시 처리
-
-    const validator = checkedItem.findIndex(
-      element => element.cartId === cart[deleteIndex].cartId,
-    );
-
-    if (validator !== -1) { // 삭제시 체크된 목록에서도 같이삭제
-      checkedItem.splice(validator, 1);
-      setCheckedItem([...checkedItem]);
-    }
-
-    cart.splice(deleteIndex, 1);
-    setAllCart([...cart]); // State 와 로컬스토리지 동시 변경
-  };
-
   const Checked = (e) => {
     const checkedIndex = cart.findIndex(element => element.cartId === cartId);
 
+    // 있는지 없는지 검사
     const validator = checkedItem.findIndex(
       element => element.cartId === cart[checkedIndex].cartId,
     );
 
     if (validator !== -1) {
       // 이미 있을경우 삭제
-      //   const deleteCheckedIndex = checkedItem.findIndex(
-      //     (element) => element === cartId,
-      //   );
       checkedItem.splice(validator, 1);
       setCheckedItem([...checkedItem]);
     } else {
@@ -61,7 +43,7 @@ const CartListItem = ({
         <button
           type="button"
           className="cartform-item-delete"
-          onClick={DeleteItem}
+          onClick={() => CartDelete(cart, setAllCart, cartId, checkedItem, setCheckedItem)}
         >
           <span>❌</span>
         </button>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CartPresenter from './CartPresenter';
-import { useCart, useLocalStorage } from '../../../utils/hooks';
+import { useCart, useLocalStorage } from '../../../utils/cart';
 
 
 const CartContainer = () => {

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
-import { useLocalStorage } from '../utils/hooks';
+import { useLocalStorage } from '../utils/cart';
 
 const MenuDetail = ({
   menuDetailData: {
