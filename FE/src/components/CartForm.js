@@ -20,8 +20,8 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
         <div className="cartform-list">
           {cart.map(item => (
             <CartListItem
-              key={item.menuId}
-              menuId={item.menuId}
+              key={item.cartId}
+              cartId={item.cartId}
               menuName={item.menuName}
               menuPrice={item.menuPrice}
               cart={cart}
