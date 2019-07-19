@@ -1,13 +1,17 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import CartPresenter from './CartPresenter';
-import { useCart } from '../../../utils/hooks';
+import { useCart, useLocalStorage } from '../../../utils/hooks';
+import { PAY_REQUEST } from '../../../redux/actions/payAction';
 
 const CartContainer = () => {
-  const handleCart = useCart([
-    { menuName: '아메리카노', menuId: 1, menuPrice: 1000 },
-    { menuName: '아포카도', menuId: 2, menuPrice: 1000 },
-    { menuName: '카페라떼', menuId: 3, menuPrice: 3000 },
-  ]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch({ type: PAY_REQUEST });
+  }, []);
+
+  const cartLocalStorage = useLocalStorage('CART', []);
+  const handleCart = useCart(cartLocalStorage.storedValue, cartLocalStorage);
   const [checkedItem, setCheckedItem] = useState([]);
 
   return (

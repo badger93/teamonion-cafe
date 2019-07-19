@@ -1,5 +1,6 @@
 .menuDetail {
-  border: 1px inset #f6f5f0;
+  border: 6px solid #222f3e;
+  border-radius: 10px;
   width: 650px;
   height: 350px;
   padding: 0;
@@ -67,7 +68,7 @@
 
       .price {
         position: absolute;
-        right: 10px;
+        right: 25px;
         font: {
           size: 30px;
         }
@@ -81,7 +82,13 @@
         }
       }
     }
-
+    .cart-added{
+      position: absolute;
+      bottom:90px;
+      left:100px;
+      color:red;
+      opacity:0.8;
+    }
     .btnArea {
       height: 20%;
       width: 80%;

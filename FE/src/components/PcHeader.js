@@ -4,9 +4,7 @@ import tmonglogo from '../image/tmonglogo.png';
 import '../styles/PcHeader.scss';
 import { openPopup } from '../utils/popup';
 
-const PcHeader = ({
- isLogined, isAdmin, user, loginDom 
-}) => (
+const PcHeader = ({ isLogined, isAdmin, user, loginDom }) => (
   <div className="header_pc">
     <div className="header_pc-wrap">
       <div className="header_pc-logo">
@@ -26,6 +24,7 @@ const PcHeader = ({
                   loginDom.style.display = 'block';
                   loginDom.style.pointerEvents = 'all';
                 }}
+                className="login_button"
               >
                 Log In
               </div>
