@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
-import { useLocalStorage } from '../utils/hooks';
+import { useLocalStorage } from '../utils/cart';
 
 const MenuDetail = ({
   menuDetailData: {
@@ -26,7 +26,7 @@ const MenuDetail = ({
 
     setValue([...storedValue, { menuName: name, menuPrice: price, cartId: newCartId }]); // 로컬스토리지에 추가
     setIsCart(true);
-    setTimeout(() => setIsCart(false), 5000);
+    setTimeout(() => setIsCart(false), 800);
   };
 
 

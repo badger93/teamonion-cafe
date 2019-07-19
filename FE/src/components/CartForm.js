@@ -1,22 +1,42 @@
 import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
+import { useDispatch } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import CartListItem from './CartListItem';
+import { CartDelete } from '../utils/cart';
+import { cartToPayAction } from '../redux/actions/payAction';
 
 const CartForm = ({ handleCart, handleCheckedCart }) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
+  const dispatch = useDispatch();
+  const [willPay, setWillPay] = useState(false);
+
   let totalPrice = 0;
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
-    console.log(e);
+
+    await dispatch(cartToPayAction({ ...checkedItem }));
+
+    // 체크된 메뉴들 삭제
+    for (let i = 0; i < checkedItem.length; i + 1) {
+      CartDelete(cart, setAllCart, checkedItem[i].cartId, checkedItem, setCheckedItem);
+    }
+    setWillPay(true);
+    setTimeout(() => setWillPay(false), 3000);
+    // forEach문 쓰면 안된다 -> 하나씩 건너뛰면서 삭제함
+    // checkedItemClone.forEach((element) => {
+    //   console.log(element);
+    // });
   };
 
   return (
     <div className="cartform-container">
+      {willPay && <Redirect to="/payment" />}
       <div className="cartform-title">내역</div>
-      <form action="submit" className="cartform">
+      <form action="submit" className="cartform" onSubmit={onSubmit}>
         <div className="cartform-list">
           {cart.map(item => (
             <CartListItem
@@ -41,7 +61,7 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
             {`${totalPrice}`}
           </div>
         </div>
-        <button type="button" className="submit-button" onSubmit={onSubmit}>
+        <button type="submit" className="submit-button">
           결제하기
         </button>
       </form>
