@@ -5,13 +5,13 @@ import { useCart, useLocalStorage } from '../../../utils/hooks';
 const CartContainer = () => {
   const cartLocalStorage = useLocalStorage('CART', []);
 
-  useEffect(() => {
-    cartLocalStorage.setValue([
-      { menuName: '아메리카노', menuId: 1, menuPrice: 1000 },
-      { menuName: '아포카도', menuId: 2, menuPrice: 1000 },
-      { menuName: '카페라떼', menuId: 3, menuPrice: 3000 },
-    ]);
-  }, []);
+  // useEffect(() => {
+  //   cartLocalStorage.setValue([
+  //     { menuName: '아메리카노', cartId: 1, menuPrice: 1000 },
+  //     { menuName: '아포카도', cartId: 2, menuPrice: 1000 },
+  //     { menuName: '카페라떼', cartId: 3, menuPrice: 3000 },
+  //   ]);
+  // }, []);
 
   const handleCart = useCart(cartLocalStorage.storedValue, cartLocalStorage);
 
