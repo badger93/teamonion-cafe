@@ -1,17 +1,20 @@
 import { useState } from 'react';
 
-export const useCart = (initCart) => {
+
+// 장바구니 스테이트와 동일시 되게
+export const useCart = (initCart, localStorage = null) => {
   const [cart, setStateCart] = useState(initCart);
 
   const setAllCart = (newCart) => {
     setStateCart(newCart);
     // 여기에 로컬 스토리지 업데이트
+    localStorage && localStorage.setValue(newCart);
   };
 
   return { cart, setAllCart };
 };
 
-const useLocalStorage = (key, initialValue) => {
+export const useLocalStorage = (key, initialValue) => {
   // State to store our value
   // Pass initial state function to useState so logic is only executed once
   const [storedValue, setStoredValue] = useState(() => {
@@ -32,8 +35,7 @@ const useLocalStorage = (key, initialValue) => {
   const setValue = (value) => {
     try {
       // Allow value to be a function so we have same API as useState
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
       // Save state
       setStoredValue(valueToStore);
       // Save to local storage
@@ -44,5 +46,5 @@ const useLocalStorage = (key, initialValue) => {
     }
   };
 
-  return [storedValue, setValue];
+  return { storedValue, setValue };
 };
