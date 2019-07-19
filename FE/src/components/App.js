@@ -1,7 +1,8 @@
 import React from 'react';
+import RootRouter from './RootRouter';
 
 function App() {
-  return <div className="App">hello</div>;
+  return <RootRouter />;
 }
 
 export default App;
