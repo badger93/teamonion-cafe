@@ -20,7 +20,6 @@ public class MemberService {
     @Autowired
     private JwtComponent jwtComponent;
 
-    @Transactional
     public Member save(MemberSignUpRequest memberSignUpRequest) {
         if(isOverlap(memberSignUpRequest.getMemberId())) {
             throw new ValidCustomException("memberId", "이미 사용중인 아이디입니다");
@@ -42,9 +41,6 @@ public class MemberService {
     }
 
     public boolean isOverlap(String memberId) {
-        if(memberRepository.findByMemberId(memberId).isPresent()) {
-            return true;
-        }
-        return false;
+        return memberRepository.findByMemberId(memberId).isPresent();
     }
 }
