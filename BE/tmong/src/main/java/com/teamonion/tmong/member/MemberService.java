@@ -1,5 +1,6 @@
 package com.teamonion.tmong.member;
 
+import com.teamonion.tmong.component.JwtComponent;
 import com.teamonion.tmong.exception.MemberNotFoundException;
 import com.teamonion.tmong.exception.PasswordMismatchException;
 import com.teamonion.tmong.exception.ValidCustomException;
@@ -16,6 +17,9 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private JwtComponent jwtComponent;
+
     @Transactional
     public Member save(MemberSignUpRequestDto memberSignUpRequestDto) {
         if(isOverlap(memberSignUpRequestDto.getMemberId())) {
@@ -28,12 +32,13 @@ public class MemberService {
         return memberRepository.findByMemberId(memberId).orElseThrow(MemberNotFoundException::new);
     }
 
-    public void login(MemberLoginRequestDto memberLoginRequestDto) {
+    public String login(MemberLoginRequestDto memberLoginRequestDto) {
         Member member = findByMemberId(memberLoginRequestDto.getMemberId());
 
         if(!member.match(memberLoginRequestDto.getPassword())){
             throw new PasswordMismatchException();
         }
+        return jwtComponent.createJwt(member);
     }
 
     public boolean isOverlap(String memberId) {
