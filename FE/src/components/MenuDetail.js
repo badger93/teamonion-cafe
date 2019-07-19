@@ -2,12 +2,11 @@ import React, { useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
 
-const MenuDetail = (props) => {
-  const {
-    menuDetailData: {
+const MenuDetail = ({
+  menuDetailData: {
  name, price, information, imagePath 
 },
-  } = props;
+}) => {
   const closeBtn = useRef(null);
 
   // 팝업 닫기버튼 클릭

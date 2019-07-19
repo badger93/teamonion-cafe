@@ -4,11 +4,8 @@ import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuListItem.scss';
 
-const MenuListItem = (props) => {
-  const {
-    item: { name, price, imagePath },
-  } = props;
-  const { item, mapDetailData } = props;
+const MenuListItem = ({ item, mapDetailData }) => {
+  const { name, price, imagePath } = item;
 
   const showPopup = () => {
     const popup = document.querySelector('.menuDetail');

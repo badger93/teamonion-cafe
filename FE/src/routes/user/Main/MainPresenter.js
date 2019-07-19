@@ -4,8 +4,7 @@ import MenuListItem from '../../../components/MenuListItem';
 import MenuDetail from '../../../components/MenuDetail';
 import './style/MainPresenter.scss';
 
-const MainPresenter = (props) => {
-  const { list, mapDetailData, menuDetailData } = props;
+const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
   // 메뉴 리스트 뿌리기
   const mapMenuListItem = list.map((item, index) => (
     <MenuListItem
