@@ -11,8 +11,8 @@ const CartListItem = ({
   checkedItem,
   setCheckedItem,
 }) => {
-  const DeleteItem = async () => {
-    const deleteIndex = await cart.findIndex(element => element.cartId === cartId);
+  const DeleteItem = () => {
+    const deleteIndex = cart.findIndex(element => element.cartId === cartId);
     // 체크해놓고 삭제시 처리
 
     const validator = checkedItem.findIndex(

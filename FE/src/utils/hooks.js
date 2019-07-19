@@ -1,5 +1,24 @@
 import { useState } from 'react';
 
+export const CartDelete = (array, setArray, cartId, array2 = null, setArray2 = null) => {
+  const deleteIndex = array.findIndex(element => element.cartId === cartId);
+  // 체크해놓고 삭제시 처리
+
+  if (array2 && setArray2) {
+    const validator = array2.findIndex(
+      element => element.cartId === array[deleteIndex].cartId,
+    );
+
+    if (validator !== -1) { // 삭제시 체크된 목록에서도 같이삭제
+      array.splice(validator, 1);
+      setArray2([...array2]);
+    }
+  }
+
+  array.splice(deleteIndex, 1);
+  setArray([...array]); // State 와 로컬스토리지 동시 변경
+};
+
 
 // 장바구니 스테이트와 동일시 되게
 export const useCart = (initCart, localStorage = null) => {

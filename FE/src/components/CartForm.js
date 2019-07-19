@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import CartListItem from './CartListItem';
+
 
 const CartForm = ({ handleCart, handleCheckedCart }) => {
   const { cart, setAllCart } = handleCart;
@@ -10,13 +11,14 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e);
+
+    console.log(checkedItem);
   };
 
   return (
     <div className="cartform-container">
       <div className="cartform-title">내역</div>
-      <form action="submit" className="cartform">
+      <form action="submit" className="cartform" onSubmit={onSubmit}>
         <div className="cartform-list">
           {cart.map(item => (
             <CartListItem
@@ -41,7 +43,7 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
             {`${totalPrice}`}
           </div>
         </div>
-        <button type="button" className="submit-button" onSubmit={onSubmit}>
+        <button type="submit" className="submit-button">
           결제하기
         </button>
       </form>
