@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 @Setter
 @NoArgsConstructor
-public class MemberLoginRequestDto {
+public class MemberLoginRequest {
 
     @NotBlank(message = "아이디를 입력해주세요")
     private String memberId;

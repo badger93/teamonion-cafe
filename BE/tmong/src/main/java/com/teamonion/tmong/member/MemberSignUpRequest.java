@@ -11,7 +11,7 @@ import javax.validation.constraints.Pattern;
 @Setter
 @Getter
 @NoArgsConstructor
-public class MemberSignUpRequestDto {
+public class MemberSignUpRequest {
 
     @NotBlank(message = "아이디를 입력해주세요")
     private String memberId;

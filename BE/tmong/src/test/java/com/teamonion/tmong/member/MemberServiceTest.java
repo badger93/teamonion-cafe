@@ -23,18 +23,18 @@ public class MemberServiceTest {
     @Test
     public void saveTest() {
         //given
-        MemberSignUpRequestDto memberSignUpRequestDto = new MemberSignUpRequestDto();
-        memberSignUpRequestDto.setMemberId("onion");
-        memberSignUpRequestDto.setPassword("123456789a");
-        memberSignUpRequestDto.setPasswordCheck("123456789a");
+        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
+        memberSignUpRequest.setMemberId("onion");
+        memberSignUpRequest.setPassword("123456789a");
+        memberSignUpRequest.setPasswordCheck("123456789a");
 
-        Member member = memberSignUpRequestDto.toEntity();
+        Member member = memberSignUpRequest.toEntity();
 
         //when
         Mockito.when(memberRepository.save(member)).thenReturn(member);
 
         //then
-        assertThat(memberService.save(memberSignUpRequestDto)).isEqualTo(member);
+        assertThat(memberService.save(memberSignUpRequest)).isEqualTo(member);
     }
 
     @Test

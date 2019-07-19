@@ -1,5 +1,6 @@
 package com.teamonion.tmong.member;
 
+import com.teamonion.tmong.component.JwtComponent;
 import com.teamonion.tmong.exception.MemberNotFoundException;
 import com.teamonion.tmong.exception.PasswordMismatchException;
 import com.teamonion.tmong.exception.ValidCustomException;
@@ -16,24 +17,28 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private JwtComponent jwtComponent;
+
     @Transactional
-    public Member save(MemberSignUpRequestDto memberSignUpRequestDto) {
-        if(isOverlap(memberSignUpRequestDto.getMemberId())) {
+    public Member save(MemberSignUpRequest memberSignUpRequest) {
+        if(isOverlap(memberSignUpRequest.getMemberId())) {
             throw new ValidCustomException("memberId", "이미 사용중인 아이디입니다");
         }
-        return memberRepository.save(memberSignUpRequestDto.toEntity());
+        return memberRepository.save(memberSignUpRequest.toEntity());
     }
 
     public Member findByMemberId(String memberId) {
         return memberRepository.findByMemberId(memberId).orElseThrow(MemberNotFoundException::new);
     }
 
-    public void login(MemberLoginRequestDto memberLoginRequestDto) {
-        Member member = findByMemberId(memberLoginRequestDto.getMemberId());
+    public MemberLoginResponse login(MemberLoginRequest memberLoginRequest) {
+        Member member = findByMemberId(memberLoginRequest.getMemberId());
 
-        if(!member.match(memberLoginRequestDto.getPassword())){
+        if(!member.match(memberLoginRequest.getPassword())){
             throw new PasswordMismatchException();
         }
+        return new MemberLoginResponse(member.getPoint(), jwtComponent.createToken(member));
     }
 
     public boolean isOverlap(String memberId) {
