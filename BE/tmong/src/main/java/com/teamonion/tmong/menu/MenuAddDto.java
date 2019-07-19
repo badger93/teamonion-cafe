@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import java.io.IOException;
 
 @Setter
 @Getter
@@ -23,17 +26,16 @@ public class MenuAddDto {
 
     private String information;
 
-    @NotBlank(message = "이미지를 추가해주세요.")
-    private String imagePath;
+    @NotNull(message = "이미지를 추가해주세요.")
+    private MultipartFile image;
 
-    //image 서버 저장
 
-    public Menu toEntity() {
+    public Menu toEntity() throws IOException {
         return Menu.builder()
                 .name(name)
                 .price(price)
                 .information(information)
-                .imagePath(imagePath)
+                .imageFile(image.getBytes())
                 .build();
     }
 
