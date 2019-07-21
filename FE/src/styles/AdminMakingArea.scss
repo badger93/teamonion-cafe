@@ -1,0 +1,16 @@
+.beforeMaking-area, .afterMaking-area {
+  width: 400px;
+  height: 500px;
+  margin: 0;
+  background-color: rgb(224, 225, 231);
+  border-radius: 5px;
+
+  .orderBoard {
+    padding: 10px 10px 0 10px;
+    overflow: scroll;
+    height: 100%;
+  }
+  h2 {
+    margin-top:0;
+  }
+}
