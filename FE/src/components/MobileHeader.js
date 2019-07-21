@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/MobileHeader.scss';
 import { Link } from 'react-router-dom';
-import tmonglogo from '../image/tmonglogo.png';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faUser,
@@ -10,8 +8,13 @@ import {
   faBars,
   faTimes,
 } from '@fortawesome/free-solid-svg-icons';
+import tmonglogo from '../image/tmonglogo.png';
+import { openPopup } from '../utils/popup';
 
-const MobileHeader = ({ isLogined, isAdmin, user }) => {
+
+const MobileHeader = ({
+  isLogined, isAdmin, user, loginRef,
+}) => {
   const [isList, setIsList] = useState(false);
 
   return (
@@ -57,7 +60,7 @@ const MobileHeader = ({ isLogined, isAdmin, user }) => {
             type="button"
             className="list-button"
             onClick={() => {
-              setIsList((prev) => !prev);
+              setIsList(prev => !prev);
             }}
           >
             <FontAwesomeIcon icon={faTimes} size="1.3x" />
@@ -65,7 +68,7 @@ const MobileHeader = ({ isLogined, isAdmin, user }) => {
           <Link to="/">
             <div
               onClick={() => {
-                setIsList((prev) => !prev);
+                setIsList(prev => !prev);
               }}
             >
               Menu
@@ -74,7 +77,7 @@ const MobileHeader = ({ isLogined, isAdmin, user }) => {
           <Link to="/myorder">
             <div
               onClick={() => {
-                setIsList((prev) => !prev);
+                setIsList(prev => !prev);
               }}
             >
               MyOrder
@@ -83,7 +86,7 @@ const MobileHeader = ({ isLogined, isAdmin, user }) => {
           <Link to="/user-info">
             <div
               onClick={() => {
-                setIsList((prev) => !prev);
+                setIsList(prev => !prev);
               }}
             >
               MyPage
@@ -92,7 +95,7 @@ const MobileHeader = ({ isLogined, isAdmin, user }) => {
           <Link to="/cart">
             <div
               onClick={() => {
-                setIsList((prev) => !prev);
+                setIsList(prev => !prev);
               }}
             >
               Cart
@@ -101,14 +104,14 @@ const MobileHeader = ({ isLogined, isAdmin, user }) => {
           <div
             className="sign_link"
             onClick={() => {
-              setIsList((prev) => !prev);
+              setIsList(prev => !prev);
             }}
           >
             {isLogined ? (
               <Link to="/logout">LogOut</Link>
             ) : (
               <>
-                <Link to="/signin">SignIn</Link>
+                <a><div onClick={() => openPopup(loginRef.current)}>SignIn</div></a>
                 <Link to="/signup">SignUp</Link>
               </>
             )}

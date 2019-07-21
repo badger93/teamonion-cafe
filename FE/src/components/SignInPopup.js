@@ -1,16 +1,16 @@
 import React, {
- useState, useEffect, useRef, useCallback 
+  useState, useCallback,
 } from 'react';
 import '../styles/SignInPopup.scss';
+import propTypes from 'prop-types';
 import { signIn } from '../api/userApi';
 import tmonglogo from '../image/tmonglogo.png';
 import { closePopup } from '../utils/popup';
 
-const SignInPopup = ({ setLoginDom }) => {
+const SignInPopup = ({ loginRef }) => {
   const [inputId, setInputID] = useState('');
   const [inputPw, setInputPw] = useState('');
   const [resultId, setResultId] = useState('');
-  const loginPopup = useRef(null);
 
   const submitCallback = useCallback(
     (e) => {
@@ -19,7 +19,7 @@ const SignInPopup = ({ setLoginDom }) => {
       if (inputId !== '' && inputPw !== '') {
         signIn(inputId, inputPw, setResultId);
         console.log(resultId);
-        closePopup(e, loginPopup.current);
+        closePopup(e, loginRef.current);
       } else {
         alert('정보입력이 필요합니다');
       }
@@ -27,12 +27,8 @@ const SignInPopup = ({ setLoginDom }) => {
     [inputId, inputPw],
   );
 
-  useEffect(() => {
-    setLoginDom(loginPopup.current);
-  }, []);
-
   return (
-    <div className="loginPopup" ref={loginPopup}>
+    <div className="loginPopup">
       <input
         className="closeBtn"
         type="button"
@@ -40,7 +36,7 @@ const SignInPopup = ({ setLoginDom }) => {
         onClick={(e) => {
           setInputID('');
           setInputPw('');
-          closePopup(e, loginPopup.current);
+          closePopup(e, loginRef.current);
         }}
       />
       <img className="login-logo" src={tmonglogo} alt="logo" />
@@ -75,6 +71,14 @@ const SignInPopup = ({ setLoginDom }) => {
       <div>{resultId}</div>
     </div>
   );
+};
+
+SignInPopup.defaultProps = {
+  loginRef: {},
+};
+
+SignInPopup.propTypes = {
+  loginRef: propTypes.objectOf(propTypes.element),
 };
 
 export default SignInPopup;
