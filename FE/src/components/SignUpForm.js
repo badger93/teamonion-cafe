@@ -14,9 +14,9 @@ const SignUpForm = () => {
     (e) => {
       e.preventDefault();
       if (
-        password.length === 0 ||
-        passwordCheck.length === 0 ||
-        id.length === 0
+        password.length === 0
+        || passwordCheck.length === 0
+        || id.length === 0
       ) {
         // 안적었을시 제한
         alert('추가 입력이 필요합니다');
@@ -32,7 +32,7 @@ const SignUpForm = () => {
         return;
       }
       // 사가에 회원가입 리퀘스트 액션 디스패치
-      console.log({ id, password });
+      console.log({ id, password, passwordCheck });
     },
     [password, passwordCheck, duplicateError, setPasswordError],
   );
