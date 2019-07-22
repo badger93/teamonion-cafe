@@ -1,8 +1,11 @@
 import React from 'react';
+import {useDispatch} from "react-redux";
 import SignUpPresenter from './SignUpPresenter';
 
 const SignUpContainer = () => {
-  return <SignUpPresenter />;
+  const dispatch = useDispatch();
+
+  return <SignUpPresenter dispatch={dispatch} />;
 };
 
 export default SignUpContainer;
