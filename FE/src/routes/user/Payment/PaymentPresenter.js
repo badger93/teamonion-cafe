@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import PayForm from '../../../components/PayForm';
-import '../../../styles/PaymentPresenter.scss';
+import './styles/PaymentPresenter.scss';
 
 const PaymentPresenter = () => (
   <div className="payment-wrapper">
