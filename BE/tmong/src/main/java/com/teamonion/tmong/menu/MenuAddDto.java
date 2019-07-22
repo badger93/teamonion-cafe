@@ -29,6 +29,15 @@ public class MenuAddDto {
     @NotNull(message = "이미지를 추가해주세요.")
     private MultipartFile image;
 
+    @Override
+    public String toString() {
+        return "MenuAddDto{" +
+                "name='" + name + '\'' +
+                ", price='" + price + '\'' +
+                ", information='" + information + '\'' +
+                ", image=" + image.getOriginalFilename() +
+                '}';
+    }
 
     public Menu toEntity() throws IOException {
         return Menu.builder()
