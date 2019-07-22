@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
@@ -8,10 +8,11 @@ const Header = () => {
   const isLogined = false;
   const isAdmin = false;
   const loginRef = useRef(null);
+  const [isList, setIsList] = useState(false);
 
   return (
     <>
-      <MobileHeader isLogined={isLogined} isAdmin={isAdmin} user={dummyUser} loginRef={loginRef} />
+      <MobileHeader isList={isList} setIsList={setIsList} isLogined={isLogined} isAdmin={isAdmin} user={dummyUser} loginRef={loginRef} />
       <PcHeader
         isLogined={isLogined}
         isAdmin={isAdmin}

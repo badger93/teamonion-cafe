@@ -1,30 +1,34 @@
 package com.teamonion.tmong.member;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class MemberTest {
 
-    @Test
-    public void builder() {
-        Member member = Member.builder()
-                .memberId("onion")
-                .password("pass")
-                .build();
+    private Member member;
 
-        assertThat(member).isNotNull();
+    @Before
+    public void setUp() {
+        member = Member.builder()
+                .memberId("onion")
+                .password("123456789a")
+                .build();
     }
 
     @Test
     public void match_password() {
-        String password = "pass";
-
-        Member member = Member.builder()
-                .memberId("onion")
-                .password(password)
-                .build();
+        String password = "123456789a";
 
         assertThat(member.match(password)).isTrue();
+    }
+
+    @Test
+    public void pointUpdateTest() {
+        String point = "1234";
+
+        member.pointUpdate(point);
+        assertThat(member.getPoint()).isEqualTo(point);
     }
 }

@@ -30,6 +30,7 @@ const MenuListItem = ({ item, mapDetailData, detailRef }) => {
 MenuListItem.defaultProps = {
   item: {},
   mapDetailData: () => {},
+  detailRef: {},
 };
 
 MenuListItem.propTypes = {
@@ -37,6 +38,7 @@ MenuListItem.propTypes = {
     propTypes.oneOfType([propTypes.number, propTypes.string]),
   ),
   mapDetailData: propTypes.func,
+  detailRef: propTypes.objectOf(propTypes.instanceOf(Element)),
 };
 
 export default MenuListItem;

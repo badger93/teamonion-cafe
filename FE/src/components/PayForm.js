@@ -1,14 +1,12 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/Payform.scss';
-import { useDispatch, useSelector } from 'react-redux';
-
 import PayListItem from './PayListItem';
 
 
-const PayForm = () => {
-  const dispatch = useDispatch();
-  const { itemsForPay, isPaying, isPaid } = useSelector(state => state.pay);
+const PayForm = ({
+  dispatch, itemsForPay, isPaying, isPaid,
+}) => {
   let totalPrice = 0;
 
   const onSubmit = async (e) => {
@@ -48,14 +46,10 @@ const PayForm = () => {
 };
 
 PayForm.propTypes = {
-  handlePay: propTypes.shape({
-    pay: propTypes.array.isRequired,
-    setAllPay: propTypes.func.isRequired,
-  }).isRequired,
-  handleCheckedPay: propTypes.shape({
-    checkedItem: propTypes.array.isRequired,
-    setCheckedItem: propTypes.func.isRequired,
-  }).isRequired,
+  dispatch: propTypes.bool,
+  itemsForPay: propTypes.object,
+  isPaying: propTypes.bool,
+  isPaid: propTypes.bool,
 };
 
 export default PayForm;

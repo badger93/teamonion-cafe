@@ -1,6 +1,7 @@
 package com.teamonion.tmong.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.teamonion.tmong.component.JwtComponent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -29,6 +30,9 @@ public class MemberControllerTest {
     @MockBean
     MemberService memberService;
 
+    @MockBean
+    JwtComponent jwtComponent;
+
     @Test
     public void 회원가입() throws Exception {
         MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
@@ -36,13 +40,14 @@ public class MemberControllerTest {
         memberSignUpRequest.setPassword("123456789a");
         memberSignUpRequest.setPasswordCheck("123456789a");
 
+        Member member = memberSignUpRequest.toEntity();
+
         Mockito.when(memberService.save(memberSignUpRequest))
-                .thenReturn(memberSignUpRequest.toEntity());
+                .thenReturn(new MemberLoginResponse(member, null));
 
         mockMvc.perform(post("/api/members")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(objectMapper.writeValueAsString(memberSignUpRequest))
-                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .content(objectMapper.writeValueAsString(memberSignUpRequest)))
                 .andDo(print())
                 .andExpect(status().isCreated());
     }
@@ -73,4 +78,5 @@ public class MemberControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
 }

@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
-import { useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
 
-const CartForm = ({ handleCart, handleCheckedCart }) => {
+const CartForm = ({ handleCart, handleCheckedCart, dispatch }) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
-  const dispatch = useDispatch();
+
   const [willPay, setWillPay] = useState(false);
 
   let totalPrice = 0;
