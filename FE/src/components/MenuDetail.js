@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import { closePopup } from '../utils/popup';
 import '../styles/MenuDetail.scss';
@@ -8,7 +8,6 @@ const MenuDetail = ({ menuDetailData, detailRef }) => {
   const {
     name, price, information, imageFile,
   } = menuDetailData;
-  const closeBtn = useRef(null);
   const { storedValue, setValue } = useLocalStorage('CART', []);
   const [isCart, setIsCart] = useState(false);
 
@@ -64,10 +63,12 @@ const MenuDetail = ({ menuDetailData, detailRef }) => {
 
 MenuDetail.defaultProps = {
   menuDetailData: {},
+  detailRef: {},
 };
 
 MenuDetail.propTypes = {
-  menuDetailData: propTypes.objectOf(),
+  menuDetailData: propTypes.objectOf(propTypes.string),
+  detailRef: propTypes.objectOf(propTypes.instanceOf(Element)),
 };
 
 export default MenuDetail;

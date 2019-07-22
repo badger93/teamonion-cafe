@@ -2,11 +2,10 @@ import React, { useRef } from 'react';
 import propTypes from 'prop-types';
 import MenuListItem from '../../../components/MenuListItem';
 import MenuDetail from '../../../components/MenuDetail';
-import './style/MainPresenter.scss';
+import './styles/MainPresenter.scss';
 
 const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
   const detailRef = useRef(null);
-  console.log(list);
   // 메뉴 리스트 뿌리기
   const mapMenuListItem = list.map((item, index) => (
     <MenuListItem
@@ -32,13 +31,13 @@ const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
 MainPresenter.defaultProps = {
   list: [],
   mapDetailData: () => {},
-  menuDetailData: [],
+  menuDetailData: {},
 };
 
 MainPresenter.propTypes = {
   list: propTypes.arrayOf(propTypes.object),
   mapDetailData: propTypes.func,
-  menuDetailData: propTypes.arrayOf(),
+  menuDetailData: propTypes.objectOf(propTypes.string),
 };
 
 export default MainPresenter;
