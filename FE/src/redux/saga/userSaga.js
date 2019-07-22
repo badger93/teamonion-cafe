@@ -35,7 +35,7 @@ function* signIn(action) {
     console.error(e);
     yield put({
       type: SIGNIN_FAILURE,
-      error: e,
+      error: e.message,
     });
   }
 }
@@ -69,7 +69,7 @@ function* signUp() {
     console.error(e);
     yield put({
       type: SIGNUP_FAILURE,
-      error: e,
+      error: e.message,
     });
   }
 }

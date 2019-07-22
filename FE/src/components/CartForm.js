@@ -6,7 +6,9 @@ import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
 
-const CartForm = ({ handleCart, handleCheckedCart, dispatch }) => {
+const CartForm = ({
+  handleCart, handleCheckedCart, dispatch, isSignedIn,
+}) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
 
@@ -16,6 +18,11 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch }) => {
 
   const onSubmit = useCallback(async (e) => {
     e.preventDefault();
+    if (!isSignedIn) {
+      // 여기에 로그인 팝업실행
+      return;
+    }
+
 
     await dispatch(cartToPayAction({ ...checkedItem }));
 
@@ -81,6 +88,8 @@ CartForm.propTypes = {
     checkedItem: propTypes.array.isRequired,
     setCheckedItem: propTypes.func.isRequired,
   }).isRequired,
+  isSignedIn: propTypes.bool.isRequired,
+  dispatch: propTypes.func.isRequired,
 };
 
 export default CartForm;

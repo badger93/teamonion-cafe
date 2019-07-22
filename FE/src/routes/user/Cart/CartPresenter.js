@@ -3,7 +3,9 @@ import propTypes from 'prop-types';
 import CartForm from '../../../components/CartForm';
 import './styles/CartPresenter.scss';
 
-const CartPresenter = ({ handleCart, handleCheckedCart, dispatch }) => (
+const CartPresenter = ({
+  handleCart, handleCheckedCart, dispatch, isSignedIn,
+}) => (
   <div className="cart-wrapper">
     <div className="cart-title">장바구니</div>
     <div className="cart-container">
@@ -11,7 +13,8 @@ const CartPresenter = ({ handleCart, handleCheckedCart, dispatch }) => (
         handleCart={handleCart}
         handleCheckedCart={handleCheckedCart}
         dispatch={dispatch}
-        />
+        isSignedIn={isSignedIn}
+      />
     </div>
   </div>
 );
@@ -25,7 +28,8 @@ CartPresenter.propTypes = {
     checkedItem: propTypes.array.isRequired,
     setCheckedItem: propTypes.func.isRequired,
   }).isRequired,
-  dispatch: propTypes.func,
+  dispatch: propTypes.func.isRequired,
+  isSignedIn: propTypes.bool.isRequired,
 };
 
 export default CartPresenter;

@@ -1,4 +1,6 @@
-import React, { useRef, useState, useCallback } from 'react';
+import React, {
+  useEffect, useRef, useState, useCallback,
+} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
@@ -8,7 +10,7 @@ import { logOutAction } from '../redux/actions/userAction';
 const Header = () => {
   const { isSignedIn, me } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const loginRef = useRef(null);
+  const loginRef = useRef(null); // 애를 리덕스에 넣자
   const [isList, setIsList] = useState(false);
   const logOutDispatch = useCallback(
     () => {
