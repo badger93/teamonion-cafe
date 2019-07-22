@@ -3,20 +3,22 @@ package com.teamonion.tmong.member;
 import com.teamonion.tmong.component.JwtComponent;
 import com.teamonion.tmong.exception.ValidExceptionType;
 import com.teamonion.tmong.exception.ValidCustomException;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class MemberService {
     private static final Logger log = LoggerFactory.getLogger(MemberService.class);
 
-    @Autowired
-    private MemberRepository memberRepository;
+    @NonNull
+    private final MemberRepository memberRepository;
 
-    @Autowired
-    private JwtComponent jwtComponent;
+    @NonNull
+    private final JwtComponent jwtComponent;
 
     public Member save(MemberSignUpRequest memberSignUpRequest) {
         if(isOverlap(memberSignUpRequest.getMemberId())) {
