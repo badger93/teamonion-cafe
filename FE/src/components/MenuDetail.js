@@ -1,25 +1,19 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
+import { closePopup } from '../utils/popup';
 
-const MenuDetail = ({
-  menuDetailData: {
- name, price, information, imagePath 
-},
-}) => {
-  const closeBtn = useRef(null);
-
-  // 팝업 닫기버튼 클릭
-  const popupClose = () => {
-    closeBtn.current.style.display = 'none';
-  };
+const MenuDetail = ({ menuDetailData, detailRef }) => {
+  const {
+    name, price, information, imageFile,
+  } = menuDetailData;
 
   return (
     <>
-      <div className="menuDetail" ref={closeBtn}>
+      <div className="menuDetail">
         <aside>
           <div className="img-area">
-            <img src={imagePath} alt="제품이미지" />
+            <img src={imageFile} alt="제품이미지" />
           </div>
         </aside>
         <main className="main">
@@ -27,7 +21,7 @@ const MenuDetail = ({
             className="closeBtn"
             type="button"
             value="X"
-            onClick={() => popupClose()}
+            onClick={e => closePopup(e, detailRef.current)}
           />
           <div className="titleArea">
             <div className="title">{name}</div>
