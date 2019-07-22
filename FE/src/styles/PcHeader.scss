@@ -57,12 +57,12 @@
         width: 40%;
         height: 30px;
         font-size: 0.8rem;
-        .login_button {
+        .signInBtn {
+          cursor: pointer;
           &:hover {
             //color: #fe6600;
             color: #ffa502;
             transition: 0.1s ease-in-out;
-            cursor: pointer;
           }
         }
       }

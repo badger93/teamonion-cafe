@@ -1,15 +1,18 @@
 import React, { useState, useCallback } from 'react';
 import '../styles/SignUpForm.scss';
 import propTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { duplicateCheckApi } from '../api/userApi';
 import { signUpRequestAction } from '../redux/actions/userAction';
 
-const SignUpForm = ({ dispatch }) => {
+const SignUpForm = ({
+  dispatch, isSigningUp, isSignedUp,
+}) => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState(false);
-  const [duplicateError, setDuplicateError] = useState(false);
+  const [duplicateError, setDuplicateError] = useState(true);
 
   const onSubmit = useCallback(
     (e) => {
@@ -33,7 +36,7 @@ const SignUpForm = ({ dispatch }) => {
         return;
       }
       // 사가에 회원가입 리퀘스트 액션 디스패치
-      console.log({ id, password, passwordCheck });
+      // console.log({ id, password, passwordCheck });
       dispatch(signUpRequestAction({ memberId: id, password, passwordCheck }));
     },
     [id, password, passwordCheck, duplicateError, setPasswordError],
@@ -79,6 +82,7 @@ const SignUpForm = ({ dispatch }) => {
 
   return (
     <form onSubmit={onSubmit} className="signup_form">
+      {isSignedUp && <Redirect to="/" />}
       <div className="signup_form_row">
         <input
           type="id"
@@ -124,6 +128,8 @@ const SignUpForm = ({ dispatch }) => {
 
 SignUpForm.propTypes = {
   dispatch: propTypes.func.isRequired,
+  isSigningUp: propTypes.bool.isRequired,
+  isSignedUp: propTypes.bool.isRequired,
 };
 
 export default SignUpForm;

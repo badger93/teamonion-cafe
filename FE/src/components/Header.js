@@ -1,23 +1,30 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
+import { logOutAction } from '../redux/actions/userAction';
 
 const Header = () => {
-  const dummyUser = { id: 'hyunjae' };
-  const isLogined = false;
-  const isAdmin = false;
+  const { isSignedIn, me } = useSelector(state => state.user);
+  const dispatch = useDispatch();
   const loginRef = useRef(null);
   const [isList, setIsList] = useState(false);
+  const logOutDispatch = useCallback(
+    () => {
+      dispatch(logOutAction());
+    },
+    [],
+  );
 
   return (
     <>
-      <MobileHeader isList={isList} setIsList={setIsList} isLogined={isLogined} isAdmin={isAdmin} user={dummyUser} loginRef={loginRef} />
+      <MobileHeader logOutDispatch={logOutDispatch} isList={isList} setIsList={setIsList} isSignedIn={isSignedIn} user={me} loginRef={loginRef} dispatch={dispatch} />
       <PcHeader
-        isLogined={isLogined}
-        isAdmin={isAdmin}
-        user={dummyUser}
+        isSignedIn={isSignedIn}
+        user={me}
         loginRef={loginRef}
+        logOutDispatch={logOutDispatch}
       />
       <div className="signInContainer" ref={loginRef}>
         <SignInPopup loginRef={loginRef} />

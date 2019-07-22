@@ -2,7 +2,9 @@ import axios from 'axios';
 
 export const duplicateCheckApi = data => axios.post('/api/members/overlap', data);
 
-export const signUpSubmitApi = data => axios.post('/api/members', data);
+export const signUpApi = data => axios.post('/api/members', data);
+
+export const signInApi = data => axios.post('api/members/login', data);
 
 const signInUrl = 'api/members/login';
 
