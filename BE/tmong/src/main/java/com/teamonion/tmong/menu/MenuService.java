@@ -16,13 +16,19 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
-    Menu add(MenuAddDto menuAddDto) throws IOException {
+    Menu add(MenuAddDto menuAddDto){
         // TODO : 이미지 파일이 아닌 경우 예외처리
-        if (menuAddDto.getImage().isEmpty()) {
-            throw new FileStorageException();
-        }
+        Menu menu = null;
+        try {
+            if (menuAddDto.getImage().isEmpty()) {
+                throw new FileStorageException("이미지 파일이 존재하지 않습니다.");
+            }
 
-        Menu menu = menuAddDto.toEntity();
+            menu = menuAddDto.toEntity();
+        } catch (IOException e) {
+            //throw new FileStorageException(e.getMessage());
+            e.getStackTrace();
+        }
         return menuRepository.save(menu);
     }
 
@@ -38,7 +44,7 @@ public class MenuService {
         menuRepository.deleteById(menu_id);
     }
 
-    private boolean isExistMenu(Long menu_id) {
+    boolean isExistMenu(Long menu_id) {
         return menuRepository.findById(menu_id).isPresent();
     }
 }

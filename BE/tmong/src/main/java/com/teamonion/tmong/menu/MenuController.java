@@ -17,16 +17,15 @@ public class MenuController {
 
     private static Logger log = LoggerFactory.getLogger(MenuController.class);
 
-    @Autowired
-    private MenuService menuService;
+    private final MenuService menuService;
+
+    public MenuController(MenuService menuService) {
+        this.menuService = menuService;
+    }
 
     @PostMapping
-    public ResponseEntity add(@ModelAttribute @Valid MenuAddDto menuAddDto) throws IOException {
-        log.info(menuAddDto.getName());
-        log.info(menuAddDto.getPrice());
-        log.info(menuAddDto.getInformation());
-        log.info(menuAddDto.getImage().getOriginalFilename());
-        log.info(menuAddDto.getImage().getResource().getDescription());
+    public ResponseEntity add( @Valid MenuAddDto menuAddDto){
+        log.info(menuAddDto.toString());
 
         menuService.add(menuAddDto);
         return new ResponseEntity(HttpStatus.CREATED);
