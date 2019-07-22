@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuManagePopup.scss';
+import inputImgPreview from '../utils/inputImgPreview';
 
 const MenuManagePopup = ({ menuPopupData, updateItem, createItem }) => {
   const {
@@ -10,24 +11,35 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem }) => {
   const [popupPrice, setPopupPrice] = useState('');
   const [popupInformation, setPopupInformation] = useState('');
   const [popupFile, setPopupFile] = useState('');
+  const isEdit = Object.keys(menuPopupData).length > 1;
+  const inputImgRef = useRef(null); // 인풋 미리보기 이미지 태그
+  const fileInputRef = useRef(null); // 인풋 파일 태그
 
   useEffect(() => {
-    setPopupName(name);
-    setPopupPrice(price);
-    setPopupInformation(information);
-    setPopupFile(imageFile);
-  }, [name, price, information, imageFile]);
+    if (isEdit) {
+      setPopupName(name);
+      setPopupPrice(price);
+      setPopupInformation(information);
+      setPopupFile(imageFile);
+    } else {
+      setPopupName('');
+      setPopupPrice('');
+      setPopupInformation('');
+      setPopupFile('');
+    }
+  }, [menuPopupData]);
 
   return ( // name, price, information, imageFile(src)
     <div className="MenuManagePopup">
       <form
+        encType="multipart/form-data"
         className="MenuManageForm"
         onSubmit={(e) => {
           e.preventDefault();
           const payload = {
             name: popupName, price: popupPrice, information: popupInformation, imageFile: popupFile,
           };
-          if (Object.keys(menuPopupData).length > 1) {
+          if (isEdit) {
             updateItem(id, payload);
           } else {
             createItem(payload);
@@ -37,7 +49,17 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem }) => {
         <input type="text" value={popupName} onChange={e => setPopupName(e.target.value)} className="nameInput" />
         <input type="text" value={popupPrice} onChange={e => setPopupPrice(e.target.value)} className="price" />
         <input type="text" value={popupInformation} onChange={e => setPopupInformation(e.target.value)} className="information" />
-        <input type="file" value={popupFile} className="fileInput" onChange={e => setPopupFile(e.target.value)} multiple />
+        <img src="" alt="" ref={inputImgRef} />
+        <input
+          type="file"
+          value={popupFile}
+          className="fileInput"
+          ref={fileInputRef}
+          onChange={(e) => {
+            inputImgPreview(fileInputRef.current, inputImgRef.current);
+            setPopupFile(e.target.value);
+          }}
+        />
         <input type="submit" className="submitPopup" />
       </form>
     </div>
