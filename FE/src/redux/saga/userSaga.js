@@ -16,15 +16,15 @@ import { signUpApi, signInApi } from '../../api/userApi';
 
 function* signIn(action) {
   try {
-    // yield const result = call(signInApi);
-    yield delay(2000);
-    const result = { // dummy login data
-      id: 1,
-      memberId: 'onion',
-      memberRole: 'ADMIN',
-      point: 0,
-      jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
-    };
+    const result = yield call(signInApi);
+    // yield delay(2000);
+    // const result = { // dummy login data
+    //   id: 1,
+    //   memberId: 'onion',
+    //   memberRole: 'ADMIN',
+    //   point: 0,
+    //   jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
+    // };
     yield put({
       // put은 dispatch 동일
       type: SIGNIN_SUCCESS,
@@ -47,19 +47,19 @@ function* watchSignIn() {
 
 function* signUp() {
   try {
-    // yield call(signUpApi);
-    yield delay(2000);
+    const result = yield call(signUpApi);
+    // yield delay(2000);
     yield put({
       // put은 dispatch 동일
       type: SIGNUP_SUCCESS,
     });
-    const result = { // dummy
-      id: 1,
-      memberId: 'onion',
-      memberRole: 'NORMAL',
-      point: 0,
-      jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
-    };
+    // const result = { // dummy
+    //   id: 1,
+    //   memberId: 'onion',
+    //   memberRole: 'NORMAL',
+    //   point: 0,
+    //   jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
+    // };
     yield put({
       type: SIGNIN_SUCCESS,
       data: { ...result },
