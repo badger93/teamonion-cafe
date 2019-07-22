@@ -3,27 +3,21 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuListItem.scss';
+import { openPopup } from '../utils/popup';
 
-const MenuListItem = ({ item, mapDetailData }) => {
-  const { name, price, imagePath } = item;
-
-  const showPopup = () => {
-    const popup = document.querySelector('.menuDetail');
-    popup.style.display = 'block';
-    popup.style.left = `${(window.innerWidth - 650) / 2}px`;
-    popup.style.top = `${(window.innerHeight - 350) / 2}px`;
-  };
+const MenuListItem = ({ item, mapDetailData, detailRef }) => {
+  const { name, price, imageFile } = item;
 
   return (
     <div
       className="menuListItem"
       onClick={() => {
         mapDetailData(item);
-        showPopup();
+        openPopup(detailRef.current);
       }}
     >
       <div className="img-area">
-        <img src={imagePath} alt="상품이미지" />
+        <img src={imageFile} alt="상품이미지" />
       </div>
       <div className="info-area">
         <p className="title">{name}</p>

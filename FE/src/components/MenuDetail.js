@@ -1,13 +1,13 @@
 import React, { useRef, useState } from 'react';
 import propTypes from 'prop-types';
+import { closePopup } from '../utils/popup';
 import '../styles/MenuDetail.scss';
 import { useLocalStorage } from '../utils/cart';
 
-const MenuDetail = ({
-  menuDetailData: {
-    name, price, information, imagePath,
-  },
-}) => {
+const MenuDetail = ({ menuDetailData, detailRef }) => {
+  const {
+    name, price, information, imageFile,
+  } = menuDetailData;
   const closeBtn = useRef(null);
   const { storedValue, setValue } = useLocalStorage('CART', []);
   const [isCart, setIsCart] = useState(false);
@@ -29,18 +29,12 @@ const MenuDetail = ({
     setTimeout(() => setIsCart(false), 800);
   };
 
-
-  // 팝업 닫기버튼 클릭
-  const popupClose = () => {
-    closeBtn.current.style.display = 'none';
-  };
-
   return (
     <>
-      <div className="menuDetail" ref={closeBtn}>
+      <div className="menuDetail">
         <aside>
           <div className="img-area">
-            <img src={imagePath} alt="제품이미지" />
+            <img src={imageFile} alt="제품이미지" />
           </div>
         </aside>
         <main className="main">
@@ -48,7 +42,7 @@ const MenuDetail = ({
             className="closeBtn"
             type="button"
             value="X"
-            onClick={() => popupClose()}
+            onClick={e => closePopup(e, detailRef.current)}
           />
           <div className="titleArea">
             <div className="title">{name}</div>

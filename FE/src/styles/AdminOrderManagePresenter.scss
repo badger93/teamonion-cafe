@@ -1,0 +1,35 @@
+.AdminOrderManagePresenter {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 40px;
+  @media (max-width: 961px) {
+    width: 96%;
+    margin-top: 10px;
+  }
+  h2 {
+    margin: 10px 0 0 10px
+  }
+  .orderContainer {
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+
+    @media (max-width: 600px) {
+      display: block;
+      width: 100%;
+    }
+    
+    .arrowContainer {
+      width: 50px;
+      height: 50px;
+      align-self: center;
+      margin: 0 30px;
+      img {
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+      }
+    }
+  }
+}

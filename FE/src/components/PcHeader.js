@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
+import propTypes from 'prop-types';
 import tmonglogo from '../image/tmonglogo.png';
 import '../styles/PcHeader.scss';
 import { openPopup } from '../utils/popup';
 
-const PcHeader = ({ isLogined, isAdmin, user, loginDom }) => (
+const PcHeader = ({
+  isLogined, isAdmin, user, loginRef,
+}) => (
   <div className="header_pc">
     <div className="header_pc-wrap">
       <div className="header_pc-logo">
@@ -20,11 +23,8 @@ const PcHeader = ({ isLogined, isAdmin, user, loginDom }) => (
           ) : (
             <>
               <div
-                onClick={(e) => {
-                  loginDom.style.display = 'block';
-                  loginDom.style.pointerEvents = 'all';
-                }}
-                className="login_button"
+                className="signInBtn"
+                onClick={() => openPopup(loginRef.current)}
               >
                 Log In
               </div>
@@ -55,5 +55,18 @@ const PcHeader = ({ isLogined, isAdmin, user, loginDom }) => (
     </div>
   </div>
 );
+PcHeader.defaultProptypes = {
+  isAdmin: false,
+  isLogined: false,
+  user: {},
+  loginRef: {},
+};
+
+PcHeader.propTypes = {
+  isAdmin: propTypes.bool.isRequired,
+  isLogined: propTypes.bool.isRequired,
+  user: propTypes.objectOf(propTypes.string).isRequired,
+  loginRef: propTypes.objectOf(propTypes.element).isRequired,
+};
 
 export default PcHeader;
