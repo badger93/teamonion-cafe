@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/AdminMenuListItem.scss';
 
-const AdminMenuListItem = ({ list, setMenuList, setMenuPopupData }) => {
+const AdminMenuListItem = ({ list, deleteItem, setMenuPopupData }) => {
   const {
     id, name, price, information, imageFile,
   } = list;
@@ -13,13 +13,18 @@ const AdminMenuListItem = ({ list, setMenuList, setMenuPopupData }) => {
       <div className="informationArea">{information}</div>
       <div className="imageFileArea">{imageFile}</div>
       <div className="btnArea">
-        <input className="updateBtn" type="button" value="수정" />
+        <input
+          className="updateBtn"
+          type="button"
+          value="수정"
+          onClick={() => setMenuPopupData({ ...list, imageFile: '' })}
+        />
         <input
           className="deleteBtn"
           type="button"
           value="삭제"
           onClick={() => {
-            setMenuList(id);
+            deleteItem(id);
           }}
         />
       </div>
@@ -29,11 +34,14 @@ const AdminMenuListItem = ({ list, setMenuList, setMenuPopupData }) => {
 
 AdminMenuListItem.defaultProps = {
   list: [],
+  deleteItem: () => {},
   setMenuPopupData: () => {},
+
 };
 
 AdminMenuListItem.propTypes = {
   list: propTypes.arrayOf(propTypes.string),
+  deleteItem: propTypes.func,
   setMenuPopupData: propTypes.func,
 };
 

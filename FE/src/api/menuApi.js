@@ -17,3 +17,5 @@ export const getMenuList = (callback) => { // name, price, information, imageFil
 export const deleteMenuList = id => axios.delete(`/admin/api/menus/${id}`);
 
 export const createMenuList = item => axios.post('/admin/api/menus/', item);
+
+export const updateMenuList = (id, item) => axios.put(`/admin/api/menus/${id}`, item);
