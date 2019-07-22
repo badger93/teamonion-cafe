@@ -4,8 +4,6 @@ import { useState } from 'react';
 // 로컬스토리지, 체크배열, 장바구니배열 삭제기능 함수
 
 export const CartDelete = (array, setArray, cartId, array2 = null, setArray2 = null) => {
-  console.log(`cartid:${cartId}`);
-
   const deleteIndex = array.findIndex(element => element.cartId === cartId);
   // 체크해놓고 삭제시 처리
 
