@@ -40,8 +40,10 @@ public class MemberControllerTest {
         memberSignUpRequest.setPassword("123456789a");
         memberSignUpRequest.setPasswordCheck("123456789a");
 
+        Member member = memberSignUpRequest.toEntity();
+
         Mockito.when(memberService.save(memberSignUpRequest))
-                .thenReturn(memberSignUpRequest.toEntity());
+                .thenReturn(new MemberLoginResponse(member, null));
 
         mockMvc.perform(post("/api/members")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

@@ -37,5 +37,9 @@ public class Member {
     public boolean match(String password) {
         return this.password.equals(password);
     }
+
+    public void pointUpdate(String point) {
+        this.point = point;
+    }
 }
 

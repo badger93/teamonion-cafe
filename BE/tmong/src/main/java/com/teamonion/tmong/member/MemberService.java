@@ -7,6 +7,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
@@ -20,15 +22,22 @@ public class MemberService {
     @NonNull
     private final JwtComponent jwtComponent;
 
-    public Member save(MemberSignUpRequest memberSignUpRequest) {
+    public MemberLoginResponse save(MemberSignUpRequest memberSignUpRequest) {
         if(isOverlap(memberSignUpRequest.getMemberId())) {
             throw new ValidCustomException(ValidExceptionType.MEMBERID_OVERLAP);
         }
-        return memberRepository.save(memberSignUpRequest.toEntity());
+        Member savedMember = memberRepository.save(memberSignUpRequest.toEntity());
+        return new MemberLoginResponse(savedMember, jwtComponent.createToken(savedMember));
+    }
+
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
     }
 
     public Member findByMemberId(String memberId) {
-        return memberRepository.findByMemberId(memberId).orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
+        return memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
     }
 
     public MemberLoginResponse login(MemberLoginRequest memberLoginRequest) {
@@ -37,10 +46,25 @@ public class MemberService {
         if(!member.match(memberLoginRequest.getPassword())){
             throw new ValidCustomException(ValidExceptionType.PASSWORD_MISMATCH);
         }
-        return new MemberLoginResponse(member.getPoint(), jwtComponent.createToken(member));
+
+        return new MemberLoginResponse(member, jwtComponent.createToken(member));
     }
 
     public boolean isOverlap(String memberId) {
         return memberRepository.findByMemberId(memberId).isPresent();
+    }
+
+    public Page<Member> findAll(Pageable pageable) {
+        return memberRepository.findAll(pageable);
+    }
+
+    public void pointUpdate(Long id, String point) {
+        Member member = findById(id);
+        member.pointUpdate(point);
+        memberRepository.save(member);
+    }
+
+    public Integer getPoint(Long id) {
+        return Integer.parseInt(findById(id).getPoint());
     }
 }
