@@ -1,0 +1,15 @@
+.AdminMenuListItem {
+  div {
+    display: inline-block;
+    margin: 5px 0;
+  }
+  div + div {
+    margin-left: 5px;
+    margin-right: 5px
+  }
+  .btnArea {
+    input {
+      display: inline-block;
+    }
+  }
+}
