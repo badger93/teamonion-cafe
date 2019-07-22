@@ -11,11 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,16 +35,16 @@ public class MenuControllerTest {
     @Test
     public void 메뉴_추가() throws Exception {
         // TODO : 목 이미지 파일 생성
-        MockMultipartFile testmultipartFile = new MockMultipartFile("image", new byte[1]);
-                //new MockMultipartFile("file","testfile", "multipart/form-data", "test data".getBytes());
-        MenuAddDto menuAddDto = new MenuAddDto("americano", "1000", "직장인의 인기 메뉴", testmultipartFile);
-
-        Mockito.when(menuService.add(menuAddDto)).thenReturn(menuAddDto.toEntity());
-
-        mockMvc.perform(post("/api/menus")
-                .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
-                .andExpect(status().isCreated());
+//        MockMultipartFile testmultipartFile = new MockMultipartFile("image", new byte[1]);
+//        //new MockMultipartFile("file","testfile", "multipart/form-data", "test data".getBytes());
+//        MenuSaveDto menuSaveDto = new MenuSaveDto("americano", "1000", "직장인의 인기 메뉴", testmultipartFile, "example");
+//
+//        Mockito.when(menuService.add(menuSaveDto)).thenReturn(menuSaveDto.toEntity());
+//
+//        mockMvc.perform(post("/api/menus")
+//                .contentType(MediaType.APPLICATION_JSON_UTF8))
+//                .andDo(print())
+//                .andExpect(status().isCreated());
     }
 
     @Test

@@ -2,7 +2,10 @@ package com.teamonion.tmong.menu;
 
 import lombok.*;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 
 @NoArgsConstructor
@@ -11,6 +14,7 @@ import javax.persistence.*;
 @Builder
 @Getter
 @EqualsAndHashCode(of = "id")
+@ToString(exclude = "id")
 public class Menu {
 
     @Id
@@ -23,7 +27,12 @@ public class Menu {
 
     private String information;
 
-    @Lob
-    private byte[] imageFile;
+    private String imagePath;
 
+    void update(MenuSaveDto menuSaveDto) {
+        this.name = menuSaveDto.getName();
+        this.price = menuSaveDto.getPrice();
+        this.information = menuSaveDto.getInformation();
+        this.imagePath = menuSaveDto.getImagePath();
+    }
 }

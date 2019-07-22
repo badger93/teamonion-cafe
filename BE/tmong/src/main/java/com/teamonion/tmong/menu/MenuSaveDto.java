@@ -1,21 +1,18 @@
 package com.teamonion.tmong.menu;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import java.io.IOException;
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MenuAddDto {
+@ToString(exclude = "imageFile")
+public class MenuSaveDto {
 
     @NotBlank(message = "메뉴명을 입력해주세요.")
     private String name;
@@ -27,24 +24,16 @@ public class MenuAddDto {
     private String information;
 
     @NotNull(message = "이미지를 추가해주세요.")
-    private MultipartFile image;
+    private MultipartFile imageFile;
 
-    @Override
-    public String toString() {
-        return "MenuAddDto{" +
-                "name='" + name + '\'' +
-                ", price='" + price + '\'' +
-                ", information='" + information + '\'' +
-                ", image=" + image.getOriginalFilename() +
-                '}';
-    }
+    private String imagePath;
 
-    public Menu toEntity() throws IOException {
+    public Menu toEntity() {
         return Menu.builder()
                 .name(name)
                 .price(price)
                 .information(information)
-                .imageFile(image.getBytes())
+                .imagePath(imagePath)
                 .build();
     }
 

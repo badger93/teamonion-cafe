@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,22 +26,23 @@ public class MenuServiceTest {
     MenuService menuService;
 
     @Test
-    public void 메뉴추가테스트() throws IOException {
+    public void 메뉴추가테스트() {
         //TODO : 이미지 파일이 없을 경우와 있을 경우로 나누어서 Test 진행
         //given
-        MenuAddDto menuAddDto = new MenuAddDto();
-        menuAddDto.setName("americano");
-        menuAddDto.setPrice("1000");
-        menuAddDto.setInformation("직장인의 인기 메뉴");
-        menuAddDto.setImage(null);
+        MenuSaveDto menuSaveDto = new MenuSaveDto();
+        menuSaveDto.setName("americano");
+        menuSaveDto.setPrice("1000");
+        menuSaveDto.setInformation("직장인의 인기 메뉴");
+        menuSaveDto.setImageFile(null);
+        menuSaveDto.setImagePath("null");
 
-        Menu menu = menuAddDto.toEntity();
+        Menu menu = menuSaveDto.toEntity();
 
         //when
         Mockito.when(menuRepository.save(menu)).thenReturn(menu);
 
         //then
-        assertThat(menuService.add(menuAddDto)).isEqualTo(menu);
+        assertThat(menuService.add(menuSaveDto)).isEqualTo(menu);
     }
 
     @Test
