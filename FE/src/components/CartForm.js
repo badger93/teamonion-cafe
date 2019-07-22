@@ -62,7 +62,7 @@ const CartForm = ({ handleCart, handleCheckedCart }) => {
           </div>
         </div>
         <button type="submit" className="submit-button">
-          결제하기
+          결제하러가기
         </button>
       </form>
     </div>
