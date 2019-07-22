@@ -34,6 +34,13 @@
     font-size: 0.8rem;
     margin-right: 10px;
     color: rgba(255, 255, 255, 0.8);
+    .logout_btn {
+      cursor: pointer;
+      margin: 7px;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
     a {
       cursor: pointer;
       margin: 7px;

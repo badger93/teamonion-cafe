@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
@@ -14,7 +14,7 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch }) => {
 
   let totalPrice = 0;
 
-  const onSubmit = async (e) => {
+  const onSubmit = useCallback(async (e) => {
     e.preventDefault();
 
     await dispatch(cartToPayAction({ ...checkedItem }));
@@ -29,7 +29,11 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch }) => {
     // checkedItemClone.forEach((element) => {
     //   console.log(element);
     // });
-  };
+  }, [cart,
+    setAllCart,
+    checkedItem,
+    setCheckedItem,
+    setWillPay]);
 
   return (
     <div className="cartform-container">

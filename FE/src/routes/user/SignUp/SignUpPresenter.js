@@ -3,15 +3,26 @@ import propTypes from 'prop-types';
 import SignUpForm from '../../../components/SignUpForm';
 import './styles/SignUpPresenter.scss';
 
-const SignUpPresenter = () => (
+const SignUpPresenter = ({
+  dispatch, isSigningUp,
+  isSignedUp,
+}) => (
   <div className="signup_wrap">
-      <div className="signup_container">
-        <div className="signup_title">Sign Up</div>
-        <SignUpForm />
-      </div>
+    <div className="signup_container">
+      <div className="signup_title">Sign Up</div>
+      <SignUpForm
+        dispatch={dispatch}
+        isSigningUp={isSigningUp}
+        isSignedUp={isSignedUp}
+      />
     </div>
+  </div>
 );
 
-SignUpPresenter.propTypes = {};
+SignUpPresenter.propTypes = {
+  dispatch: propTypes.func.isRequired,
+  isSigningUp: propTypes.bool.isRequired,
+  isSignedUp: propTypes.bool.isRequired,
+};
 
 export default SignUpPresenter;

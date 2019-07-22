@@ -1,14 +1,18 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import axios from 'axios';
+import React, { useState, useCallback } from 'react';
 import '../styles/SignUpForm.scss';
+import propTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { duplicateCheckApi } from '../api/userApi';
+import { signUpRequestAction } from '../redux/actions/userAction';
 
-const SignUpForm = () => {
+const SignUpForm = ({
+  dispatch, isSigningUp, isSignedUp,
+}) => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState(false);
-  const [duplicateError, setDuplicateError] = useState(false);
+  const [duplicateError, setDuplicateError] = useState(true);
 
   const onSubmit = useCallback(
     (e) => {
@@ -32,23 +36,26 @@ const SignUpForm = () => {
         return;
       }
       // 사가에 회원가입 리퀘스트 액션 디스패치
-      console.log({ id, password, passwordCheck });
+      // console.log({ id, password, passwordCheck });
+      dispatch(signUpRequestAction({ memberId: id, password, passwordCheck }));
     },
-    [password, passwordCheck, duplicateError, setPasswordError],
+    [id, password, passwordCheck, duplicateError, setPasswordError],
   );
 
   const onDuplicateSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       if (id.length > 0) {
-        // const result = duplicateCheckApi({memberID:id})
-        console.log(id);
-        // alert(result);
-        // if (result) {
-        //   setDuplicateError(false);
-        // } else {
-        //   setDuplicateError(true);
-        // }
+        const result = await duplicateCheckApi({ memberID: id });
+        // console.log(result);
+        // const result = false;
+        if (result) {
+          alert('이미 있는 아이디입니다');
+          setDuplicateError(true);
+        } else {
+          alert('사용가능한 아이디입니다!');
+          setDuplicateError(false);
+        }
       }
     },
     [id],
@@ -75,6 +82,7 @@ const SignUpForm = () => {
 
   return (
     <form onSubmit={onSubmit} className="signup_form">
+      {isSignedUp && <Redirect to="/" />}
       <div className="signup_form_row">
         <input
           type="id"
@@ -116,6 +124,12 @@ const SignUpForm = () => {
       </div>
     </form>
   );
+};
+
+SignUpForm.propTypes = {
+  dispatch: propTypes.func.isRequired,
+  isSigningUp: propTypes.bool.isRequired,
+  isSignedUp: propTypes.bool.isRequired,
 };
 
 export default SignUpForm;

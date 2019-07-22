@@ -14,21 +14,22 @@ import { openPopup } from '../utils/popup';
 
 
 const MobileHeader = ({
-  isLogined = false, isAdmin = false, user, loginRef, setIsList = null, isList = false,
+  isSignedIn, logOutDispatch, user, loginRef, setIsList = null, isList = false,
 }) => (
   <>
     <div className="header_mobile-wrap">
       <div className="header_mobile-logo">
         <img src={tmonglogo} alt="logo" />
-        {isAdmin ? <Link to="/admin/order-manage" /> : <Link to="/" />}
+        {user.memberRole === 'ADMIN' ? <Link to="/admin/order-manage" /> : <Link to="/" />}
       </div>
       <div className="header_mobile-column">
-        {isAdmin ? (
+        {user.memberRole === 'ADMIN' ? (
           <>
             <Link to="/admin/order-manage">주문현황</Link>
             <Link to="/admin/menu-manage">메뉴관리</Link>
             <Link to="/admin/order-history">주문히스토리</Link>
             <Link to="/admin/member-manage">사용자관리</Link>
+            <div className="logout_btn" onClick={logOutDispatch}>LogOut</div>
           </>
         ) : (
           <>
@@ -105,8 +106,8 @@ const MobileHeader = ({
             setIsList(prev => !prev);
           }}
         >
-          {isLogined ? (
-            <Link to="/logout">LogOut</Link>
+          {isSignedIn ? (
+            <div onClick={logOutDispatch}>LogOut</div>
           ) : (
             <>
               <a><div onClick={() => openPopup(loginRef.current)}>SignIn</div></a>
@@ -120,13 +121,18 @@ const MobileHeader = ({
 );
 
 MobileHeader.propTypes = {
-  isLogined: propTypes.bool,
-  isAdmin: propTypes.bool,
-  user: propTypes.object,
-  loginRef: propTypes.objectOf(propTypes.instanceOf(Element)),
+  isSignedIn: propTypes.bool.isRequired,
+  user: propTypes.shape({
+    id: propTypes.number.isRequired,
+    memberId: propTypes.string.isRequired,
+    memberRole: propTypes.string.isRequired,
+    point: propTypes.number.isRequired,
+    jwt: propTypes.string.isRequired,
+  }).isRequired,
+  loginRef: propTypes.objectOf(propTypes.element).isRequired,
   setIsList: propTypes.func,
   isList: propTypes.bool,
-
+  logOutDispatch: propTypes.func.isRequired,
 };
 
 export default MobileHeader;
