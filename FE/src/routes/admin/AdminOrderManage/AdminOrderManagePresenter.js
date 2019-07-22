@@ -2,7 +2,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import AdminMakingArea from '../../../components/AdminMakingArea';
-import '../../../styles/AdminOrderManagePresenter.scss';
+import './styles/AdminOrderManagePresenter.scss';
 
 const AdminOrderManagePresenter = ({
   currentOrderList,
