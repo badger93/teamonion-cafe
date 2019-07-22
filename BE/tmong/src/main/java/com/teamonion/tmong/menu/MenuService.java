@@ -1,16 +1,19 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.exception.MenuNotFoundException;
+import com.teamonion.tmong.exception.CustomException;
+import com.teamonion.tmong.exception.CustomExceptionType;
+import com.teamonion.tmong.exception.ValidCustomException;
+import com.teamonion.tmong.exception.ValidExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MenuService {
@@ -22,84 +25,73 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
-    Menu add(MenuSaveDto menuSaveDto) {
-        // TODO : 이미지 파일이 아닌 경우 예외처리
+    Long add(MenuSaveDto menuSaveDto) {
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
-        if (!imageFile.getOriginalFilename().isEmpty()) {
-            menuSaveDto.setImagePath(saveMenuImage(imageFile));
+        if (imageFile.getOriginalFilename().isEmpty()) {
+            throw new CustomException(CustomExceptionType.MENUIMAGE_NOT_FOUND);
 
-            Menu menu = menuSaveDto.toEntity();
-            return menuRepository.save(menu);
-        } else {
-            //TODO : Error 처리 - 이미지 부재
-            //throw new FileStorageException("이미지 파일이 존재하지 않습니다.");
         }
+        menuSaveDto.setImagePath(saveMenuImage(imageFile));
 
-        return null;
+        Menu menu = menuSaveDto.toEntity();
+        return menuRepository.save(menu).getId();
     }
 
     List<Menu> selectAll() {
         return menuRepository.findAll();
     }
 
-    Optional findExistMenu(Long menu_id) {
-        //return menuRepository.existsById(menu_id);
-    }
+    public void updateMenu(Long id, MenuSaveDto menuSaveDto) {
+        Menu menu = menuRepository.findById(id)
+                .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MENU_NOT_FOUND));
 
-    public void updateMenu(Long menu_id, MenuSaveDto menuSaveDto) {
-        if (!menuRepository.findById(menu_id).isPresent()) {
-            //TODO : Error 처리 - 이미지 부재
-            throw new MenuNotFoundException(menu_id);
-        }
-        Menu menu = menuRepository.findById(menu_id).get();
-
+        String path = menu.getImagePath();
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
-        if (!imageFile.getOriginalFilename().isEmpty()) {
-            menuSaveDto.setImagePath(saveMenuImage(menuSaveDto.getImageFile()));
-
-            menu.update(menuSaveDto);
-
-            menuRepository.save(menu);
-        } else {
-            //TODO : Error 처리 - 이미지 부재
+        if(imageFile.getOriginalFilename().isEmpty()) {
+            throw new CustomException(CustomExceptionType.MENUIMAGE_NOT_FOUND);
         }
+        menuSaveDto.setImagePath(saveMenuImage(menuSaveDto.getImageFile()));
+        menu.update(menuSaveDto);
+        menuRepository.save(menu);
+
+        deleteMenuImage(path);
     }
 
     public String saveMenuImage(MultipartFile imageFile) {
         try {
             String DOWNLOAD_PATH = "src/main/resources/menuUpload";
-            String fileName = System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
-
+            // TODO : 난수 생성 후 fileName 설정
+            int randomString = (int)(Math.random() * 10000) + 1;
+            String fileName = randomString + System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
             Path path = Paths.get(DOWNLOAD_PATH + "/" + fileName);
 
             imageFile.transferTo(path);
 
             return DOWNLOAD_PATH + "/" + fileName;
         } catch (IOException e) {
-            //TODO : Error 처리 - transferTo 에러 시 ExceptionHandler 적용
-            e.printStackTrace();
-            return "";
+            throw new CustomException(CustomExceptionType.MENUIMAGE_RENDER_ERROR);
         }
     }
 
-    void deleteByMenuId(Long menu_id) {
-        //TODO : ExceptionHandler EntityNotFoundException으로 처리
-//        if (!isExistMenu(menu_id)) {
-//            throw new MenuNotFoundException(menu_id);
-//        }
-        //TODO : 파일 내 이미지 정보 삭제
+    void deleteByMenuId(Long id) {
+        Menu menu = menuRepository.findById(id).orElseThrow(() -> new ValidCustomException(ValidExceptionType.MENU_NOT_FOUND));
+        String path = menu.getImagePath();
 
-        menuRepository.deleteById(menu_id);
+        menuRepository.deleteById(id);
+        deleteMenuImage(path);
     }
 
+    private void deleteMenuImage(String path) {
+        File file = new File(path);
 
-    public Menu selectOne(String menu_name) {
-        if (menuRepository.findByName(menu_name).isPresent()) {
-            return menuRepository.findByName(menu_name).get();
+        if (file.exists()) {
+            file.delete();
         }
-        // TODO : 없을 경우 예외처리 혹은 반환값 처리
-        return null;
+    }
+
+    List<Menu> selectByName(String name) {
+        return menuRepository.findByName(name);
     }
 }

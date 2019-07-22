@@ -8,7 +8,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -27,7 +26,7 @@ public class MenuServiceTest {
     MenuService menuService;
 
     @Test
-    public void 메뉴추가테스트() throws IOException {
+    public void 메뉴추가테스트() {
         //TODO : 이미지 파일이 없을 경우와 있을 경우로 나누어서 Test 진행
         //given
         MenuSaveDto menuSaveDto = new MenuSaveDto();

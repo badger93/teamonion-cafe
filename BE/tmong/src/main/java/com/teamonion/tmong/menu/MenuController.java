@@ -23,22 +23,17 @@ public class MenuController {
 
     @PostMapping
     public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
-        log.info(menuSaveDto.toString());
-
-        menuService.add(menuSaveDto);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity selectAll() {
-        List<Menu> menus = menuService.selectAll();
-        return new ResponseEntity(menus, HttpStatus.OK);
+        return new ResponseEntity<>(menuService.selectAll(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{menu_id}")
     public ResponseEntity deleteOne(@PathVariable Long menu_id) {
         menuService.deleteByMenuId(menu_id);
-
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -51,8 +46,7 @@ public class MenuController {
     }
 
     @GetMapping("/{menu_name}")
-    public ResponseEntity selectOne(@PathVariable String menu_name) {
-        Menu menu = menuService.selectOne(menu_name);
-        return new ResponseEntity(menu, HttpStatus.OK);
+    public ResponseEntity selectByName(@PathVariable String menu_name) {
+        return new ResponseEntity<>(menuService.selectByName(menu_name), HttpStatus.OK);
     }
 }
