@@ -1,6 +1,7 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.exception.PasswordMismatchException;
+import com.teamonion.tmong.exception.ValidExceptionType;
+import com.teamonion.tmong.exception.ValidCustomException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,9 +30,9 @@ public class MemberSignUpRequest {
         return password.equals(passwordCheck);
     }
 
-    public Member toEntity() throws PasswordMismatchException {
+    public Member toEntity() {
         if(!isValidPassword()) {
-            throw new PasswordMismatchException();
+            throw new ValidCustomException(ValidExceptionType.PASSWORD_MISMATCH);
         }
         return Member.builder()
                 .memberId(memberId)
