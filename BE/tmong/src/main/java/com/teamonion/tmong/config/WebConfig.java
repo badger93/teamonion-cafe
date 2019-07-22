@@ -16,10 +16,10 @@ public class WebConfig implements WebMvcConfigurer {
         //registry.addInterceptor(jwtInterceptor());
     }
 
-    @Bean
-    public AuthorizationInterceptor jwtInterceptor() {
-        return new AuthorizationInterceptor();
-    }
+//    @Bean
+//    public AuthorizationInterceptor jwtInterceptor() {
+//        return new AuthorizationInterceptor();
+//    }
 
     @Bean
     public MultipartResolver multipartResolver() {
