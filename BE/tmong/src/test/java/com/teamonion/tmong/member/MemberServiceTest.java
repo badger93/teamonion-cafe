@@ -1,5 +1,7 @@
 package com.teamonion.tmong.member;
 
+import com.teamonion.tmong.component.JwtComponent;
+import com.teamonion.tmong.exception.ValidCustomException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -16,6 +18,9 @@ public class MemberServiceTest {
 
     @Mock
     MemberRepository memberRepository;
+
+    @Mock
+    JwtComponent jwtComponent;
 
     @InjectMocks
     MemberService memberService;
@@ -38,8 +43,42 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void 로그인테스트() {
-        // 아직..
+    public void 로그인테스트_성공() {
+        //given
+        String memberId = "onion";
+        String password = "123456789a";
+        MemberLoginRequest memberLoginRequest = new MemberLoginRequest();
+        memberLoginRequest.setMemberId(memberId);
+        memberLoginRequest.setPassword(password);
+        Member member = Member.builder()
+                .memberId(memberId)
+                .password(password)
+                .build();
+
+        //when
+        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.of(member));
+        Mockito.when(jwtComponent.createToken(member)).thenReturn(null);
+
+        //then
+        assertThat(memberService.login(memberLoginRequest).getPoint()).isEqualTo(member.getPoint());
+        assertThat(memberService.login(memberLoginRequest).getJwt()).isEqualTo(jwtComponent.createToken(member));
+    }
+
+    @Test(expected = ValidCustomException.class)
+    public void 로그인테스트_없는아이디() {
+        //given
+        String memberId = "onion";
+        String password = "123456789a";
+        MemberLoginRequest memberLoginRequest = new MemberLoginRequest();
+        memberLoginRequest.setMemberId(memberId);
+        memberLoginRequest.setPassword(password);
+        Member member = Member.builder()
+                .memberId(memberId)
+                .password(password)
+                .build();
+
+        //when
+        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.empty());
     }
 
     @Test
