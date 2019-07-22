@@ -1,7 +1,5 @@
 package com.teamonion.tmong.validate;
 
-import com.teamonion.tmong.exception.MemberNotFoundException;
-import com.teamonion.tmong.exception.PasswordMismatchException;
 import com.teamonion.tmong.exception.ValidCustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,24 +28,10 @@ public class ValidationExceptionControllerAdvice {
         return response;
     }
 
-    @ExceptionHandler(PasswordMismatchException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ValidationError handleValidationException() {
-        log.info("PasswordMismatchException!!");
-        return new ValidationError("password", "비밀번호가 일치하지 않습니다");
-    }
-
-    @ExceptionHandler(MemberNotFoundException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ValidationError handleMemberNotFoundException() {
-        log.info("MemberNotFoundException!!");
-        return new ValidationError("memberId", "존재하지 않는 아이디입니다");
-    }
-
     @ExceptionHandler(ValidCustomException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ValidationError handleValidCustomException(ValidCustomException e) {
-        log.info("ValidCustomException!!");
+        log.debug("ValidCustomException : {}, {}", e.getField(), e.getErrorMessage());
         return new ValidationError(e.getField(), e.getErrorMessage());
     }
 }
