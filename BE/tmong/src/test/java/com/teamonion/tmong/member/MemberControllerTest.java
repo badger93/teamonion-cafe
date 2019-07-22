@@ -78,4 +78,5 @@ public class MemberControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk());
     }
+
 }
