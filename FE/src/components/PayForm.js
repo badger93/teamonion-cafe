@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import '../styles/Payform.scss';
 import { Redirect } from 'react-router-dom';
 import PayListItem from './PayListItem';
-import { payRequestAction } from '../redux/actions/payAction';
+import { payRequestAction, payFinishAction } from '../redux/actions/payAction';
 
 const PayForm = ({
   dispatch, itemsForPay = {}, isSignedIn, isPaying, isPaid, user, howPay, setHowPay,
@@ -32,7 +32,7 @@ const PayForm = ({
     };
     dispatch(payRequestAction(requestInfo));
     // PayRequest
-    // dispatch()
+    setTimeout(() => dispatch(payFinishAction()), 5000);
   };
   const onPointRadioChange = useCallback( // 포인트 결제시 라디오버튼
     () => {
@@ -93,16 +93,16 @@ const PayForm = ({
             <div>
               <span>내 포인트</span>
               <span>
-                {`${user.point}P`}
+                {`${user.point} P`}
               </span>
             </div>
             <div>
               <span>포인트 적립</span>
-              <span>{`${totalPrice / 10}P`}</span>
+              <span>{`${totalPrice / 10} P`}</span>
             </div>
             <div>
               <span>결제 후 내 포인트</span>
-              <span>{howPay === 1 ? `${afterPoint}P` : `${user.point + totalPrice / 10}`}</span>
+              <span>{howPay === 1 ? `${afterPoint} P` : `${user.point + totalPrice / 10} P`}</span>
             </div>
 
           </div>

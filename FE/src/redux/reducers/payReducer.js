@@ -1,6 +1,6 @@
 
 import {
-  CARTTOPAY, PAY_REQUEST, PAY_SUCCESS, PAY_FAILURE,
+  CARTTOPAY, PAY_REQUEST, PAY_SUCCESS, PAY_FAILURE, PAY_FINISH,
 } from '../actions/payAction';
 
 
@@ -28,6 +28,10 @@ const payReducer = (state = initState, action) => {
     case PAY_FAILURE:
     {
       return { ...state, isPaying: false, isPaid: false };
+    }
+    case PAY_FINISH:
+    {
+      return { ...state, isPaid: false };
     }
 
     default:
