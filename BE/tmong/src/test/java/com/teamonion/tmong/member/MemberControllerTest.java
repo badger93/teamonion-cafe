@@ -1,7 +1,7 @@
 package com.teamonion.tmong.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.teamonion.tmong.component.JwtComponent;
+import com.teamonion.tmong.security.JwtComponent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
