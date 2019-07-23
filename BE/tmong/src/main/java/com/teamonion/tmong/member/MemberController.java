@@ -1,5 +1,6 @@
 package com.teamonion.tmong.member;
 
+import com.teamonion.tmong.security.CheckJwt;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -36,21 +37,25 @@ public class MemberController {
         return new ResponseEntity<>(memberService.login(memberLoginRequest), HttpStatus.OK);
     }
 
+    @CheckJwt
     @GetMapping
     public ResponseEntity<Page<Member>> getMembers(Pageable pageable) {
-        return new ResponseEntity<>(memberService.findAll(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(memberService.getMembers(pageable), HttpStatus.OK);
     }
 
+    @CheckJwt
     @GetMapping("/{memberId}")
     public ResponseEntity<Member> search(@PathVariable String memberId) {
-        return new ResponseEntity<>(memberService.findByMemberId(memberId), HttpStatus.OK);
+        return new ResponseEntity<>(memberService.search(memberId), HttpStatus.OK);
     }
 
+    @CheckJwt
     @GetMapping("/{id}/point")
     public ResponseEntity<Integer> getPoint(@PathVariable Long id) {
         return new ResponseEntity<>(memberService.getPoint(id), HttpStatus.OK);
     }
 
+    @CheckJwt
     @PutMapping("/{id}/point")
     public ResponseEntity pointUpdate(@PathVariable Long id, String point) {
         memberService.pointUpdate(id, point);

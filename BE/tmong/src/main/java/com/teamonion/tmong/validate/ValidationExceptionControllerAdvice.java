@@ -22,7 +22,7 @@ public class ValidationExceptionControllerAdvice {
 
         for (ObjectError objectError : e.getBindingResult().getAllErrors()) {
             FieldError fieldError = (FieldError) objectError;
-            log.info("Validation Error : {}", fieldError.getDefaultMessage());
+            log.debug("Validation Error : {}", fieldError.getDefaultMessage());
             response.addValidationError(fieldError.getField(), fieldError.getDefaultMessage());
         }
         return response;

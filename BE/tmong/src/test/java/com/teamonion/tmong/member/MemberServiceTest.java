@@ -1,6 +1,6 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.component.JwtComponent;
+import com.teamonion.tmong.security.JwtComponent;
 import com.teamonion.tmong.exception.ValidCustomException;
 import org.junit.Before;
 import org.junit.Test;

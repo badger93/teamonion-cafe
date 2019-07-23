@@ -1,7 +1,7 @@
 package com.teamonion.tmong.security;
 
-import com.teamonion.tmong.component.JwtComponent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,11 +14,15 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        CheckJwt checkJwt = ((HandlerMethod) handler).getMethodAnnotation(CheckJwt.class);
+        if (checkJwt == null || !checkJwt.handle()) {
+            return true;
+        }
+
         String authorization = request.getHeader("Authorization");
         if(authorization == null) {
             return false;
         }
-
         String jwt = authorization.substring("Bearer".length()).trim();
 
         jwtComponent.checkToken(jwt);
