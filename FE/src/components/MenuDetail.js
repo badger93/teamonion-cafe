@@ -6,7 +6,7 @@ import { useLocalStorage } from '../utils/cart';
 
 const MenuDetail = ({ menuDetailData, detailRef }) => {
   const {
-    name, price, information, imageFile,
+    id, name, price, information, imageFile,
   } = menuDetailData;
   const { storedValue, setValue } = useLocalStorage('CART', []);
   const [isCart, setIsCart] = useState(false);
@@ -23,7 +23,9 @@ const MenuDetail = ({ menuDetailData, detailRef }) => {
 
     newCartId = bigCartId;
 
-    setValue([...storedValue, { menuName: name, menuPrice: price, cartId: newCartId }]); // 로컬스토리지에 추가
+    setValue([...storedValue, {
+      id, menuName: name, menuPrice: price, cartId: newCartId,
+    }]); // 로컬스토리지에 추가
     setIsCart(true);
     setTimeout(() => setIsCart(false), 800);
   };

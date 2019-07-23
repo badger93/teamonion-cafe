@@ -1,5 +1,7 @@
 
-import { CARTTOPAY, PAY_REQUEST } from '../actions/payAction';
+import {
+  CARTTOPAY, PAY_REQUEST, PAY_SUCCESS, PAY_FAILURE,
+} from '../actions/payAction';
 
 
 const initState = {
@@ -17,8 +19,15 @@ const payReducer = (state = initState, action) => {
     }
     case PAY_REQUEST:
     {
-      console.log('im reducer');
-      return { ...state };
+      return { ...state, isPaying: true, isPaid: false };
+    }
+    case PAY_SUCCESS:
+    {
+      return { ...state, isPaying: false, isPaid: true };
+    }
+    case PAY_FAILURE:
+    {
+      return { ...state, isPaying: false, isPaid: false };
     }
 
     default:

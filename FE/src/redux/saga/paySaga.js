@@ -8,15 +8,13 @@ import {
 } from 'redux-saga/effects';
 import axios from 'axios';
 import { PAY_FAILURE, PAY_SUCCESS, PAY_REQUEST } from '../actions/payAction';
+import { payAPI } from '../../api/payApi';
 
-function payAPI() {
-  // 서버에 요청을 보내는 부분
-  return axios.post('/pay');
-}
 
-function* pay() {
+function* pay(action) {
   try {
-    // yield call(loginAPI);
+    // yield call(payAPI(action));
+
     yield delay(2000);
     yield put({
       // put은 dispatch 동일
