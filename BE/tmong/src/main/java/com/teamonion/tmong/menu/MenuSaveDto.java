@@ -17,11 +17,11 @@ public class MenuSaveDto {
 
     @NotBlank(message = "가격을 입력해주세요.")
     @Pattern(regexp = "^[0-9]*$", message = "숫자만 입력가능합니다.")
+    // TODO : 금액 조건 추가하기 (0원 이상)
     private String price;
 
     private String information;
 
-    // TODO : imageFile Valid 미작동 해결
     @NotNull(message = "이미지를 추가해주세요.")
     private MultipartFile imageFile;
 
