@@ -23,7 +23,7 @@ const MenuManagePopup = ({
       setPopupName(name);
       setPopupPrice(price);
       setPopupInformation(information);
-      setPopupFile(imageFile);
+      setPopupFile('');
       inputImgRef.current.setAttribute('src', '');
     } else { // 추가모드
       setPopupName('');
@@ -45,10 +45,13 @@ const MenuManagePopup = ({
           e.preventDefault();
           if (popupName && popupPrice && popupInformation && popupFile) {
             const payload = {
-              name: popupName, price: popupPrice, information: popupInformation, imageFile: popupFile,
+              name: popupName,
+              price: popupPrice,
+              information: popupInformation,
+              imageFile: inputImgRef.current.getAttribute('src'),
             };
             if (isEdit) {
-              updateItem(id, payload);
+              updateItem({ ...payload, id });
               closePopup(e, popupRef.current);
             } else {
               createItem(payload, popupRef);
