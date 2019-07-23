@@ -67,28 +67,6 @@ public class MemberServiceTest {
         assertThat(memberService.login(memberLoginRequest).getMemberId()).isEqualTo(member.getMemberId());
     }
 
-    @Test(expected = ValidCustomException.class)
-    public void findById_없는아이디() {
-        //given
-        Long id = 1l;
-
-        //when
-        Mockito.when(memberRepository.findById(id)).thenReturn(Optional.empty());
-
-        memberService.findById(id);
-    }
-
-    @Test(expected = ValidCustomException.class)
-    public void findByMemberId_없는아이디() {
-        //given
-        String memberId = "chicken";
-
-        //when
-        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.empty());
-
-        memberService.findByMemberId(memberId);
-    }
-
     @Test
     public void isOverlapTest_중복아님() {
         //given
