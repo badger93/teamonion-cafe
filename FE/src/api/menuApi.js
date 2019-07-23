@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 /* eslint-disable import/prefer-default-export */
-const getMenuListUrl = 'https://my-json-server.typicode.com/badger012/mockserver/menus';
+const getMenuListUrl = 'http://localhost:8080/api/menus';
 
 
 export const getMenuList = (callback) => { // name, price, information, imageFile(src)
@@ -14,8 +14,8 @@ export const getMenuList = (callback) => { // name, price, information, imageFil
     });
 };
 
-export const deleteMenuList = id => axios.delete(`/admin/api/menus/${id}`);
+export const deleteMenuList = id => axios.delete(`http://localhost:8080/api/menus/${id}`);
 
-export const createMenuList = item => axios.post('/admin/api/menus/', item);
+export const createMenuList = item => axios.post('http://localhost:8080/api/menus/admin/api/menus/', item);
 
-export const updateMenuList = (id, item) => axios.put(`/admin/api/menus/${id}`, item);
+export const updateMenuList = (id, item) => axios.put(`http://localhost:8080/api/menus/admin/api/menus/${id}`, item);

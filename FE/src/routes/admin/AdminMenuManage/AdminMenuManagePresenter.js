@@ -37,6 +37,7 @@ const AdminMenuManagePresenter = ({
           icon: <span className="gridBtn">수정</span>,
           callback: () => {
             setMenuPopupData({
+              id: row.id,
               name: row.name,
               price: row.price,
               information: row.information,
