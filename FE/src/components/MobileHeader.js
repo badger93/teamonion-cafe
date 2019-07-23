@@ -107,7 +107,7 @@ const MobileHeader = ({
           }}
         >
           {isSignedIn ? (
-            <div onClick={logOutDispatch}>LogOut</div>
+            <div className="header_moblie-logout" onClick={logOutDispatch}>LogOut</div>
           ) : (
             <>
               <a><div onClick={() => openPopup(loginRef.current)}>SignIn</div></a>
