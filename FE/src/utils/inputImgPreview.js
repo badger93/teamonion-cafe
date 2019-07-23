@@ -7,7 +7,7 @@ const inputImgPreview = (inputDom, imgDom) => {
       imgDom.setAttribute('src', reader.result);
     };
     reader.onerror = (error) => {
-      console.log('Error: ', error);
+      console.log('이미지 인코딩 실패 Error: ', error);
     };
   } else {
     imgDom.setAttribute('src', '');

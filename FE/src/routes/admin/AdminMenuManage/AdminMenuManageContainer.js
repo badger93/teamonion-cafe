@@ -48,10 +48,6 @@ const AdminMenuManageContainer = () => {
     getMenuList(setMenuList);
   }, []);
 
-  useEffect(() => {
-    // post, delete, put method
-  }, [menuList]);
-
   return (
     <AdminMenuManagePresenter
       menuList={menuList}
