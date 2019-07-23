@@ -8,20 +8,34 @@ const PaymentPresenter = ({
   itemsForPay,
   isPaying,
   isPaid,
+  user,
+  isSignedIn,
+  howPay,
+  setHowPay,
 }) => (
   <div className="payment-wrapper">
-      <div className="payment-title">결제하기</div>
-      <div className="payment-container">
-      <PayForm dispatch={dispatch} itemsForPay={itemsForPay} isPaying={isPaying} isPaid={isPaid} />
+    <div className="payment-title">결제하기</div>
+    <div className="payment-container">
+      <PayForm dispatch={dispatch} itemsForPay={itemsForPay} isPaying={isPaying} isPaid={isPaid} user={user} howPay={howPay} setHowPay={setHowPay} isSignedIn={isSignedIn} />
     </div>
-    </div>
+  </div>
 );
 
 PaymentPresenter.propTypes = {
-  dispatch: propTypes.bool,
-  itemsForPay: propTypes.object,
+  dispatch: propTypes.bool.isRequired,
+  itemsForPay: propTypes.object.isRequired,
   isPaying: propTypes.bool,
   isPaid: propTypes.bool,
+  user: propTypes.shape({
+    id: propTypes.number.isRequired,
+    memberId: propTypes.string.isRequired,
+    memberRole: propTypes.string.isRequired,
+    point: propTypes.number.isRequired,
+    jwt: propTypes.string.isRequired,
+  }).isRequired,
+  howPay: propTypes.number.isRequired,
+  setHowPay: propTypes.func.isRequired,
+  isSignedIn: propTypes.bool.isRequired,
 };
 
 export default PaymentPresenter;

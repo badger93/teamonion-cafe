@@ -35,17 +35,20 @@ const CartListItem = ({
       <div className="cart-item-column">
         <label htmlFor={`${cartId}`} className="cartform-list-item-name">
           <input id={`${cartId}`} type="checkbox" onClick={Checked} />
-          {`${menuName}`}
         </label>
       </div>
+      <div className="cart-item-column">{`${menuName}`}</div>
       <div className="cart-item-column">
         <div>{`${menuPrice}`}</div>
+        {' '}
+      </div>
+      <div className="cart-item-column">
         <button
           type="button"
           className="cartform-item-delete"
           onClick={() => CartDelete(cart, setAllCart, cartId, checkedItem, setCheckedItem)}
         >
-          <span>❌</span>
+          <span>삭제</span>
         </button>
       </div>
     </div>

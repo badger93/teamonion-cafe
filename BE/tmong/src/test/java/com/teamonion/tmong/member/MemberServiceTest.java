@@ -1,6 +1,6 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.component.JwtComponent;
+import com.teamonion.tmong.security.JwtComponent;
 import com.teamonion.tmong.exception.ValidCustomException;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,28 +65,6 @@ public class MemberServiceTest {
 
         //then
         assertThat(memberService.login(memberLoginRequest).getMemberId()).isEqualTo(member.getMemberId());
-    }
-
-    @Test(expected = ValidCustomException.class)
-    public void findById_없는아이디() {
-        //given
-        Long id = 1l;
-
-        //when
-        Mockito.when(memberRepository.findById(id)).thenReturn(Optional.empty());
-
-        memberService.findById(id);
-    }
-
-    @Test(expected = ValidCustomException.class)
-    public void findByMemberId_없는아이디() {
-        //given
-        String memberId = "chicken";
-
-        //when
-        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.empty());
-
-        memberService.findByMemberId(memberId);
     }
 
     @Test

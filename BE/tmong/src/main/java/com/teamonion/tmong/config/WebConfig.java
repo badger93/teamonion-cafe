@@ -14,13 +14,14 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //registry.addInterceptor(jwtInterceptor());
+        registry.addInterceptor(jwtInterceptor())
+                .addPathPatterns("/**");
     }
 
-//    @Bean
-//    public AuthorizationInterceptor jwtInterceptor() {
-//        return new AuthorizationInterceptor();
-//    }
+    @Bean
+    public AuthorizationInterceptor jwtInterceptor() {
+        return new AuthorizationInterceptor();
+    }
 
     @Bean
     public MultipartResolver multipartResolver() {
@@ -31,6 +32,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:3000");
+                .allowedOrigins("*");
     }
 }

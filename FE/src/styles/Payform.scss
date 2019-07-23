@@ -1,56 +1,129 @@
 .payform-container {
-    width: 60%;
-    min-width: 350px;
-    min-height: 700px;
-    height: 100%;
-  padding-bottom: 80px;
-    background-color: #f6f5f0;
-    margin: 30px;
-    padding-top: 5%;
+  display:flex;
+  flex-direction:column;
   
-    .payform-title {
-      justify-content: flex-start;
-      font-size: 1.5rem;
-      border-bottom: solid 1px rgba(0, 0, 0, 0.8);
-      width: 100px;
-      display: flex;
+  width: 60%;
+  min-width: 350px;
+  min-height: 700px;
+  height: 100%;
+  padding-bottom: 80px;
+  background-color: #f6f5f0;
+  margin: 30px;
+  padding-top: 5%;
+  .payform-wrapper{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    
+  }
+
+  .payform-title {
+    justify-content: flex-start;
+    font-size: 1.5rem;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    margin-left: 10%;
+    margin-bottom: 2%;
+  }
+  .payform-column{
+    font-size:1.2rem;
+    border-top : solid 2px rgba(0, 0, 0, 0.4);
+    border-bottom : solid 1px rgba(0, 0, 0, 0.4);
+    width:100%;
+    padding-top:12px;
+    padding-bottom:12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div{
+      display:flex;
       justify-content: center;
-      margin-top: 5%;
-      margin-left: 10%;
-      margin-bottom: 8%;
+      height:30px;
+      width:5%;
     }
-    .payform {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    div:nth-child(2){
+      width:45%;
     }
-    .payform-total {
-      font-size: 1.3rem;
-      display: flex;
-      justify-content: space-around;
-      width: 80%;
-      height: 30px;
-      margin-top: 5%;
-      padding-top: 30px;
-      border-top: solid 1px rgba(0, 0, 0, 0.8);
-      div {
-        width: 150px;
-        height: 50px;
-        padding-left: 30px;
-      }
-      .payform-total-price {
-        padding-left: 50px;
-      }
-    }
-    .payform-list {
-      width: 100%;
-    }
-    button {
-      margin-top: 15%;
-      width: 170px;
-      height: 40px;
-      font-size: 1.2rem;
+    div:nth-child(3){
+      position: relative;
+    right:-5px;
+    width:45%;
+  
     }
   }
-  
+
+  .payform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    width:70%;
+    height:90%;
+  }
+  .payform-row {
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    height: 30px;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    
+    div {
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      height: 50px;
+      span{
+        font-size:1rem;
+      }
+    }
+    div:nth-child(1){
+      width:30%;
+    }
+    div:nth-child(2){
+      width:60%;
+      justify-content: space-around
+    }
+    .payform-total-price {
+      padding-left: 50px;
+    }
+  }
+  .payform-list {
+    width: 100%;
+    padding-bottom:20px;
+    border-bottom: solid 1px rgba(0, 0, 0, 0.8);
+  }
+  button {
+    margin-top: 15%;
+    width: 170px;
+    height: 40px;
+    font-size: 1.2rem;
+  }
+  .payform-point_container{
+    margin-top:20px;
+    width:90%;
+    div{
+      font-size:1.3rem;
+      width:100%;
+      display:flex;
+      justify-content: space-around;
+      margin-bottom:5px;
+      padding-left:5px;
+      span:nth-child(1){
+        width:42%;
+      }
+      span:nth-child(2){
+        position:relative;
+        left:10px;
+        display:flex;
+        justify-content: center;
+        width:50%;
+      }
+    }
+  }
+}

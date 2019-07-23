@@ -1,21 +1,48 @@
-import React, { useState, useCallback } from 'react';
+import React, {
+  useState, useCallback, useEffect, useRef,
+} from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
+import { get } from 'https';
 import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
+import { openPopup } from '../utils/popup';
 
-const CartForm = ({ handleCart, handleCheckedCart, dispatch }) => {
+const CartForm = ({
+  signInRef, handleCart, handleCheckedCart, dispatch, isSignedIn,
+}) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
 
-  const [willPay, setWillPay] = useState(false);
+  const [tryPay, setTryPay] = useState(false); // 로그인후 바로 리디렉션을 위한 값
+  const [willPay, setWillPay] = useState(false); // 리디렉션을 위한 값
+
+  const isInitialMount = useRef(true); // 업데이트시 확인
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else if (tryPay) { onSubmit(); } // 업데이트 시에만 작동
+  }, [isSignedIn]); // 로그인시 바로 결제창으로
 
   let totalPrice = 0;
 
+
   const onSubmit = useCallback(async (e) => {
-    e.preventDefault();
+    e && e.preventDefault();
+
+    if (checkedItem.length === 0) { // 선택안하고 결제 눌렀을시 예외처리
+      alert('상품 선택이 필요합니다');
+      return;
+    }
+    if (!isSignedIn) { // 로그인 안할경우 오픈팝업
+      openPopup(signInRef.current);
+      setTryPay(true);
+      return;
+    }
+
 
     await dispatch(cartToPayAction({ ...checkedItem }));
 
@@ -23,12 +50,9 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch }) => {
     for (let i = 0; i < checkedItem.length; i + 1) {
       CartDelete(cart, setAllCart, checkedItem[i].cartId, checkedItem, setCheckedItem);
     }
-    setWillPay(true);
+
+    setWillPay(true); // 리디렉션을 위한 값
     setTimeout(() => setWillPay(false), 3000);
-    // forEach문 쓰면 안된다 -> 하나씩 건너뛰면서 삭제함
-    // checkedItemClone.forEach((element) => {
-    //   console.log(element);
-    // });
   }, [cart,
     setAllCart,
     checkedItem,
@@ -39,40 +63,49 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch }) => {
     <div className="cartform-container">
       {willPay && <Redirect to="/payment" />}
       <div className="cartform-title">내역</div>
-      <form action="submit" className="cartform" onSubmit={onSubmit}>
-        <div className="cartform-list">
-          {cart.map(item => (
-            <CartListItem
-              key={item.cartId}
-              cartId={item.cartId}
-              menuName={item.menuName}
-              menuPrice={item.menuPrice}
-              cart={cart}
-              setAllCart={setAllCart}
-              checkedItem={checkedItem}
-              setCheckedItem={setCheckedItem}
-            />
-          ))}
-        </div>
-
-        <div className="cartform-total">
-          <div>총결제액</div>
-          <div className="cartform-total-price">
-            {checkedItem.forEach((element) => {
-              totalPrice += element.menuPrice;
-            })}
-            {`${totalPrice}`}
+      <div className="cartform-wrapper">
+        <form action="submit" className="cartform" onSubmit={onSubmit}>
+          <div className="cartform-column">
+            <div>{' '}</div>
+            <div>내용</div>
+            <div>가격</div>
+            <div />
           </div>
-        </div>
-        <button type="submit" className="submit-button">
+          <div className="cartform-list">
+            {cart.map(item => (
+              <CartListItem
+                key={item.cartId}
+                cartId={item.cartId}
+                menuName={item.menuName}
+                menuPrice={item.menuPrice}
+                cart={cart}
+                setAllCart={setAllCart}
+                checkedItem={checkedItem}
+                setCheckedItem={setCheckedItem}
+              />
+            ))}
+          </div>
+
+          <div className="cartform-total">
+            <div>총결제액</div>
+            <div className="cartform-total-price">
+              {checkedItem.forEach((element) => {
+                totalPrice += element.menuPrice;
+              })}
+              {`${totalPrice}`}
+            </div>
+          </div>
+          <button type="submit" className="submit-button">
           결제하러가기
-        </button>
-      </form>
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
 
 CartForm.propTypes = {
+  signInRef: propTypes.elementType.isRequired,
   handleCart: propTypes.shape({
     cart: propTypes.array.isRequired,
     setAllCart: propTypes.func.isRequired,
@@ -81,6 +114,8 @@ CartForm.propTypes = {
     checkedItem: propTypes.array.isRequired,
     setCheckedItem: propTypes.func.isRequired,
   }).isRequired,
+  isSignedIn: propTypes.bool.isRequired,
+  dispatch: propTypes.func.isRequired,
 };
 
 export default CartForm;

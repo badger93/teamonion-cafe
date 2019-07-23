@@ -8,13 +8,15 @@ const PayListItem = ({
   menuPrice = 0,
 }) => (
   <div className="payform-list-item">
-      <div className="pay-item-column">
-        {`${menuName}`}
-      </div>
-      <div className="pay-item-column">
-        <div>{`${menuPrice}`}</div>
-      </div>
+    <div className="pay-item-column" />
+    <div className="pay-item-column">
+      {`${menuName}`}
     </div>
+    <div className="pay-item-column">
+      <div>{`${menuPrice}`}</div>
+    </div>
+    <div className="pay-item-column" />
+  </div>
 );
 
 PayListItem.propTypes = {

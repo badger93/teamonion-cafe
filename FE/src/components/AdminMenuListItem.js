@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/AdminMenuListItem.scss';
 
+
 const AdminMenuListItem = ({ list, deleteItem, setMenuPopupData }) => {
   const {
     id, name, price, information, imageFile,

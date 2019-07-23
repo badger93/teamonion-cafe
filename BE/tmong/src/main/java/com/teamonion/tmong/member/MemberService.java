@@ -1,6 +1,7 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.component.JwtComponent;
+import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.exception.UnauthorizedException;
 import com.teamonion.tmong.exception.ValidExceptionType;
 import com.teamonion.tmong.exception.ValidCustomException;
 import lombok.NonNull;
@@ -23,27 +24,22 @@ public class MemberService {
     private final JwtComponent jwtComponent;
 
     public MemberLoginResponse save(MemberSignUpRequest memberSignUpRequest) {
-        if(isOverlap(memberSignUpRequest.getMemberId())) {
+        if (isOverlap(memberSignUpRequest.getMemberId())) {
             throw new ValidCustomException(ValidExceptionType.MEMBERID_OVERLAP);
         }
         Member savedMember = memberRepository.save(memberSignUpRequest.toEntity());
         return new MemberLoginResponse(savedMember, jwtComponent.createToken(savedMember));
     }
 
-    public Member findById(Long id) {
-        return memberRepository.findById(id)
-                .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
-    }
-
-    public Member findByMemberId(String memberId) {
-        return memberRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
+    public Member search(String memberId) {
+        checkAdmin();
+        return findByMemberId(memberId);
     }
 
     public MemberLoginResponse login(MemberLoginRequest memberLoginRequest) {
         Member member = findByMemberId(memberLoginRequest.getMemberId());
 
-        if(!member.match(memberLoginRequest.getPassword())){
+        if (!member.match(memberLoginRequest.getPassword())) {
             throw new ValidCustomException(ValidExceptionType.PASSWORD_MISMATCH);
         }
 
@@ -54,11 +50,13 @@ public class MemberService {
         return memberRepository.findByMemberId(memberId).isPresent();
     }
 
-    public Page<Member> findAll(Pageable pageable) {
+    public Page<Member> getMembers(Pageable pageable) {
+        checkAdmin();
         return memberRepository.findAll(pageable);
     }
 
     public void pointUpdate(Long id, String point) {
+        checkAdmin();
         Member member = findById(id);
         member.pointUpdate(point);
         memberRepository.save(member);
@@ -66,5 +64,21 @@ public class MemberService {
 
     public Integer getPoint(Long id) {
         return Integer.parseInt(findById(id).getPoint());
+    }
+
+    private void checkAdmin() {
+        if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN)) {
+            throw new UnauthorizedException();
+        }
+    }
+
+    private Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
+    }
+
+    private Member findByMemberId(String memberId) {
+        return memberRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
     }
 }

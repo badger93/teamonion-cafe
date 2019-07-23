@@ -53,7 +53,12 @@ const AdminMenuManageContainer = () => {
   }, [menuList]);
 
   return (
-    <AdminMenuManagePresenter menuList={menuList} updateItem={updateItem} deleteItem={deleteItem} createItem={createItem} />
+    <AdminMenuManagePresenter
+      menuList={menuList}
+      updateItem={updateItem}
+      deleteItem={deleteItem}
+      createItem={createItem}
+    />
   );
 };
 

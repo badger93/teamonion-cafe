@@ -10,3 +10,6 @@ export const cartToPayAction = data => ({
   type: CARTTOPAY,
   data,
 });
+
+export const payRequestAction = data => ({ type: PAY_REQUEST, data })
+;
