@@ -4,7 +4,7 @@ import CartForm from '../../../components/CartForm';
 import './styles/CartPresenter.scss';
 
 const CartPresenter = ({
-  handleCart, handleCheckedCart, dispatch, isSignedIn,
+  signInRef, handleCart, handleCheckedCart, dispatch, isSignedIn,
 }) => (
   <div className="cart-wrapper">
     <div className="cart-title">장바구니</div>
@@ -14,6 +14,7 @@ const CartPresenter = ({
         handleCheckedCart={handleCheckedCart}
         dispatch={dispatch}
         isSignedIn={isSignedIn}
+        signInRef={signInRef}
       />
     </div>
   </div>
@@ -30,6 +31,7 @@ CartPresenter.propTypes = {
   }).isRequired,
   dispatch: propTypes.func.isRequired,
   isSignedIn: propTypes.bool.isRequired,
+  signInRef: propTypes.elementType.isRequired,
 };
 
 export default CartPresenter;

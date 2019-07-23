@@ -2,7 +2,7 @@ import {
   SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
   SIGNIN_REQUEST,
-  LOG_OUT,
+  LOG_OUT, SIGNIN_REF_REGISTER,
 } from '../actions/userAction';
 
 const initState = {
@@ -13,6 +13,7 @@ const initState = {
   isSigningUp: false,
   isSignedUp: false,
   signUpErrorReason: '',
+  signInRef: null, // 로그인 팝업창 Ref정보
   me: {
     id: -1, memberId: '', memberRole: 'NORMAL', point: 0, jwt: null,
   },
@@ -45,6 +46,9 @@ const userReducer = (state = initState, action) => {
     }
     case SIGNIN_FAILURE: {
       return { ...state, isSigningIn: false, signInErrorReason: action.error };
+    }
+    case SIGNIN_REF_REGISTER: {
+      return { ...state, signInRef: action.data };
     }
 
     case LOG_OUT: {

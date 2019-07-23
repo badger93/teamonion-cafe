@@ -6,6 +6,8 @@ export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
 export const SIGNIN_REQUEST = 'SIGNIN_REQUEST';
 
+export const SIGNIN_REF_REGISTER = 'SIGNIN_REF_REGISTER';
+
 export const LOG_OUT = 'LOG_OUT';
 
 export const signUpRequestAction = data => ({
@@ -19,3 +21,5 @@ export const signInRequestAction = data => ({
 });
 
 export const logOutAction = () => ({ type: LOG_OUT });
+
+export const signInRefRegisterAction = data => ({ type: SIGNIN_REF_REGISTER, data });

@@ -5,9 +5,10 @@ import { Redirect } from 'react-router-dom';
 import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
+import { openPopup } from '../utils/popup';
 
 const CartForm = ({
-  handleCart, handleCheckedCart, dispatch, isSignedIn,
+  signInRef, handleCart, handleCheckedCart, dispatch, isSignedIn,
 }) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
@@ -20,6 +21,7 @@ const CartForm = ({
     e.preventDefault();
     if (!isSignedIn) {
       // 여기에 로그인 팝업실행
+      openPopup(signInRef.current);
       return;
     }
 
@@ -88,6 +90,7 @@ const CartForm = ({
 };
 
 CartForm.propTypes = {
+  signInRef: propTypes.elementType.isRequired,
   handleCart: propTypes.shape({
     cart: propTypes.array.isRequired,
     setAllCart: propTypes.func.isRequired,
