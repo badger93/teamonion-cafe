@@ -6,7 +6,11 @@ import com.teamonion.tmong.exception.ValidCustomException;
 import com.teamonion.tmong.exception.ValidExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -20,6 +24,9 @@ import java.util.List;
 @Service
 public class MenuService {
     private static Logger log = LoggerFactory.getLogger(MenuController.class);
+
+    @Value("${download-path}")
+    private String DOWNLOAD_PATH;
 
     private final MenuRepository menuRepository;
 
@@ -36,14 +43,14 @@ public class MenuService {
         }
         menuSaveDto.setImagePath(saveMenuImage(imageFile));
 
-        Menu menu = menuSaveDto.toEntity();
-        return menuRepository.save(menu).getId();
+        return menuRepository.save(menuSaveDto.toEntity()).getId();
     }
 
-    List<Menu> selectAll() {
-        return menuRepository.findAll();
+    Page<Menu> selectAll(Pageable pageable) {
+        return menuRepository.findAll(pageable);
     }
 
+    @Transactional
     public void updateMenu(Long id, MenuSaveDto menuSaveDto) {
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MENU_NOT_FOUND));
@@ -66,20 +73,19 @@ public class MenuService {
             int randomString = (int) (Math.random() * 10000) + 1;
             String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();
 
-            LocalDate currentDate = LocalDate.now();
-            String date = currentDate.format(DateTimeFormatter.BASIC_ISO_DATE);
+            String date = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
 
-            String DOWNLOAD_PATH = "src/main/resources/menuUpload/" + date;
-            File file = new File(DOWNLOAD_PATH + "/");
+            File file = new File(DOWNLOAD_PATH + date + "/");
 
             file.mkdirs();
 
-            Path path = Paths.get(DOWNLOAD_PATH + "/" + fileName);
+            Path path = Paths.get(DOWNLOAD_PATH + date + "/" + fileName);
 
             imageFile.transferTo(path);
 
             return DOWNLOAD_PATH + "/" + fileName;
         } catch (IOException e) {
+            //e.getStackTrace();
             throw new CustomException(CustomExceptionType.MENUIMAGE_RENDER_ERROR);
         }
     }
@@ -88,7 +94,7 @@ public class MenuService {
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new ValidCustomException(ValidExceptionType.MENU_NOT_FOUND));
         String path = menu.getImagePath();
 
-        menuRepository.deleteById(id);
+        menuRepository.delete(menu);
         deleteMenuImage(path);
     }
 

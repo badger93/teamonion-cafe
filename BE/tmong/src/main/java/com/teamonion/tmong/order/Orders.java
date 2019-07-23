@@ -3,6 +3,7 @@ package com.teamonion.tmong.order;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.menu.Menu;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@Builder
 public class Orders {
 
     @Id
@@ -41,4 +43,5 @@ public class Orders {
     private boolean made = false;
 
     private boolean pickup = false;
+
 }

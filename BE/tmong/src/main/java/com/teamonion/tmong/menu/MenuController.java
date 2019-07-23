@@ -1,16 +1,13 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.exception.CustomException;
-import com.teamonion.tmong.exception.CustomExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @RequestMapping("/api/menus")
 @RestController
@@ -25,7 +22,8 @@ public class MenuController {
     }
 
     @PostMapping
-    public ResponseEntity add(@Valid MenuSaveDto menuSaveDto, BindingResult bindingResult) {
+    public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
+//        BindingResult bindingResult
 //        if(bindingResult.hasErrors()) {
 //            new CustomException(CustomExceptionType.MENUIMAGE_NOT_FOUND);
 //            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -34,8 +32,8 @@ public class MenuController {
     }
 
     @GetMapping
-    public ResponseEntity selectAll() {
-        return new ResponseEntity<>(menuService.selectAll(), HttpStatus.OK);
+    public ResponseEntity selectAll(Pageable pageable) {
+        return new ResponseEntity<>(menuService.selectAll(pageable), HttpStatus.OK);
     }
 
     @DeleteMapping("/{menu_id}")
