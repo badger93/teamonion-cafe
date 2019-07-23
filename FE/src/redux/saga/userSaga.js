@@ -21,8 +21,8 @@ function* signIn(action) {
     const result = { // dummy login data
       id: 1,
       memberId: 'onion',
-      memberRole: 'ADMIN',
-      point: 0,
+      memberRole: 'NORMAL',
+      point: 1000000,
       jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
     };
     yield put({

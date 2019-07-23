@@ -1,7 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, {
+  useState, useCallback, useEffect, useRef,
+} from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
+import { get } from 'https';
 import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
@@ -13,15 +16,30 @@ const CartForm = ({
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
 
-  const [willPay, setWillPay] = useState(false);
+  const [tryPay, setTryPay] = useState(false); // 로그인후 바로 리디렉션을 위한 값
+  const [willPay, setWillPay] = useState(false); // 리디렉션을 위한 값
+
+  const isInitialMount = useRef(true); // 업데이트시 확인
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else if (tryPay) { onSubmit(); } // 업데이트 시에만 작동
+  }, [isSignedIn]); // 로그인시 바로 결제창으로
 
   let totalPrice = 0;
 
+
   const onSubmit = useCallback(async (e) => {
-    e.preventDefault();
-    if (!isSignedIn) {
-      // 여기에 로그인 팝업실행
+    e && e.preventDefault();
+
+    if (checkedItem.length === 0) { // 선택안하고 결제 눌렀을시 예외처리
+      alert('상품 선택이 필요합니다');
+      return;
+    }
+    if (!isSignedIn) { // 로그인 안할경우 오픈팝업
       openPopup(signInRef.current);
+      setTryPay(true);
       return;
     }
 
@@ -32,12 +50,9 @@ const CartForm = ({
     for (let i = 0; i < checkedItem.length; i + 1) {
       CartDelete(cart, setAllCart, checkedItem[i].cartId, checkedItem, setCheckedItem);
     }
-    setWillPay(true);
+
+    setWillPay(true); // 리디렉션을 위한 값
     setTimeout(() => setWillPay(false), 3000);
-    // forEach문 쓰면 안된다 -> 하나씩 건너뛰면서 삭제함
-    // checkedItemClone.forEach((element) => {
-    //   console.log(element);
-    // });
   }, [cart,
     setAllCart,
     checkedItem,
