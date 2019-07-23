@@ -14,7 +14,7 @@ const PayForm = ({
   useEffect(() => {
     const Point = user.point - totalPrice + totalPrice / 10;
     setAfterPoint(Point);
-  }, [howPay, isSignedIn]);
+  }, [howPay, isSignedIn, totalPrice, user.point]);
 
 
   const onSubmit = async (e) => {
@@ -33,6 +33,7 @@ const PayForm = ({
     dispatch(payRequestAction(requestInfo));
     // PayRequest
     setTimeout(() => dispatch(payFinishAction()), 5000);
+    // PayFinish, redux state change
   };
   const onPointRadioChange = useCallback( // 포인트 결제시 라디오버튼
     () => {

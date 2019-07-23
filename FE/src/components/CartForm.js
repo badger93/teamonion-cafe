@@ -4,7 +4,6 @@ import React, {
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
-import { get } from 'https';
 import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
@@ -21,15 +20,6 @@ const CartForm = ({
 
   const isInitialMount = useRef(true); // 업데이트시 확인
 
-  useEffect(() => {
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-    } else if (tryPay) { onSubmit(); } // 업데이트 시에만 작동
-  }, [isSignedIn]); // 로그인시 바로 결제창으로
-
-  let totalPrice = 0;
-
-
   const onSubmit = useCallback(async (e) => {
     e && e.preventDefault();
 
@@ -39,10 +29,9 @@ const CartForm = ({
     }
     if (!isSignedIn) { // 로그인 안할경우 오픈팝업
       openPopup(signInRef.current);
-      setTryPay(true);
+      setTryPay(true); // 로그인 성공하면 바로 결제로 가도록
       return;
     }
-
 
     await dispatch(cartToPayAction({ ...checkedItem }));
 
@@ -57,14 +46,23 @@ const CartForm = ({
     setAllCart,
     checkedItem,
     setCheckedItem,
-    setWillPay]);
+    setWillPay, dispatch, isSignedIn, signInRef]);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else if (tryPay) { onSubmit(); } // 업데이트 시에만 작동
+  }, [tryPay]); // 로그인시 바로 결제창으로
+
+  let totalPrice = 0;
+
 
   return (
     <div className="cartform-container">
       {willPay && <Redirect to="/payment" />}
       <div className="cartform-title">내역</div>
       <div className="cartform-wrapper">
-        <form action="submit" className="cartform" onSubmit={onSubmit}>
+        <form className="cartform" onSubmit={onSubmit}>
           <div className="cartform-column">
             <div>{' '}</div>
             <div>내용</div>

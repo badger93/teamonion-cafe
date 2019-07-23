@@ -3,7 +3,7 @@
   margin: 50px 10px;
   width: 267px;
   @media (max-width: 600px) {
-    width: 40%;
+    width: 80%;
     min-width: 160px;
   }
   padding: 0;
@@ -19,6 +19,7 @@
     position: relative;
     overflow: hidden;
     img {
+      object-fit: cover;
       position: absolute;
       top: 0;
       left: 0;
