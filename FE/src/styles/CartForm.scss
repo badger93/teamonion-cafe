@@ -1,4 +1,7 @@
 .cartform-container {
+  display:flex;
+  flex-direction:column;
+  
   width: 60%;
   min-width: 350px;
   min-height: 700px;
@@ -7,33 +10,65 @@
   background-color: #f6f5f0;
   margin: 30px;
   padding-top: 5%;
-  
+  .cartform-wrapper{
+    width:100%;
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    height:600px;
+  }
 
   .cartform-title {
     justify-content: flex-start;
     font-size: 1.5rem;
-    border-bottom: solid 1px rgba(0, 0, 0, 0.8);
     width: 100px;
     display: flex;
     justify-content: center;
     margin-top: 5%;
     margin-left: 10%;
-    margin-bottom: 8%;
+    margin-bottom: 2%;
   }
+  .cartform-column{
+    font-size:1.2rem;
+    border-top : solid 2px rgba(0, 0, 0, 0.4);
+    border-bottom : solid 1px rgba(0, 0, 0, 0.4);
+    width:100%;
+    padding-top:12px;
+    padding-bottom:12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    div{
+      display:flex;
+      justify-content: center;
+      height:30px;
+      width:10%;
+    }
+    div:nth-child(2){
+      width:40%;
+    }
+    div:nth-child(3){
+      width:40%;
+    }
+  }
+
   .cartform {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
+    width:70%;
+    height:90%;
   }
   .cartform-total {
     font-size: 1.3rem;
     display: flex;
     justify-content: space-around;
-    width: 80%;
+    width: 100%;
     height: 30px;
     margin-top: 5%;
-    padding-top: 30px;
+    padding-top: 40px;
+    padding-bottom: 40px;
     border-top: solid 1px rgba(0, 0, 0, 0.8);
     div {
       width: 150px;

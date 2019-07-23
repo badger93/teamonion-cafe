@@ -46,35 +46,43 @@ const CartForm = ({
     <div className="cartform-container">
       {willPay && <Redirect to="/payment" />}
       <div className="cartform-title">내역</div>
-      <form action="submit" className="cartform" onSubmit={onSubmit}>
-        <div className="cartform-list">
-          {cart.map(item => (
-            <CartListItem
-              key={item.cartId}
-              cartId={item.cartId}
-              menuName={item.menuName}
-              menuPrice={item.menuPrice}
-              cart={cart}
-              setAllCart={setAllCart}
-              checkedItem={checkedItem}
-              setCheckedItem={setCheckedItem}
-            />
-          ))}
-        </div>
-
-        <div className="cartform-total">
-          <div>총결제액</div>
-          <div className="cartform-total-price">
-            {checkedItem.forEach((element) => {
-              totalPrice += element.menuPrice;
-            })}
-            {`${totalPrice}`}
+      <div className="cartform-wrapper">
+        <form action="submit" className="cartform" onSubmit={onSubmit}>
+          <div className="cartform-column">
+            <div>{' '}</div>
+            <div>내용</div>
+            <div>가격</div>
+            <div />
           </div>
-        </div>
-        <button type="submit" className="submit-button">
+          <div className="cartform-list">
+            {cart.map(item => (
+              <CartListItem
+                key={item.cartId}
+                cartId={item.cartId}
+                menuName={item.menuName}
+                menuPrice={item.menuPrice}
+                cart={cart}
+                setAllCart={setAllCart}
+                checkedItem={checkedItem}
+                setCheckedItem={setCheckedItem}
+              />
+            ))}
+          </div>
+
+          <div className="cartform-total">
+            <div>총결제액</div>
+            <div className="cartform-total-price">
+              {checkedItem.forEach((element) => {
+                totalPrice += element.menuPrice;
+              })}
+              {`${totalPrice}`}
+            </div>
+          </div>
+          <button type="submit" className="submit-button">
           결제하러가기
-        </button>
-      </form>
+          </button>
+        </form>
+      </div>
     </div>
   );
 };

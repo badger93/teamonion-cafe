@@ -17,6 +17,12 @@ const PayForm = ({
   return (
     <div className="payform-container">
       <div className="payform-title">내역</div>
+      <div className="payform-column">
+        <div />
+        <div>내용</div>
+        <div>가격</div>
+        <div />
+      </div>
       <form action="submit" className="payform" onSubmit={onSubmit}>
         <div className="payform-list">
           {Object.values(itemsForPay).map(item => (
