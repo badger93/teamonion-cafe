@@ -3,9 +3,7 @@ package com.teamonion.tmong.menu;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 @Setter
 @Getter
@@ -23,6 +21,7 @@ public class MenuSaveDto {
 
     private String information;
 
+    // TODO : imageFile Valid 미작동 해결
     @NotNull(message = "이미지를 추가해주세요.")
     private MultipartFile imageFile;
 

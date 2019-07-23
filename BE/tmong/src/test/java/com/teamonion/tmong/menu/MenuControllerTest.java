@@ -11,12 +11,16 @@ import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -34,22 +38,25 @@ public class MenuControllerTest {
 
     @Test
     public void 메뉴_추가() throws Exception {
-        // TODO : 목 이미지 파일 생성
-//        MockMultipartFile testmultipartFile = new MockMultipartFile("image", new byte[1]);
-//        //new MockMultipartFile("file","testfile", "multipart/form-data", "test data".getBytes());
-//        MenuSaveDto menuSaveDto = new MenuSaveDto("americano", "1000", "직장인의 인기 메뉴", testmultipartFile, "example");
-//
-//        Mockito.when(menuService.add(menuSaveDto)).thenReturn(menuSaveDto.toEntity());
-//
-//        mockMvc.perform(post("/api/menus")
-//                .contentType(MediaType.APPLICATION_JSON_UTF8))
-//                .andDo(print())
-//                .andExpect(status().isCreated());
+        MultipartFile mockMultipartFile = new MockMultipartFile("example", "example.jpg", "application/form-data",
+                new FileInputStream(new File("src/main/resources/menuUpload/example/example.jpg")));
+
+        MenuSaveDto menuSaveDto = new MenuSaveDto("americano", "1000", "직장인의 인기 메뉴", mockMultipartFile, "example");
+
+        Mockito.when(menuService.add(menuSaveDto)).thenReturn(1L);
+
+        mockMvc.perform(post("/api/menus")
+                .param("name", "americano")
+                .param("price", "1000")
+                .param("information", "직장인의 인기 메뉴")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isCreated());
     }
 
     @Test
     public void 메뉴_전체조회() throws Exception {
-        List<Menu> allMenus = new ArrayList<Menu>();
+        List<Menu> allMenus = new ArrayList<>();
 
         Mockito.when(menuService.selectAll()).thenReturn(allMenus);
 
@@ -65,9 +72,33 @@ public class MenuControllerTest {
     public void 메뉴_삭제() throws Exception {
         Long menu_id = 1L;
 
-        mockMvc.perform(delete("/api/menus/{id}", menu_id)
+        mockMvc.perform(delete("/api/menus/{menu_id}", menu_id)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(menu_id))
+                .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void 메뉴_수정() throws Exception {
+        Long menu_id = 1L;
+
+        mockMvc.perform(put("/api/menus/{menu_id}", menu_id)
+                .param("name", "americano")
+                .param("price", "1000")
+                .param("information", "직장인의 인기 메뉴")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void 메뉴_검색() throws Exception {
+        String name = "americano";
+
+        mockMvc.perform(get("/api/menus/{menu_name}", name)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8))
                 .andDo(print())
                 .andExpect(status().isOk());

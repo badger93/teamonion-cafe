@@ -1,9 +1,12 @@
 package com.teamonion.tmong.menu;
 
+import com.teamonion.tmong.exception.CustomException;
+import com.teamonion.tmong.exception.CustomExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -22,7 +25,11 @@ public class MenuController {
     }
 
     @PostMapping
-    public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
+    public ResponseEntity add(@Valid MenuSaveDto menuSaveDto, BindingResult bindingResult) {
+//        if(bindingResult.hasErrors()) {
+//            new CustomException(CustomExceptionType.MENUIMAGE_NOT_FOUND);
+//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+//        }
         return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
     }
 

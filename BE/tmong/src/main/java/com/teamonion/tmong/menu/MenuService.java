@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -25,12 +27,12 @@ public class MenuService {
         this.menuRepository = menuRepository;
     }
 
+
     Long add(MenuSaveDto menuSaveDto) {
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
         if (imageFile.getOriginalFilename().isEmpty()) {
             throw new CustomException(CustomExceptionType.MENUIMAGE_NOT_FOUND);
-
         }
         menuSaveDto.setImagePath(saveMenuImage(imageFile));
 
@@ -49,7 +51,7 @@ public class MenuService {
         String path = menu.getImagePath();
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
-        if(imageFile.getOriginalFilename().isEmpty()) {
+        if (imageFile.getOriginalFilename().isEmpty()) {
             throw new CustomException(CustomExceptionType.MENUIMAGE_NOT_FOUND);
         }
         menuSaveDto.setImagePath(saveMenuImage(menuSaveDto.getImageFile()));
@@ -61,10 +63,17 @@ public class MenuService {
 
     public String saveMenuImage(MultipartFile imageFile) {
         try {
-            String DOWNLOAD_PATH = "src/main/resources/menuUpload";
-            // TODO : 난수 생성 후 fileName 설정
-            int randomString = (int)(Math.random() * 10000) + 1;
-            String fileName = randomString + System.currentTimeMillis() + "_" + imageFile.getOriginalFilename();
+            int randomString = (int) (Math.random() * 10000) + 1;
+            String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();
+
+            LocalDate currentDate = LocalDate.now();
+            String date = currentDate.format(DateTimeFormatter.BASIC_ISO_DATE);
+
+            String DOWNLOAD_PATH = "src/main/resources/menuUpload/" + date;
+            File file = new File(DOWNLOAD_PATH + "/");
+
+            file.mkdirs();
+
             Path path = Paths.get(DOWNLOAD_PATH + "/" + fileName);
 
             imageFile.transferTo(path);
