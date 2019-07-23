@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import { Formatters } from 'react-data-grid-addons';
-import AdminMenuListItem from '../../../components/AdminMenuListItem';
 import MenuManagePopup from '../../../components/MenuManagePopup';
 import './styles/AdminMenuManagePresenter.scss';
 import { openPopup } from '../../../utils/popup';
