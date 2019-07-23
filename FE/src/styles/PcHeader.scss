@@ -10,6 +10,7 @@
   background-color: #222f3e;
   color: white;
   // background-color: #f6f5f0;
+  
   a {
     &:hover {
       //color: #fe6600;
@@ -57,6 +58,14 @@
         width: 40%;
         height: 30px;
         font-size: 0.8rem;
+        .header_pc-logout{
+          cursor: pointer;
+          &:hover {
+            //color: #fe6600;
+            color: #ffa502;
+            transition: 0.1s ease-in-out;
+          }
+        }
         .signInBtn {
           cursor: pointer;
           &:hover {

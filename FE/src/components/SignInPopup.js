@@ -29,7 +29,7 @@ const SignInPopup = ({ loginRef }) => {
         alert('정보입력이 필요합니다');
       }
     },
-    [inputId, inputPw],
+    [inputId, inputPw, dispatch, loginRef],
   );
 
   return (

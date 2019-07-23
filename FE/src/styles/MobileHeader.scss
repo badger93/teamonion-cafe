@@ -198,6 +198,7 @@
 
     z-index: 5;
   }
+  
   a {
     margin: 30px;
     &:hover {
@@ -215,7 +216,18 @@
   opacity: 0.3;
   z-index: 5;
   padding-left: 25px;
+  cursor: pointer;
+  .header_moblie-logout{
+    margin: 30px;
+    &:hover {
+      opacity: 0.5;
+    }
+    z-index: 5;
+  }
   a {
     margin: 20px;
   }
 }
+
+
+ 

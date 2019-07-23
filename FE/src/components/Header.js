@@ -16,9 +16,9 @@ const Header = () => {
     () => {
       dispatch(logOutAction());
     },
-    [],
+    [dispatch],
   );
-  useEffect(() => (dispatch(signInRefRegisterAction(loginRef))), []);
+  useEffect(() => (dispatch(signInRefRegisterAction(loginRef))), [dispatch, loginRef]);
   return (
     <>
       <MobileHeader logOutDispatch={logOutDispatch} isList={isList} setIsList={setIsList} isSignedIn={isSignedIn} user={me} loginRef={loginRef} dispatch={dispatch} />

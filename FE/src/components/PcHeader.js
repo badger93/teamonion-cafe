@@ -23,7 +23,7 @@ const PcHeader = ({
               <span className="header_pc-point">{`보유포인트 : ${user.point}`}</span>
               <span className="header_pc-welcome">{`반갑습니다 ${user.memberId}님`}</span>
               <span className="divider">|</span>
-              <div onClick={logOutDispatch}>
+              <div className="header_pc-logout" onClick={logOutDispatch}>
             LogOut
               </div>
             </>
