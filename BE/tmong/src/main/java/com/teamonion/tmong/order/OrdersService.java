@@ -7,14 +7,10 @@ import com.teamonion.tmong.member.MemberRepository;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuController;
 import com.teamonion.tmong.menu.MenuRepository;
-<<<<<<< HEAD
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-=======
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
->>>>>>> 4bfab7cf5dcaac6cc4b0dd006012231c590cf4fc
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
