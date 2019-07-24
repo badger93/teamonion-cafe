@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import AdminMemberManagePresenter from './AdminMemberManagePresenter';
-import { getUserList, setUserPoint } from '../../../api/userApi';
+import { getUserList, setUserPoint, searchUser } from '../../../api/userApi';
 
 const AdminMemberManageContainer = () => {
   const [memberListData, setMemberListData] = useState([]);
@@ -33,6 +33,15 @@ const AdminMemberManageContainer = () => {
       });
   };
 
+  const searchUserByID = async (memberId) => {
+    try {
+      const userList = await searchUser(memberId);
+      setMemberListData(userList);
+    } catch (err) {
+      alert(`유저검색 실패 : ${err}`);
+    }
+  };
+
   useEffect(() => {
     getUserByPage({ itemSize: 10, page: 1 });
   }, []);
@@ -43,6 +52,7 @@ const AdminMemberManageContainer = () => {
       memberListPageData={memberListPageData}
       setPoint={setPoint}
       getUserByPage={getUserByPage}
+      searchUserByID={searchUserByID}
     />
   );
 };

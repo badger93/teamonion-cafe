@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminMemberManagePresenter.scss';
 import pagination from '../../../components/pagination';
 
 const AdminMemberManagePresenter = ({
-  memberListData, memberListPageData, setPoint, getUserByPage,
+  memberListData, memberListPageData, setPoint, getUserByPage, searchUserByID,
 }) => {
+  const [searchText, setSearchText] = useState('');
   const colums = [
     {
       key: 'id',
@@ -44,12 +45,24 @@ const AdminMemberManagePresenter = ({
     setPoint(data);
   };
 
+  const submitCallback = useCallback((e) => {
+    e.preventDefault();
+    searchUserByID(searchText);
+  }, [searchText]);
+
   return (
     <div className="AdminMemberManagePresenter">
       <div className="pageTitle">사용자관리</div>
       <div className="memberManageList">
-        <form className="searchArea">
-          <input className="searchText" type="text" placeholder="사용자ID로 검색" />
+        <form
+          className="searchArea"
+          onSubmit={(e) => {
+            if (submitCallback !== undefined) {
+              submitCallback(e);
+            }
+          }}
+        >
+          <input className="searchText" value={searchText} onChange={e => setSearchText(e.target.value)} type="text" placeholder="사용자ID로 검색" />
           <input className="searchSubmit" value="검색" type="submit" />
         </form>
         <ReactDataGrid
@@ -75,6 +88,7 @@ AdminMemberManagePresenter.defaultProps = {
   memberListPageData: {},
   setPoint: () => {},
   getUserByPage: () => {},
+  searchUserByID: () => {},
 };
 
 AdminMemberManagePresenter.propTypes = {
@@ -82,6 +96,7 @@ AdminMemberManagePresenter.propTypes = {
   memberListPageData: propTypes.objectOf(),
   setPoint: propTypes.func,
   getUserByPage: propTypes.func,
+  searchUserByID: propTypes.func,
 };
 
 export default AdminMemberManagePresenter;

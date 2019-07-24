@@ -11,3 +11,5 @@ export const signInApi = data => axios.post('api/members/login', data);
 export const getUserList = ({ itemSize, page }) => axios.get('https://my-json-server.typicode.com/badger012/mockserver/members');
 
 export const setUserPoint = ({ id, changePoint }) => axios.put(`/api/members/${id}/point`, { id, changePoint });
+
+export const searchUser = memberId => axios.get(`/api/members/${memberId}`);
