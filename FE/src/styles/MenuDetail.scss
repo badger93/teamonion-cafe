@@ -22,7 +22,7 @@
 }
 
 .menuDetail {
-  border: 6px solid #222f3e;
+  border: 2px solid #222f3e;
   border-radius: 10px;
   width: 650px;
   height: 350px;
@@ -105,7 +105,7 @@
     .cart-added{
       position: absolute;
       bottom:90px;
-      left:100px;
+      right:100px;
       color:red;
       opacity:0.8;
     }
@@ -142,11 +142,17 @@
       display: block;
       width: 100%;
       margin: 0 auto;
-      height: 210px;
-
+      height: 70%;
+      div{
+        height:100%;
+      }
       .img-area {
         width: 100%;
+        height: 100%;;
         margin-top: 0px;
+        img{
+          object-fit: cover;
+        }
       }
     }
     main {

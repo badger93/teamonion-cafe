@@ -1,5 +1,6 @@
 package com.teamonion.tmong.menu;
 
+import com.teamonion.tmong.security.CheckJwt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +14,7 @@ import javax.validation.Valid;
 @RestController
 public class MenuController {
 
-    private static Logger log = LoggerFactory.getLogger(MenuController.class);
+    private static final Logger log = LoggerFactory.getLogger(MenuController.class);
 
     private final MenuService menuService;
 
@@ -21,27 +22,26 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+    @CheckJwt
     @PostMapping
     public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
-//        BindingResult bindingResult
-//        if(bindingResult.hasErrors()) {
-//            new CustomException(CustomExceptionType.MENUIMAGE_NOT_FOUND);
-//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//        }
         return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
     }
 
+    //TODO : 관리자, 일반 사용자 메소드로 구분하기
     @GetMapping
     public ResponseEntity selectAll(Pageable pageable) {
         return new ResponseEntity<>(menuService.selectAll(pageable), HttpStatus.OK);
     }
 
+    @CheckJwt
     @DeleteMapping("/{menu_id}")
     public ResponseEntity deleteOne(@PathVariable Long menu_id) {
         menuService.deleteByMenuId(menu_id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
+    @CheckJwt
     @PutMapping("/{menu_id}")
     public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuSaveDto menuSaveDto) {
         log.info("수정 내용 : " + menuSaveDto.toString());

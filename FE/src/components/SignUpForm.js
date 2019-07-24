@@ -39,7 +39,7 @@ const SignUpForm = ({
       // console.log({ id, password, passwordCheck });
       dispatch(signUpRequestAction({ memberId: id, password, passwordCheck }));
     },
-    [id, password, passwordCheck, duplicateError, setPasswordError],
+    [id, password, passwordCheck, duplicateError, dispatch],
   );
 
   const onDuplicateSubmit = useCallback(

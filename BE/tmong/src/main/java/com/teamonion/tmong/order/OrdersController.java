@@ -1,7 +1,10 @@
 package com.teamonion.tmong.order;
 
+<<<<<<< HEAD
 import com.teamonion.tmong.security.CheckJwt;
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+>>>>>>> 4bfab7cf5dcaac6cc4b0dd006012231c590cf4fc
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class OrdersController {
 
-    final
-    OrdersService ordersService;
+    private final OrdersService ordersService;
 
     public OrdersController(OrdersService ordersService) {
         this.ordersService = ordersService;

@@ -2,7 +2,6 @@ import React, { useState, useRef } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import { Formatters } from 'react-data-grid-addons';
-import AdminMenuListItem from '../../../components/AdminMenuListItem';
 import MenuManagePopup from '../../../components/MenuManagePopup';
 import './styles/AdminMenuManagePresenter.scss';
 import { openPopup } from '../../../utils/popup';
@@ -37,6 +36,7 @@ const AdminMenuManagePresenter = ({
           icon: <span className="gridBtn">수정</span>,
           callback: () => {
             setMenuPopupData({
+              id: row.id,
               name: row.name,
               price: row.price,
               information: row.information,

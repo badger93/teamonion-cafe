@@ -19,20 +19,20 @@ const AdminMenuManageContainer = () => {
       });
   };
 
-  const updateItem = (id, changeItem) => {
-    updateMenuList(id, changeItem)
+  const updateItem = (changeItem) => {
+    updateMenuList(changeItem.id, { ...changeItem, imageFile: '' }) // 인코딩 된 blob imageFile을 빈값으로 초기화
       .then(() => {
-        const change = menuList.map(item => (item.id === id ? changeItem : item));
+        const change = menuList.map(item => (item.id === changeItem.id ? changeItem : item));
         setMenuList(change);
       }).catch((err) => {
         alert(`수정실패${err}`);
-        const change = menuList.map(item => (item.id === id ? changeItem : item));
+        const change = menuList.map(item => (item.id === changeItem.id ? changeItem : item));
         setMenuList(change);
       });
   };
 
   const createItem = (newItem) => {
-    createMenuList(newItem)
+    createMenuList({ ...newItem, imageFile: '' }) // 인코딩 된 blob imageFile을 빈값으로 초기화
       .then((id) => {
         const list = menuList.concat({ id, ...newItem });
         setMenuList(list);
@@ -47,10 +47,6 @@ const AdminMenuManageContainer = () => {
   useEffect(() => {
     getMenuList(setMenuList);
   }, []);
-
-  useEffect(() => {
-    // post, delete, put method
-  }, [menuList]);
 
   return (
     <AdminMenuManagePresenter

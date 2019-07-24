@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useCallback, useRef,
+} from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuManagePopup.scss';
 import inputImgPreview from '../utils/inputImgPreview';
@@ -8,7 +10,7 @@ const MenuManagePopup = ({
   menuPopupData, updateItem, createItem, popupRef,
 }) => {
   const {
-    id, name, price, information, imageFile,
+    id, name, price, information,
   } = menuPopupData;
   const [popupName, setPopupName] = useState('');
   const [popupPrice, setPopupPrice] = useState('');
@@ -18,19 +20,40 @@ const MenuManagePopup = ({
   const inputImgRef = useRef(null); // 인풋 미리보기 img 태그
   const fileInputRef = useRef(null); // 파일 input 태그
 
+  const onSubmitCallback = useCallback((e) => {
+    e.preventDefault();
+    if (popupName && popupPrice && popupInformation && popupFile) {
+      const payload = {
+        name: popupName,
+        price: popupPrice,
+        information: popupInformation,
+        imageFile: inputImgRef.current.getAttribute('src'),
+      };
+      if (isEdit) {
+        updateItem({ ...payload, id });
+        closePopup(e, popupRef.current);
+      } else {
+        createItem(payload, popupRef);
+        closePopup(e, popupRef.current);
+      }
+    } else {
+      alert('내용을 마저 채워주세요');
+    }
+  }, [popupName, popupPrice, popupInformation, popupFile]);
+
   useEffect(() => {
     if (isEdit) { // 수정모드
       setPopupName(name);
       setPopupPrice(price);
       setPopupInformation(information);
-      setPopupFile(imageFile);
+      setPopupFile('');
       inputImgRef.current.setAttribute('src', '');
     } else { // 추가모드
       setPopupName('');
       setPopupPrice('');
       setPopupInformation('');
       setPopupFile('');
-      inputImgRef.current.setAttribute('src', ''); // 이미지 미리보기
+      inputImgRef.current.setAttribute('src', ''); // 이미지 미리보기 초기화
     }
   }, [menuPopupData]);
 
@@ -41,23 +64,7 @@ const MenuManagePopup = ({
       <form
         encType="multipart/form-data"
         className="MenuManageForm"
-        onSubmit={(e) => { // 폼 서브밋
-          e.preventDefault();
-          if (popupName && popupPrice && popupInformation && popupFile) {
-            const payload = {
-              name: popupName, price: popupPrice, information: popupInformation, imageFile: popupFile,
-            };
-            if (isEdit) {
-              updateItem(id, payload);
-              closePopup(e, popupRef.current);
-            } else {
-              createItem(payload, popupRef);
-              closePopup(e, popupRef.current);
-            }
-          } else {
-            alert('내용을 마저 채워주세요');
-          }
-        }}
+        onSubmit={e => onSubmitCallback(e)} // 폼 서브밋
       >
         <div className="nameArea inputArea">
           <div className="areaTitle">상품명</div>
