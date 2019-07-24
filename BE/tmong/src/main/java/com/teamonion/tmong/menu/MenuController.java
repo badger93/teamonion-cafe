@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -15,7 +14,7 @@ import javax.validation.Valid;
 @RestController
 public class MenuController {
 
-    private static Logger log = LoggerFactory.getLogger(MenuController.class);
+    private static final Logger log = LoggerFactory.getLogger(MenuController.class);
 
     private final MenuService menuService;
 
@@ -26,9 +25,6 @@ public class MenuController {
     @CheckJwt
     @PostMapping
     public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
-//        if(bindingResult.hasErrors()) {
-//            throw new HandleRuntimeException(GlobalExceptionType.MENUIMAGE_NOT_FOUND);
-//        }
         return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
     }
 

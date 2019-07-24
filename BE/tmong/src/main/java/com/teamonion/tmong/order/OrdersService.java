@@ -1,5 +1,7 @@
 package com.teamonion.tmong.order;
 
+import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberRepository;
 import com.teamonion.tmong.menu.Menu;
@@ -34,29 +36,18 @@ public class OrdersService {
         // TODO : 주문자 정보
         // TODO : 메뉴 정보
 
-        Member member = memberRepository.findById(ordersAddRequest.getMember_id()).get();
+        Member member = memberRepository.findById(ordersAddRequest.getMember_id())
+                .orElseThrow(()-> new HandleRuntimeException(GlobalExceptionType.ORDER_MEMBER_NOT_FOUND));
 
-        // 총 금액 가격 음음음 타입 음음
-        Double amount = 0.0;
+        int amount = 0;
 
         List<Menu> menuList = new ArrayList<>();
-        // TODO : isPresent()를 하지 않고 get()을 한다.....는 것은 안좋은것인가...
-        // 림다식 내의 변수 사용 불가능
-        //menuList.forEach(e -> amount+=Double.valueOf(e.getPrice()));
 
-        // 방법 1
-        ordersAddRequest.getMenuIdList()
-                .forEach(e -> menuList.add(menuRepository.findById(e).get()));
-
-        for (Menu menu : menuList) {
-            amount += Double.valueOf(menu.getPrice());
-        }
-
-        // 방법 2
         for (Long id : ordersAddRequest.getMenuIdList()) {
-            Menu menu = menuRepository.findById(id).get();
+            Menu menu = menuRepository.findById(id)
+                    .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
             menuList.add(menu);
-            amount += Double.valueOf(menu.getPrice());
+            amount += Integer.valueOf(menu.getPrice());
         }
 
         log.info("총 가격 : {}", amount);
