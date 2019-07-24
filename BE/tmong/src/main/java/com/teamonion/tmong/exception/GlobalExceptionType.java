@@ -10,7 +10,7 @@ public enum GlobalExceptionType {
 
     private String errorMessage;
 
-    private GlobalExceptionType(String errorMessage) {
+    GlobalExceptionType(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 
