@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("/api")
 @RestController
 public class OrdersController {
@@ -16,9 +18,8 @@ public class OrdersController {
     }
 
     @PostMapping("/{member_id}/orders")
-    public ResponseEntity orderProceed(@RequestBody OrdersAddRequest ordersAddRequest) {
-        ordersService.add(ordersAddRequest);
-        return new ResponseEntity(HttpStatus.CREATED);
+    public ResponseEntity orderProceed(@Valid OrdersAddRequest ordersAddRequest) {
+        return new ResponseEntity<>(ordersService.add(ordersAddRequest), HttpStatus.CREATED);
     }
 
     @CheckJwt

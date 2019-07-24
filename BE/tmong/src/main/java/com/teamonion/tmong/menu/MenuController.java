@@ -1,6 +1,8 @@
 package com.teamonion.tmong.menu;
 
+import com.teamonion.tmong.member.MemberRole;
 import com.teamonion.tmong.security.CheckJwt;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
@@ -14,8 +16,7 @@ import javax.validation.Valid;
 @RestController
 public class MenuController {
 
-    private static final Logger log = LoggerFactory.getLogger(MenuController.class);
-
+    @NonNull
     private final MenuService menuService;
 
     public MenuController(MenuService menuService) {
@@ -28,10 +29,15 @@ public class MenuController {
         return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
     }
 
-    //TODO : 관리자, 일반 사용자 메소드로 구분하기
     @GetMapping
     public ResponseEntity selectAll(Pageable pageable) {
-        return new ResponseEntity<>(menuService.selectAll(pageable), HttpStatus.OK);
+        return new ResponseEntity<>(menuService.selectAll(MemberRole.NORMAL, pageable), HttpStatus.OK);
+    }
+
+    @CheckJwt
+    @GetMapping("/admin")
+    public ResponseEntity selectAllByAdmin(Pageable pageable) {
+        return new ResponseEntity<>(menuService.selectAll(MemberRole.ADMIN, pageable), HttpStatus.OK);
     }
 
     @CheckJwt
@@ -44,8 +50,6 @@ public class MenuController {
     @CheckJwt
     @PutMapping("/{menu_id}")
     public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuSaveDto menuSaveDto) {
-        log.info("수정 내용 : " + menuSaveDto.toString());
-
         menuService.updateMenu(menu_id, menuSaveDto);
         return new ResponseEntity(HttpStatus.OK);
     }
