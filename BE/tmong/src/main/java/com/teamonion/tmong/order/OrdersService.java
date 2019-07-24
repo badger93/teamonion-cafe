@@ -3,6 +3,8 @@ package com.teamonion.tmong.order;
 import com.teamonion.tmong.member.MemberRepository;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,20 +13,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class OrdersService {
 
+    @NonNull
     private final OrdersRepository ordersRepository;
 
-    public OrdersService(OrdersRepository ordersRepository) {
-        this.ordersRepository = ordersRepository;
-    }
+    @NonNull
+    private final MenuRepository menuRepository;
 
-    @Autowired
-    MenuRepository menuRepository;
-
-    @Autowired
-    MemberRepository memberRepository;
+    @NonNull
+    private final MemberRepository memberRepository;
 
     public void add(OrdersAddRequest ordersAddRequest) {
         // TODO : 총 금액 계산

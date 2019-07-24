@@ -1,12 +1,10 @@
 package com.teamonion.tmong.order;
 
+import com.teamonion.tmong.security.CheckJwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api")
 @RestController
@@ -23,6 +21,13 @@ public class OrdersController {
     public ResponseEntity orderProceed(@RequestBody OrdersAddRequest ordersAddRequest) {
         ordersService.add(ordersAddRequest);
         return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @CheckJwt
+    @GetMapping("/{member_id}/orders")
+    public ResponseEntity myOrder(@PathVariable Long member_id) {
+
+        return null;
     }
 
 }
