@@ -13,12 +13,40 @@ const AdminMenuManagePresenter = ({
   const popupRef = useRef(null);
 
   const colums = [
-    { key: 'id', name: 'ID' },
-    { key: 'imageFile', name: '이미지', formatter: Formatters.ImageFormatter },
-    { key: 'name', name: '상품명' },
-    { key: 'price', name: '가격' },
-    { key: 'information', name: '상세정보' },
-    { key: 'option', name: '옵션' },
+    {
+      key: 'id',
+      name: 'ID',
+      width: 70,
+      resizable: true,
+    },
+    {
+      key: 'imageFile',
+      name: '이미지',
+      formatter: Formatters.ImageFormatter,
+      width: 50,
+    },
+    {
+      key: 'name',
+      name: '상품명',
+      width: 140,
+      resizable: true,
+    },
+    {
+      key: 'price',
+      name: '가격',
+      width: 100,
+      resizable: true,
+    },
+    {
+      key: 'information',
+      name: '상세정보',
+      resizable: true,
+    },
+    {
+      key: 'option',
+      name: '옵션',
+      width: 100,
+    },
   ];
 
   const rows = menuList.map(item => ({
