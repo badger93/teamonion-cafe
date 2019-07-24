@@ -9,7 +9,7 @@ public enum ValidExceptionType {
     private String field;
     private String errorMessage;
 
-    private ValidExceptionType(String field, String errorMessage) {
+   private ValidExceptionType(String field, String errorMessage) {
         this.field = field;
         this.errorMessage = errorMessage;
     }

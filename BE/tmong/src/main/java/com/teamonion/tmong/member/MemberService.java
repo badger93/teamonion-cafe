@@ -1,9 +1,7 @@
 package com.teamonion.tmong.member;
 
+import com.teamonion.tmong.exception.*;
 import com.teamonion.tmong.security.JwtComponent;
-import com.teamonion.tmong.exception.UnauthorizedException;
-import com.teamonion.tmong.exception.ValidExceptionType;
-import com.teamonion.tmong.exception.ValidCustomException;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -68,7 +66,7 @@ public class MemberService {
 
     private void checkAdmin() {
         if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN)) {
-            throw new UnauthorizedException();
+            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.teamonion.tmong.security;
 
-import com.teamonion.tmong.exception.UnauthorizedException;
+import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class JwtComponent {
                     .parseClaimsJws(jwt);
         } catch (JwtException e) {
             log.debug("jwt is invalid : {}", e.getMessage());
-            throw new UnauthorizedException();
+            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
     }
 
