@@ -12,3 +12,5 @@ export const signInApi = data => axios.post('api/members/login', data);
 export const userOrderHistoryAPI = memberId => axios.get(`api/${memberId}/orders`);
 
 export const myOrderAPI = memberId => axios.get(`/api/${memberId}/orders/state`);
+
+export const myPointApi = memberId => axios.get(`/api/members/${memberId}/point`);

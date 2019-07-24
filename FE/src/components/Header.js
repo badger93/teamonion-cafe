@@ -5,13 +5,24 @@ import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
-import { logOutAction, signInRefRegisterAction, SIGNIN_SUCCESS } from '../redux/actions/userAction';
+import {
+  logOutAction, signInRefRegisterAction, SIGNIN_SUCCESS, changePoint,
+} from '../redux/actions/userAction';
 
 const Header = () => {
   const { isSignedIn, me } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const loginRef = useRef(null); // 애를 리덕스에 넣자
   const [isList, setIsList] = useState(false);
+  const [newPoint, setNewPoint] = useState(0);
+
+  const changePointDispatch = useCallback(
+    () => {
+      dispatch(changePoint(newPoint));
+    },
+    [newPoint],
+  );
+
   const logOutDispatch = useCallback(
     () => {
       dispatch(logOutAction());
@@ -29,6 +40,8 @@ const Header = () => {
         user={me}
         loginRef={loginRef}
         logOutDispatch={logOutDispatch}
+        changePointDispatch={changePointDispatch}
+        setNewPoint={setNewPoint}
       />
       <div className="signInContainer" ref={loginRef}>
         <SignInPopup loginRef={loginRef} />
