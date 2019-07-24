@@ -5,13 +5,13 @@ import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberRepository;
 import com.teamonion.tmong.menu.Menu;
-import com.teamonion.tmong.menu.MenuController;
 import com.teamonion.tmong.menu.MenuRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class OrdersService {
-    private static Logger log = LoggerFactory.getLogger(MenuController.class);
+    private static Logger logger = LoggerFactory.getLogger(OrdersService.class);
 
     @NonNull
     private final OrdersRepository ordersRepository;
@@ -30,29 +30,54 @@ public class OrdersService {
     @NonNull
     private final MemberRepository memberRepository;
 
-    public void add(OrdersAddRequest ordersAddRequest) {
-        // TODO : 총 금액 계산
-        // TODO : 주문자 정보
-        // TODO : 메뉴 정보
+    private final double DISCOUNT_RATE = 0.1;
 
-        Member member = memberRepository.findById(ordersAddRequest.getMember_id())
-                .orElseThrow(()-> new HandleRuntimeException(GlobalExceptionType.ORDER_MEMBER_NOT_FOUND));
-
-        int amount = 0;
+    @Transactional
+    public OrdersAddResponse add(OrdersAddRequest ordersAddRequest) {
+        // TODO : Code Convention
+        Member buyer = memberRepository.findById(ordersAddRequest.getMember_id())
+                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_MEMBER_NOT_FOUND));
 
         List<Menu> menuList = new ArrayList<>();
+        int amount = 0;
 
         for (Long id : ordersAddRequest.getMenuIdList()) {
             Menu menu = menuRepository.findById(id)
                     .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
             menuList.add(menu);
-            amount += Integer.valueOf(menu.getPrice());
+            amount += Integer.parseInt(menu.getPrice());
         }
 
-        log.info("총 가격 : {}", amount);
+        int buyerPoint = Integer.parseInt(buyer.getPoint());
+        if (ordersAddRequest.getPaymentType().equals(PaymentType.POINT)) {
+            if (buyerPoint < amount) {
+                throw new HandleRuntimeException(GlobalExceptionType.ORDER_POINT_LACK);
+            }
+            payByUsingPoint(buyer, buyerPoint, amount);
+        }
+        addBonusPoint(buyer, buyerPoint, amount);
 
-
-        //ordersRepository.save(ordersAddRequest.toEntity());
+        Orders orders = ordersAddRequest.toEntity(String.valueOf(amount), buyer, menuList);
+        return new OrdersAddResponse(buyer, ordersRepository.save(orders));
     }
+
+    private void payByUsingPoint(Member member, int buyerPoint, int amount) {
+        int point = buyerPoint - amount;
+
+        if (point < 0) {
+            throw new HandleRuntimeException(GlobalExceptionType.ORDER_POINT_LACK);
+        }
+
+        member.pointUpdate(String.valueOf(point));
+        memberRepository.save(member);
+    }
+
+    private void addBonusPoint(Member member, int buyerPoint, int amount) {
+        int point = (int)(amount * DISCOUNT_RATE) + buyerPoint;
+
+        member.pointUpdate(String.valueOf(point));
+        memberRepository.save(member);
+    }
+
 
 }

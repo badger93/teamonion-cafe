@@ -1,10 +1,11 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.exception.UnauthorizedException;
 import com.teamonion.tmong.member.MemberRole;
 import com.teamonion.tmong.security.JwtComponent;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -27,15 +27,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class MenuService {
-    private static Logger log = LoggerFactory.getLogger(MenuController.class);
+    private static final Logger log = LoggerFactory.getLogger(MenuService.class);
 
     @Value("${download-path}")
     private String DOWNLOAD_PATH;
 
-    @NotNull
+    @NonNull
     private final MenuRepository menuRepository;
 
-    @NotNull
+    @NonNull
     private final JwtComponent jwtComponent;
 
     Long add(MenuSaveDto menuSaveDto) {
@@ -51,7 +51,10 @@ public class MenuService {
         return menuRepository.save(menuSaveDto.toEntity()).getId();
     }
 
-    Page<Menu> selectAll(Pageable pageable) {
+    Page<Menu> selectAll(MemberRole memberRole, Pageable pageable) {
+        if(memberRole.equals(MemberRole.ADMIN)) {
+            checkAdmin();
+        }
         return menuRepository.findAll(pageable);
     }
 
@@ -93,6 +96,7 @@ public class MenuService {
         }
     }
 
+    @Transactional
     void deleteByMenuId(Long id) {
         checkAdmin();
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));

@@ -3,6 +3,7 @@ package com.teamonion.tmong.order;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.menu.Menu;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -32,7 +33,7 @@ public class Orders {
     @ManyToOne
     private Member buyer;
 
-    @OneToMany
+    @ManyToMany
     private List<Menu> menuList = new ArrayList<>();
 
     @Column(nullable = false)
@@ -42,4 +43,15 @@ public class Orders {
 
     private boolean pickup = false;
 
+    @Builder
+    public Orders(PaymentType paymentType, String amount, Member buyer, List<Menu> menuList, boolean paid){
+        this.paymentType = paymentType;
+        this.amount = amount;
+        this.createdDate = LocalDateTime.now();
+        this.buyer = buyer;
+        this.menuList = menuList;
+        this.paid = paid;
+        this.made = false;
+        this.pickup = false;
+    }
 }
