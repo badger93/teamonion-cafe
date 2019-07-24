@@ -1,18 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import UserInfoPresenter from './UserInfoPresenter';
 import { userOrderHistoryAPI } from '../../../api/userApi';
 
 const UserInfoContainer = () => {
   const { me } = useSelector(state => state.user);
+  const [history, setHistory] = useState([]);
 
-  // useEffect(() => {
-  //   try{
-  //     userOrderHistoryAPI
-  //   }catch{
-
-  //   }
-  // }, [])
+  useEffect(() => {
+    async function fetchHistoryAPI() {
+      try {
+        const newHistory = await userOrderHistoryAPI(me.id);
+        setHistory(newHistory);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchHistoryAPI();
+  }, []);
 
   const defaultColumnProperties = {
     resizable: true,

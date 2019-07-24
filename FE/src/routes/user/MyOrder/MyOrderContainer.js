@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
+import { myOrderAPI } from '../../../api/userApi';
 
 const MyOrderContainer = () => {
-  const orders = [
+  const { me } = useSelector(state => state.user);
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    async function fetchMyOrder() {
+      try {
+        if (me) {
+          const newOrders = await myOrderAPI(me.id);
+          setOrders(newOrders);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchMyOrder();
+  }, []);
+
+  const dummyOrders = [
     {
       pickup: false,
       paid: '결제완료',
@@ -17,7 +36,7 @@ const MyOrderContainer = () => {
     },
   ];
 
-  return <MyOrderPresenter orders={orders} />;
+  return <MyOrderPresenter orders={dummyOrders} setOrders={setOrders} userId={me.id} />;
 };
 
 export default MyOrderContainer;

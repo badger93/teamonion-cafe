@@ -5,7 +5,7 @@ const fetchClient = () => {
     baseURL: 'http://localhost:8080/',
     // method: 'get',
     headers: {
-      'Content-Type': 'application/json',
+      // 'Content-Type': 'application/json',
     },
   };
 

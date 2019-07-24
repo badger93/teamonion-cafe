@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import MyOrderCard from '../../../components/MyOrderCard';
 import './styles/MyOrderPresenter.scss';
 
-const MyOrderPresenter = ({ orders }) => (
+const MyOrderPresenter = ({ orders, setOrders, userId }) => (
   <div className="myorder-wrapper">
     {orders.map(
       (order, index) => !order.pickup && (
@@ -12,6 +12,8 @@ const MyOrderPresenter = ({ orders }) => (
           made={order.made}
           paid={order.paid}
           menu={order.menu}
+          setOrders={setOrders}
+          userId={userId}
         />
       ),
     )}
@@ -25,6 +27,8 @@ MyOrderPresenter.propTypes = {
     paid: propTypes.string,
     menu: propTypes.array,
   }),
+  setOrders: propTypes.func.isRequired,
+  userId: propTypes.number.isRequired,
 };
 
 export default MyOrderPresenter;
