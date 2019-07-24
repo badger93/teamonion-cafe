@@ -53,11 +53,11 @@ public class MemberService {
         return memberRepository.findAll(pageable);
     }
 
-    public void pointUpdate(Long id, String point) {
+    public String pointUpdate(Long id, String point) {
         checkAdmin();
         Member member = findById(id);
         member.pointUpdate(point);
-        memberRepository.save(member);
+        return memberRepository.save(member).getPoint();
     }
 
     public Integer getPoint(Long id) {
@@ -70,7 +70,7 @@ public class MemberService {
         }
     }
 
-    private Member findById(Long id) {
+    public Member findById(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
     }

@@ -31,13 +31,13 @@ public class MenuController {
 
     @GetMapping
     public ResponseEntity selectAll(Pageable pageable) {
-        return new ResponseEntity<>(menuService.selectAll(MemberRole.NORMAL, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(menuService.selectAll(pageable), HttpStatus.OK);
     }
 
     @CheckJwt
     @GetMapping("/admin")
     public ResponseEntity selectAllByAdmin(Pageable pageable) {
-        return new ResponseEntity<>(menuService.selectAll(MemberRole.ADMIN, pageable), HttpStatus.OK);
+        return new ResponseEntity<>(menuService.selectAllByAdmin(pageable), HttpStatus.OK);
     }
 
     @CheckJwt

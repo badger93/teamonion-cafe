@@ -50,10 +50,12 @@ public class MenuService {
         return menuRepository.save(menuSaveDto.toEntity()).getId();
     }
 
-    Page<Menu> selectAll(MemberRole memberRole, Pageable pageable) {
-        if(memberRole.equals(MemberRole.ADMIN)) {
-            checkAdmin();
-        }
+    Page<Menu> selectAll(Pageable pageable) {
+        return menuRepository.findAll(pageable);
+    }
+
+    Page<Menu> selectAllByAdmin(Pageable pageable) {
+        checkAdmin();
         return menuRepository.findAll(pageable);
     }
 
