@@ -5,7 +5,6 @@ import {
   call,
   put,
   delay,
-  actionChannel,
 } from 'redux-saga/effects';
 import {
   SIGNUP_FAILURE, SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNIN_SUCCESS,

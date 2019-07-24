@@ -11,23 +11,9 @@ import {
 import { myPointApi } from '../api/userApi';
 
 const PcHeader = ({
-  isSignedIn, user, loginRef, logOutDispatch, changePointDispatch, setNewPoint,
-}) => {
-  const onRefreshClick = useCallback(() => {
-    async function myPointAsyncApi() {
-      try {
-        const newPoint = await myPointApi(user.id);
-        await setNewPoint(newPoint);
-        await changePointDispatch();
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    myPointAsyncApi();
-  }, []);
-
-  return (
-    <div className="header_pc">
+  isSignedIn, user, loginRef, logOutDispatch, onRefreshClick,
+}) => (
+  <div className="header_pc">
       <div className="header_pc-wrap">
         <div className="header_pc-logo">
           <img src={tmonglogo} alt="logo" />
@@ -82,8 +68,7 @@ const PcHeader = ({
         </div>
       </div>
     </div>
-  );
-};
+);
 
 
 PcHeader.defaultProptypes = {
@@ -104,8 +89,7 @@ PcHeader.propTypes = {
   }).isRequired,
   loginRef: propTypes.objectOf(propTypes.element).isRequired,
   logOutDispatch: propTypes.func.isRequired,
-  changePointDispatch: propTypes.func.isRequired,
-  setNewPoint: propTypes.func.isRequired,
+  onRefreshClick: propTypes.func.isRequired,
 };
 
 export default PcHeader;

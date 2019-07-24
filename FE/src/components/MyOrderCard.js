@@ -5,7 +5,7 @@ import {
   faRedo,
 } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MyOrderCard.scss';
-import { myOrderAPI } from '../api/userApi';
+import { userOrderAPI } from '../api/userApi';
 
 
 const MyOrderCard = ({ // 전체 주문목록 새로고침
@@ -14,7 +14,7 @@ const MyOrderCard = ({ // 전체 주문목록 새로고침
   const onRefreshClick = useCallback(
     async () => {
       try {
-        const newOrders = await myOrderAPI(userId);
+        const newOrders = await userOrderAPI(userId, false);
         setOrders(newOrders);
       } catch (e) {
         console.log(e);
@@ -41,15 +41,15 @@ const MyOrderCard = ({ // 전체 주문목록 새로고침
         <div className="myorder-status-box">
           <div className="myorder-box-making">
             {made === '제작중' ? (
-            '열심히 음료를 만들고 있어요'
-          ) : (
-            <div className="myorder-box-made">
-              <div>음료 준비가 완료되었어요</div>
-              {' '}
-              <div>매장으로 오세요!</div>
-              {' '}
-            </div>
-          )}
+              '열심히 음료를 만들고 있어요'
+            ) : (
+              <div className="myorder-box-made">
+                <div>음료 준비가 완료되었어요</div>
+                {' '}
+                <div>매장으로 오세요!</div>
+                {' '}
+              </div>
+            )}
           </div>
         </div>
         {paid === '미결제' && (
