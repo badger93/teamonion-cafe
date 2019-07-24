@@ -20,7 +20,6 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -58,7 +57,7 @@ public class MenuControllerTest {
     public void 메뉴_전체조회() throws Exception {
         List<Menu> allMenus = new ArrayList<>();
 
-        Mockito.when(menuService.selectAll()).thenReturn(allMenus);
+        //Mockito.when(menuService.selectAll()).thenReturn(allMenus);
 
         mockMvc.perform(get("/api/menus")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)

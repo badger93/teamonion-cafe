@@ -7,13 +7,17 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
 
+public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private JwtComponent jwtComponent;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if(!(handler instanceof HandlerMethod)) {
+            return true;
+        }
+
         CheckJwt checkJwt = ((HandlerMethod) handler).getMethodAnnotation(CheckJwt.class);
         if (checkJwt == null || !checkJwt.handle()) {
             return true;

@@ -23,12 +23,6 @@ public class WebConfig implements WebMvcConfigurer {
         return new AuthorizationInterceptor();
     }
 
-    @Bean
-    public MultipartResolver multipartResolver() {
-        StandardServletMultipartResolver multipartResolver = new StandardServletMultipartResolver();
-        return multipartResolver;
-    }
-
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

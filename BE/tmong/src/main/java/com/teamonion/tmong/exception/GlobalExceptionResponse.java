@@ -3,10 +3,10 @@ package com.teamonion.tmong.exception;
 import lombok.Getter;
 
 @Getter
-public class CustomExceptionError {
+public class GlobalExceptionResponse {
     private String errorMessage;
 
-    public CustomExceptionError(String errorMessage) {
+    public GlobalExceptionResponse(String errorMessage) {
         this.errorMessage = errorMessage;
     }
 }
