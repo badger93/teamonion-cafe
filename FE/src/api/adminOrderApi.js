@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 const getNonpickupAllUrl = 'https://my-json-server.typicode.com/badger012/mockserver/orders';
+// const getNonpickupAllUrl= '/api/orders/state'
 
 const getNonpickupAll = (callback) => {
   axios
@@ -24,5 +25,7 @@ export const putOrderState = (callback, {
       callback(order_id, payload);
     });
 };
+// TODO adminOrder API 명세 나오는 대로 상태별 주문이력 가져오기로 코드 수정하자
+export const getOrderHistory = () => axios.get('https://my-json-server.typicode.com/badger012/mockserver/orders');
 
 export default getNonpickupAll;
