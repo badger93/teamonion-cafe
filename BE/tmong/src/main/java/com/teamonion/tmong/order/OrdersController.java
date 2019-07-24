@@ -1,6 +1,8 @@
 package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.security.CheckJwt;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,9 +25,8 @@ public class OrdersController {
 
     @CheckJwt
     @GetMapping("/{member_id}/orders")
-    public ResponseEntity myOrder(@PathVariable Long member_id) {
-
-        return null;
+    public ResponseEntity<Page<OrdersHistoryResponse>> myOrder(Pageable pageable, @PathVariable Long member_id, boolean pickup) {
+        return new ResponseEntity<>(ordersService.getMyOrders(pageable, member_id, pickup), HttpStatus.OK);
     }
 
 }

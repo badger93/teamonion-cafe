@@ -2,7 +2,6 @@ package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.exception.GlobalExceptionType;
-import com.teamonion.tmong.exception.UnauthorizedException;
 import com.teamonion.tmong.member.MemberRole;
 import com.teamonion.tmong.security.JwtComponent;
 import lombok.RequiredArgsConstructor;
@@ -116,7 +115,7 @@ public class MenuService {
 
     private void checkAdmin() {
         if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN)) {
-            throw new UnauthorizedException();
+            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
     }
 }
