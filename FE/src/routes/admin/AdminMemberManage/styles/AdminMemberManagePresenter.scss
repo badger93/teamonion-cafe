@@ -1,0 +1,47 @@
+.AdminMemberManagePresenter {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 40px;
+  @media (max-width: 414px) {
+    width: 90%;
+  }
+
+  .pageTitle {
+    font: {
+      size: 20px;
+      weight: 600;
+    }
+  }
+  .memberManageList {
+    position: relative;
+    margin-top: 65px;
+    .searchArea {
+      position: absolute;
+      right: 10px;
+      top: -45px;
+
+      input {
+        border: none;
+        height: 30px;
+        font-size: 16px;
+      }
+      input+input {
+        margin-left: 10px;
+      }
+      input[type="text"] {
+        border: 4px solid #f96503;
+      }
+      input[type="submit"] {
+        background-color: #222f3e;
+        border: 4px solid #222f3e;
+        color: #fff;
+      }
+    }
+  }
+  .paginationArea {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+    
+  }
+}
