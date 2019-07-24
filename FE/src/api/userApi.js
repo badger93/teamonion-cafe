@@ -1,7 +1,14 @@
-import axios from 'axios';
+// import axios from 'axios';
+import fetchClient from './axios';
 
-export const duplicateCheckApi = data => axios.post('http://localhost:8080/api/members/overlap', data);
+const axios = fetchClient();
 
-export const signUpApi = data => axios.post('http://localhost:8080/api/members', data);
+export const duplicateCheckApi = data => axios.post('api/members/overlap', data);
+
+export const signUpApi = data => axios.post('api/members', data);
 
 export const signInApi = data => axios.post('api/members/login', data);
+
+export const userOrderHistoryAPI = memberId => axios.get(`api/${memberId}/orders`);
+
+export const myOrderAPI = memberId => axios.get(`/api/${memberId}/orders/state`);

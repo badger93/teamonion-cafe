@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import UserInfoPresenter from './UserInfoPresenter';
+import { userOrderHistoryAPI } from '../../../api/userApi';
 
 const UserInfoContainer = () => {
-  const dummyUser = { id: 'hyunjae', point: 10000 };
+  const { me } = useSelector(state => state.user);
+  const [history, setHistory] = useState([]);
+
+  useEffect(() => {
+    async function fetchHistoryAPI() {
+      try {
+        const newHistory = await userOrderHistoryAPI(me.id);
+        setHistory(newHistory);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    fetchHistoryAPI();
+  }, []);
+
   const defaultColumnProperties = {
     resizable: true,
   };
@@ -11,21 +27,29 @@ const UserInfoContainer = () => {
     { key: 'time', name: '주문시간' },
     { key: 'money', name: '주문금액' },
     { key: 'menu', name: '주문메뉴' },
-  ].map((c) => ({ ...c, ...defaultColumnProperties }));
+  ].map(c => ({ ...c, ...defaultColumnProperties }));
 
   const rows = [
-    { id: 0, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'] },
-    { id: 1, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'] },
-    { id: 2, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'] },
-    { id: 3, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'] },
+    {
+      id: 0, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'],
+    },
+    {
+      id: 1, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'],
+    },
+    {
+      id: 2, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'],
+    },
+    {
+      id: 3, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'],
+    },
   ];
 
   return (
     <UserInfoPresenter
       columns={columns}
       rows={rows}
-      id={dummyUser.id}
-      point={dummyUser.point}
+      id={me.memberId}
+      point={me.point}
     />
   );
 };

@@ -9,16 +9,20 @@ import {
 import axios from 'axios';
 import { PAY_FAILURE, PAY_SUCCESS, PAY_REQUEST } from '../actions/payAction';
 import { payAPI } from '../../api/payApi';
+import { CHANGE_POINT } from '../actions/userAction';
 
 
 function* pay(action) {
   try {
     // yield call(payAPI(action));
-
     yield delay(2000);
     yield put({
       // put은 dispatch 동일
       type: PAY_SUCCESS,
+    });
+    yield put({
+      type: CHANGE_POINT,
+      data: action.data.afterPoint,
     });
   } catch (e) {
     // loginAPI 실패

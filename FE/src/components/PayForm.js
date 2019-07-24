@@ -29,6 +29,7 @@ const PayForm = ({
       paymentType: howPay === 1 ? 'point' : 'cash',
       menuSet,
       member_id: user.id,
+      afterPoint,
     };
     dispatch(payRequestAction(requestInfo));
     // PayRequest
