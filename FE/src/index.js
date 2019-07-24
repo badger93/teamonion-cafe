@@ -26,6 +26,7 @@ const enhancer = compose(
 const store = createStore(reducers, enhancer);
 
 sagaMiddleware.run(rootSaga); // 미들웨어 장착후 가능, 루트사가 등록필요
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

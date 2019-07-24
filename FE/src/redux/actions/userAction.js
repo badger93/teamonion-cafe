@@ -10,6 +10,8 @@ export const SIGNIN_REF_REGISTER = 'SIGNIN_REF_REGISTER';
 
 export const LOG_OUT = 'LOG_OUT';
 
+export const CHANGE_POINT = 'CHANGE_POINT';
+
 export const signUpRequestAction = data => ({
   type: SIGNUP_REQUEST,
   data,
@@ -23,3 +25,5 @@ export const signInRequestAction = data => ({
 export const logOutAction = () => ({ type: LOG_OUT });
 
 export const signInRefRegisterAction = data => ({ type: SIGNIN_REF_REGISTER, data });
+
+export const changePoint = data => ({ type: CHANGE_POINT, data });

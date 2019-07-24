@@ -27,7 +27,7 @@ const RootRouter = () => {
       {...rest}
       render={(props) => {
         if (isSignedIn === true) { return <Component {...props} />; }
-        openPopup(signInRef.current);
+        signInRef && setTimeout(() => openPopup(signInRef.current), 1000);
         return <Redirect to="/" />;
       }
       }
