@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import UserInfoPresenter from './UserInfoPresenter';
+import { userOrderHistoryAPI } from '../../../api/userApi';
 
 const UserInfoContainer = () => {
   const { me } = useSelector(state => state.user);
+
+  // useEffect(() => {
+  //   try{
+  //     userOrderHistoryAPI
+  //   }catch{
+
+  //   }
+  // }, [])
 
   const defaultColumnProperties = {
     resizable: true,

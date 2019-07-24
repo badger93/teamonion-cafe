@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
-import { logOutAction, signInRefRegisterAction } from '../redux/actions/userAction';
+import { logOutAction, signInRefRegisterAction, SIGNIN_SUCCESS } from '../redux/actions/userAction';
 
 const Header = () => {
   const { isSignedIn, me } = useSelector(state => state.user);
@@ -18,7 +18,9 @@ const Header = () => {
     },
     [dispatch],
   );
-  useEffect(() => (dispatch(signInRefRegisterAction(loginRef))), [dispatch, loginRef]);
+  useEffect(() => {
+    dispatch(signInRefRegisterAction(loginRef));
+  }, []);
   return (
     <>
       <MobileHeader logOutDispatch={logOutDispatch} isList={isList} setIsList={setIsList} isSignedIn={isSignedIn} user={me} loginRef={loginRef} dispatch={dispatch} />
