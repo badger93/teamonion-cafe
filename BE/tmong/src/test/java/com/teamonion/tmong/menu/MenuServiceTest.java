@@ -120,7 +120,7 @@ public class MenuServiceTest {
         List list = new ArrayList<>();
 
         //when
-        Mockito.when(menuRepository.findByName(name)).thenReturn(list);
+        Mockito.when(menuRepository.findByNameAndDeletedFalse(name)).thenReturn(list);
 
         menuService.selectByName(name);
     }

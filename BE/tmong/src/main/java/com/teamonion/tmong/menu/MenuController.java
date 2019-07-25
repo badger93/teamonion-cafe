@@ -1,6 +1,5 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.member.MemberRole;
 import com.teamonion.tmong.security.CheckJwt;
 import lombok.NonNull;
 import org.slf4j.Logger;
@@ -15,6 +14,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/menus")
 @RestController
 public class MenuController {
+    private static final Logger log = LoggerFactory.getLogger(MenuService.class);
 
     @NonNull
     private final MenuService menuService;
@@ -25,19 +25,13 @@ public class MenuController {
 
     @CheckJwt
     @PostMapping
-    public ResponseEntity add(@ModelAttribute @Valid MenuSaveDto menuSaveDto) {
+    public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
         return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity selectAll(Pageable pageable) {
         return new ResponseEntity<>(menuService.selectAll(pageable), HttpStatus.OK);
-    }
-
-    @CheckJwt
-    @GetMapping("/admin")
-    public ResponseEntity selectAllByAdmin(Pageable pageable) {
-        return new ResponseEntity<>(menuService.selectAllByAdmin(pageable), HttpStatus.OK);
     }
 
     @CheckJwt
@@ -50,6 +44,7 @@ public class MenuController {
     @CheckJwt
     @PutMapping("/{menu_id}")
     public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuSaveDto menuSaveDto) {
+        log.info("Menu updateOne Api call..");
         menuService.updateMenu(menu_id, menuSaveDto);
         return new ResponseEntity(HttpStatus.OK);
     }

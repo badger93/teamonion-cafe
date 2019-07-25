@@ -39,40 +39,37 @@ public class MenuService {
 
     Long add(MenuSaveDto menuSaveDto) {
         checkAdmin();
+
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
         if (imageFile.getOriginalFilename().isEmpty()) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
-        menuSaveDto.setImagePath(setMenuImagePath(imageFile));
-
-        return menuRepository.save(menuSaveDto.toEntity()).getId();
+        return menuRepository.save(menuSaveDto.toEntity(setMenuImagePath(imageFile))).getId();
     }
 
     Page<Menu> selectAll(Pageable pageable) {
-        return menuRepository.findAll(pageable);
-    }
-
-    Page<Menu> selectAllByAdmin(Pageable pageable) {
-        checkAdmin();
-        return menuRepository.findAll(pageable);
+        return menuRepository.findAllByDeletedFalse(pageable);
+        //return (Page<Menu>) menuRepository.findAll(pageable).filter(menu -> !menu.isDeleted());
     }
 
     @Transactional
     public void updateMenu(Long id, MenuSaveDto menuSaveDto) {
         checkAdmin();
+
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
 
         String path = menu.getImagePath();
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
+        // TODO : 파일 서비스 분리 고민
         if (imageFile.getOriginalFilename().isEmpty()) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
-        menuSaveDto.setImagePath(setMenuImagePath(menuSaveDto.getImageFile()));
-        menu.update(menuSaveDto);
+
+        menu = menuSaveDto.toEntity(setMenuImagePath(menuSaveDto.getImageFile()));
         menuRepository.save(menu);
 
         deleteMenuImage(path);
@@ -99,10 +96,12 @@ public class MenuService {
     @Transactional
     void deleteByMenuId(Long id) {
         checkAdmin();
+
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
         String path = menu.getImagePath();
 
-        menuRepository.delete(menu);
+        menu.delete();
+        menuRepository.save(menu);
         deleteMenuImage(path);
     }
 
@@ -116,7 +115,7 @@ public class MenuService {
     }
 
     List<Menu> selectByName(String name) {
-        return menuRepository.findByName(name);
+        return menuRepository.findByNameAndDeletedFalse(name);
     }
 
     private void checkAdmin() {
