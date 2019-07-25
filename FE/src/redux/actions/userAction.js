@@ -7,7 +7,7 @@ export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
 export const SIGNIN_REQUEST = 'SIGNIN_REQUEST';
 
-export const SIGNIN_REF_REGISTER = 'SIGNIN_REF_REGISTER';
+export const SIGNIN_POPUP_CHANGE = 'SIGNIN_POPUP_CHANGE';
 
 export const LOG_OUT = 'LOG_OUT';
 
@@ -22,13 +22,12 @@ export const signUpFinish = () => ({
   type: SIGNUP_FINISH,
 });
 
-export const signInRequestAction = data => ({
+export const signInRequestAction = () => ({
   type: SIGNIN_REQUEST,
-  data,
 });
 
 export const logOutAction = () => ({ type: LOG_OUT });
 
-export const signInRefRegisterAction = data => ({ type: SIGNIN_REF_REGISTER, data });
+export const signInPopupChangeAction = () => ({ type: SIGNIN_POPUP_CHANGE });
 
 export const changePoint = data => ({ type: CHANGE_POINT, data });

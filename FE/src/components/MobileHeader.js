@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import '../styles/MobileHeader.scss';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,19 +11,29 @@ import {
   faRedo,
 } from '@fortawesome/free-solid-svg-icons';
 import propTypes from 'prop-types';
+import { signInPopupChangeAction } from '../redux/actions/userAction';
 import tmonglogo from '../image/tmonglogo.png';
 
 
 const MobileHeader = ({
   isSignedIn, logOutDispatch, user, setIsLoginPopup, onRefreshClick, setIsList = null, isList = false,
-}) => (
-  <>
-    <div className="header_mobile-wrap">
-      <div className="header_mobile-logo">
+}) => {
+  const dispatch = useDispatch();
+
+  const popupControl = useCallback(
+    () => {
+      dispatch(signInPopupChangeAction());
+    }, [dispatch],
+  );
+
+  return (
+    <>
+      <div className="header_mobile-wrap">
+        <div className="header_mobile-logo">
         <img src={tmonglogo} alt="logo" />
         {user.memberRole === 'ADMIN' ? <Link to="/admin/order-manage" /> : <Link to="/" />}
       </div>
-      <div className="header_mobile-column">
+        <div className="header_mobile-column">
         {user.memberRole === 'ADMIN' ? (
           <>
             <Link to="/admin/order-manage">주문현황</Link>
@@ -62,7 +73,7 @@ const MobileHeader = ({
           </>
         )}
       </div>
-      <div
+        <div
         className={isList ? 'header_mobile-list' : 'header_mobile-list-none'}
       >
         <div className="list-cover" />
@@ -121,15 +132,16 @@ const MobileHeader = ({
             <div className="header_moblie-logout" onClick={logOutDispatch}>LogOut</div>
           ) : (
             <>
-              <a><div onClick={() => setIsLoginPopup(true)}>SignIn</div></a>
+              <a><div onClick={() => popupControl()}>SignIn</div></a>
               <Link to="/signup">SignUp</Link>
             </>
           )}
         </div>
       </div>
-    </div>
-  </>
-);
+      </div>
+    </>
+  );
+};
 
 MobileHeader.propTypes = {
   isSignedIn: propTypes.bool.isRequired,

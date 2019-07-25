@@ -4,10 +4,11 @@ import React, {
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
+import { signInPopupChangeAction } from '../redux/actions/userAction';
 import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
-import { openPopup } from '../utils/popup';
+
 
 const CartForm = ({
   signInRef = null, handleCart, handleCheckedCart, dispatch, isSignedIn,
@@ -18,6 +19,11 @@ const CartForm = ({
   const [tryPay, setTryPay] = useState(false); // 로그인후 바로 리디렉션을 위한 값
   const [willPay, setWillPay] = useState(false); // 리디렉션을 위한 값
 
+  const popupControl = useCallback(
+    () => {
+      dispatch(signInPopupChangeAction());
+    }, [dispatch],
+  );
 
   const onSubmit = useCallback((e) => {
     e && e.preventDefault();
@@ -28,7 +34,7 @@ const CartForm = ({
         return;
       }
       if (!isSignedIn) { // 로그인 안할경우 오픈팝업
-        openPopup(signInRef.current);
+        popupControl();
         setTryPay(true); // 로그인 성공하면 바로 결제로 가도록
         return;
       }
