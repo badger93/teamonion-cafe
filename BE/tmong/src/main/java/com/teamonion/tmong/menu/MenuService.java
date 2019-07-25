@@ -37,12 +37,12 @@ public class MenuService {
     @NonNull
     private final JwtComponent jwtComponent;
 
-    Long add(MenuSaveDto menuSaveDto) {
+    long add(MenuSaveDto menuSaveDto) {
         checkAdmin();
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
         if (imageFile.getOriginalFilename().isEmpty()) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENUIMAGE_NOT_FOUND);
+            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
         menuSaveDto.setImagePath(setMenuImagePath(imageFile));
@@ -60,7 +60,7 @@ public class MenuService {
     }
 
     @Transactional
-    public void updateMenu(Long id, MenuSaveDto menuSaveDto) {
+    public void updateMenu(long id, MenuSaveDto menuSaveDto) {
         checkAdmin();
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
@@ -69,7 +69,7 @@ public class MenuService {
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
         if (imageFile.getOriginalFilename().isEmpty()) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENUIMAGE_NOT_FOUND);
+            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
         menuSaveDto.setImagePath(setMenuImagePath(menuSaveDto.getImageFile()));
         menu.update(menuSaveDto);
@@ -93,12 +93,12 @@ public class MenuService {
             return DOWNLOAD_PATH + "/" + fileName;
         } catch (IOException e) {
             //e.getStackTrace();
-            throw new HandleRuntimeException(GlobalExceptionType.MENUIMAGE_RENDER_ERROR);
+            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
         }
     }
 
     @Transactional
-    void deleteByMenuId(Long id) {
+    void deleteByMenuId(long id) {
         checkAdmin();
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
         String path = menu.getImagePath();

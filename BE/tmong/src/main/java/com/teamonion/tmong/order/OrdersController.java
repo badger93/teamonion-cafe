@@ -20,7 +20,7 @@ public class OrdersController {
     }
 
     @PostMapping("/{member_id}/orders")
-    public ResponseEntity orderProceed(@Valid OrdersAddRequest ordersAddRequest) {
+    public ResponseEntity orderProceed(@RequestBody @Valid OrdersAddRequest ordersAddRequest) {
         return new ResponseEntity<>(ordersService.add(ordersAddRequest), HttpStatus.CREATED);
     }
 
