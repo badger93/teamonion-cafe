@@ -28,10 +28,10 @@ public class Menu {
 
     private String imagePath;
 
-    void update(MenuSaveDto menuSaveDto) {
-        this.name = menuSaveDto.getName();
-        this.price = menuSaveDto.getPrice();
-        this.information = menuSaveDto.getInformation();
-        this.imagePath = menuSaveDto.getImagePath();
+    @Column(nullable = false)
+    private boolean deleted = false;
+
+    void delete() {
+        this.deleted = true;
     }
 }

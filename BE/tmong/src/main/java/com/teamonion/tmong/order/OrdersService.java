@@ -36,6 +36,18 @@ public class OrdersService {
 
     @Transactional
     public Long add(Long member_id, OrdersAddRequest ordersAddRequest) {
+
+        // 1. 회원정보조회
+        // 2. 주문 정보 정리
+        // 3. 포인트 처리
+        // 4. 묶기
+
+//        memberService.getMember();
+//        Orders order = getOrders();
+//        pointService.process();
+//        Data data = orderRe.save(orders);
+//        return data.getId();
+
         Member buyer = memberRepository.findById(member_id)
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_MEMBER_NOT_FOUND));
 
@@ -83,7 +95,7 @@ public class OrdersService {
 
     public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, Long buyer_id, boolean pickup) {
         return ordersRepository.findByBuyerIdAndPickup(pageable, buyer_id, pickup)
-                .map(orders -> new OrdersHistoryResponse(orders));
+                .map(OrdersHistoryResponse::toOrderHistoryResponse);
     }
 
 }
