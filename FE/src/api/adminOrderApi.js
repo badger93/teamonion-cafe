@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import axios from 'axios';
 
 const getNonpickupAllUrl = 'https://my-json-server.typicode.com/badger012/mockserver/orders';
@@ -14,7 +13,7 @@ const getNonpickupAll = callback => {
 };
 
 export const putOrderState = (callback, { member_id, order_id, made, paid, pickup }, change) => {
-  const payload = Object.assign({ made, pickup, paid }, { change });
+  const payload = Object.assign({ made, pickup, paid }, change);
   axios
     .put(`/admin/api/${member_id}/orders/${order_id}`, payload)
     .then(() => {

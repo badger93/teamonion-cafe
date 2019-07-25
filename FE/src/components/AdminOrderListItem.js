@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import propTypes from 'prop-types';
 import { putOrderState } from '../api/adminOrderApi'; // putOrderState(callback, 리스트, 변경할 State)
@@ -19,7 +18,9 @@ const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
         <input
           type="button"
           value="→"
-          onClick={() => putOrderState(setCurrentOrderList, list, { made: true })}
+          onClick={() => {
+            putOrderState(setCurrentOrderList, list, { made: true });
+          }}
           className="madeBtn"
         />
       )}

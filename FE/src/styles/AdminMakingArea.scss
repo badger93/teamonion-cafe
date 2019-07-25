@@ -1,7 +1,7 @@
 .beforeMaking-area,
 .afterMaking-area {
   width: 550px;
-  height: 500px;
+  height: 550px;
   margin: 0;
   background-color: rgb(224, 225, 231);
   border-radius: 5px;
@@ -10,7 +10,7 @@
   }
 
   .orderBoard {
-    padding: 10px 10px 0 10px;
+    padding: 10px 10px 40px 10px;
     overflow: scroll;
     height: 100%;
   }
