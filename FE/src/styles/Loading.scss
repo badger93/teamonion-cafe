@@ -1,0 +1,48 @@
+.loader-wrapper{
+    position: absolute;
+    bottom:-120px;
+    background-color: #222F3E;
+    opacity: 0.3;
+    height:100%;
+    width:100%;
+    pointer-events: all;
+    z-index:1;
+    @media (max-width: 960px) {
+      bottom:-40px;
+    }
+}
+
+.loader {
+    position: relative;
+    top:120px;
+    animation: spinningColor 1.5s ease-in-out infinite;
+    margin: 50px auto;
+    border: 5px double #f0eff5;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+  }
+
+  @keyframes spinningColor {
+    0% {
+      transform: rotate(360deg);
+      border-top:5px dashed #FE6600;
+      border-bottom:5px dashed #222F3E;
+    }
+    25% {
+      border-top:5px dashed #FE6600;
+      border-bottom:5px dashed #222F3E;
+    }
+    50% {
+      border-top:5px dashed #FE6600;
+      border-bottom:5px dashed #222F3E;
+    }
+    75% {
+      border-top:5px dashed #FE6600;
+      border-bottom:5px dashed #222F3E;
+    }
+    100% {
+      border-top:5px dashed #FE6600;
+      border-bottom:5px dashed #222F3E;
+    }
+  }

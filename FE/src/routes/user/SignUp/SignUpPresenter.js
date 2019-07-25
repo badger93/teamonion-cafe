@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import SignUpForm from '../../../components/SignUpForm';
 import './styles/SignUpPresenter.scss';
+import Loading from '../../../components/Loading';
 
 const SignUpPresenter = ({
   dispatch, isSigningUp,

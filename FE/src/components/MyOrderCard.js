@@ -56,7 +56,7 @@ const MyOrderCard = ({ // 전체 주문목록 새로고침
         <div className="myorder-status-paid">현장결제가 필요합니다</div>
         )}
         <div className="menu-container">
-          {menu.map((drink, index) => (
+          {menu && menu.map((drink, index) => (
             <div key={index}>{`${drink}`}</div>
           ))}
         </div>
