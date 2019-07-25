@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import propTypes from 'prop-types';
-import { closePopup } from '../utils/popup';
 import '../styles/MenuDetail.scss';
 import { useLocalStorage } from '../utils/cart';
 
-const MenuDetail = ({ menuDetailData, detailRef }) => {
+const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
   const {
     id, name, price, information, imageFile,
   } = menuDetailData;
@@ -43,7 +42,7 @@ const MenuDetail = ({ menuDetailData, detailRef }) => {
             className="closeBtn"
             type="button"
             value="X"
-            onClick={e => closePopup(e, detailRef.current)}
+            onClick={() => setIsMenuPopup(false)}
           />
           <div className="titleArea">
             <div className="title">{name}</div>
@@ -65,12 +64,12 @@ const MenuDetail = ({ menuDetailData, detailRef }) => {
 
 MenuDetail.defaultProps = {
   menuDetailData: {},
-  detailRef: {},
+  setIsMenuPopup: () => {},
 };
 
 MenuDetail.propTypes = {
   menuDetailData: propTypes.objectOf(propTypes.string),
-  detailRef: propTypes.objectOf(propTypes.instanceOf(Element)),
+  setIsMenuPopup: propTypes.func,
 };
 
 export default MenuDetail;

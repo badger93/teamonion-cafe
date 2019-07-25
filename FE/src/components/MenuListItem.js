@@ -3,9 +3,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuListItem.scss';
-import { openPopup } from '../utils/popup';
 
-const MenuListItem = ({ item, mapDetailData, detailRef }) => {
+const MenuListItem = ({ item, mapDetailData, setIsMenuPopup }) => {
   const { name, price, imageFile } = item;
 
   return (
@@ -13,7 +12,7 @@ const MenuListItem = ({ item, mapDetailData, detailRef }) => {
       className="menuListItem"
       onClick={() => {
         mapDetailData(item);
-        openPopup(detailRef.current);
+        setIsMenuPopup(true);
       }}
     >
       <div className="img-area">
@@ -30,7 +29,7 @@ const MenuListItem = ({ item, mapDetailData, detailRef }) => {
 MenuListItem.defaultProps = {
   item: {},
   mapDetailData: () => {},
-  detailRef: {},
+  setIsMenuPopup: () => {},
 };
 
 MenuListItem.propTypes = {
@@ -38,7 +37,7 @@ MenuListItem.propTypes = {
     propTypes.oneOfType([propTypes.number, propTypes.string]),
   ),
   mapDetailData: propTypes.func,
-  detailRef: propTypes.objectOf(propTypes.instanceOf(Element)),
+  setIsMenuPopup: propTypes.func,
 };
 
 export default MenuListItem;

@@ -10,11 +10,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import propTypes from 'prop-types';
 import tmonglogo from '../image/tmonglogo.png';
-import { openPopup } from '../utils/popup';
 
 
 const MobileHeader = ({
-  isSignedIn, logOutDispatch, user, loginRef, setIsList = null, isList = false,
+  isSignedIn, logOutDispatch, user, setIsLoginPopup, setIsList = null, isList = false,
 }) => (
   <>
     <div className="header_mobile-wrap">
@@ -110,7 +109,7 @@ const MobileHeader = ({
             <div className="header_moblie-logout" onClick={logOutDispatch}>LogOut</div>
           ) : (
             <>
-              <a><div onClick={() => openPopup(loginRef.current)}>SignIn</div></a>
+              <a><div onClick={() => setIsLoginPopup(true)}>SignIn</div></a>
               <Link to="/signup">SignUp</Link>
             </>
           )}
@@ -129,7 +128,7 @@ MobileHeader.propTypes = {
     point: propTypes.number.isRequired,
     jwt: propTypes.string.isRequired,
   }).isRequired,
-  loginRef: propTypes.objectOf(propTypes.element).isRequired,
+  setIsLoginPopup: propTypes.func,
   setIsList: propTypes.func,
   isList: propTypes.bool,
   logOutDispatch: propTypes.func.isRequired,

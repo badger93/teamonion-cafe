@@ -12,6 +12,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const loginRef = useRef(null); // 애를 리덕스에 넣자
   const [isList, setIsList] = useState(false);
+  const [isLoginPopup, setIsLoginPopup] = useState(false);
   const logOutDispatch = useCallback(
     () => {
       dispatch(logOutAction());
@@ -23,16 +24,28 @@ const Header = () => {
   }, []);
   return (
     <>
-      <MobileHeader logOutDispatch={logOutDispatch} isList={isList} setIsList={setIsList} isSignedIn={isSignedIn} user={me} loginRef={loginRef} dispatch={dispatch} />
+      <MobileHeader
+        logOutDispatch={logOutDispatch}
+        isList={isList}
+        setIsList={setIsList}
+        isSignedIn={isSignedIn}
+        user={me}
+        setIsLoginPopup={setIsLoginPopup}
+        dispatch={dispatch}
+      />
       <PcHeader
         isSignedIn={isSignedIn}
         user={me}
         loginRef={loginRef}
         logOutDispatch={logOutDispatch}
+        setIsLoginPopup={setIsLoginPopup}
       />
+      {isLoginPopup
+      && (
       <div className="signInContainer" ref={loginRef}>
-        <SignInPopup loginRef={loginRef} />
+        <SignInPopup setIsLoginPopup={setIsLoginPopup} />
       </div>
+      )}
     </>
   );
 };
