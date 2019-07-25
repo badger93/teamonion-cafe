@@ -6,6 +6,7 @@ import { userOrderAPI } from '../../../api/userApi';
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
   const [orders, setOrders] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchMyOrder() {
@@ -20,6 +21,7 @@ const MyOrderContainer = () => {
       }
     }
     fetchMyOrder();
+    setIsLoading(false);
   }, []);
 
   // const dummyOrders = [
@@ -37,7 +39,9 @@ const MyOrderContainer = () => {
   //   },
   // ];
 
-  return <MyOrderPresenter orders={orders} setOrders={setOrders} userId={me.id} />;
+  return (
+    <MyOrderPresenter isLoading={isLoading} orders={orders} setOrders={setOrders} userId={me.id} />
+  );
 };
 
 export default MyOrderContainer;

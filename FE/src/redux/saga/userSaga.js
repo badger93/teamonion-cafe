@@ -12,8 +12,8 @@ import { signUpApi, signInApi } from '../../api/userApi';
 
 function* signIn(action) {
   try {
+    console.log(action.data);
     const result = yield call(() => signInApi(action.data));
-    yield delay(3000);
     yield put({
       // put은 dispatch 동일
       type: SIGNIN_SUCCESS,
@@ -21,7 +21,7 @@ function* signIn(action) {
     });
   } catch (e) {
     // signupAPI 실패
-    console.dir(e.response.data.errorMessage);
+    console.log(e.response.data.errorMessage);
     yield put({
       type: SIGNIN_FAILURE,
       error: e.response.data.errorMessage,
@@ -36,7 +36,6 @@ function* watchSignIn() {
 function* signUp(action) {
   try {
     const result = yield call(() => signUpApi(action.data));
-    yield delay(5000);
     yield put({
       type: SIGNUP_SUCCESS,
     });
@@ -56,6 +55,7 @@ function* signUp(action) {
         object => object.errorMessage && errorArray.push(object.errorMessage),
       );
     }
+    console.log(e.response.data.errors);
     // 실패 문자열 넣어주기
     yield put({
       type: SIGNUP_FAILURE,

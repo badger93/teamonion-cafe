@@ -19,8 +19,8 @@ const MenuListItem = ({ item, mapDetailData, setIsMenuPopup }) => {
         <img src={imageFile} alt="상품이미지" />
       </div>
       <div className="info-area">
-        <p className="title">{name}</p>
-        <p className="price">{price}</p>
+        <div className="title">{name}</div>
+        <div className="price">{`₩ ${price}`}</div>
       </div>
     </div>
   );

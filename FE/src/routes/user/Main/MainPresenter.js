@@ -3,8 +3,9 @@ import propTypes from 'prop-types';
 import MenuListItem from '../../../components/MenuListItem';
 import MenuDetail from '../../../components/MenuDetail';
 import './styles/MainPresenter.scss';
+import Loading from '../../../components/Loading';
 
-const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
+const MainPresenter = ({ isLoading, list, mapDetailData, menuDetailData }) => {
   const [isMenuPopup, setIsMenuPopup] = useState(false);
   // 메뉴 리스트 뿌리기
   const mapMenuListItem = list.map((item, index) => (
@@ -18,15 +19,18 @@ const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
   ));
 
   return (
-    <div className="mainPresenter">
-      <h1>MENU</h1>
-      <div className="menulist">{mapMenuListItem}</div>
-      {isMenuPopup && (
-        <div className="menuDetailContainer">
-          <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
-        </div>
-      )}
-    </div>
+    <>
+      {isLoading && <Loading />}
+      <div className="mainPresenter">
+        <h1>MENU</h1>
+        <div className="menulist">{mapMenuListItem}</div>
+        {isMenuPopup && (
+          <div className="menuDetailContainer">
+            <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
@@ -37,6 +41,7 @@ MainPresenter.defaultProps = {
 };
 
 MainPresenter.propTypes = {
+  isLoading: propTypes.bool.isRequired,
   list: propTypes.arrayOf(propTypes.object),
   mapDetailData: propTypes.func,
   menuDetailData: propTypes.objectOf(propTypes.string),

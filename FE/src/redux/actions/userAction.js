@@ -22,8 +22,9 @@ export const signUpFinish = () => ({
   type: SIGNUP_FINISH,
 });
 
-export const signInRequestAction = () => ({
+export const signInRequestAction = data => ({
   type: SIGNIN_REQUEST,
+  data,
 });
 
 export const logOutAction = () => ({ type: LOG_OUT });

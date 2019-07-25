@@ -9,6 +9,8 @@
   padding: 0;
   box-sizing: border-box;
   cursor: pointer;
+  border: solid 1px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
 
   .img-area {
     width: 100%;
@@ -18,6 +20,8 @@
     }
     position: relative;
     overflow: hidden;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
     img {
       object-fit: cover;
       position: absolute;
@@ -40,21 +44,22 @@
   }
 
   .info-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     overflow: hidden;
-    width: 80%;
-    margin: 0 auto;
+    width: 100%;
+    color: rgba(0, 0, 0, 0.6);
+    padding: 15px 30px 15px 30px;
     font: {
-      family: 'nbg', '맑은 고딕', HelveticaNeue, DroidSans, Sans-serif, Helvetica;
-      size: 14px;
+      size: 1rem;
     }
     .title {
-      width: 70%;
-      float: left;
+      color: rgba(0, 0, 0, 0.9);
+      font-size: 1.2rem;
     }
 
     .price {
-      float: left;
-      width: 30%;
       text-align: right;
     }
   }

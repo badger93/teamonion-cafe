@@ -131,9 +131,9 @@ const MobileHeader = ({
               </div>
             ) : (
               <>
-                <a>
-                  <div onClick={() => popupControl()}>SignIn</div>
-                </a>
+                <div className="header_mobile-signIn" onClick={() => popupControl()}>
+                  SignIn
+                </div>
                 <Link to="/signup">SignUp</Link>
               </>
             )}

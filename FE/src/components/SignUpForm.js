@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom';
 import { duplicateCheckApi } from '../api/userApi';
 import { signUpRequestAction } from '../redux/actions/userAction';
 import { useShowupString } from '../utils/signUpForm';
-import Loading from './Loading';
 
 const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
   const [id, setId] = useState('');
@@ -43,7 +42,7 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
 
       dispatch(signUpRequestAction({ memberId: id, password, passwordCheck }));
     },
-    [id, password, passwordCheck, duplicateError, dispatch],
+    [id, password, passwordCheck, duplicateError, dispatch, setShowupStringFunc],
   );
 
   const onDuplicateSubmit = useCallback(
@@ -71,7 +70,7 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
       };
       duplicate();
     },
-    [id],
+    [id, setShowupStringFunc],
   );
 
   const onChangeId = useCallback(e => {
