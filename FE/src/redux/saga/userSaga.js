@@ -40,7 +40,7 @@ function* watchSignIn() {
 function* signUp(action) {
   try {
     const result = yield call(() => signUpApi(action.data));
-    console.log(result);
+    yield delay(5000);
     yield put({
       type: SIGNUP_SUCCESS,
     });

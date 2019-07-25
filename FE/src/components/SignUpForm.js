@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { duplicateCheckApi } from '../api/userApi';
 import { signUpRequestAction } from '../redux/actions/userAction';
 import { useShowupString } from '../utils/signUpForm';
+import Loading from './Loading';
 
 const SignUpForm = ({
   dispatch, isSigningUp, isSignedUp,

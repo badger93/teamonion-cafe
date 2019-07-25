@@ -11,7 +11,8 @@ const UserInfoContainer = () => {
     async function fetchHistoryAPI() {
       try {
         const newHistory = await userOrderAPI(me.id);
-        setHistory(newHistory);
+        console.log(newHistory);
+        setHistory(newHistory.data);
       } catch (e) {
         console.log(e);
       }
