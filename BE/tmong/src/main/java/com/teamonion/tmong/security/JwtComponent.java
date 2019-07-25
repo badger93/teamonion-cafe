@@ -12,6 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Optional;
 
 @Component
 public class JwtComponent {
@@ -45,8 +46,10 @@ public class JwtComponent {
     }
 
     public String getClaimValueByToken(String claimName) {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        String authorization = request.getHeader("Authorization");
+        Optional<HttpServletRequest> request = Optional
+                .ofNullable(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
+        String authorization = request.orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.REQUEST_IS_NULL))
+                .getHeader("Authorization");
         String jwt = authorization.substring("Bearer".length()).trim();
 
         return (String) Jwts.parser()
