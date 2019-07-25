@@ -1,6 +1,7 @@
 export const SIGNUP_FAILURE = 'SIGNUP_FAILURE';
 export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
 export const SIGNUP_REQUEST = 'SIGNUP_REQUEST';
+export const SIGNUP_FINISH = 'SIGNUP_FINISH';
 
 export const SIGNIN_FAILURE = 'SIGNIN_FAILURE';
 export const SIGNIN_SUCCESS = 'SIGNIN_SUCCESS';
@@ -15,6 +16,10 @@ export const CHANGE_POINT = 'CHANGE_POINT';
 export const signUpRequestAction = data => ({
   type: SIGNUP_REQUEST,
   data,
+});
+
+export const signUpFinish = () => ({
+  type: SIGNUP_FINISH,
 });
 
 export const signInRequestAction = data => ({

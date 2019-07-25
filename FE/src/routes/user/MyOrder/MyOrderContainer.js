@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
-import { myOrderAPI } from '../../../api/userApi';
+import { userOrderAPI } from '../../../api/userApi';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
@@ -11,7 +11,7 @@ const MyOrderContainer = () => {
     async function fetchMyOrder() {
       try {
         if (me) {
-          const newOrders = await myOrderAPI(me.id);
+          const newOrders = await userOrderAPI(me.id, false);
           setOrders(newOrders);
         }
       } catch (e) {
