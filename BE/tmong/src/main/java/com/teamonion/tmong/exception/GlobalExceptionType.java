@@ -8,7 +8,8 @@ public enum GlobalExceptionType {
     MENUIMAGE_RENDER_ERROR("이미지를 저장하는데 실패했습니다", HttpStatus.INTERNAL_SERVER_ERROR),
     ORDER_MEMBER_NOT_FOUND("주문자 정보가 올바르지 않습니다", HttpStatus.BAD_REQUEST),
     ORDER_POINT_LACK("보유한 포인트가 부족합니다", HttpStatus.PAYMENT_REQUIRED),
-    UNAUTHORIZED("인증에 실패했습니다", HttpStatus.UNAUTHORIZED);
+    UNAUTHORIZED("인증에 실패했습니다", HttpStatus.UNAUTHORIZED),
+    REQUEST_IS_NULL("요청값이 null 입니다", HttpStatus.BAD_REQUEST);
 
     private String errorMessage;
     private HttpStatus httpStatus;
