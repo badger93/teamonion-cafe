@@ -1,21 +1,17 @@
-import React, {
-  useEffect, useRef, useState, useCallback,
-} from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
 import {
-  logOutAction, signInRefRegisterAction, changePoint,
+  logOutAction, changePoint,
 } from '../redux/actions/userAction';
 import { myPointApi } from '../api/userApi';
 
 const Header = () => {
-  const { isSignedIn, me } = useSelector(state => state.user);
+  const { isSignedIn, me, signInPopup } = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const loginRef = useRef(null); // 애를 리덕스에 넣자
   const [isList, setIsList] = useState(false);
-  const [isLoginPopup, setIsLoginPopup] = useState(false);
 
   const logOutDispatch = useCallback(
     () => {
@@ -23,9 +19,6 @@ const Header = () => {
     },
     [dispatch],
   );
-  useEffect(() => {
-    dispatch(signInRefRegisterAction(loginRef));
-  }, []);
 
   const onRefreshClick = useCallback(() => {
     async function myPointAsyncApi() {
@@ -47,7 +40,6 @@ const Header = () => {
         setIsList={setIsList}
         isSignedIn={isSignedIn}
         user={me}
-        setIsLoginPopup={setIsLoginPopup}
         dispatch={dispatch}
       />
 
@@ -55,13 +47,12 @@ const Header = () => {
         isSignedIn={isSignedIn}
         user={me}
         logOutDispatch={logOutDispatch}
-        setIsLoginPopup={setIsLoginPopup}
         onRefreshClick={onRefreshClick}
       />
-      {isLoginPopup
+      {signInPopup
       && (
-      <div className="signInContainer" ref={loginRef}>
-        <SignInPopup setIsLoginPopup={setIsLoginPopup} />
+      <div className="signInContainer">
+        <SignInPopup />
       </div>
       )}
     </>

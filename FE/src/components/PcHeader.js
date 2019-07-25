@@ -1,28 +1,40 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import '../styles/PcHeader.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faRedo,
 } from '@fortawesome/free-solid-svg-icons';
+import { signInPopupChangeAction } from '../redux/actions/userAction';
 import tmonglogo from '../image/tmonglogo.png';
 
 
 const PcHeader = ({
-  isSignedIn, user, logOutDispatch, setIsLoginPopup, onRefreshClick,
-}) => (
-  <div className="header_pc">
-    <div className="header_pc-wrap">
-      <div className="header_pc-logo">
-        <img src={tmonglogo} alt="logo" />
-        {user.memberRole === 'ADMIN' ? <Link to="/admin/order-manage" /> : <Link to="/" />}
-      </div>
-      <div className="header_pc-column">
-        <div className="header_pc-column-top">
+  isSignedIn, user, logOutDispatch, onRefreshClick,
+}) => {
+  const dispatch = useDispatch();
 
-          {isSignedIn ? (
-            <>
+  const popupControl = useCallback(
+    () => {
+      dispatch(signInPopupChangeAction());
+    }, [dispatch],
+  );
+
+
+  return (
+    <div className="header_pc">
+      <div className="header_pc-wrap">
+        <div className="header_pc-logo">
+          <img src={tmonglogo} alt="logo" />
+          {user.memberRole === 'ADMIN' ? <Link to="/admin/order-manage" /> : <Link to="/" />}
+        </div>
+        <div className="header_pc-column">
+          <div className="header_pc-column-top">
+
+            {isSignedIn ? (
+              <>
               <span className="header_pc-point">{`보유포인트 : ${user.point}`}</span>
               <span className="header_pc-refresh" onClick={onRefreshClick}><FontAwesomeIcon icon={faRedo} /></span>
               <span className="divider">|</span>
@@ -35,12 +47,12 @@ const PcHeader = ({
             LogOut
               </div>
             </>
-          ) : (
+            ) : (
             <>
               <div />
               <div
                 className="signInBtn"
-                onClick={() => setIsLoginPopup(true)}
+                onClick={() => popupControl()}
               >
 
             Log In
@@ -48,30 +60,31 @@ const PcHeader = ({
               <span className="divider">|</span>
               <Link to="/signup">Sign Up</Link>
             </>
-          )}
-        </div>
+            )}
+          </div>
 
-        <div className="header_pc-column-bottom">
-          {user.memberRole === 'ADMIN' ? (
-            <>
+          <div className="header_pc-column-bottom">
+            {user.memberRole === 'ADMIN' ? (
+              <>
               <Link to="/admin/order-manage">주문현황</Link>
               <Link to="/admin/menu-manage">메뉴관리</Link>
               <Link to="/admin/order-history">주문히스토리</Link>
               <Link to="/admin/member-manage">사용자관리</Link>
             </>
-          ) : (
+            ) : (
             <>
               <Link to="/">Menu</Link>
               <Link to="/myorder">MyOrder</Link>
               <Link to="/user-info">MyPage</Link>
               <Link to="/cart">Cart</Link>
             </>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 
 PcHeader.defaultProptypes = {

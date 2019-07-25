@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Route,
   Redirect,
   Switch,
   BrowserRouter as Router,
 } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { signInPopupChangeAction } from '../redux/actions/userAction';
 import Header from './Header';
 import Cart from '../routes/user/Cart';
 import Main from '../routes/user/Main';
@@ -17,17 +18,26 @@ import AdminMemberManage from '../routes/admin/AdminMemberManage';
 import AdminMenuManage from '../routes/admin/AdminMenuManage';
 import AdminOrderManage from '../routes/admin/AdminOrderManage';
 import AdminOrderHistory from '../routes/admin/AdminOrderHistory';
-import { openPopup } from '../utils/popup';
 
 const RootRouter = () => {
-  const { isSignedIn, me, signInRef } = useSelector(state => state.user);
+  const { isSignedIn, me } = useSelector(state => state.user);
+
+  const dispatch = useDispatch();
+
+  const popupControl = useCallback(
+    () => {
+      dispatch(signInPopupChangeAction());
+    }, [dispatch],
+  );
 
   const SignInRoute = ({ component: Component, ...rest }) => (
     <Route
       {...rest}
       render={(props) => {
-        if (isSignedIn === true) { return <Component {...props} />; }
-        signInRef && setTimeout(() => openPopup(signInRef.current), 1000);
+        if (isSignedIn === true) {
+          return <Component {...props} />;
+        }
+        setTimeout(() => popupControl(), 1000);
         return <Redirect to="/" />;
       }
       }
