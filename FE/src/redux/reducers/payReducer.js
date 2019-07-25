@@ -1,10 +1,4 @@
-import {
-  CARTTOPAY,
-  PAY_REQUEST,
-  PAY_SUCCESS,
-  PAY_FAILURE,
-  PAY_FINISH,
-} from '../actions/payAction';
+import { CARTTOPAY, PAY_REQUEST, PAY_SUCCESS, PAY_FAILURE, PAY_FINISH } from '../actions/payAction';
 
 const initState = {
   itemsForPay: [],

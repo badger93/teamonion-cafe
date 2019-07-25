@@ -3,10 +3,7 @@ import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
 
-const AdminOrderHistoryPresenter = ({
-  orderHistoryData,
-  getHistoryDataByState,
-}) => {
+const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByState }) => {
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
 
   const colums = [
@@ -65,7 +62,7 @@ const AdminOrderHistoryPresenter = ({
     },
   ];
 
-  const rows = orderHistoryData.map((item) => ({
+  const rows = orderHistoryData.map(item => ({
     order_id: item.order_id,
     member_id: item.member_id,
     menus: item.menus,
@@ -112,7 +109,7 @@ const AdminOrderHistoryPresenter = ({
         <ReactDataGrid
           className="historyGrid"
           columns={colums}
-          rowGetter={(i) => rows[i]}
+          rowGetter={i => rows[i]}
           rowsCount={rows.length}
         />
       </div>

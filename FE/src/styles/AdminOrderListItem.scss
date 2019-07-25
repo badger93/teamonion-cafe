@@ -10,7 +10,7 @@
   .orderNum {
     position: absolute;
     top: -28px;
-    left:0;
+    left: 0;
     background-color: rgb(255, 103, 0);
     border-radius: 3px 3px 0 0;
     padding: 5px 15px;
@@ -38,7 +38,7 @@
 
   ul {
     list-style: none;
-    padding:0;
+    padding: 0;
     li {
       border: 1px solid gray;
       border-radius: 31px;
@@ -47,15 +47,15 @@
       font-size: 13px;
       margin: 3px 0;
     }
-    li + li{
+    li + li {
       margin-left: 5px;
     }
   }
 
-  .payArea{
+  .payArea {
     position: absolute;
     bottom: 5px;
-    left:5px;
+    left: 5px;
     .paid {
       display: inline-block;
       font-size: 14px;

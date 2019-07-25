@@ -1,10 +1,5 @@
 import React, { useCallback } from 'react';
-import {
-  Route,
-  Redirect,
-  Switch,
-  BrowserRouter as Router,
-} from 'react-router-dom';
+import { Route, Redirect, Switch, BrowserRouter as Router } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { signInPopupChangeAction } from '../redux/actions/userAction';
 import Header from './Header';
@@ -20,7 +15,7 @@ import AdminOrderManage from '../routes/admin/AdminOrderManage';
 import AdminOrderHistory from '../routes/admin/AdminOrderHistory';
 
 const RootRouter = () => {
-  const { isSignedIn, me } = useSelector((state) => state.user);
+  const { isSignedIn, me } = useSelector(state => state.user);
 
   const dispatch = useDispatch();
 
@@ -31,7 +26,7 @@ const RootRouter = () => {
   const SignInRoute = ({ component: Component, ...rest }) => (
     <Route
       {...rest}
-      render={(props) => {
+      render={props => {
         if (isSignedIn === true) {
           return <Component {...props} />;
         }
@@ -43,13 +38,7 @@ const RootRouter = () => {
   const AdminRoute = ({ component: Component, ...rest }) => (
     <Route
       {...rest}
-      render={(props) =>
-        me.memberRole === 'ADMIN' ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/" />
-        )
-      }
+      render={props => (me.memberRole === 'ADMIN' ? <Component {...props} /> : <Redirect to="/" />)}
     />
   );
 
@@ -64,36 +53,12 @@ const RootRouter = () => {
           <SignInRoute path="/myorder" exact component={MyOrder} />
           <SignInRoute path="/payment" exact component={Payment} />
           <SignInRoute path="/user-info" exact component={UserInfo} />
-          <AdminRoute
-            path="/admin/member-manage"
-            exact
-            component={AdminMemberManage}
-          />
-          <AdminRoute
-            path="/admin/menu-manage"
-            exact
-            component={AdminMenuManage}
-          />
-          <AdminRoute
-            path="/admin/order-manage"
-            exact
-            component={AdminOrderManage}
-          />
-          <AdminRoute
-            path="/admin/order-history"
-            exact
-            component={AdminOrderHistory}
-          />
-          <AdminRoute
-            path="/admin/order-history/payed-non"
-            exact
-            component={AdminOrderHistory}
-          />
-          <AdminRoute
-            path="/admin/order-history/payed-ok"
-            exact
-            component={AdminOrderHistory}
-          />
+          <AdminRoute path="/admin/member-manage" exact component={AdminMemberManage} />
+          <AdminRoute path="/admin/menu-manage" exact component={AdminMenuManage} />
+          <AdminRoute path="/admin/order-manage" exact component={AdminOrderManage} />
+          <AdminRoute path="/admin/order-history" exact component={AdminOrderHistory} />
+          <AdminRoute path="/admin/order-history/payed-non" exact component={AdminOrderHistory} />
+          <AdminRoute path="/admin/order-history/payed-ok" exact component={AdminOrderHistory} />
           <AdminRoute
             path="/admin/order-history/product-complete"
             exact

@@ -23,14 +23,14 @@ const PayForm = ({
     setAfterPoint(Point);
   }, [howPay, isSignedIn, totalPrice, user.point]);
 
-  const onSubmit = async (e) => {
+  const onSubmit = async e => {
     e.preventDefault();
     if (afterPoint < 0) {
       // 포인트 부족할때 경고
       alert('포인트가 부족합니다');
     }
 
-    const menuSet = Object.values(itemsForPay).map((item) => item.id);
+    const menuSet = Object.values(itemsForPay).map(item => item.id);
     const requestInfo = {
       paid: howPay === 1,
       paymentType: howPay === 1 ? 'point' : 'cash',
@@ -73,12 +73,8 @@ const PayForm = ({
             <div />
           </div>
           <div className="payform-list">
-            {Object.values(itemsForPay).map((item) => (
-              <PayListItem
-                key={item.cartId}
-                menuName={item.menuName}
-                menuPrice={item.menuPrice}
-              />
+            {Object.values(itemsForPay).map(item => (
+              <PayListItem key={item.cartId} menuName={item.menuName} menuPrice={item.menuPrice} />
             ))}
           </div>
           <div className="payform-row">
@@ -93,18 +89,13 @@ const PayForm = ({
                 onChange={onPointRadioChange}
               />
               <span>현장결제</span>
-              <input
-                type="radio"
-                name="payment"
-                value="현장결제"
-                onChange={onCashRadioChange}
-              />
+              <input type="radio" name="payment" value="현장결제" onChange={onCashRadioChange} />
             </div>
           </div>
           <div className="payform-row">
             <div>총결제액</div>
             <div className="payform-total-price">
-              {Object.values(itemsForPay).forEach((element) => {
+              {Object.values(itemsForPay).forEach(element => {
                 totalPrice += element.menuPrice;
               })}
               {`${totalPrice}`}
@@ -121,11 +112,7 @@ const PayForm = ({
             </div>
             <div>
               <span>결제 후 내 포인트</span>
-              <span>
-                {howPay === 1
-                  ? `${afterPoint} P`
-                  : `${user.point + totalPrice / 10} P`}
-              </span>
+              <span>{howPay === 1 ? `${afterPoint} P` : `${user.point + totalPrice / 10} P`}</span>
             </div>
           </div>
           <button type="submit" className="submit-button">

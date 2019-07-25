@@ -12,12 +12,12 @@ const CartListItem = ({
   checkedItem,
   setCheckedItem,
 }) => {
-  const Checked = (e) => {
-    const checkedIndex = cart.findIndex((element) => element.cartId === cartId);
+  const Checked = e => {
+    const checkedIndex = cart.findIndex(element => element.cartId === cartId);
 
     // 있는지 없는지 검사
     const validator = checkedItem.findIndex(
-      (element) => element.cartId === cart[checkedIndex].cartId,
+      element => element.cartId === cart[checkedIndex].cartId,
     );
 
     if (validator !== -1) {
@@ -45,9 +45,7 @@ const CartListItem = ({
         <button
           type="button"
           className="cartform-item-delete"
-          onClick={() =>
-            CartDelete(cart, setAllCart, cartId, checkedItem, setCheckedItem)
-          }
+          onClick={() => CartDelete(cart, setAllCart, cartId, checkedItem, setCheckedItem)}
         >
           <span>삭제</span>
         </button>

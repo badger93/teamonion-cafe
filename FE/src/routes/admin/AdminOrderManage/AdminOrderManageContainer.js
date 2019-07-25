@@ -11,7 +11,7 @@ const AdminOrderManageContainer = () => {
 
   const setOrderState = (orderId, stateToSet) => {
     // ex) setOrderState( 주문번호, { made: true } )
-    const arrToReplace = currentOrderList.map((item) =>
+    const arrToReplace = currentOrderList.map(item =>
       item.order_id === orderId ? Object.assign(item, stateToSet) : item,
     );
     setCurrentOrderList(arrToReplace);

@@ -14,7 +14,7 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
     let bigCartId = 0;
     let newCartId =
       storedValue.length !== 0
-        ? storedValue.forEach((element) => {
+        ? storedValue.forEach(element => {
             if (element.cartId >= bigCartId) {
               bigCartId = element.cartId + 1;
             }
@@ -58,17 +58,10 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
             <div className="price">{`₩ ${price}`}</div>
             <div className="information">{information}</div>
           </div>
-          {isCart && (
-            <div className="cart-added">장바구니에 추가되었습니다!</div>
-          )}
+          {isCart && <div className="cart-added">장바구니에 추가되었습니다!</div>}
           <div className="btnArea">
             <input className="buyBtn" type="button" value="구매" />
-            <input
-              className="cartBtn"
-              type="button"
-              onClick={onClickCart}
-              value="장바구니"
-            />
+            <input className="cartBtn" type="button" onClick={onClickCart} value="장바구니" />
           </div>
         </main>
       </div>

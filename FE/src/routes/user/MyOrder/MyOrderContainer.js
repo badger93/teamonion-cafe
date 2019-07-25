@@ -4,7 +4,7 @@ import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
 
 const MyOrderContainer = () => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -37,9 +37,7 @@ const MyOrderContainer = () => {
   //   },
   // ];
 
-  return (
-    <MyOrderPresenter orders={orders} setOrders={setOrders} userId={me.id} />
-  );
+  return <MyOrderPresenter orders={orders} setOrders={setOrders} userId={me.id} />;
 };
 
 export default MyOrderContainer;

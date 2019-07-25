@@ -9,11 +9,7 @@ const SignUpPresenter = ({ dispatch, isSigningUp, isSignedUp }) => (
     {isSigningUp && <Loading />}
     <div className="signup_container">
       <div className="signup_title">Sign Up</div>
-      <SignUpForm
-        dispatch={dispatch}
-        isSigningUp={isSigningUp}
-        isSignedUp={isSignedUp}
-      />
+      <SignUpForm dispatch={dispatch} isSigningUp={isSigningUp} isSignedUp={isSignedUp} />
     </div>
   </div>
 );

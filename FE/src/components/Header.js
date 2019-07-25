@@ -7,9 +7,7 @@ import { logOutAction, changePoint } from '../redux/actions/userAction';
 import { myPointApi } from '../api/userApi';
 
 const Header = () => {
-  const { isSignedIn, isSigningIn, me, signInPopup } = useSelector(
-    (state) => state.user,
-  );
+  const { isSignedIn, isSigningIn, me, signInPopup } = useSelector(state => state.user);
   const dispatch = useDispatch();
   const [isList, setIsList] = useState(false);
 

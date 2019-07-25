@@ -19,15 +19,13 @@ const pagination = ({ page: currentPage, totalPages }, maxIndex, callback) => {
   for (pageIndex; pageIndex < pageGoal(); pageIndex += 1) {
     pageNumArr.push(pageIndex);
   }
-  return pageNumArr.map((item) => (
+  return pageNumArr.map(item => (
     <input
       type="button"
-      className={`paginationBtn ${
-        item === Number(currentPage) ? 'active' : ''
-      }`}
+      className={`paginationBtn ${item === Number(currentPage) ? 'active' : ''}`}
       key={`pagination-${item}`}
       value={item}
-      onClick={(e) => {
+      onClick={e => {
         if (callback === undefined) {
           alert('페이지네이션 콜백 미지정');
         } else {

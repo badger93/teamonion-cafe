@@ -23,10 +23,7 @@ const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
       <div className="menulist">{mapMenuListItem}</div>
       {isMenuPopup && (
         <div className="menuDetailContainer">
-          <MenuDetail
-            menuDetailData={menuDetailData}
-            setIsMenuPopup={setIsMenuPopup}
-          />
+          <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
         </div>
       )}
     </div>

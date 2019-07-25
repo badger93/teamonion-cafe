@@ -4,7 +4,7 @@ import UserInfoPresenter from './UserInfoPresenter';
 import { userOrderAPI } from '../../../api/userApi';
 
 const UserInfoContainer = () => {
-  const { me } = useSelector((state) => state.user);
+  const { me } = useSelector(state => state.user);
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const UserInfoContainer = () => {
     { key: 'time', name: '주문시간' },
     { key: 'money', name: '주문금액' },
     { key: 'menu', name: '주문메뉴' },
-  ].map((c) => ({ ...c, ...defaultColumnProperties }));
+  ].map(c => ({ ...c, ...defaultColumnProperties }));
 
   const rows = [
     {
@@ -57,14 +57,7 @@ const UserInfoContainer = () => {
     },
   ];
 
-  return (
-    <UserInfoPresenter
-      columns={columns}
-      rows={rows}
-      id={me.memberId}
-      point={me.point}
-    />
-  );
+  return <UserInfoPresenter columns={columns} rows={rows} id={me.memberId} point={me.point} />;
 };
 
 export default UserInfoContainer;

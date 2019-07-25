@@ -3,12 +3,7 @@ import propTypes from 'prop-types';
 import '../styles/MenuManagePopup.scss';
 import inputImgPreview from '../utils/inputImgPreview';
 
-const MenuManagePopup = ({
-  menuPopupData,
-  updateItem,
-  createItem,
-  setIsPopup,
-}) => {
+const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) => {
   const { id, name, price, information } = menuPopupData;
   const [popupName, setPopupName] = useState('');
   const [popupPrice, setPopupPrice] = useState('');
@@ -19,7 +14,7 @@ const MenuManagePopup = ({
   const fileInputRef = useRef(null); // 파일 input 태그
 
   const onSubmitCallback = useCallback(
-    (e) => {
+    e => {
       e.preventDefault();
       if (popupName && popupPrice && popupInformation && popupFile) {
         const payload = {
@@ -75,14 +70,14 @@ const MenuManagePopup = ({
       <form
         encType="multipart/form-data"
         className="MenuManageForm"
-        onSubmit={(e) => onSubmitCallback(e)} // 폼 서브밋
+        onSubmit={e => onSubmitCallback(e)} // 폼 서브밋
       >
         <div className="nameArea inputArea">
           <div className="areaTitle">상품명</div>
           <input
             type="text"
             value={popupName}
-            onChange={(e) => setPopupName(e.target.value)}
+            onChange={e => setPopupName(e.target.value)}
             className="nameInput"
           />
         </div>
@@ -91,7 +86,7 @@ const MenuManagePopup = ({
           <input
             type="text"
             value={popupPrice}
-            onChange={(e) => setPopupPrice(e.target.value)}
+            onChange={e => setPopupPrice(e.target.value)}
             className="priceInput"
           />
         </div>
@@ -99,7 +94,7 @@ const MenuManagePopup = ({
           <div className="areaTitle">설명</div>
           <textarea
             value={popupInformation}
-            onChange={(e) => setPopupInformation(e.target.value)}
+            onChange={e => setPopupInformation(e.target.value)}
             className="informationInput"
           />
         </div>
@@ -110,7 +105,7 @@ const MenuManagePopup = ({
             value={popupFile}
             className="fileInput"
             ref={fileInputRef}
-            onChange={(e) => {
+            onChange={e => {
               inputImgPreview(fileInputRef.current, inputImgRef.current);
               setPopupFile(e.target.value);
             }}
@@ -133,9 +128,7 @@ MenuManagePopup.defaultProps = {
 };
 
 MenuManagePopup.propTypes = {
-  menuPopupData: propTypes.objectOf(
-    propTypes.oneOfType([propTypes.string, propTypes.number]),
-  ),
+  menuPopupData: propTypes.objectOf(propTypes.oneOfType([propTypes.string, propTypes.number])),
   updateItem: propTypes.func,
   createItem: propTypes.func,
   setIsPopup: propTypes.func,

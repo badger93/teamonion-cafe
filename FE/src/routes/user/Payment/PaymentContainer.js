@@ -4,8 +4,8 @@ import PaymentPresenter from './PaymentPresenter';
 
 const PaymentContainer = () => {
   const dispatch = useDispatch();
-  const { me, isSignedIn } = useSelector((state) => state.user);
-  const { itemsForPay, isPaying, isPaid } = useSelector((state) => state.pay);
+  const { me, isSignedIn } = useSelector(state => state.user);
+  const { itemsForPay, isPaying, isPaid } = useSelector(state => state.pay);
   const [howPay, setHowPay] = useState(1);
 
   return (

@@ -11,11 +11,11 @@
 }
 
 .menuDetailContainer::after {
-  content:'';
+  content: '';
   width: 100%;
   height: 100%;
   display: inline-block;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   position: fixed;
   z-index: 19;
 }
@@ -101,12 +101,12 @@
         }
       }
     }
-    .cart-added{
+    .cart-added {
       position: absolute;
-      bottom:90px;
-      right:100px;
-      color:red;
-      opacity:0.8;
+      bottom: 90px;
+      right: 100px;
+      color: red;
+      opacity: 0.8;
     }
     .btnArea {
       height: 20%;
@@ -142,14 +142,14 @@
       width: 100%;
       margin: 0 auto;
       height: 70%;
-      div{
-        height:100%;
+      div {
+        height: 100%;
       }
       .img-area {
         width: 100%;
-        height: 100%;;
+        height: 100%;
         margin-top: 0px;
-        img{
+        img {
           object-fit: cover;
         }
       }
@@ -185,7 +185,6 @@
           margin: 0;
         }
       }
-      
     }
   }
 }

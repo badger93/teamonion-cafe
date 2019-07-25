@@ -8,7 +8,7 @@ const CartContainer = () => {
   const handleCart = useCart(cartLocalStorage.storedValue, cartLocalStorage);
   const [checkedItem, setCheckedItem] = useState([]);
   const dispatch = useDispatch();
-  const { isSignedIn, signInRef } = useSelector((state) => state.user);
+  const { isSignedIn, signInRef } = useSelector(state => state.user);
 
   return (
     <CartPresenter
