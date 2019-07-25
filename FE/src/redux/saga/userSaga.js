@@ -10,24 +10,25 @@ import {
   SIGNUP_FAILURE, SIGNUP_SUCCESS, SIGNUP_REQUEST, SIGNIN_SUCCESS,
   SIGNIN_FAILURE,
   SIGNIN_REQUEST,
+  SIGNUP_FINISH,
 } from '../actions/userAction';
 import { signUpApi, signInApi } from '../../api/userApi';
 
 function* signIn(action) {
   try {
-    // const result = yield call(signInApi);
-    yield delay(2000);
-    const result = { // dummy login data
-      id: 1,
-      memberId: 'onion',
-      memberRole: 'NORMAL',
-      point: 1000000,
-      jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
-    };
+    const result = yield call(() => signInApi(action.data));
+    // yield delay(2000);
+    // const result = { // dummy login data
+    //   id: 1,
+    //   memberId: 'onion',
+    //   memberRole: 'NORMAL',
+    //   point: 1000000,
+    //   jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
+    // };
     yield put({
       // put은 dispatch 동일
       type: SIGNIN_SUCCESS,
-      data: { ...result },
+      data: { ...result.data },
     });
   } catch (e) {
     // signupAPI 실패
@@ -47,13 +48,17 @@ function* watchSignIn() {
 function* signUp(action) {
   try {
     const result = yield call(() => signUpApi(action.data));
+    console.log(result);
     yield put({
       type: SIGNUP_SUCCESS,
     });
-    // yield put({
-    //   type: SIGNIN_SUCCESS,
-    //   data: { ...result },
-    // });
+    yield put({ // 가입과 동시에 로그인
+      type: SIGNIN_SUCCESS,
+      data: { ...result.data },
+    });
+    yield put({
+      type: SIGNUP_FINISH,
+    });
   } catch (error) {
     // signupAPI 실패
     console.log(error);
