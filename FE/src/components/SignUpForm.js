@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { duplicateCheckApi } from '../api/userApi';
 import { signUpRequestAction } from '../redux/actions/userAction';
+import { useShowupString } from '../utils/signUpForm';
 
 const SignUpForm = ({
   dispatch, isSigningUp, isSignedUp,
@@ -14,6 +15,9 @@ const SignUpForm = ({
   const [passwordError, setPasswordError] = useState(false);
   const [duplicateError, setDuplicateError] = useState(true);
 
+  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
+  // 문자열을 잠시 띄우는 커스텀 훅
+
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -23,47 +27,63 @@ const SignUpForm = ({
         || id.length === 0
       ) {
         // 안적었을시 제한
-        alert('추가 입력이 필요합니다');
+        setShowupStringFunc('추가입력이 필요합니다');
+        return;
+      }
+      if (
+        !/^[a-zA-Z0-9]{8,16}$/.test(password)
+      ) {
+        setShowupStringFunc('password는 8~16자 입력과 영문,숫자조합이 필요합니다');
         return;
       }
       if (password !== passwordCheck) {
         // 비밀번호 다를 시 제한
-        alert('비밀번호가 다릅니다!');
+
+        setShowupStringFunc('비밀번호가 다릅니다!');
         return;
       }
       if (duplicateError) {
-        alert('ID 중복검사가 필요합니다');
+        setShowupStringFunc('ID 중복검사가 필요합니다');
         return;
       }
       // 사가에 회원가입 리퀘스트 액션 디스패치
-      // console.log({ id, password, passwordCheck });
+
       dispatch(signUpRequestAction({ memberId: id, password, passwordCheck }));
     },
     [id, password, passwordCheck, duplicateError, dispatch],
   );
 
   const onDuplicateSubmit = useCallback(
-    async (e) => {
+    (e) => {
       e.preventDefault();
-      if (id.length > 0) {
-        const result = await duplicateCheckApi({ memberID: id });
-        // console.log(result);
-        // const result = false;
-        if (result) {
-          alert('이미 있는 아이디입니다');
-          setDuplicateError(true);
-        } else {
-          alert('사용가능한 아이디입니다!');
-          setDuplicateError(false);
+      const duplicate = async () => {
+        try {
+          if (id.length > 0) {
+            const { data } = await duplicateCheckApi(id);
+
+            // const result = false;
+            if (data) {
+              // alert('이미 있는 아이디입니다');
+              setShowupStringFunc('이미 있는 아이디입니다');
+              setDuplicateError(true);
+            } else {
+              // alert('사용가능한 아이디입니다!');
+              setShowupStringFunc('사용가능한 아이디입니다');
+              setDuplicateError(false);
+            }
+          }
+        } catch (e) {
+          console.log(e);
         }
-      }
+      };
+      duplicate();
     },
     [id],
   );
 
   const onChangeId = useCallback((e) => {
-    if (e.target.value.length < 10) {
-      // 10글자 제한
+    if (e.target.value.length < 16) {
+      // 16글자 제한
       setId(e.target.value);
     }
   }, []);
@@ -98,7 +118,7 @@ const SignUpForm = ({
       <div className="signup_form_row">
         <input
           type="password"
-          placeholder="비밀번호를 입력해주세요"
+          placeholder="비밀번호를 입력해주세요(8~16자, 숫자포함)"
           className="signup_input"
           value={password}
           onChange={onChangePassword}
@@ -107,7 +127,7 @@ const SignUpForm = ({
       <div className="signup_form_row">
         <input
           type="password"
-          placeholder="비밀번호를 확인해주세요"
+          placeholder="비밀번호를 확인해주세요8~16자, 숫자포함)"
           className="signup_input"
           value={passwordCheck}
           onChange={onChangePasswordCheck}
@@ -116,7 +136,9 @@ const SignUpForm = ({
       {passwordError && (
         <div style={{ color: 'red' }}>비밀번호가 다릅니다!</div>
       )}
-
+      {isShowing && (
+        <div style={{ color: 'red' }}>{`${showupString}`}</div>
+      )}
       <div className="signup_form_row signup_form_submit">
         <button className="submit_button" type="submit">
           Submit

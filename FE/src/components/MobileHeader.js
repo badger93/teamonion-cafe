@@ -7,14 +7,14 @@ import {
   faCoffee,
   faBars,
   faTimes,
+  faRedo,
 } from '@fortawesome/free-solid-svg-icons';
 import propTypes from 'prop-types';
 import tmonglogo from '../image/tmonglogo.png';
-import { openPopup } from '../utils/popup';
 
 
 const MobileHeader = ({
-  isSignedIn, logOutDispatch, user, loginRef, setIsList = null, isList = false,
+  isSignedIn, logOutDispatch, user, setIsLoginPopup, onRefreshClick, setIsList = null, isList = false,
 }) => (
   <>
     <div className="header_mobile-wrap">
@@ -33,6 +33,17 @@ const MobileHeader = ({
           </>
         ) : (
           <>
+            {isSignedIn
+            && (
+              <>
+                <div className="header_mobile-point">
+              Point
+                  <span>{` ${user.point} `}</span>
+              P
+                </div>
+                <div className="header_mobile-refresh" onClick={onRefreshClick}><FontAwesomeIcon icon={faRedo} /></div>
+              </>
+            )}
             <Link to="/user-info">
               <FontAwesomeIcon icon={faUser} size="2x" />
             </Link>
@@ -110,7 +121,7 @@ const MobileHeader = ({
             <div className="header_moblie-logout" onClick={logOutDispatch}>LogOut</div>
           ) : (
             <>
-              <a><div onClick={() => openPopup(loginRef.current)}>SignIn</div></a>
+              <a><div onClick={() => setIsLoginPopup(true)}>SignIn</div></a>
               <Link to="/signup">SignUp</Link>
             </>
           )}
@@ -129,10 +140,11 @@ MobileHeader.propTypes = {
     point: propTypes.number.isRequired,
     jwt: propTypes.string.isRequired,
   }).isRequired,
-  loginRef: propTypes.objectOf(propTypes.element).isRequired,
+  setIsLoginPopup: propTypes.func,
   setIsList: propTypes.func,
   isList: propTypes.bool,
   logOutDispatch: propTypes.func.isRequired,
+  onRefreshClick: propTypes.func.isRequired,
 };
 
 export default MobileHeader;

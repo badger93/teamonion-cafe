@@ -1,13 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
-import tmonglogo from '../image/tmonglogo.png';
 import '../styles/PcHeader.scss';
-import { openPopup } from '../utils/popup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faRedo,
+} from '@fortawesome/free-solid-svg-icons';
+import tmonglogo from '../image/tmonglogo.png';
 
 
 const PcHeader = ({
-  isSignedIn, user, loginRef, logOutDispatch,
+  isSignedIn, user, logOutDispatch, setIsLoginPopup, onRefreshClick,
 }) => (
   <div className="header_pc">
     <div className="header_pc-wrap">
@@ -21,9 +24,14 @@ const PcHeader = ({
           {isSignedIn ? (
             <>
               <span className="header_pc-point">{`보유포인트 : ${user.point}`}</span>
+              <span className="header_pc-refresh" onClick={onRefreshClick}><FontAwesomeIcon icon={faRedo} /></span>
+              <span className="divider">|</span>
               <span className="header_pc-welcome">{`반갑습니다 ${user.memberId}님`}</span>
               <span className="divider">|</span>
-              <div className="header_pc-logout" onClick={logOutDispatch}>
+              <div
+                className="header_pc-logout"
+                onClick={logOutDispatch}
+              >
             LogOut
               </div>
             </>
@@ -32,8 +40,9 @@ const PcHeader = ({
               <div />
               <div
                 className="signInBtn"
-                onClick={() => openPopup(loginRef.current)}
+                onClick={() => setIsLoginPopup(true)}
               >
+
             Log In
               </div>
               <span className="divider">|</span>
@@ -69,7 +78,7 @@ PcHeader.defaultProptypes = {
   isAdmin: false,
   isLogined: false,
   user: {},
-  loginRef: {},
+  lsetIsLoginPopup: () => {},
 };
 
 PcHeader.propTypes = {
@@ -81,8 +90,9 @@ PcHeader.propTypes = {
     point: propTypes.number.isRequired,
     jwt: propTypes.string.isRequired,
   }).isRequired,
-  loginRef: propTypes.objectOf(propTypes.element).isRequired,
+  setIsLoginPopup: propTypes.func.isRequired,
   logOutDispatch: propTypes.func.isRequired,
+  onRefreshClick: propTypes.func.isRequired,
 };
 
 export default PcHeader;

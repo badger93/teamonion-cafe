@@ -1,3 +1,15 @@
+@keyframes rotate2 {
+  0% {
+    transform-origin: center;
+    transform: rotate(0deg);
+   
+  }
+  100% {
+    transform-origin: center;
+    transform: rotate(360deg);
+    
+  }
+}
 .header_pc {
   @media (max-width: 960px) {
     display: none;
@@ -58,6 +70,13 @@
         width: 40%;
         height: 30px;
         font-size: 0.8rem;
+        .header_pc-refresh{
+          cursor:pointer;
+
+          :hover{
+            animation: rotate2 1s infinite;
+          }
+        }
         .header_pc-logout{
           cursor: pointer;
           &:hover {

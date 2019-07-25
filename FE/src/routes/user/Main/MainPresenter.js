@@ -1,11 +1,11 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import MenuListItem from '../../../components/MenuListItem';
 import MenuDetail from '../../../components/MenuDetail';
 import './styles/MainPresenter.scss';
 
 const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
-  const detailRef = useRef(null);
+  const [isMenuPopup, setIsMenuPopup] = useState(false);
   // 메뉴 리스트 뿌리기
   const mapMenuListItem = list.map((item, index) => (
     <MenuListItem
@@ -13,7 +13,7 @@ const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
       key={`item-${index}`}
       item={item}
       mapDetailData={mapDetailData}
-      detailRef={detailRef}
+      setIsMenuPopup={setIsMenuPopup}
     />
   ));
 
@@ -21,9 +21,12 @@ const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
     <div className="mainPresenter">
       <h1>MENU</h1>
       <div className="menulist">{mapMenuListItem}</div>
-      <div className="menuDetailContainer" ref={detailRef}>
-        <MenuDetail menuDetailData={menuDetailData} detailRef={detailRef} />
+      {isMenuPopup && (
+      <div className="menuDetailContainer">
+        <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
       </div>
+      )}
+
     </div>
   );
 };

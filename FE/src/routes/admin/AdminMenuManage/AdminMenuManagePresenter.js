@@ -1,16 +1,15 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import { Formatters } from 'react-data-grid-addons';
 import MenuManagePopup from '../../../components/MenuManagePopup';
 import './styles/AdminMenuManagePresenter.scss';
-import { openPopup } from '../../../utils/popup';
 
 const AdminMenuManagePresenter = ({
   menuList, deleteItem, updateItem, createItem,
 }) => {
   const [menuPopupData, setMenuPopupData] = useState({});
-  const popupRef = useRef(null);
+  const [isPopup, setIsPopup] = useState(false);
 
   const colums = [
     {
@@ -69,7 +68,7 @@ const AdminMenuManagePresenter = ({
               price: row.price,
               information: row.information,
             });
-            openPopup(popupRef.current);
+            setIsPopup(true);
           },
         },
         {
@@ -93,7 +92,7 @@ const AdminMenuManagePresenter = ({
           value="추가"
           onClick={() => {
             setMenuPopupData({});
-            openPopup(popupRef.current);
+            setIsPopup(true);
           }}
         />
         <ReactDataGrid
@@ -104,14 +103,17 @@ const AdminMenuManagePresenter = ({
           getCellActions={getCellActions}
         />
       </div>
-      <div className="MenuManagePopupContainer" ref={popupRef}>
+      {isPopup && (
+      <div className="MenuManagePopupContainer">
         <MenuManagePopup
           menuPopupData={menuPopupData}
           updateItem={updateItem}
           createItem={createItem}
-          popupRef={popupRef}
+          setIsPopup={setIsPopup}
         />
       </div>
+      )}
+
     </div>
   );
 };

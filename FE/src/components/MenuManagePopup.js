@@ -4,10 +4,9 @@ import React, {
 import propTypes from 'prop-types';
 import '../styles/MenuManagePopup.scss';
 import inputImgPreview from '../utils/inputImgPreview';
-import { closePopup } from '../utils/popup';
 
 const MenuManagePopup = ({
-  menuPopupData, updateItem, createItem, popupRef,
+  menuPopupData, updateItem, createItem, setIsPopup,
 }) => {
   const {
     id, name, price, information,
@@ -31,10 +30,10 @@ const MenuManagePopup = ({
       };
       if (isEdit) {
         updateItem({ ...payload, id });
-        closePopup(e, popupRef.current);
+        setIsPopup(false);
       } else {
-        createItem(payload, popupRef);
-        closePopup(e, popupRef.current);
+        createItem(payload);
+        setIsPopup(false);
       }
     } else {
       alert('내용을 마저 채워주세요');
@@ -59,7 +58,7 @@ const MenuManagePopup = ({
 
   return ( // name, price, information, imageFile(src)
     <div className="MenuManagePopup">
-      <input type="button" value="x" className="closeBtn" onClick={(e) => { closePopup(e, popupRef.current); }} />
+      <input type="button" value="x" className="closeBtn" onClick={() => { setIsPopup(false); }} />
       <h1>{(isEdit) ? '수정' : '추가'}</h1>
       <form
         encType="multipart/form-data"
@@ -104,14 +103,14 @@ MenuManagePopup.defaultProps = {
   menuPopupData: {},
   updateItem: () => {},
   createItem: () => {},
-  popupRef: {},
+  setIsPopup: () => {},
 };
 
 MenuManagePopup.propTypes = {
   menuPopupData: propTypes.objectOf(propTypes.oneOfType([propTypes.string, propTypes.number])),
   updateItem: propTypes.func,
   createItem: propTypes.func,
-  popupRef: propTypes.objectOf(propTypes.Element),
+  setIsPopup: propTypes.func,
 };
 
 export default MenuManagePopup;

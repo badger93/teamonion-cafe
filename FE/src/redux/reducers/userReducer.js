@@ -2,7 +2,7 @@ import {
   SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
   SIGNIN_REQUEST,
-  LOG_OUT, SIGNIN_REF_REGISTER, CHANGE_POINT,
+  LOG_OUT, SIGNIN_REF_REGISTER, CHANGE_POINT, SIGNUP_FINISH,
 } from '../actions/userAction';
 
 const initState = {
@@ -33,6 +33,10 @@ const userReducer = (state = initState, action) => {
     case SIGNUP_FAILURE: {
       return { ...state, isSigningUp: false, signUpErrorReason: action.error };
     }
+    case SIGNUP_FINISH: {
+      return { ...state, isSignedUp: false };
+    }
+
     case SIGNIN_REQUEST: {
       return {
         ...state, isSigningIn: true, isSignedIn: false, signInErrorReason: '',
