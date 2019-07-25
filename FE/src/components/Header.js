@@ -36,7 +36,6 @@ const Header = () => {
       <PcHeader
         isSignedIn={isSignedIn}
         user={me}
-        loginRef={loginRef}
         logOutDispatch={logOutDispatch}
         setIsLoginPopup={setIsLoginPopup}
       />
