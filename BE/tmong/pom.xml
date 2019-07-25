@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.teamonion</groupId>
     <artifactId>tmong</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>tmong</name>
     <description>Demo project for Spring Boot</description>
 
