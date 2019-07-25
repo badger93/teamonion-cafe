@@ -20,9 +20,7 @@ const AdminMakingArea = ({ list, areaName, setCurrentOrderList }) => {
     <div className={`${areaName}Making-area`}>
       <h2>{title}</h2>
       <div className="orderBoard">
-        <div className="orderLists">
-          {mapListItem}
-        </div>
+        <div className="orderLists">{mapListItem}</div>
       </div>
     </div>
   );

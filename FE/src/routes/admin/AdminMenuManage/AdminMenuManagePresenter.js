@@ -6,7 +6,10 @@ import MenuManagePopup from '../../../components/MenuManagePopup';
 import './styles/AdminMenuManagePresenter.scss';
 
 const AdminMenuManagePresenter = ({
-  menuList, deleteItem, updateItem, createItem,
+  menuList,
+  deleteItem,
+  updateItem,
+  createItem,
 }) => {
   const [menuPopupData, setMenuPopupData] = useState({});
   const [isPopup, setIsPopup] = useState(false);
@@ -48,7 +51,7 @@ const AdminMenuManagePresenter = ({
     },
   ];
 
-  const rows = menuList.map(item => ({
+  const rows = menuList.map((item) => ({
     id: item.id,
     imageFile: item.imageFile,
     name: item.name,
@@ -98,22 +101,21 @@ const AdminMenuManagePresenter = ({
         <ReactDataGrid
           className="menuGrid"
           columns={colums}
-          rowGetter={i => rows[i]}
+          rowGetter={(i) => rows[i]}
           rowsCount={rows.length}
           getCellActions={getCellActions}
         />
       </div>
       {isPopup && (
-      <div className="MenuManagePopupContainer">
-        <MenuManagePopup
-          menuPopupData={menuPopupData}
-          updateItem={updateItem}
-          createItem={createItem}
-          setIsPopup={setIsPopup}
-        />
-      </div>
+        <div className="MenuManagePopupContainer">
+          <MenuManagePopup
+            menuPopupData={menuPopupData}
+            updateItem={updateItem}
+            createItem={createItem}
+            setIsPopup={setIsPopup}
+          />
+        </div>
       )}
-
     </div>
   );
 };

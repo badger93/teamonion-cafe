@@ -1,19 +1,25 @@
 import { useState } from 'react';
 
-
 // 로컬스토리지, 체크배열, 장바구니배열 삭제기능 함수
 
-export const CartDelete = (array, setArray, cartId, array2 = null, setArray2 = null) => {
-  const deleteIndex = array.findIndex(element => element.cartId === cartId);
+export const CartDelete = (
+  array,
+  setArray,
+  cartId,
+  array2 = null,
+  setArray2 = null,
+) => {
+  const deleteIndex = array.findIndex((element) => element.cartId === cartId);
   // 체크해놓고 삭제시 처리
 
   if (deleteIndex !== -1) {
     if (array2 && setArray2) {
       const deleteIndexArray2 = array2.findIndex(
-        element => element.cartId === array[deleteIndex].cartId,
+        (element) => element.cartId === array[deleteIndex].cartId,
       );
 
-      if (deleteIndexArray2 !== -1) { // 삭제시 체크된 목록에서도 같이삭제
+      if (deleteIndexArray2 !== -1) {
+        // 삭제시 체크된 목록에서도 같이삭제
         array2.splice(deleteIndexArray2, 1);
         setArray2([...array2]);
       }
@@ -22,7 +28,6 @@ export const CartDelete = (array, setArray, cartId, array2 = null, setArray2 = n
     setArray([...array]); // State 와 로컬스토리지 동시 변경
   }
 };
-
 
 // 장바구니 스테이트와 동일시 되게
 export const useCart = (initCart, localStorage = null) => {
@@ -58,7 +63,8 @@ export const useLocalStorage = (key, initialValue) => {
   const setValue = (value) => {
     try {
       // Allow value to be a function so we have same API as useState
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      const valueToStore =
+        value instanceof Function ? value(storedValue) : value;
       // Save state
       setStoredValue(valueToStore);
       // Save to local storage

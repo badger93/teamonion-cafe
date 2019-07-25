@@ -6,7 +6,14 @@ import PayListItem from './PayListItem';
 import { payRequestAction, payFinishAction } from '../redux/actions/payAction';
 
 const PayForm = ({
-  dispatch, itemsForPay = {}, isSignedIn, isPaying, isPaid, user, howPay, setHowPay,
+  dispatch,
+  itemsForPay = {},
+  isSignedIn,
+  isPaying,
+  isPaid,
+  user,
+  howPay,
+  setHowPay,
 }) => {
   let totalPrice = 0;
   const [afterPoint, setAfterPoint] = useState(0);
@@ -16,14 +23,14 @@ const PayForm = ({
     setAfterPoint(Point);
   }, [howPay, isSignedIn, totalPrice, user.point]);
 
-
   const onSubmit = async (e) => {
     e.preventDefault();
-    if (afterPoint < 0) { // 포인트 부족할때 경고
+    if (afterPoint < 0) {
+      // 포인트 부족할때 경고
       alert('포인트가 부족합니다');
     }
 
-    const menuSet = Object.values(itemsForPay).map(item => item.id);
+    const menuSet = Object.values(itemsForPay).map((item) => item.id);
     const requestInfo = {
       paid: howPay === 1,
       paymentType: howPay === 1 ? 'point' : 'cash',
@@ -36,14 +43,16 @@ const PayForm = ({
     setTimeout(() => dispatch(payFinishAction()), 5000);
     // PayFinish, redux state change
   };
-  const onPointRadioChange = useCallback( // 포인트 결제시 라디오버튼
+  const onPointRadioChange = useCallback(
+    // 포인트 결제시 라디오버튼
     () => {
       setHowPay(1);
     },
     [setHowPay],
   );
 
-  const onCashRadioChange = useCallback( // 현장결제시 라디오버튼
+  const onCashRadioChange = useCallback(
+    // 현장결제시 라디오버튼
     () => {
       setHowPay(2);
     },
@@ -64,7 +73,7 @@ const PayForm = ({
             <div />
           </div>
           <div className="payform-list">
-            {Object.values(itemsForPay).map(item => (
+            {Object.values(itemsForPay).map((item) => (
               <PayListItem
                 key={item.cartId}
                 menuName={item.menuName}
@@ -76,9 +85,20 @@ const PayForm = ({
             <div>결제수단</div>
             <div>
               <span>포인트결제</span>
-              <input type="radio" name="payment" value="포인트결제" defaultChecked="true" onChange={onPointRadioChange} />
+              <input
+                type="radio"
+                name="payment"
+                value="포인트결제"
+                defaultChecked="true"
+                onChange={onPointRadioChange}
+              />
               <span>현장결제</span>
-              <input type="radio" name="payment" value="현장결제" onChange={onCashRadioChange} />
+              <input
+                type="radio"
+                name="payment"
+                value="현장결제"
+                onChange={onCashRadioChange}
+              />
             </div>
           </div>
           <div className="payform-row">
@@ -91,12 +111,9 @@ const PayForm = ({
             </div>
           </div>
           <div className="payform-point_container">
-
             <div>
               <span>내 포인트</span>
-              <span>
-                {`${user.point} P`}
-              </span>
+              <span>{`${user.point} P`}</span>
             </div>
             <div>
               <span>포인트 적립</span>
@@ -104,12 +121,15 @@ const PayForm = ({
             </div>
             <div>
               <span>결제 후 내 포인트</span>
-              <span>{howPay === 1 ? `${afterPoint} P` : `${user.point + totalPrice / 10} P`}</span>
+              <span>
+                {howPay === 1
+                  ? `${afterPoint} P`
+                  : `${user.point + totalPrice / 10} P`}
+              </span>
             </div>
-
           </div>
           <button type="submit" className="submit-button">
-          결제하기
+            결제하기
           </button>
         </form>
       </div>

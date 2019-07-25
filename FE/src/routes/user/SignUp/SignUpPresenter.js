@@ -4,11 +4,9 @@ import SignUpForm from '../../../components/SignUpForm';
 import './styles/SignUpPresenter.scss';
 import Loading from '../../../components/Loading';
 
-const SignUpPresenter = ({
-  dispatch, isSigningUp,
-  isSignedUp,
-}) => (
+const SignUpPresenter = ({ dispatch, isSigningUp, isSignedUp }) => (
   <div className="signup_wrap">
+    {isSigningUp && <Loading />}
     <div className="signup_container">
       <div className="signup_title">Sign Up</div>
       <SignUpForm

@@ -3,7 +3,10 @@ import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
 
-const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByState }) => {
+const AdminOrderHistoryPresenter = ({
+  orderHistoryData,
+  getHistoryDataByState,
+}) => {
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
 
   const colums = [
@@ -62,7 +65,7 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByState })
     },
   ];
 
-  const rows = orderHistoryData.map(item => ({
+  const rows = orderHistoryData.map((item) => ({
     order_id: item.order_id,
     member_id: item.member_id,
     menus: item.menus,
@@ -71,29 +74,47 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByState })
     amount: item.amount,
     paid: item.paid ? 'YES' : 'NO',
     made: item.made ? 'YES' : 'NO',
-    pickup: (item.pickup) ? 'YES' : 'NO',
+    pickup: item.pickup ? 'YES' : 'NO',
   }));
-
 
   return (
     <div className="AdminOrderHistoryPresenter">
       <div className="pageTitle">주문이력</div>
       {/* TODO -- 상태 별 getHistoryDataByState 파라미터 넣어주기 */}
       <div className="orderTabArea">
-        <input className="allBtn" type="button" value="전체보기" onClick={() => getHistoryDataByState()} />
-        <input className="nonpayBtn" type="button" value="미결제" onClick={() => getHistoryDataByState()} />
-        <input className="paidBtn" type="button" value="결제완료" onClick={() => getHistoryDataByState()} />
-        <input className="madeBtn" type="button" value="제작완료" onClick={() => getHistoryDataByState()} />
+        <input
+          className="allBtn"
+          type="button"
+          value="전체보기"
+          onClick={() => getHistoryDataByState()}
+        />
+        <input
+          className="nonpayBtn"
+          type="button"
+          value="미결제"
+          onClick={() => getHistoryDataByState()}
+        />
+        <input
+          className="paidBtn"
+          type="button"
+          value="결제완료"
+          onClick={() => getHistoryDataByState()}
+        />
+        <input
+          className="madeBtn"
+          type="button"
+          value="제작완료"
+          onClick={() => getHistoryDataByState()}
+        />
       </div>
 
       <div className="historyList">
         <ReactDataGrid
           className="historyGrid"
           columns={colums}
-          rowGetter={i => rows[i]}
+          rowGetter={(i) => rows[i]}
           rowsCount={rows.length}
         />
-
       </div>
     </div>
   );

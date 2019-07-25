@@ -17,6 +17,7 @@ import { signUpApi, signInApi } from '../../api/userApi';
 function* signIn(action) {
   try {
     const result = yield call(() => signInApi(action.data));
+    yield delay(3000);
     yield put({
       // put은 dispatch 동일
       type: SIGNIN_SUCCESS,

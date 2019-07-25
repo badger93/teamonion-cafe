@@ -5,17 +5,20 @@ import './styles/MyOrderPresenter.scss';
 
 const MyOrderPresenter = ({ orders, setOrders, userId }) => (
   <div className="myorder-wrapper">
-    {orders ? orders.map(
-      (order, index) => !order.pickup && (
-        <MyOrderCard
-          key={index}
-          made={order.made}
-          paid={order.paid}
-          menu={order.menu}
-          setOrders={setOrders}
-          userId={userId}
-        />
-      ),
+    {orders ? (
+      orders.map(
+        (order, index) =>
+          !order.pickup && (
+            <MyOrderCard
+              key={index}
+              made={order.made}
+              paid={order.paid}
+              menu={order.menu}
+              setOrders={setOrders}
+              userId={userId}
+            />
+          ),
+      )
     ) : (
       <div className="myorder-nothing">
         <div className="myorder-nothing-cry" />

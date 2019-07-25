@@ -20,15 +20,13 @@ import AdminOrderManage from '../routes/admin/AdminOrderManage';
 import AdminOrderHistory from '../routes/admin/AdminOrderHistory';
 
 const RootRouter = () => {
-  const { isSignedIn, me } = useSelector(state => state.user);
+  const { isSignedIn, me } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
-  const popupControl = useCallback(
-    () => {
-      dispatch(signInPopupChangeAction());
-    }, [dispatch],
-  );
+  const popupControl = useCallback(() => {
+    dispatch(signInPopupChangeAction());
+  }, [dispatch]);
 
   const SignInRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -39,18 +37,19 @@ const RootRouter = () => {
         }
         setTimeout(() => popupControl(), 1000);
         return <Redirect to="/" />;
-      }
-      }
+      }}
     />
   );
   const AdminRoute = ({ component: Component, ...rest }) => (
     <Route
       {...rest}
-      render={props => (
-        me.memberRole === 'ADMIN'
-          ? <Component {...props} />
-          : <Redirect to="/" />
-      )}
+      render={(props) =>
+        me.memberRole === 'ADMIN' ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to="/" />
+        )
+      }
     />
   );
 
@@ -70,8 +69,16 @@ const RootRouter = () => {
             exact
             component={AdminMemberManage}
           />
-          <AdminRoute path="/admin/menu-manage" exact component={AdminMenuManage} />
-          <AdminRoute path="/admin/order-manage" exact component={AdminOrderManage} />
+          <AdminRoute
+            path="/admin/menu-manage"
+            exact
+            component={AdminMenuManage}
+          />
+          <AdminRoute
+            path="/admin/order-manage"
+            exact
+            component={AdminOrderManage}
+          />
           <AdminRoute
             path="/admin/order-history"
             exact

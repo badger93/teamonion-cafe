@@ -1,6 +1,4 @@
-import React, {
-  useState, useCallback, useEffect, useRef,
-} from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
@@ -9,9 +7,12 @@ import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
 
-
 const CartForm = ({
-  signInRef = null, handleCart, handleCheckedCart, dispatch, isSignedIn,
+  signInRef = null,
+  handleCart,
+  handleCheckedCart,
+  dispatch,
+  isSignedIn,
 }) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
@@ -19,49 +20,64 @@ const CartForm = ({
   const [tryPay, setTryPay] = useState(false); // 로그인후 바로 리디렉션을 위한 값
   const [willPay, setWillPay] = useState(false); // 리디렉션을 위한 값
 
-  const popupControl = useCallback(
-    () => {
-      dispatch(signInPopupChangeAction());
-    }, [dispatch],
+  const popupControl = useCallback(() => {
+    dispatch(signInPopupChangeAction());
+  }, [dispatch]);
+
+  const onSubmit = useCallback(
+    (e) => {
+      e && e.preventDefault();
+
+      async function asyncSubmit() {
+        if (checkedItem.length === 0) {
+          // 선택안하고 결제 눌렀을시 예외처리
+          alert('상품 선택이 필요합니다');
+          return;
+        }
+        if (!isSignedIn) {
+          // 로그인 안할경우 오픈팝업
+          popupControl();
+          setTryPay(true); // 로그인 성공하면 바로 결제로 가도록
+          return;
+        }
+
+        await dispatch(cartToPayAction({ ...checkedItem }));
+
+        // 체크된 메뉴들 삭제
+        for (let i = 0; i < checkedItem.length; i + 1) {
+          CartDelete(
+            cart,
+            setAllCart,
+            checkedItem[i].cartId,
+            checkedItem,
+            setCheckedItem,
+          );
+        }
+
+        setWillPay(true); // 리디렉션을 위한 값
+        setTimeout(() => setWillPay(false), 5000);
+      }
+      asyncSubmit();
+    },
+    [
+      cart,
+      setAllCart,
+      checkedItem,
+      setCheckedItem,
+      setWillPay,
+      dispatch,
+      isSignedIn,
+      signInRef,
+    ],
   );
-
-  const onSubmit = useCallback((e) => {
-    e && e.preventDefault();
-
-    async function asyncSubmit() {
-      if (checkedItem.length === 0) { // 선택안하고 결제 눌렀을시 예외처리
-        alert('상품 선택이 필요합니다');
-        return;
-      }
-      if (!isSignedIn) { // 로그인 안할경우 오픈팝업
-        popupControl();
-        setTryPay(true); // 로그인 성공하면 바로 결제로 가도록
-        return;
-      }
-
-      await dispatch(cartToPayAction({ ...checkedItem }));
-
-      // 체크된 메뉴들 삭제
-      for (let i = 0; i < checkedItem.length; i + 1) {
-        CartDelete(cart, setAllCart, checkedItem[i].cartId, checkedItem, setCheckedItem);
-      }
-
-      setWillPay(true); // 리디렉션을 위한 값
-      setTimeout(() => setWillPay(false), 5000);
-    }
-    asyncSubmit();
-  }, [cart,
-    setAllCart,
-    checkedItem,
-    setCheckedItem,
-    setWillPay, dispatch, isSignedIn, signInRef]);
 
   const isInitialMount = useRef(true); // 최초 마운트시점이 아닌 업데이트시만 작동하도록 확인
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-    } else if (tryPay && isSignedIn) { // 결제시도 + 로그인 까지 해야지 바로결제
+    } else if (tryPay && isSignedIn) {
+      // 결제시도 + 로그인 까지 해야지 바로결제
       console.log('onSubmitAgain');
       setTryPay(false);
       onSubmit();
@@ -70,7 +86,6 @@ const CartForm = ({
 
   let totalPrice = 0;
 
-
   return (
     <div className="cartform-container">
       {willPay && <Redirect to="/payment" />}
@@ -78,13 +93,13 @@ const CartForm = ({
       <div className="cartform-wrapper">
         <form className="cartform" onSubmit={onSubmit}>
           <div className="cartform-column">
-            <div>{' '}</div>
+            <div> </div>
             <div>내용</div>
             <div>가격</div>
             <div />
           </div>
           <div className="cartform-list">
-            {cart.map(item => (
+            {cart.map((item) => (
               <CartListItem
                 key={item.cartId}
                 cartId={item.cartId}
@@ -108,7 +123,7 @@ const CartForm = ({
             </div>
           </div>
           <button type="submit" className="submit-button">
-          결제하러가기
+            결제하러가기
           </button>
         </form>
       </div>
