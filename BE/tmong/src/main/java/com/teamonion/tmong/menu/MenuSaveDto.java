@@ -12,13 +12,11 @@ import javax.validation.constraints.*;
 @ToString(exclude = "imageFile")
 public class MenuSaveDto {
 
-    @NotBlank(message = "메뉴명을 입력해주세요.")
+    @NotEmpty(message = "메뉴명을 입력해주세요.")
     private String name;
 
-    @NotBlank(message = "가격을 입력해주세요.")
-    @Pattern(regexp = "^[0-9]*$", message = "숫자만 입력가능합니다.")
-    // TODO : 금액 조건 추가하기 (0원 이상)
-    private String price;
+    @Min(value = 0,message = "가격을 입력해주세요.")
+    private long price;
 
     private String information;
 

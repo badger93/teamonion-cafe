@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class OrdersHistoryResponse {
     private Long id;
     private LocalDateTime createdDate;
-    private String amount;
+    private long amount;
     private boolean pickup;
     private boolean paid;
     private boolean made;

@@ -26,7 +26,7 @@ public class Orders {
     private PaymentType paymentType;
 
     @Column(nullable = false)
-    private String amount;
+    private long amount;
 
     private LocalDateTime createdDate;
 
@@ -44,7 +44,7 @@ public class Orders {
     private boolean pickup = false;
 
     @Builder
-    public Orders(PaymentType paymentType, String amount, Member buyer, List<Menu> menuList, boolean paid){
+    public Orders(PaymentType paymentType, long amount, Member buyer, List<Menu> menuList, boolean paid){
         this.paymentType = paymentType;
         this.amount = amount;
         this.createdDate = LocalDateTime.now();

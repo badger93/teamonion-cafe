@@ -7,7 +7,7 @@ public class MemberLoginResponse {
     private Long id;
     private String memberId;
     private MemberRole memberRole;
-    private String point;
+    private long point;
     private String jwt;
 
     public MemberLoginResponse(Member member, String jwt){

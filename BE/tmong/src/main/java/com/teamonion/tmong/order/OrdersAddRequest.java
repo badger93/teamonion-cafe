@@ -16,15 +16,12 @@ public class OrdersAddRequest {
 
     private PaymentType paymentType;
 
-    @NotNull(message = "주문자 정보가 없습니다")
-    private Long member_id;
-
     @NotNull(message = "주문 메뉴 정보가 없습니다")
     private List<Long> menuIdList;
 
     private boolean paid;
 
-    Orders toEntity(String amount, Member buyer, List<Menu> menuList) {
+    Orders toEntity(long amount, Member buyer, List<Menu> menuList) {
         return Orders.builder()
                 .paymentType(paymentType)
                 .amount(amount)

@@ -25,7 +25,7 @@ public class MenuController {
 
     @CheckJwt
     @PostMapping
-    public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
+    public ResponseEntity add(@ModelAttribute @Valid MenuSaveDto menuSaveDto) {
         return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
     }
 

@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +38,7 @@ public class MenuServiceTest {
     public void setUp() throws IOException {
         menu = Menu.builder()
                 .name("americano")
-                .price("1000")
+                .price(1000)
                 .information("직장인의 기본 음료")
                 .imagePath("src/main/resources/menuUpload/example/example.jpg")
                 .build();
@@ -47,7 +48,6 @@ public class MenuServiceTest {
 
     @Test
     public void 메뉴추가테스트() {
-        //TODO : 이미지 파일이 없을 경우와 있을 경우로 나누어서 Test 진행
         //given
         MenuSaveDto menuSaveDto = new MenuSaveDto();
         menuSaveDto.setName(menu.getName());
@@ -71,8 +71,8 @@ public class MenuServiceTest {
         Mockito.when(menuRepository.findAll()).thenReturn(list);
 
         //then
-        // TODO : pageable 해보도록 하자...
-        //assertThat(menuService.selectAll()).isEmpty();
+        // TODO : pageable 추가
+        assertThat(menuService.selectAll(Pageable.unpaged())).isEmpty();
     }
 
     @Test
@@ -84,8 +84,8 @@ public class MenuServiceTest {
         Mockito.when(menuRepository.findAll()).thenReturn(list);
 
         //then
-        // TODO : pageable 해보도록 하자...
-        //assertThat(menuService.selectAll()).containsAll(list);
+        // TODO : pageable 추가
+        assertThat(menuService.selectAll(Pageable.unpaged())).containsAll(list);
     }
 
     @Test(expected = HandleRuntimeException.class)
@@ -102,7 +102,7 @@ public class MenuServiceTest {
         //given
         MenuSaveDto menuSaveDto = new MenuSaveDto();
         menuSaveDto.setName(menu.getName());
-        menuSaveDto.setPrice("2000");
+        menuSaveDto.setPrice(2000);
         menuSaveDto.setInformation(menu.getInformation());
         menuSaveDto.setImageFile(mockMultipartFile);
 
@@ -111,14 +111,6 @@ public class MenuServiceTest {
         Mockito.when(menuRepository.findById(1L)).thenReturn(Optional.of(menu));
 
         menuService.updateMenu(1L, menuSaveDto);
-    }
-
-    @Test
-    public void 메뉴이미지_저장경로설정() {
-        menuService.setMenuImagePath(mockMultipartFile);
-//        String imagePath = "src/main/resources/menuUpload/"
-//                + LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "/example.jpg";
-//        assertThat(menuService.saveMenuImage(mockMultipartFile)).isEqualTo(imagePath);
     }
 
     @Test

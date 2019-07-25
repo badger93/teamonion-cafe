@@ -37,7 +37,7 @@ public class MenuService {
     @NonNull
     private final JwtComponent jwtComponent;
 
-    long add(MenuSaveDto menuSaveDto) {
+    Long add(MenuSaveDto menuSaveDto) {
         checkAdmin();
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
@@ -60,7 +60,7 @@ public class MenuService {
     }
 
     @Transactional
-    public void updateMenu(long id, MenuSaveDto menuSaveDto) {
+    public void updateMenu(Long id, MenuSaveDto menuSaveDto) {
         checkAdmin();
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
@@ -92,13 +92,12 @@ public class MenuService {
 
             return DOWNLOAD_PATH + "/" + fileName;
         } catch (IOException e) {
-            //e.getStackTrace();
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
         }
     }
 
     @Transactional
-    void deleteByMenuId(long id) {
+    void deleteByMenuId(Long id) {
         checkAdmin();
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
         String path = menu.getImagePath();
@@ -110,6 +109,7 @@ public class MenuService {
     private void deleteMenuImage(String path) {
         File file = new File(path);
 
+        // TODO : delete() 확인 필요
         if (file.exists()) {
             file.delete();
         }
@@ -120,7 +120,8 @@ public class MenuService {
     }
 
     private void checkAdmin() {
-        if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN)) {
+        if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN.toString())) {
+            log.debug("menuservice - checkadmin fail.. role : {}", jwtComponent.getClaimValueByToken(JwtComponent.ROLE));
             throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
     }

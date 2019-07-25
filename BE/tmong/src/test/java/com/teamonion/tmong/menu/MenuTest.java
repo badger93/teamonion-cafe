@@ -14,7 +14,7 @@ public class MenuTest {
     public void builder() {
         menu = Menu.builder()
                 .name("americano")
-                .price("1000")
+                .price(1000)
                 .information("직장인들의 기본 음료")
                 .imagePath("src/main/resources/menuUpload/example/example.jpg")
                 .build();
@@ -28,7 +28,7 @@ public class MenuTest {
     @Test
     public void UpdateTest() {
         String name = "maesil";
-        String price = "1200";
+        long price = 1200;
         String information = "장에 좋은 음료";
         String imagePath = "src/main/resources/menuUpload/example/example2.png";
 

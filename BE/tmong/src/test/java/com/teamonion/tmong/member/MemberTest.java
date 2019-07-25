@@ -26,7 +26,7 @@ public class MemberTest {
 
     @Test
     public void pointUpdateTest() {
-        String point = "1234";
+        long point = 1234;
 
         member.pointUpdate(point);
         assertThat(member.getPoint()).isEqualTo(point);

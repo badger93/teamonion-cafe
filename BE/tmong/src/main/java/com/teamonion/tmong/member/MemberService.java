@@ -53,19 +53,20 @@ public class MemberService {
         return memberRepository.findAll(pageable);
     }
 
-    public String pointUpdate(Long id, String point) {
+    public long pointUpdate(Long id, long point) {
         checkAdmin();
         Member member = findById(id);
         member.pointUpdate(point);
         return memberRepository.save(member).getPoint();
     }
 
-    public Integer getPoint(Long id) {
-        return Integer.parseInt(findById(id).getPoint());
+    public long getPoint(Long id) {
+        return findById(id).getPoint();
     }
 
     private void checkAdmin() {
-        if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN)) {
+        if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN.toString())) {
+            log.debug("MemberService - checkAdmin fail.. role : {}", jwtComponent.getClaimValueByToken(JwtComponent.ROLE));
             throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
     }

@@ -40,7 +40,7 @@ public class MenuControllerTest {
         MultipartFile mockMultipartFile = new MockMultipartFile("example", "example.jpg", "application/form-data",
                 new FileInputStream(new File("src/main/resources/menuUpload/example/example.jpg")));
 
-        MenuSaveDto menuSaveDto = new MenuSaveDto("americano", "1000", "직장인의 인기 메뉴", mockMultipartFile, "example");
+        MenuSaveDto menuSaveDto = new MenuSaveDto("americano", 1000, "직장인의 인기 메뉴", mockMultipartFile, "example");
 
         Mockito.when(menuService.add(menuSaveDto)).thenReturn(1L);
 

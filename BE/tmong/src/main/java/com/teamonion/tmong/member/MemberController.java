@@ -51,13 +51,13 @@ public class MemberController {
 
     @CheckJwt
     @GetMapping("/{id}/point")
-    public ResponseEntity<Integer> getPoint(@PathVariable Long id) {
-        return new ResponseEntity<>(memberService.getPoint(id), HttpStatus.OK);
+    public ResponseEntity getPoint(@PathVariable Long id) {
+        return new ResponseEntity(memberService.getPoint(id), HttpStatus.OK);
     }
 
     @CheckJwt
     @PutMapping("/{id}/point")
-    public ResponseEntity pointUpdate(@PathVariable Long id, String point) {
+    public ResponseEntity pointUpdate(@PathVariable Long id, @RequestBody long point) {
         memberService.pointUpdate(id, point);
         return new ResponseEntity(HttpStatus.OK);
     }
