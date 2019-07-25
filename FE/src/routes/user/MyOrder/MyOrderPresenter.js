@@ -8,7 +8,7 @@ const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => (
   <>
     {isLoading && <Loading />}
     <div className="myorder-wrapper">
-      {orders ? (
+      {orders.length !== 0 ? (
         orders.map(
           (order, index) =>
             !order.pickup && (
@@ -16,7 +16,7 @@ const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => (
                 key={index}
                 made={order.made}
                 paid={order.paid}
-                menu={order.menu}
+                menu={order.menuNameList}
                 setOrders={setOrders}
                 userId={userId}
               />
@@ -39,7 +39,7 @@ MyOrderPresenter.propTypes = {
     pickup: propTypes.bool,
     made: propTypes.string,
     paid: propTypes.string,
-    menu: propTypes.array,
+    menuNameList: propTypes.array,
   }),
   setOrders: propTypes.func.isRequired,
   userId: propTypes.number.isRequired,

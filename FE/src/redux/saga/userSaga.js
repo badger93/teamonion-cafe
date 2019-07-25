@@ -12,7 +12,6 @@ import { signUpApi, signInApi } from '../../api/userApi';
 
 function* signIn(action) {
   try {
-    console.log(action.data);
     const result = yield call(() => signInApi(action.data));
     yield put({
       // put은 dispatch 동일

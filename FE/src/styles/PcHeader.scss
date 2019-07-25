@@ -1,13 +1,11 @@
-@keyframes rotate2 {
+@keyframes rotate3 {
   0% {
     transform-origin: center;
     transform: rotate(0deg);
-   
   }
   100% {
     transform-origin: center;
     transform: rotate(360deg);
-    
   }
 }
 .header_pc {
@@ -22,7 +20,7 @@
   background-color: #222f3e;
   color: white;
   // background-color: #f6f5f0;
-  
+
   a {
     &:hover {
       //color: #fe6600;
@@ -70,14 +68,13 @@
         width: 40%;
         height: 30px;
         font-size: 0.8rem;
-        .header_pc-refresh{
-          cursor:pointer;
-
-          :hover{
-            animation: rotate2 1s infinite;
+        .header_pc-refresh {
+          cursor: pointer;
+          :hover {
+            animation: rotate3 1s infinite;
           }
         }
-        .header_pc-logout{
+        .header_pc-logout {
           cursor: pointer;
           &:hover {
             //color: #fe6600;

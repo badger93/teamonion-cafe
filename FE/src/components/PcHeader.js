@@ -8,7 +8,7 @@ import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import { signInPopupChangeAction } from '../redux/actions/userAction';
 import tmonglogo from '../image/tmonglogo.png';
 
-const PcHeader = ({ isSignedIn, user, logOutDispatch, onRefreshClick }) => {
+const PcHeader = ({ isSignedIn, user = null, logOutDispatch, onRefreshClick }) => {
   const dispatch = useDispatch();
 
   const popupControl = useCallback(() => {
@@ -82,13 +82,12 @@ PcHeader.defaultProptypes = {
 PcHeader.propTypes = {
   isSignedIn: propTypes.bool.isRequired,
   user: propTypes.shape({
-    id: propTypes.number.isRequired,
-    memberId: propTypes.string.isRequired,
-    memberRole: propTypes.string.isRequired,
-    point: propTypes.number.isRequired,
-    jwt: propTypes.string.isRequired,
-  }).isRequired,
-  setIsLoginPopup: propTypes.func.isRequired,
+    id: propTypes.number,
+    memberId: propTypes.string,
+    memberRole: propTypes.string,
+    point: propTypes.number,
+    jwt: propTypes.string,
+  }),
   logOutDispatch: propTypes.func.isRequired,
   onRefreshClick: propTypes.func.isRequired,
 };

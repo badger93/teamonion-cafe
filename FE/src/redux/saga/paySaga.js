@@ -5,7 +5,7 @@ import { CHANGE_POINT } from '../actions/userAction';
 
 function* pay(action) {
   try {
-    yield call(() => payAPI(action));
+    yield call(() => payAPI(action.data));
     // yield delay(2000);
     yield put({
       // put은 dispatch 동일
@@ -17,7 +17,7 @@ function* pay(action) {
     });
   } catch (e) {
     // loginAPI 실패
-    console.error(e.response);
+    console.log(e);
     yield put({
       type: PAY_FAILURE,
     });

@@ -12,7 +12,7 @@
     background-color: rgba(254, 102, 0, 1);
   }
 }
-@keyframes rotate2 {
+@keyframes rotate3 {
   0% {
     transform-origin: center;
     transform: rotate(0deg);
@@ -39,7 +39,7 @@
     cursor: pointer;
 
     :hover {
-      animation: rotate2 1s infinite;
+      animation: rotate3 1s infinite;
     }
   }
   .myorder-card {
