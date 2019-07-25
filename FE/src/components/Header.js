@@ -3,22 +3,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
-import {
-  logOutAction, changePoint,
-} from '../redux/actions/userAction';
+import { logOutAction, changePoint } from '../redux/actions/userAction';
 import { myPointApi } from '../api/userApi';
 
 const Header = () => {
-  const { isSignedIn, me, signInPopup } = useSelector(state => state.user);
+  const { isSignedIn, isSigningIn, me, signInPopup } = useSelector(
+    (state) => state.user,
+  );
   const dispatch = useDispatch();
   const [isList, setIsList] = useState(false);
 
-  const logOutDispatch = useCallback(
-    () => {
-      dispatch(logOutAction());
-    },
-    [dispatch],
-  );
+  const logOutDispatch = useCallback(() => {
+    dispatch(logOutAction());
+  }, [dispatch]);
 
   const onRefreshClick = useCallback(() => {
     async function myPointAsyncApi() {
@@ -49,11 +46,10 @@ const Header = () => {
         logOutDispatch={logOutDispatch}
         onRefreshClick={onRefreshClick}
       />
-      {signInPopup
-      && (
-      <div className="signInContainer">
-        <SignInPopup />
-      </div>
+      {signInPopup && (
+        <div className="signInContainer">
+          <SignInPopup isSigningIn={isSigningIn} />
+        </div>
       )}
     </>
   );

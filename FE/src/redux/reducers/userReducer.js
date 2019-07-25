@@ -1,8 +1,14 @@
 import {
-  SIGNUP_REQUEST, SIGNUP_SUCCESS, SIGNUP_FAILURE, SIGNIN_FAILURE,
+  SIGNUP_REQUEST,
+  SIGNUP_SUCCESS,
+  SIGNUP_FAILURE,
+  SIGNIN_FAILURE,
   SIGNIN_SUCCESS,
   SIGNIN_REQUEST,
-  LOG_OUT, SIGNIN_POPUP_CHANGE, CHANGE_POINT, SIGNUP_FINISH,
+  LOG_OUT,
+  SIGNIN_POPUP_CHANGE,
+  CHANGE_POINT,
+  SIGNUP_FINISH,
 } from '../actions/userAction';
 
 const initState = {
@@ -14,17 +20,25 @@ const initState = {
   isSignedUp: false,
   signUpErrorReason: '',
   signInPopup: false, // 로그인 팝업창 띄울지 말지
-  me: localStorage.getItem('USER') ? JSON.parse(localStorage.getItem('USER')) : {
-    id: -1, memberId: '', memberRole: 'NORMAL', point: 0, jwt: null,
-  },
+  me: localStorage.getItem('USER')
+    ? JSON.parse(localStorage.getItem('USER'))
+    : {
+        id: -1,
+        memberId: '',
+        memberRole: 'NORMAL',
+        point: 0,
+        jwt: null,
+      },
 };
-
 
 const userReducer = (state = initState, action) => {
   switch (action.type) {
     case SIGNUP_REQUEST: {
       return {
-        ...state, isSigningUp: true, isSignedUp: false, signUpErrorReason: '',
+        ...state,
+        isSigningUp: true,
+        isSignedUp: false,
+        signUpErrorReason: '',
       };
     }
     case SIGNUP_SUCCESS: {
@@ -39,24 +53,33 @@ const userReducer = (state = initState, action) => {
 
     case SIGNIN_REQUEST: {
       return {
-        ...state, isSigningIn: true, isSignedIn: false, signInErrorReason: '',
+        ...state,
+        isSigningIn: true,
+        isSignedIn: false,
+        signInErrorReason: '',
       };
     }
     case SIGNIN_SUCCESS: {
       localStorage.setItem('USER', JSON.stringify(action.data));
       localStorage.setItem('TOKEN', action.data.jwt); // 로그인 성공시 로컬에 토큰저장
       return {
-        ...state, isSigningIn: false, isSignedIn: true, me: { ...action.data },
+        ...state,
+        isSigningIn: false,
+        isSignedIn: true,
+        me: { ...action.data },
       };
     }
     case SIGNIN_FAILURE: {
       return { ...state, isSigningIn: false, signInErrorReason: action.error };
     }
     case SIGNIN_POPUP_CHANGE: {
-      return { ...state, signInPopup: !(state.signInPopup) };
+      return { ...state, signInPopup: !state.signInPopup };
     }
     case CHANGE_POINT: {
-      localStorage.setItem('USER', JSON.stringify({ ...state.me, point: action.data }));
+      localStorage.setItem(
+        'USER',
+        JSON.stringify({ ...state.me, point: action.data }),
+      );
       return { ...state, me: { ...state.me, point: action.data } };
     }
     case LOG_OUT: {
@@ -66,7 +89,11 @@ const userReducer = (state = initState, action) => {
         ...state,
         isSignedIn: false,
         me: {
-          id: -1, memberId: '', memberRole: 'NORMAL', point: 0, jwt: null,
+          id: -1,
+          memberId: '',
+          memberRole: 'NORMAL',
+          point: 0,
+          jwt: null,
         },
       };
     }

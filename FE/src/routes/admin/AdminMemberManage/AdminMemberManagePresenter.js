@@ -5,7 +5,11 @@ import './styles/AdminMemberManagePresenter.scss';
 import pagination from '../../../components/pagination';
 
 const AdminMemberManagePresenter = ({
-  memberListData, memberListPageData, setPoint, getUserByPage, searchUserByID,
+  memberListData,
+  memberListPageData,
+  setPoint,
+  getUserByPage,
+  searchUserByID,
 }) => {
   const [searchText, setSearchText] = useState('');
   const colums = [
@@ -33,7 +37,7 @@ const AdminMemberManagePresenter = ({
     },
   ];
 
-  const rows = memberListData.map(item => ({
+  const rows = memberListData.map((item) => ({
     id: item.id,
     memberId: item.memberId,
     memberRole: item.memberRole,
@@ -41,14 +45,20 @@ const AdminMemberManagePresenter = ({
   }));
 
   const onGridRowsUpdated = ({ toRow, updated }) => {
-    const data = Object.assign({}, { id: rows[toRow].id, changePoint: updated.point });
+    const data = Object.assign(
+      {},
+      { id: rows[toRow].id, changePoint: updated.point },
+    );
     setPoint(data);
   };
 
-  const submitCallback = useCallback((e) => {
-    e.preventDefault();
-    searchUserByID(searchText);
-  }, [searchText]);
+  const submitCallback = useCallback(
+    (e) => {
+      e.preventDefault();
+      searchUserByID(searchText);
+    },
+    [searchText],
+  );
 
   return (
     <div className="AdminMemberManagePresenter">
@@ -62,13 +72,19 @@ const AdminMemberManagePresenter = ({
             }
           }}
         >
-          <input className="searchText" value={searchText} onChange={e => setSearchText(e.target.value)} type="text" placeholder="사용자ID로 검색" />
+          <input
+            className="searchText"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+            type="text"
+            placeholder="사용자ID로 검색"
+          />
           <input className="searchSubmit" value="검색" type="submit" />
         </form>
         <ReactDataGrid
           className="memberGrid"
           columns={colums}
-          rowGetter={i => rows[i]}
+          rowGetter={(i) => rows[i]}
           rowsCount={rows.length}
           onGridRowsUpdated={onGridRowsUpdated}
           enableCellSelect

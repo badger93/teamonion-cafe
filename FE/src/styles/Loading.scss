@@ -10,6 +10,9 @@
     @media (max-width: 960px) {
       bottom:-40px;
     }
+    @media (max-width: 450px) and (max-height:380) {
+      bottom:0px;
+    }
 }
 
 .loader {

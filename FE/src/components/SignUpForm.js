@@ -7,9 +7,7 @@ import { signUpRequestAction } from '../redux/actions/userAction';
 import { useShowupString } from '../utils/signUpForm';
 import Loading from './Loading';
 
-const SignUpForm = ({
-  dispatch, isSigningUp, isSignedUp,
-}) => {
+const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
@@ -23,18 +21,18 @@ const SignUpForm = ({
     (e) => {
       e.preventDefault();
       if (
-        password.length === 0
-        || passwordCheck.length === 0
-        || id.length === 0
+        password.length === 0 ||
+        passwordCheck.length === 0 ||
+        id.length === 0
       ) {
         // 안적었을시 제한
         setShowupStringFunc('추가입력이 필요합니다');
         return;
       }
-      if (
-        !/^[a-zA-Z0-9]{8,16}$/.test(password)
-      ) {
-        setShowupStringFunc('password는 8~16자 입력과 영문,숫자조합이 필요합니다');
+      if (!/^[a-zA-Z0-9]{8,16}$/.test(password)) {
+        setShowupStringFunc(
+          'password는 8~16자 입력과 영문,숫자조합이 필요합니다',
+        );
         return;
       }
       if (password !== passwordCheck) {
@@ -137,9 +135,7 @@ const SignUpForm = ({
       {passwordError && (
         <div style={{ color: 'red' }}>비밀번호가 다릅니다!</div>
       )}
-      {isShowing && (
-        <div style={{ color: 'red' }}>{`${showupString}`}</div>
-      )}
+      {isShowing && <div style={{ color: 'red' }}>{`${showupString}`}</div>}
       <div className="signup_form_row signup_form_submit">
         <button className="submit_button" type="submit">
           Submit

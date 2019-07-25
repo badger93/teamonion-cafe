@@ -1,16 +1,8 @@
-import {
-  all,
-  fork,
-  takeLatest,
-  call,
-  put,
-  delay,
-} from 'redux-saga/effects';
+import { all, fork, takeLatest, call, put, delay } from 'redux-saga/effects';
 import axios from 'axios';
 import { PAY_FAILURE, PAY_SUCCESS, PAY_REQUEST } from '../actions/payAction';
 import { payAPI } from '../../api/payApi';
 import { CHANGE_POINT } from '../actions/userAction';
-
 
 function* pay(action) {
   try {

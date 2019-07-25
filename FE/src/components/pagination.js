@@ -13,16 +13,18 @@ const pagination = ({ page: currentPage, totalPages }, maxIndex, callback) => {
     if (totalPages < maxIndex) {
       return totalPages;
     }
-    return (endPage < maxIndex) ? maxIndex : endPage;
+    return endPage < maxIndex ? maxIndex : endPage;
   };
-  let pageIndex = (startPage < minIndex) ? minIndex : startPage;
+  let pageIndex = startPage < minIndex ? minIndex : startPage;
   for (pageIndex; pageIndex < pageGoal(); pageIndex += 1) {
     pageNumArr.push(pageIndex);
   }
-  return pageNumArr.map(item => (
+  return pageNumArr.map((item) => (
     <input
       type="button"
-      className={`paginationBtn ${(item === Number(currentPage)) ? 'active' : ''}`}
+      className={`paginationBtn ${
+        item === Number(currentPage) ? 'active' : ''
+      }`}
       key={`pagination-${item}`}
       value={item}
       onClick={(e) => {

@@ -13,7 +13,7 @@ export const LOG_OUT = 'LOG_OUT';
 
 export const CHANGE_POINT = 'CHANGE_POINT';
 
-export const signUpRequestAction = data => ({
+export const signUpRequestAction = (data) => ({
   type: SIGNUP_REQUEST,
   data,
 });
@@ -30,4 +30,4 @@ export const logOutAction = () => ({ type: LOG_OUT });
 
 export const signInPopupChangeAction = () => ({ type: SIGNIN_POPUP_CHANGE });
 
-export const changePoint = data => ({ type: CHANGE_POINT, data });
+export const changePoint = (data) => ({ type: CHANGE_POINT, data });

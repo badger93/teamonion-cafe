@@ -7,8 +7,9 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import tmonglogo from '../image/tmonglogo.png';
 import { signInRequestAction, signInPopupChangeAction } from '../redux/actions/userAction';
+import Loading from './Loading';
 
-const SignInPopup = ({ setIsLoginPopup }) => {
+const SignInPopup = ({ setIsLoginPopup, isSigningIn }) => {
   const [inputId, setInputID] = useState('');
   const [inputPw, setInputPw] = useState('');
   const [resultId] = useState('');
@@ -35,6 +36,7 @@ const SignInPopup = ({ setIsLoginPopup }) => {
 
   return (
     <div className="loginPopup">
+      {isSigningIn && <Loading />}
       <input
         className="closeBtn"
         type="button"
@@ -87,6 +89,7 @@ SignInPopup.defaultProps = {
 
 SignInPopup.propTypes = {
   setIsLoginPopup: propTypes.func,
+  isSigningIn: propTypes.bool.isRequired,
 };
 
 export default SignInPopup;

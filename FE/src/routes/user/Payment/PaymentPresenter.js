@@ -16,7 +16,16 @@ const PaymentPresenter = ({
   <div className="payment-wrapper">
     <div className="payment-title">결제하기</div>
     <div className="payment-container">
-      <PayForm dispatch={dispatch} itemsForPay={itemsForPay} isPaying={isPaying} isPaid={isPaid} user={user} howPay={howPay} setHowPay={setHowPay} isSignedIn={isSignedIn} />
+      <PayForm
+        dispatch={dispatch}
+        itemsForPay={itemsForPay}
+        isPaying={isPaying}
+        isPaid={isPaid}
+        user={user}
+        howPay={howPay}
+        setHowPay={setHowPay}
+        isSignedIn={isSignedIn}
+      />
     </div>
   </div>
 );

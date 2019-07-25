@@ -22,11 +22,13 @@ const MainPresenter = ({ list, mapDetailData, menuDetailData }) => {
       <h1>MENU</h1>
       <div className="menulist">{mapMenuListItem}</div>
       {isMenuPopup && (
-      <div className="menuDetailContainer">
-        <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
-      </div>
+        <div className="menuDetailContainer">
+          <MenuDetail
+            menuDetailData={menuDetailData}
+            setIsMenuPopup={setIsMenuPopup}
+          />
+        </div>
       )}
-
     </div>
   );
 };

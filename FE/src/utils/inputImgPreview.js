@@ -14,5 +14,4 @@ const inputImgPreview = (inputDom, imgDom) => {
   }
 };
 
-
 export default inputImgPreview;
