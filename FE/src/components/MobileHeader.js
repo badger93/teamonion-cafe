@@ -7,13 +7,14 @@ import {
   faCoffee,
   faBars,
   faTimes,
+  faRedo,
 } from '@fortawesome/free-solid-svg-icons';
 import propTypes from 'prop-types';
 import tmonglogo from '../image/tmonglogo.png';
 
 
 const MobileHeader = ({
-  isSignedIn, logOutDispatch, user, setIsLoginPopup, setIsList = null, isList = false,
+  isSignedIn, logOutDispatch, user, setIsLoginPopup, onRefreshClick, setIsList = null, isList = false,
 }) => (
   <>
     <div className="header_mobile-wrap">
@@ -32,6 +33,17 @@ const MobileHeader = ({
           </>
         ) : (
           <>
+            {isSignedIn
+            && (
+              <>
+                <div className="header_mobile-point">
+              Point
+                  <span>{` ${user.point} `}</span>
+              P
+                </div>
+                <div className="header_mobile-refresh" onClick={onRefreshClick}><FontAwesomeIcon icon={faRedo} /></div>
+              </>
+            )}
             <Link to="/user-info">
               <FontAwesomeIcon icon={faUser} size="2x" />
             </Link>
@@ -132,6 +144,7 @@ MobileHeader.propTypes = {
   setIsList: propTypes.func,
   isList: propTypes.bool,
   logOutDispatch: propTypes.func.isRequired,
+  onRefreshClick: propTypes.func.isRequired,
 };
 
 export default MobileHeader;

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import UserInfoPresenter from './UserInfoPresenter';
-import { userOrderHistoryAPI } from '../../../api/userApi';
+import { userOrderAPI } from '../../../api/userApi';
 
 const UserInfoContainer = () => {
   const { me } = useSelector(state => state.user);
@@ -10,7 +10,7 @@ const UserInfoContainer = () => {
   useEffect(() => {
     async function fetchHistoryAPI() {
       try {
-        const newHistory = await userOrderHistoryAPI(me.id);
+        const newHistory = await userOrderAPI(me.id);
         setHistory(newHistory);
       } catch (e) {
         console.log(e);

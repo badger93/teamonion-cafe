@@ -1,11 +1,16 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
-import tmonglogo from '../image/tmonglogo.png';
 import '../styles/PcHeader.scss';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faRedo,
+} from '@fortawesome/free-solid-svg-icons';
+import tmonglogo from '../image/tmonglogo.png';
+
 
 const PcHeader = ({
-  isSignedIn, user, logOutDispatch, setIsLoginPopup,
+  isSignedIn, user, logOutDispatch, setIsLoginPopup, onRefreshClick,
 }) => (
   <div className="header_pc">
     <div className="header_pc-wrap">
@@ -19,6 +24,8 @@ const PcHeader = ({
           {isSignedIn ? (
             <>
               <span className="header_pc-point">{`보유포인트 : ${user.point}`}</span>
+              <span className="header_pc-refresh" onClick={onRefreshClick}><FontAwesomeIcon icon={faRedo} /></span>
+              <span className="divider">|</span>
               <span className="header_pc-welcome">{`반갑습니다 ${user.memberId}님`}</span>
               <span className="divider">|</span>
               <div
@@ -35,6 +42,7 @@ const PcHeader = ({
                 className="signInBtn"
                 onClick={() => setIsLoginPopup(true)}
               >
+
             Log In
               </div>
               <span className="divider">|</span>
@@ -84,6 +92,7 @@ PcHeader.propTypes = {
   }).isRequired,
   setIsLoginPopup: propTypes.func.isRequired,
   logOutDispatch: propTypes.func.isRequired,
+  onRefreshClick: propTypes.func.isRequired,
 };
 
 export default PcHeader;

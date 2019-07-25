@@ -5,7 +5,7 @@ import './styles/MyOrderPresenter.scss';
 
 const MyOrderPresenter = ({ orders, setOrders, userId }) => (
   <div className="myorder-wrapper">
-    {orders.map(
+    {orders ? orders.map(
       (order, index) => !order.pickup && (
         <MyOrderCard
           key={index}
@@ -16,6 +16,12 @@ const MyOrderPresenter = ({ orders, setOrders, userId }) => (
           userId={userId}
         />
       ),
+    ) : (
+      <div className="myorder-nothing">
+        <div className="myorder-nothing-cry" />
+        <div className="myorder-nothing-empty">Empty</div>
+        <div className="myorder-nothing-uu">주문이 없어요 ㅠㅠ</div>
+      </div>
     )}
   </div>
 );

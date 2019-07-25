@@ -14,7 +14,7 @@ import { CHANGE_POINT } from '../actions/userAction';
 
 function* pay(action) {
   try {
-    // yield call(payAPI(action));
+    // yield call(()=>payAPI(action));
     yield delay(2000);
     yield put({
       // put은 dispatch 동일

@@ -31,7 +31,7 @@ CartPresenter.propTypes = {
   }).isRequired,
   dispatch: propTypes.func.isRequired,
   isSignedIn: propTypes.bool.isRequired,
-  signInRef: propTypes.elementType.isRequired,
+  signInRef: propTypes.elementType,
 };
 
 export default CartPresenter;
