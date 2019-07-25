@@ -3,13 +3,7 @@ import propTypes from 'prop-types';
 import CartForm from '../../../components/CartForm';
 import './styles/CartPresenter.scss';
 
-const CartPresenter = ({
-  signInRef,
-  handleCart,
-  handleCheckedCart,
-  dispatch,
-  isSignedIn,
-}) => (
+const CartPresenter = ({ signInRef, handleCart, handleCheckedCart, dispatch, isSignedIn }) => (
   <div className="cart-wrapper">
     <div className="cart-title">장바구니</div>
     <div className="cart-container">

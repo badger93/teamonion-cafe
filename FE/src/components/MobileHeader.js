@@ -3,13 +3,7 @@ import { useDispatch } from 'react-redux';
 import '../styles/MobileHeader.scss';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faUser,
-  faCoffee,
-  faBars,
-  faTimes,
-  faRedo,
-} from '@fortawesome/free-solid-svg-icons';
+import { faUser, faCoffee, faBars, faTimes, faRedo } from '@fortawesome/free-solid-svg-icons';
 import propTypes from 'prop-types';
 import { signInPopupChangeAction } from '../redux/actions/userAction';
 import tmonglogo from '../image/tmonglogo.png';
@@ -34,11 +28,7 @@ const MobileHeader = ({
       <div className="header_mobile-wrap">
         <div className="header_mobile-logo">
           <img src={tmonglogo} alt="logo" />
-          {user.memberRole === 'ADMIN' ? (
-            <Link to="/admin/order-manage" />
-          ) : (
-            <Link to="/" />
-          )}
+          {user.memberRole === 'ADMIN' ? <Link to="/admin/order-manage" /> : <Link to="/" />}
         </div>
         <div className="header_mobile-column">
           {user.memberRole === 'ADMIN' ? (
@@ -59,10 +49,7 @@ const MobileHeader = ({
                     Point
                     <span>{` ${user.point} `}</span>P
                   </div>
-                  <div
-                    className="header_mobile-refresh"
-                    onClick={onRefreshClick}
-                  >
+                  <div className="header_mobile-refresh" onClick={onRefreshClick}>
                     <FontAwesomeIcon icon={faRedo} />
                   </div>
                 </>
@@ -85,15 +72,13 @@ const MobileHeader = ({
             </>
           )}
         </div>
-        <div
-          className={isList ? 'header_mobile-list' : 'header_mobile-list-none'}
-        >
+        <div className={isList ? 'header_mobile-list' : 'header_mobile-list-none'}>
           <div className="list-cover" />
           <button
             type="button"
             className="list-button"
             onClick={() => {
-              setIsList((prev) => !prev);
+              setIsList(prev => !prev);
             }}
           >
             <FontAwesomeIcon icon={faTimes} size="1.3x" />
@@ -101,7 +86,7 @@ const MobileHeader = ({
           <Link to="/">
             <div
               onClick={() => {
-                setIsList((prev) => !prev);
+                setIsList(prev => !prev);
               }}
             >
               Menu
@@ -110,7 +95,7 @@ const MobileHeader = ({
           <Link to="/myorder">
             <div
               onClick={() => {
-                setIsList((prev) => !prev);
+                setIsList(prev => !prev);
               }}
             >
               MyOrder
@@ -119,7 +104,7 @@ const MobileHeader = ({
           <Link to="/user-info">
             <div
               onClick={() => {
-                setIsList((prev) => !prev);
+                setIsList(prev => !prev);
               }}
             >
               MyPage
@@ -128,7 +113,7 @@ const MobileHeader = ({
           <Link to="/cart">
             <div
               onClick={() => {
-                setIsList((prev) => !prev);
+                setIsList(prev => !prev);
               }}
             >
               Cart
@@ -137,7 +122,7 @@ const MobileHeader = ({
           <div
             className="sign_link"
             onClick={() => {
-              setIsList((prev) => !prev);
+              setIsList(prev => !prev);
             }}
           >
             {isSignedIn ? (

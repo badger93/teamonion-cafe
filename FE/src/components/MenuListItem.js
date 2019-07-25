@@ -33,9 +33,7 @@ MenuListItem.defaultProps = {
 };
 
 MenuListItem.propTypes = {
-  item: propTypes.objectOf(
-    propTypes.oneOfType([propTypes.number, propTypes.string]),
-  ),
+  item: propTypes.objectOf(propTypes.oneOfType([propTypes.number, propTypes.string])),
   mapDetailData: propTypes.func,
   setIsMenuPopup: propTypes.func,
 };

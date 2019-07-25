@@ -7,7 +7,7 @@ const MainContainer = () => {
   const [menuDetailData, setMenuDetailData] = useState({});
 
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
-  const mapDetailData = (data) => {
+  const mapDetailData = data => {
     setMenuDetailData(data);
   };
 
@@ -17,11 +17,7 @@ const MainContainer = () => {
   }, []);
 
   return (
-    <MainPresenter
-      list={storeList}
-      menuDetailData={menuDetailData}
-      mapDetailData={mapDetailData}
-    />
+    <MainPresenter list={storeList} menuDetailData={menuDetailData} mapDetailData={mapDetailData} />
   );
 };
 

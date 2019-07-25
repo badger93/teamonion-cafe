@@ -20,26 +20,18 @@ const PcHeader = ({ isSignedIn, user, logOutDispatch, onRefreshClick }) => {
       <div className="header_pc-wrap">
         <div className="header_pc-logo">
           <img src={tmonglogo} alt="logo" />
-          {user.memberRole === 'ADMIN' ? (
-            <Link to="/admin/order-manage" />
-          ) : (
-            <Link to="/" />
-          )}
+          {user.memberRole === 'ADMIN' ? <Link to="/admin/order-manage" /> : <Link to="/" />}
         </div>
         <div className="header_pc-column">
           <div className="header_pc-column-top">
             {isSignedIn ? (
               <>
-                <span className="header_pc-point">{`보유포인트 : ${
-                  user.point
-                }`}</span>
+                <span className="header_pc-point">{`보유포인트 : ${user.point}`}</span>
                 <span className="header_pc-refresh" onClick={onRefreshClick}>
                   <FontAwesomeIcon icon={faRedo} />
                 </span>
                 <span className="divider">|</span>
-                <span className="header_pc-welcome">{`반갑습니다 ${
-                  user.memberId
-                }님`}</span>
+                <span className="header_pc-welcome">{`반갑습니다 ${user.memberId}님`}</span>
                 <span className="divider">|</span>
                 <div className="header_pc-logout" onClick={logOutDispatch}>
                   LogOut

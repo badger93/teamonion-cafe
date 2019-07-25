@@ -7,13 +7,7 @@ import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
 
-const CartForm = ({
-  signInRef = null,
-  handleCart,
-  handleCheckedCart,
-  dispatch,
-  isSignedIn,
-}) => {
+const CartForm = ({ signInRef = null, handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
 
@@ -25,7 +19,7 @@ const CartForm = ({
   }, [dispatch]);
 
   const onSubmit = useCallback(
-    (e) => {
+    e => {
       e && e.preventDefault();
 
       async function asyncSubmit() {
@@ -45,13 +39,7 @@ const CartForm = ({
 
         // 체크된 메뉴들 삭제
         for (let i = 0; i < checkedItem.length; i + 1) {
-          CartDelete(
-            cart,
-            setAllCart,
-            checkedItem[i].cartId,
-            checkedItem,
-            setCheckedItem,
-          );
+          CartDelete(cart, setAllCart, checkedItem[i].cartId, checkedItem, setCheckedItem);
         }
 
         setWillPay(true); // 리디렉션을 위한 값
@@ -59,16 +47,7 @@ const CartForm = ({
       }
       asyncSubmit();
     },
-    [
-      cart,
-      setAllCart,
-      checkedItem,
-      setCheckedItem,
-      setWillPay,
-      dispatch,
-      isSignedIn,
-      signInRef,
-    ],
+    [cart, setAllCart, checkedItem, setCheckedItem, setWillPay, dispatch, isSignedIn, signInRef],
   );
 
   const isInitialMount = useRef(true); // 최초 마운트시점이 아닌 업데이트시만 작동하도록 확인
@@ -99,7 +78,7 @@ const CartForm = ({
             <div />
           </div>
           <div className="cartform-list">
-            {cart.map((item) => (
+            {cart.map(item => (
               <CartListItem
                 key={item.cartId}
                 cartId={item.cartId}
@@ -116,7 +95,7 @@ const CartForm = ({
           <div className="cartform-total">
             <div>총결제액</div>
             <div className="cartform-total-price">
-              {checkedItem.forEach((element) => {
+              {checkedItem.forEach(element => {
                 totalPrice += element.menuPrice;
               })}
               {`${totalPrice}`}

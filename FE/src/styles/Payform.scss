@@ -1,23 +1,22 @@
 .payform-container {
-  display:flex;
-  flex-direction:column;
-  
+  display: flex;
+  flex-direction: column;
+
   width: 60%;
   min-width: 350px;
   min-height: 700px;
   height: 100%;
   padding-bottom: 80px;
   // background-color: #f6f5f0;
-  border:solid 1px rgba(0,0,0,0.3);
+  border: solid 1px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
   margin: 30px;
   padding-top: 5%;
-  .payform-wrapper{
-    width:100%;
-    display:flex;
+  .payform-wrapper {
+    width: 100%;
+    display: flex;
     flex-direction: column;
     align-items: center;
-    
   }
 
   .payform-title {
@@ -30,30 +29,29 @@
     margin-left: 10%;
     margin-bottom: 2%;
   }
-  .payform-column{
-    font-size:1.2rem;
-    border-top : solid 2px rgba(0, 0, 0, 0.4);
-    border-bottom : solid 1px rgba(0, 0, 0, 0.4);
-    width:100%;
-    padding-top:12px;
-    padding-bottom:12px;
+  .payform-column {
+    font-size: 1.2rem;
+    border-top: solid 2px rgba(0, 0, 0, 0.4);
+    border-bottom: solid 1px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    padding-top: 12px;
+    padding-bottom: 12px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    div{
-      display:flex;
+    div {
+      display: flex;
       justify-content: center;
-      height:30px;
-      width:5%;
+      height: 30px;
+      width: 5%;
     }
-    div:nth-child(2){
-      width:45%;
+    div:nth-child(2) {
+      width: 45%;
     }
-    div:nth-child(3){
+    div:nth-child(3) {
       position: relative;
-    right:-5px;
-    width:45%;
-  
+      right: -5px;
+      width: 45%;
     }
   }
 
@@ -62,8 +60,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    width:70%;
-    height:90%;
+    width: 70%;
+    height: 90%;
   }
   .payform-row {
     font-size: 1.3rem;
@@ -74,22 +72,22 @@
     height: 30px;
     padding-top: 40px;
     padding-bottom: 40px;
-    
+
     div {
-      display:flex;
+      display: flex;
       align-items: center;
       justify-content: center;
       height: 50px;
-      span{
-        font-size:1rem;
+      span {
+        font-size: 1rem;
       }
     }
-    div:nth-child(1){
-      width:30%;
+    div:nth-child(1) {
+      width: 30%;
     }
-    div:nth-child(2){
-      width:60%;
-      justify-content: space-around
+    div:nth-child(2) {
+      width: 60%;
+      justify-content: space-around;
     }
     .payform-total-price {
       padding-left: 50px;
@@ -97,7 +95,7 @@
   }
   .payform-list {
     width: 100%;
-    padding-bottom:20px;
+    padding-bottom: 20px;
     border-bottom: solid 1px rgba(0, 0, 0, 0.8);
   }
   button {
@@ -106,25 +104,25 @@
     height: 40px;
     font-size: 1.2rem;
   }
-  .payform-point_container{
-    margin-top:20px;
-    width:90%;
-    div{
-      font-size:1.3rem;
-      width:100%;
-      display:flex;
+  .payform-point_container {
+    margin-top: 20px;
+    width: 90%;
+    div {
+      font-size: 1.3rem;
+      width: 100%;
+      display: flex;
       justify-content: space-around;
-      margin-bottom:5px;
-      padding-left:5px;
-      span:nth-child(1){
-        width:42%;
+      margin-bottom: 5px;
+      padding-left: 5px;
+      span:nth-child(1) {
+        width: 42%;
       }
-      span:nth-child(2){
-        position:relative;
-        left:10px;
-        display:flex;
+      span:nth-child(2) {
+        position: relative;
+        left: 10px;
+        display: flex;
         justify-content: center;
-        width:50%;
+        width: 50%;
       }
     }
   }

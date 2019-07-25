@@ -6,7 +6,7 @@ import '../styles/AdminOrderListItem.scss';
 
 const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
   const { order_id, menus, made, paid, createdDate, amount, member_id } = list;
-  const alignMenus = menus.map((item) => {
+  const alignMenus = menus.map(item => {
     const result = <li>{item}</li>;
     return result;
   }, '');
@@ -19,9 +19,7 @@ const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
         <input
           type="button"
           value="→"
-          onClick={() =>
-            putOrderState(setCurrentOrderList, list, { made: true })
-          }
+          onClick={() => putOrderState(setCurrentOrderList, list, { made: true })}
           className="madeBtn"
         />
       )}
@@ -38,9 +36,7 @@ const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
               className="payBtn"
               type="button"
               value="결제하기"
-              onClick={() =>
-                putOrderState(setCurrentOrderList, list, { paid: true })
-              }
+              onClick={() => putOrderState(setCurrentOrderList, list, { paid: true })}
             />
           </>
         )}
@@ -50,9 +46,7 @@ const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
           className="pickupBtn"
           type="button"
           value="PickUp"
-          onClick={() =>
-            putOrderState(setCurrentOrderList, list, { pickup: true })
-          }
+          onClick={() => putOrderState(setCurrentOrderList, list, { pickup: true })}
         />
       ) : (
         <></>
@@ -69,12 +63,7 @@ AdminOrderListItem.defaultProps = {
 
 AdminOrderListItem.propTypes = {
   list: propTypes.objectOf(
-    propTypes.oneOfType([
-      propTypes.number,
-      propTypes.string,
-      propTypes.array,
-      propTypes.bool,
-    ]),
+    propTypes.oneOfType([propTypes.number, propTypes.string, propTypes.array, propTypes.bool]),
   ),
   setCurrentOrderList: propTypes.func,
 };

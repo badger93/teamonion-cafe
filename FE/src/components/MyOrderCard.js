@@ -27,13 +27,7 @@ const MyOrderCard = ({
         <FontAwesomeIcon icon={faRedo} size="2x" />
       </div>
       <div className="myorder-card">
-        <div
-          className={
-            made === '제작중'
-              ? 'myorder-status-ball'
-              : 'myorder-status-ball-finish'
-          }
-        >
+        <div className={made === '제작중' ? 'myorder-status-ball' : 'myorder-status-ball-finish'}>
           {`${made}`}
         </div>
         <div className="myorder-status-box">
@@ -47,12 +41,9 @@ const MyOrderCard = ({
             )}
           </div>
         </div>
-        {paid === '미결제' && (
-          <div className="myorder-status-paid">현장결제가 필요합니다</div>
-        )}
+        {paid === '미결제' && <div className="myorder-status-paid">현장결제가 필요합니다</div>}
         <div className="menu-container">
-          {menu &&
-            menu.map((drink, index) => <div key={index}>{`${drink}`}</div>)}
+          {menu && menu.map((drink, index) => <div key={index}>{`${drink}`}</div>)}
         </div>
       </div>
     </div>

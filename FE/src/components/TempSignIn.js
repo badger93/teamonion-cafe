@@ -13,22 +13,18 @@ const SignIn = () => {
         memberId: id,
         password: pw,
       })
-      .then((res) => {
+      .then(res => {
         setResultId(res.data.memberId);
       })
-      .catch((err) => console.log('로그인 실패', err));
+      .catch(err => console.log('로그인 실패', err));
   };
 
   return (
     <>
       <h1>로그인</h1>
-      <div>
-        {resultId !== '' &&
-          typeof resultId === 'string' &&
-          `${resultId}님 환영합니다`}
-      </div>
+      <div>{resultId !== '' && typeof resultId === 'string' && `${resultId}님 환영합니다`}</div>
       <form
-        onSubmit={(e) => {
+        onSubmit={e => {
           e.preventDefault();
           getResultId(inputId, inputPw, url);
         }}

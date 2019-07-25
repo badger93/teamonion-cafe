@@ -1,6 +1,4 @@
-import React, {
-  useState, useCallback,
-} from 'react';
+import React, { useState, useCallback } from 'react';
 import '../styles/SignInPopup.scss';
 import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
@@ -16,7 +14,7 @@ const SignInPopup = ({ setIsLoginPopup, isSigningIn }) => {
   const dispatch = useDispatch();
 
   const submitCallback = useCallback(
-    (e) => {
+    e => {
       e.preventDefault();
       if (inputId !== '' && inputPw !== '') {
         dispatch(signInRequestAction({ memberId: inputId, password: inputPw }));
@@ -28,11 +26,9 @@ const SignInPopup = ({ setIsLoginPopup, isSigningIn }) => {
     [inputId, inputPw, dispatch, setIsLoginPopup],
   );
 
-  const popupControl = useCallback(
-    () => {
-      dispatch(signInPopupChangeAction());
-    }, [dispatch],
-  );
+  const popupControl = useCallback(() => {
+    dispatch(signInPopupChangeAction());
+  }, [dispatch]);
 
   return (
     <div className="loginPopup">
@@ -49,7 +45,7 @@ const SignInPopup = ({ setIsLoginPopup, isSigningIn }) => {
       />
       <img className="login-logo" src={tmonglogo} alt="logo" />
       <form
-        onSubmit={(e) => {
+        onSubmit={e => {
           submitCallback(e);
           setInputID('');
           setInputPw('');

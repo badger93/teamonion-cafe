@@ -76,10 +76,7 @@ const userReducer = (state = initState, action) => {
       return { ...state, signInPopup: !state.signInPopup };
     }
     case CHANGE_POINT: {
-      localStorage.setItem(
-        'USER',
-        JSON.stringify({ ...state.me, point: action.data }),
-      );
+      localStorage.setItem('USER', JSON.stringify({ ...state.me, point: action.data }));
       return { ...state, me: { ...state.me, point: action.data } };
     }
     case LOG_OUT: {

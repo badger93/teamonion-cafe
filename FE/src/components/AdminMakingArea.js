@@ -8,11 +8,7 @@ const AdminMakingArea = ({ list, areaName, setCurrentOrderList }) => {
   const mapListItem = list.map((item, index) => {
     const keyOfItem = index;
     return (
-      <AdminOrderListItem
-        key={keyOfItem}
-        list={item}
-        setCurrentOrderList={setCurrentOrderList}
-      />
+      <AdminOrderListItem key={keyOfItem} list={item} setCurrentOrderList={setCurrentOrderList} />
     );
   });
 
