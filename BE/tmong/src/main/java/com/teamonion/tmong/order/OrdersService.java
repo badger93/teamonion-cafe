@@ -3,7 +3,7 @@ package com.teamonion.tmong.order;
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
-import com.teamonion.tmong.member.MemberRepository;
+import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
 import lombok.NonNull;
@@ -30,27 +30,23 @@ public class OrdersService {
     private final MenuRepository menuRepository;
 
     @NonNull
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    private static final double BONUS_RATE = 0.1;
+    @NonNull
+    private final PointService pointService;
 
     @Transactional
     public Long add(Long member_id, OrdersAddRequest ordersAddRequest) {
+        Member buyer = memberService.findById(member_id);
 
-        // 1. 회원정보조회
-        // 2. 주문 정보 정리
-        // 3. 포인트 처리
-        // 4. 묶기
+        Orders orders = getOrdersDetail(ordersAddRequest, buyer);
 
-//        memberService.getMember();
-//        Orders order = getOrders();
-//        pointService.process();
-//        Data data = orderRe.save(orders);
-//        return data.getId();
+        pointService.proceedOrder(orders);
 
-        Member buyer = memberRepository.findById(member_id)
-                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_MEMBER_NOT_FOUND));
+        return ordersRepository.save(orders).getId();
+    }
 
+    private Orders getOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
         List<Menu> menuList = new ArrayList<>();
         long amount = 0;
 
@@ -58,44 +54,19 @@ public class OrdersService {
             Menu menu = menuRepository.findById(id)
                     .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
             menuList.add(menu);
-            amount += menu.getPrice();
         }
 
-        long buyerOwnPoint = buyer.getPoint();
-        if (ordersAddRequest.getPaymentType().equals(PaymentType.POINT)) {
-            buyerOwnPoint = payByPoint(buyer, buyerOwnPoint, amount);
-        }
-        addBonusPoint(buyer, buyerOwnPoint, amount);
-
-        return ordersRepository.save(ordersAddRequest.toEntity(amount, buyer, menuList)).getId();
+        return ordersAddRequest.toEntity(amount, buyer, menuList);
     }
 
-    private long payByPoint(Member buyer, long buyerOwnPoint, long amount) {
-        long point = buyerOwnPoint - amount;
-
-        if (point < 0) {
-            throw new HandleRuntimeException(GlobalExceptionType.ORDER_POINT_LACK);
-        }
-
-        return pointUpdate(buyer.getId(), point);
-    }
-
-    private void addBonusPoint(Member buyer, long buyerOwnPoint, long amount) {
-        long point = (long) (amount * BONUS_RATE) + buyerOwnPoint;
-
-        pointUpdate(buyer.getId(), point);
-    }
-
-    private long pointUpdate(Long id, long point) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_MEMBER_NOT_FOUND));
-        member.pointUpdate(point);
-        return memberRepository.save(member).getPoint();
-    }
 
     public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, Long buyer_id, boolean pickup) {
         return ordersRepository.findByBuyerIdAndPickup(pageable, buyer_id, pickup)
                 .map(OrdersHistoryResponse::toOrderHistoryResponse);
     }
 
+    Page<OrdersHistoryResponse> getAllOrders(Pageable pageable, boolean paid, boolean made, boolean pickup) {
+        return ordersRepository.findByPaidAndMadeAndPickup(pageable, paid, made, pickup)
+                .map(OrdersHistoryResponse::new);
+    }
 }

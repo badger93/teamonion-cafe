@@ -19,8 +19,9 @@ public class OrdersController {
         this.ordersService = ordersService;
     }
 
+    @CheckJwt
     @PostMapping("/{member_id}/orders")
-    public ResponseEntity orderProceed(@PathVariable Long member_id, @RequestBody @Valid OrdersAddRequest ordersAddRequest) {
+    public ResponseEntity makeOrder(@PathVariable Long member_id, @RequestBody @Valid OrdersAddRequest ordersAddRequest) {
         return new ResponseEntity<>(ordersService.add(member_id, ordersAddRequest), HttpStatus.CREATED);
     }
 
@@ -28,6 +29,11 @@ public class OrdersController {
     @GetMapping("/{member_id}/orders")
     public ResponseEntity<Page<OrdersHistoryResponse>> myOrder(Pageable pageable, @PathVariable Long member_id, boolean pickup) {
         return new ResponseEntity<>(ordersService.getMyOrders(pageable, member_id, pickup), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<OrdersHistoryResponse>> allOrder(Pageable pageable, boolean paid, boolean made, boolean pickup) {
+        return new ResponseEntity<>(ordersService.getAllOrders(pageable, paid, made, pickup), HttpStatus.OK);
     }
 
 }

@@ -80,4 +80,5 @@ public class MemberService {
         return memberRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
     }
+
 }
