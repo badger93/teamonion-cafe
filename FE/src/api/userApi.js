@@ -3,7 +3,7 @@ import fetchClient from './axios';
 
 const axios = fetchClient();
 
-export const duplicateCheckApi = data => axios.post('api/members/overlap', data);
+export const duplicateCheckApi = data => axios.get('api/members/overlap', { params: { memberId: data } });
 
 export const signUpApi = data => axios.post('api/members', data);
 

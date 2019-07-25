@@ -26,6 +26,12 @@ const SignUpForm = ({
         alert('추가 입력이 필요합니다');
         return;
       }
+      if (
+        !/^[a-zA-Z0-9]{8,16}$/.test(password)
+      ) {
+        alert('password는 8~16자 입력과 영문,숫자조합이 필요합니다');
+        return;
+      }
       if (password !== passwordCheck) {
         // 비밀번호 다를 시 제한
         alert('비밀번호가 다릅니다!');
@@ -43,27 +49,34 @@ const SignUpForm = ({
   );
 
   const onDuplicateSubmit = useCallback(
-    async (e) => {
+    (e) => {
       e.preventDefault();
-      if (id.length > 0) {
-        const result = await duplicateCheckApi({ memberID: id });
-        // console.log(result);
-        // const result = false;
-        if (result) {
-          alert('이미 있는 아이디입니다');
-          setDuplicateError(true);
-        } else {
-          alert('사용가능한 아이디입니다!');
-          setDuplicateError(false);
+      const duplicate = async () => {
+        try {
+          if (id.length > 0) {
+            const { data } = await duplicateCheckApi(id);
+
+            // const result = false;
+            if (data) {
+              alert('이미 있는 아이디입니다');
+              setDuplicateError(true);
+            } else {
+              alert('사용가능한 아이디입니다!');
+              setDuplicateError(false);
+            }
+          }
+        } catch (e) {
+          console.log(e);
         }
-      }
+      };
+      duplicate();
     },
     [id],
   );
 
   const onChangeId = useCallback((e) => {
-    if (e.target.value.length < 10) {
-      // 10글자 제한
+    if (e.target.value.length < 16) {
+      // 16글자 제한
       setId(e.target.value);
     }
   }, []);
@@ -98,7 +111,7 @@ const SignUpForm = ({
       <div className="signup_form_row">
         <input
           type="password"
-          placeholder="비밀번호를 입력해주세요"
+          placeholder="비밀번호를 입력해주세요(8~16자, 숫자포함)"
           className="signup_input"
           value={password}
           onChange={onChangePassword}
@@ -107,7 +120,7 @@ const SignUpForm = ({
       <div className="signup_form_row">
         <input
           type="password"
-          placeholder="비밀번호를 확인해주세요"
+          placeholder="비밀번호를 확인해주세요8~16자, 숫자포함)"
           className="signup_input"
           value={passwordCheck}
           onChange={onChangePasswordCheck}

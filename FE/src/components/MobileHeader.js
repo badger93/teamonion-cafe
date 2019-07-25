@@ -15,7 +15,7 @@ import { openPopup } from '../utils/popup';
 
 
 const MobileHeader = ({
-  isSignedIn, logOutDispatch, user, loginRef, onRefreshClick, setIsList = null, isList = false,
+  isSignedIn, logOutDispatch, user, loginRef = null, onRefreshClick, setIsList = null, isList = false,
 }) => (
   <>
     <div className="header_mobile-wrap">
@@ -141,7 +141,7 @@ MobileHeader.propTypes = {
     point: propTypes.number.isRequired,
     jwt: propTypes.string.isRequired,
   }).isRequired,
-  loginRef: propTypes.objectOf(propTypes.element).isRequired,
+  loginRef: propTypes.element,
   setIsList: propTypes.func,
   isList: propTypes.bool,
   logOutDispatch: propTypes.func.isRequired,

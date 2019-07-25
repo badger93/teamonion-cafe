@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const fetchClient = () => {
   const defaultOptions = {
-    baseURL: 'http://localhost:8080/',
+    baseURL: 'http://teamonion-idev.tmon.co.kr/',
     // method: 'get',
     headers: {
       // 'Content-Type': 'application/json',

@@ -44,31 +44,22 @@ function* watchSignIn() {
 }
 
 
-function* signUp() {
+function* signUp(action) {
   try {
-    const result = yield call(signUpApi);
-    // yield delay(2000);
+    const result = yield call(() => signUpApi(action.data));
     yield put({
-      // put은 dispatch 동일
       type: SIGNUP_SUCCESS,
     });
-    // const result = { // dummy
-    //   id: 1,
-    //   memberId: 'onion',
-    //   memberRole: 'NORMAL',
-    //   point: 0,
-    //   jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
-    // };
-    yield put({
-      type: SIGNIN_SUCCESS,
-      data: { ...result },
-    });
-  } catch (e) {
+    // yield put({
+    //   type: SIGNIN_SUCCESS,
+    //   data: { ...result },
+    // });
+  } catch (error) {
     // signupAPI 실패
-    console.error(e);
+    console.log(error);
     yield put({
       type: SIGNUP_FAILURE,
-      error: e.message,
+      error: error.message,
     });
   }
 }
