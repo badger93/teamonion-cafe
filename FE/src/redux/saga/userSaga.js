@@ -17,14 +17,6 @@ import { signUpApi, signInApi } from '../../api/userApi';
 function* signIn(action) {
   try {
     const result = yield call(() => signInApi(action.data));
-    // yield delay(2000);
-    // const result = { // dummy login data
-    //   id: 1,
-    //   memberId: 'onion',
-    //   memberRole: 'NORMAL',
-    //   point: 1000000,
-    //   jwt: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJtZW1iZXJJZCI6Im9uaW9uMjIiLCJyb2xlIjoiTk9STUFMIiwiZXhwIjoxNTYzODYwNzI5fQ.Nz4hWZU11NE3WLpDYXHQN_5vnWq6GCs2QNKVj1CyOuU',
-    // };
     yield put({
       // put은 dispatch 동일
       type: SIGNIN_SUCCESS,
@@ -32,10 +24,10 @@ function* signIn(action) {
     });
   } catch (e) {
     // signupAPI 실패
-    console.error(e);
+    console.dir(e.response.data.errorMessage);
     yield put({
       type: SIGNIN_FAILURE,
-      error: e.message,
+      error: e.response.data.errorMessage,
     });
   }
 }
@@ -59,12 +51,16 @@ function* signUp(action) {
     yield put({
       type: SIGNUP_FINISH,
     });
-  } catch (error) {
+  } catch (e) {
+    const errorArray = [];
     // signupAPI 실패
-    console.log(error);
+    if (e.response.data.errors.length > 0) {
+      e.response.data.errors.forEach(object => object.errorMessage && errorArray.push(object.errorMessage));
+    }
+    // 실패 문자열 넣어주기
     yield put({
       type: SIGNUP_FAILURE,
-      error: error.message,
+      error: errorArray.toString(),
     });
   }
 }

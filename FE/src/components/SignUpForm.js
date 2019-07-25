@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import { duplicateCheckApi } from '../api/userApi';
 import { signUpRequestAction } from '../redux/actions/userAction';
+import { useShowupString } from '../utils/signUpForm';
 
 const SignUpForm = ({
   dispatch, isSigningUp, isSignedUp,
@@ -14,6 +15,9 @@ const SignUpForm = ({
   const [passwordError, setPasswordError] = useState(false);
   const [duplicateError, setDuplicateError] = useState(true);
 
+  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
+  // 문자열을 잠시 띄우는 커스텀 훅
+
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -23,26 +27,27 @@ const SignUpForm = ({
         || id.length === 0
       ) {
         // 안적었을시 제한
-        alert('추가 입력이 필요합니다');
+        setShowupStringFunc('추가입력이 필요합니다');
         return;
       }
       if (
         !/^[a-zA-Z0-9]{8,16}$/.test(password)
       ) {
-        alert('password는 8~16자 입력과 영문,숫자조합이 필요합니다');
+        setShowupStringFunc('password는 8~16자 입력과 영문,숫자조합이 필요합니다');
         return;
       }
       if (password !== passwordCheck) {
         // 비밀번호 다를 시 제한
-        alert('비밀번호가 다릅니다!');
+
+        setShowupStringFunc('비밀번호가 다릅니다!');
         return;
       }
       if (duplicateError) {
-        alert('ID 중복검사가 필요합니다');
+        setShowupStringFunc('ID 중복검사가 필요합니다');
         return;
       }
       // 사가에 회원가입 리퀘스트 액션 디스패치
-      // console.log({ id, password, passwordCheck });
+
       dispatch(signUpRequestAction({ memberId: id, password, passwordCheck }));
     },
     [id, password, passwordCheck, duplicateError, dispatch],
@@ -58,10 +63,12 @@ const SignUpForm = ({
 
             // const result = false;
             if (data) {
-              alert('이미 있는 아이디입니다');
+              // alert('이미 있는 아이디입니다');
+              setShowupStringFunc('이미 있는 아이디입니다');
               setDuplicateError(true);
             } else {
-              alert('사용가능한 아이디입니다!');
+              // alert('사용가능한 아이디입니다!');
+              setShowupStringFunc('사용가능한 아이디입니다');
               setDuplicateError(false);
             }
           }
@@ -129,7 +136,9 @@ const SignUpForm = ({
       {passwordError && (
         <div style={{ color: 'red' }}>비밀번호가 다릅니다!</div>
       )}
-
+      {isShowing && (
+        <div style={{ color: 'red' }}>{`${showupString}`}</div>
+      )}
       <div className="signup_form_row signup_form_submit">
         <button className="submit_button" type="submit">
           Submit
