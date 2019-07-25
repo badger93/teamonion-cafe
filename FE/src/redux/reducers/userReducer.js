@@ -66,6 +66,7 @@ const userReducer = (state = initState, action) => {
         ...state,
         isSigningIn: false,
         isSignedIn: true,
+        signInPopup: !state.signInPopup,
         me: { ...action.data },
       };
     }

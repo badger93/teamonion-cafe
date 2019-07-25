@@ -7,7 +7,7 @@ import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
 
-const CartForm = ({ signInRef = null, handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
+const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
   const { cart, setAllCart } = handleCart;
   const { checkedItem, setCheckedItem } = handleCheckedCart;
 
@@ -47,7 +47,7 @@ const CartForm = ({ signInRef = null, handleCart, handleCheckedCart, dispatch, i
       }
       asyncSubmit();
     },
-    [cart, setAllCart, checkedItem, setCheckedItem, setWillPay, dispatch, isSignedIn, signInRef],
+    [cart, setAllCart, checkedItem, setCheckedItem, setWillPay, dispatch, isSignedIn, popupControl],
   );
 
   const isInitialMount = useRef(true); // 최초 마운트시점이 아닌 업데이트시만 작동하도록 확인
@@ -111,7 +111,6 @@ const CartForm = ({ signInRef = null, handleCart, handleCheckedCart, dispatch, i
 };
 
 CartForm.propTypes = {
-  signInRef: propTypes.element,
   handleCart: propTypes.shape({
     cart: propTypes.array.isRequired,
     setAllCart: propTypes.func.isRequired,

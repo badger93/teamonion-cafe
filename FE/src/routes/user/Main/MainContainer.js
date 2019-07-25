@@ -5,6 +5,7 @@ import { getMenuList } from '../../../api/menuApi';
 const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
   const [menuDetailData, setMenuDetailData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
 
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
   const mapDetailData = data => {
@@ -14,10 +15,16 @@ const MainContainer = () => {
   // 최초 리스트 불러오기
   useEffect(() => {
     getMenuList(setStoreList);
+    setIsLoading(false);
   }, []);
 
   return (
-    <MainPresenter list={storeList} menuDetailData={menuDetailData} mapDetailData={mapDetailData} />
+    <MainPresenter
+      isLoading={isLoading}
+      list={storeList}
+      menuDetailData={menuDetailData}
+      mapDetailData={mapDetailData}
+    />
   );
 };
 

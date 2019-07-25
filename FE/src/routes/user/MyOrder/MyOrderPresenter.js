@@ -2,34 +2,39 @@ import React from 'react';
 import propTypes from 'prop-types';
 import MyOrderCard from '../../../components/MyOrderCard';
 import './styles/MyOrderPresenter.scss';
+import Loading from '../../../components/Loading';
 
-const MyOrderPresenter = ({ orders, setOrders, userId }) => (
-  <div className="myorder-wrapper">
-    {orders ? (
-      orders.map(
-        (order, index) =>
-          !order.pickup && (
-            <MyOrderCard
-              key={index}
-              made={order.made}
-              paid={order.paid}
-              menu={order.menu}
-              setOrders={setOrders}
-              userId={userId}
-            />
-          ),
-      )
-    ) : (
-      <div className="myorder-nothing">
-        <div className="myorder-nothing-cry" />
-        <div className="myorder-nothing-empty">Empty</div>
-        <div className="myorder-nothing-uu">주문이 없어요 ㅠㅠ</div>
-      </div>
-    )}
-  </div>
+const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => (
+  <>
+    {isLoading && <Loading />}
+    <div className="myorder-wrapper">
+      {orders ? (
+        orders.map(
+          (order, index) =>
+            !order.pickup && (
+              <MyOrderCard
+                key={index}
+                made={order.made}
+                paid={order.paid}
+                menu={order.menu}
+                setOrders={setOrders}
+                userId={userId}
+              />
+            ),
+        )
+      ) : (
+        <div className="myorder-nothing">
+          <div className="myorder-nothing-cry" />
+          <div className="myorder-nothing-empty">Empty</div>
+          <div className="myorder-nothing-uu">주문이 없어요 ㅠㅠ</div>
+        </div>
+      )}
+    </div>
+  </>
 );
 
 MyOrderPresenter.propTypes = {
+  isLoading: propTypes.bool.isRequired,
   orders: propTypes.shape({
     pickup: propTypes.bool,
     made: propTypes.string,

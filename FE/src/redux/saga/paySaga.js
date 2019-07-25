@@ -1,13 +1,12 @@
 import { all, fork, takeLatest, call, put, delay } from 'redux-saga/effects';
-import axios from 'axios';
 import { PAY_FAILURE, PAY_SUCCESS, PAY_REQUEST } from '../actions/payAction';
 import { payAPI } from '../../api/payApi';
 import { CHANGE_POINT } from '../actions/userAction';
 
 function* pay(action) {
   try {
-    // yield call(()=>payAPI(action));
-    yield delay(2000);
+    yield call(() => payAPI(action));
+    // yield delay(2000);
     yield put({
       // put은 dispatch 동일
       type: PAY_SUCCESS,
@@ -18,7 +17,7 @@ function* pay(action) {
     });
   } catch (e) {
     // loginAPI 실패
-    console.error(e);
+    console.error(e.response);
     yield put({
       type: PAY_FAILURE,
     });

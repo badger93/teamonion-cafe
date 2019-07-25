@@ -231,6 +231,12 @@
   z-index: 5;
   padding-left: 25px;
   cursor: pointer;
+  .header_mobile-signIn {
+    margin: 20px;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
   .header_moblie-logout {
     margin: 30px;
     &:hover {

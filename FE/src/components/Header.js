@@ -5,6 +5,7 @@ import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
 import { logOutAction, changePoint } from '../redux/actions/userAction';
 import { myPointApi } from '../api/userApi';
+import Loading from './Loading';
 
 const Header = () => {
   const { isSignedIn, isSigningIn, me, signInPopup } = useSelector(state => state.user);
@@ -25,7 +26,7 @@ const Header = () => {
       }
     }
     myPointAsyncApi();
-  }, []);
+  }, [me, dispatch]);
 
   return (
     <>
@@ -46,6 +47,7 @@ const Header = () => {
       />
       {signInPopup && (
         <div className="signInContainer">
+          {isSigningIn && <Loading />}
           <SignInPopup isSigningIn={isSigningIn} />
         </div>
       )}

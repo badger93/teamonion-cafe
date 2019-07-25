@@ -6,16 +6,16 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  z-index: 99;
+  z-index: 30;
   pointer-events: all;
   display: flex;
 }
 .signInContainer::after {
-  content:'';
+  content: '';
   width: 100%;
   height: 100%;
   display: inline-block;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   position: fixed;
 }
 
@@ -29,8 +29,8 @@
   z-index: 999;
   max-width: 450px;
   max-height: 380px;
-  width:90vw;
-  height:100%;
+  width: 90vw;
+  height: 100%;
   border: 2px solid #222f3e;
   border-radius: 20px;
   // @media (max-width: 600px) {

@@ -6,6 +6,7 @@ import { userOrderAPI } from '../../../api/userApi';
 const UserInfoContainer = () => {
   const { me } = useSelector(state => state.user);
   const [history, setHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchHistoryAPI() {
@@ -18,6 +19,7 @@ const UserInfoContainer = () => {
       }
     }
     fetchHistoryAPI();
+    setIsLoading(false);
   }, []);
 
   const defaultColumnProperties = {
@@ -57,7 +59,15 @@ const UserInfoContainer = () => {
     },
   ];
 
-  return <UserInfoPresenter columns={columns} rows={rows} id={me.memberId} point={me.point} />;
+  return (
+    <UserInfoPresenter
+      isLoading={isLoading}
+      columns={columns}
+      rows={rows}
+      id={me.memberId}
+      point={me.point}
+    />
+  );
 };
 
 export default UserInfoContainer;
