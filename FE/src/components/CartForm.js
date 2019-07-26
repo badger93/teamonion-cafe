@@ -57,7 +57,7 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
       isInitialMount.current = false;
     } else if (tryPay && isSignedIn) {
       // 결제시도 + 로그인 까지 해야지 바로결제
-      console.log('onSubmitAgain');
+      // console.log('onSubmitAgain');
       setTryPay(false);
       onSubmit();
     } // 업데이트 시에만 작동

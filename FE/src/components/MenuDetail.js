@@ -60,7 +60,11 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
               .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
             <div className="information">{information}</div>
           </div>
-          {isCart && <div className="cart-added">장바구니에 추가되었습니다!</div>}
+          {isCart && (
+            <div className="cart-added">
+              <span>장바구니에 추가되었습니다!</span>
+            </div>
+          )}
           <div className="btnArea">
             <input className="buyBtn" type="button" value="구매" />
             <input className="cartBtn" type="button" onClick={onClickCart} value="장바구니" />

@@ -4,5 +4,9 @@ import fetchClient from './axios';
 
 const axios = fetchClient();
 
-export const payAPI = action =>
-  axios.post(`api/${action.data.member_id}/orders`, { ...action.data });
+export const payAPI = data =>
+  axios.post(`api/orders`, {
+    menuIdList: data.menuIdList,
+    paid: data.paid,
+    paymentType: data.paymentType,
+  });

@@ -15,7 +15,7 @@ const MyOrderContainer = () => {
           const {
             data: { content },
           } = await userOrderAPI(me.id, false);
-          console.log(content);
+          // console.log(content);
           setOrders(content);
         }
       } catch (e) {
@@ -24,7 +24,7 @@ const MyOrderContainer = () => {
     }
     fetchMyOrder();
     setIsLoading(false);
-    console.log(orders);
+    // console.log(orders);
   }, []);
 
   // const dummyOrders = [

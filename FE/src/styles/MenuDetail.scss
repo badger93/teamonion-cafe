@@ -109,6 +109,18 @@
       color: red;
       opacity: 0.8;
     }
+    @media (max-width: 400) {
+      .cart-added {
+        height: 100%;
+        display: flex;
+        right: 0px;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        height: 20px;
+      }
+    }
+
     .btnArea {
       display: flex;
       justify-content: space-between;
@@ -140,7 +152,7 @@
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 400px) {
   .menuDetail {
     width: 90%;
     height: 80%;

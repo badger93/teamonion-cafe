@@ -60,8 +60,6 @@ const userReducer = (state = initState, action) => {
       };
     }
     case SIGNIN_SUCCESS: {
-      localStorage.setItem('USER', JSON.stringify(action.data));
-      localStorage.setItem('TOKEN', action.data.jwt); // 로그인 성공시 로컬에 토큰저장
       return {
         ...state,
         isSigningIn: false,
@@ -77,12 +75,9 @@ const userReducer = (state = initState, action) => {
       return { ...state, signInPopup: !state.signInPopup };
     }
     case CHANGE_POINT: {
-      localStorage.setItem('USER', JSON.stringify({ ...state.me, point: action.data }));
       return { ...state, me: { ...state.me, point: action.data } };
     }
     case LOG_OUT: {
-      localStorage.removeItem('USER');
-      localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
       return {
         ...state,
         isSignedIn: false,

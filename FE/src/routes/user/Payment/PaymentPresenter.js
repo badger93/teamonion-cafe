@@ -6,7 +6,7 @@ import Loading from '../../../components/Loading';
 
 const PaymentPresenter = ({
   dispatch,
-  itemsForPay,
+  itemsForPay = {},
   isPaying,
   isPaid,
   user,
@@ -35,7 +35,7 @@ const PaymentPresenter = ({
 );
 
 PaymentPresenter.propTypes = {
-  dispatch: propTypes.bool.isRequired,
+  dispatch: propTypes.func.isRequired,
   itemsForPay: propTypes.object.isRequired,
   isPaying: propTypes.bool,
   isPaid: propTypes.bool,

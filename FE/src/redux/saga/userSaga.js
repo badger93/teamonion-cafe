@@ -18,6 +18,8 @@ function* signIn(action) {
       type: SIGNIN_SUCCESS,
       data: { ...data },
     });
+    localStorage.setItem('USER', JSON.stringify(data));
+    localStorage.setItem('TOKEN', data.jwt); // 로그인 성공시 로컬에 토큰저장
   } catch (e) {
     // signupAPI 실패
     console.log(e.response.data.errorMessage);
@@ -43,6 +45,8 @@ function* signUp(action) {
       type: SIGNIN_SUCCESS,
       data: { ...data },
     });
+    localStorage.setItem('USER', JSON.stringify(data));
+    localStorage.setItem('TOKEN', data.jwt); // 로그인 성공시 로컬에 토큰저장
     yield put({
       type: SIGNUP_FINISH,
     });

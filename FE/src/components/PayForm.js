@@ -30,13 +30,13 @@ const PayForm = ({
       alert('포인트가 부족합니다');
     }
 
-    const menuSet = Object.values(itemsForPay).map(item => item.id);
+    const menuIdList = Object.values(itemsForPay).map(item => item.id);
     const requestInfo = {
       paid: howPay === 1,
-      paymentType: howPay === 1 ? 'point' : 'cash',
-      menuSet,
+      paymentType: howPay === 1 ? 'POINT' : 'CASH',
+      menuIdList,
       member_id: user.id,
-      afterPoint,
+      afterPoint: afterPoint,
     };
     dispatch(payRequestAction(requestInfo));
     // PayRequest
@@ -133,7 +133,7 @@ const PayForm = ({
 };
 
 PayForm.propTypes = {
-  dispatch: propTypes.bool.isRequired,
+  dispatch: propTypes.func.isRequired,
   itemsForPay: propTypes.object,
   isPaying: propTypes.bool.isRequired,
   isPaid: propTypes.bool.isRequired,
