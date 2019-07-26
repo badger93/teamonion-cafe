@@ -57,7 +57,7 @@ public class MemberController {
 
     @CheckJwt
     @PutMapping("/{id}/point")
-    public ResponseEntity pointUpdate(@PathVariable Long id, @RequestBody long point) {
+    public ResponseEntity pointUpdate(@PathVariable Long id, @RequestBody String point) {
         memberService.pointUpdate(id, point);
         return new ResponseEntity(HttpStatus.OK);
     }
