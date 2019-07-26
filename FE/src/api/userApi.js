@@ -18,9 +18,10 @@ export const userOrderAPI = (memberId, pickup = true, size = 20, page = 1) =>
 export const myPointApi = memberId => axios.get(`/api/members/${memberId}/point`);
 
 // admin
-// '/api/members?page=${page}&size=${itemSize}'
+// `/api/members?page=${page}&size=${itemSize}`
+// 'https://my-json-server.typicode.com/badger012/mockserver/members'
 export const getUserList = ({ itemSize, page }) =>
-  axios.get('https://my-json-server.typicode.com/badger012/mockserver/members');
+  axios.get(`/api/members?page=${page}&size=${itemSize}`);
 
 export const setUserPoint = ({ id, changePoint }) =>
   axios.put(`/api/members/${id}/point`, { id, changePoint });

@@ -9,6 +9,7 @@ const AdminMemberManageContainer = () => {
   const getUserByPage = ({ itemSize, page }) => {
     getUserList({ itemSize, page })
       .then(res => {
+        console.dir(res);
         const { content, totalPages, size } = res.data;
         setMemberListData(content);
         setMemberPageData({ page, totalPages, itemSize: size });
@@ -43,7 +44,7 @@ const AdminMemberManageContainer = () => {
   };
 
   useEffect(() => {
-    getUserByPage({ itemSize: 10, page: 1 });
+    getUserByPage({ itemSize: 10, page: 0 });
   }, []);
 
   return (

@@ -23,6 +23,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
           information: popupInformation,
           imageFile: inputImgRef.current.getAttribute('src'),
         };
+        const formFile = fileInputRef;
         if (isEdit) {
           updateItem({ ...payload, id });
           setIsPopup(false);
@@ -106,6 +107,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
             className="fileInput"
             ref={fileInputRef}
             onChange={e => {
+              console.dir(e.target.files);
               inputImgPreview(fileInputRef.current, inputImgRef.current);
               setPopupFile(e.target.value);
             }}
