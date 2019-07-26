@@ -13,13 +13,18 @@ const MyOrderCard = ({
   setOrders,
   userId,
 }) => {
-  const onRefreshClick = useCallback(async () => {
-    try {
-      const { data } = await userOrderAPI(userId, false);
-      setOrders(data);
-    } catch (e) {
-      console.log(e);
-    }
+  const onRefreshClick = useCallback(() => {
+    const RefreshOrder = async () => {
+      try {
+        const {
+          data: { content },
+        } = await userOrderAPI(userId, false);
+        setOrders(content);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    RefreshOrder();
   }, [userId, setOrders]);
   return (
     <div className="myorder-card-container">
