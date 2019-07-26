@@ -3,9 +3,10 @@ package com.teamonion.tmong.order;
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
-import com.teamonion.tmong.member.MemberRepository;
+import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
+import com.teamonion.tmong.security.JwtComponent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -30,72 +31,67 @@ public class OrdersService {
     private final MenuRepository menuRepository;
 
     @NonNull
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    private static final double BONUS_RATE = 0.1;
+    @NonNull
+    private final PointService pointService;
+
+    @NonNull
+    private final JwtComponent jwtComponent;
 
     @Transactional
-    public Long add(Long member_id, OrdersAddRequest ordersAddRequest) {
+    public Long makeOrder(OrdersAddRequest ordersAddRequest) {
+        // TODO : Transactional 메소드 필요한지
+        Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
 
-        // 1. 회원정보조회
-        // 2. 주문 정보 정리
-        // 3. 포인트 처리
-        // 4. 묶기
+        Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
 
-//        memberService.getMember();
-//        Orders order = getOrders();
-//        pointService.process();
-//        Data data = orderRe.save(orders);
-//        return data.getId();
+        pointService.pointProcess(orders);
 
-        Member buyer = memberRepository.findById(member_id)
-                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_MEMBER_NOT_FOUND));
+        return ordersRepository.save(orders).getId();
+    }
 
+    private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
         List<Menu> menuList = new ArrayList<>();
         long amount = 0;
 
         for (Long id : ordersAddRequest.getMenuIdList()) {
-            Menu menu = menuRepository.findById(id)
+            Menu menu = menuRepository.findByIdAndDeletedFalse(id)
                     .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
             menuList.add(menu);
             amount += menu.getPrice();
         }
 
-        long buyerOwnPoint = buyer.getPoint();
-        if (ordersAddRequest.getPaymentType().equals(PaymentType.POINT)) {
-            buyerOwnPoint = payByPoint(buyer, buyerOwnPoint, amount);
-        }
-        addBonusPoint(buyer, buyerOwnPoint, amount);
-
-        return ordersRepository.save(ordersAddRequest.toEntity(amount, buyer, menuList)).getId();
+        return ordersAddRequest.toEntity(amount, buyer, menuList);
     }
 
-    private long payByPoint(Member buyer, long buyerOwnPoint, long amount) {
-        long point = buyerOwnPoint - amount;
-
-        if (point < 0) {
-            throw new HandleRuntimeException(GlobalExceptionType.ORDER_POINT_LACK);
-        }
-
-        return pointUpdate(buyer.getId(), point);
-    }
-
-    private void addBonusPoint(Member buyer, long buyerOwnPoint, long amount) {
-        long point = (long) (amount * BONUS_RATE) + buyerOwnPoint;
-
-        pointUpdate(buyer.getId(), point);
-    }
-
-    private long pointUpdate(Long id, long point) {
-        Member member = memberRepository.findById(id)
-                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_MEMBER_NOT_FOUND));
-        member.pointUpdate(point);
-        return memberRepository.save(member).getPoint();
-    }
 
     public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, Long buyer_id, boolean pickup) {
         return ordersRepository.findByBuyerIdAndPickup(pageable, buyer_id, pickup)
-                .map(OrdersHistoryResponse::toOrderHistoryResponse);
+                .map(OrdersHistoryResponse::new);
     }
 
+    Page<OrdersCategoryResponse> getOrdersByCategory(Pageable pageable, String category) {
+        jwtComponent.checkAdmin();
+
+        Page<Orders> response;
+        switch (category) {
+            case "PAID_TRUE":
+                response = ordersRepository.findAllByPaidTrue(pageable);
+                break;
+            case "PAID_FALSE":
+                response = ordersRepository.findAllByPaidFalse(pageable);
+                break;
+            case "MADE_TRUE":
+                response = ordersRepository.findAllByMadeTrue(pageable);
+                break;
+            case "ALL" :
+                response = ordersRepository.findAll(pageable);
+                break;
+            default:
+                throw new HandleRuntimeException(GlobalExceptionType.ORDER_CATEGORY_INVALID);
+        }
+        return response.map(OrdersCategoryResponse::new);
+
+    }
 }

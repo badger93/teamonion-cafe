@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -51,7 +52,9 @@ public class MenuService {
 
     Page<Menu> selectAll(Pageable pageable) {
         return menuRepository.findAllByDeletedFalse(pageable);
-        //return (Page<Menu>) menuRepository.findAll(pageable).filter(menu -> !menu.isDeleted());
+//        Page<Menu> collect = new Page<Menu>();
+//        collect = menuRepository.findAll(pageable).filter(menu -> !menu.isDeleted()).stream().collect(Collectors.toCollection(Page::new));
+//        return collect;
     }
 
     @Transactional

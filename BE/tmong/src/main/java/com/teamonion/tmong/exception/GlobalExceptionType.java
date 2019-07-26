@@ -9,7 +9,8 @@ public enum GlobalExceptionType {
     ORDER_MEMBER_NOT_FOUND("주문자 정보가 올바르지 않습니다", HttpStatus.BAD_REQUEST),
     ORDER_POINT_LACK("보유한 포인트가 부족합니다", HttpStatus.PAYMENT_REQUIRED),
     UNAUTHORIZED("인증에 실패했습니다", HttpStatus.UNAUTHORIZED),
-    REQUEST_IS_NULL("요청값이 null 입니다", HttpStatus.BAD_REQUEST);
+    REQUEST_IS_NULL("요청값이 null 입니다", HttpStatus.BAD_REQUEST),
+    ORDER_CATEGORY_INVALID("유효하지 않은 카테고리 입니다", HttpStatus.BAD_REQUEST);
 
     private String errorMessage;
     private HttpStatus httpStatus;

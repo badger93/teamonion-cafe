@@ -13,7 +13,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HandleRuntimeException.class)
     public ResponseEntity<String> handleCustomException(HandleRuntimeException e) {
-        log.debug("global exception : {}", e.getErrorMessage());
+        log.debug("global exception : {} {}", e.getErrorMessage(), e.getHttpStatus());
         return new ResponseEntity<>(e.getErrorMessage(), e.getHttpStatus());
     }
 

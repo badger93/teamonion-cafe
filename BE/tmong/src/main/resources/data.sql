@@ -10,8 +10,18 @@ INSERT INTO MENU (id, image_path, information, deleted, name, price) VALUES (5, 
 
 INSERT INTO ORDERS (id, amount, buyer_id, created_date, made, paid, payment_type, pickup) VALUES (1, 2500, 1, '2019-07-24T16:39:31.434', false, true, 'POINT', false);
 INSERT INTO ORDERS (id, amount, buyer_id, created_date, made, paid, payment_type, pickup) VALUES (2, 2000, 2, '2019-07-24T17:48:22.123', false, false, 'CASH', false);
+INSERT INTO ORDERS (id, amount, buyer_id, created_date, made, paid, payment_type, pickup) VALUES (3, 2000, 2, '2019-07-26T16:39:31.434', true, false, 'CASH', false);
+INSERT INTO ORDERS (id, amount, buyer_id, created_date, made, paid, payment_type, pickup) VALUES (4, 4000, 3, '2019-07-25T16:39:31.434', true, true, 'POINT', true);
+INSERT INTO ORDERS (id, amount, buyer_id, created_date, made, paid, payment_type, pickup) VALUES (5, 1500, 1, '2019-07-26T18:23:11.434', true, false, 'CASH', false);
 
 INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (1, 1);
 INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (1, 2);
 INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (2, 1);
 INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (2, 4);
+
+INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (3, 3);
+INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (3, 4);
+INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (4, 2);
+INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (4, 2);
+INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (4, 3);
+INSERT INTO ORDERS_MENU_LIST (orders_id, menu_list_id) VALUES (5, 2);

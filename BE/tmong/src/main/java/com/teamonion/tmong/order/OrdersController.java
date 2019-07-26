@@ -19,15 +19,22 @@ public class OrdersController {
         this.ordersService = ordersService;
     }
 
-    @PostMapping("/{member_id}/orders")
-    public ResponseEntity orderProceed(@PathVariable Long member_id, @RequestBody @Valid OrdersAddRequest ordersAddRequest) {
-        return new ResponseEntity<>(ordersService.add(member_id, ordersAddRequest), HttpStatus.CREATED);
+    @CheckJwt
+    @PostMapping("/orders")
+    public ResponseEntity makeOrder(@RequestBody @Valid OrdersAddRequest ordersAddRequest) {
+        return new ResponseEntity<>(ordersService.makeOrder(ordersAddRequest), HttpStatus.CREATED);
     }
 
     @CheckJwt
     @GetMapping("/{member_id}/orders")
     public ResponseEntity<Page<OrdersHistoryResponse>> myOrder(Pageable pageable, @PathVariable Long member_id, boolean pickup) {
         return new ResponseEntity<>(ordersService.getMyOrders(pageable, member_id, pickup), HttpStatus.OK);
+    }
+
+    @CheckJwt
+    @GetMapping("/orders")
+    public ResponseEntity<Page<OrdersCategoryResponse>> getOrdersByCategory(Pageable pageable, String category) {
+        return new ResponseEntity<>(ordersService.getOrdersByCategory(pageable, category), HttpStatus.OK);
     }
 
 }
