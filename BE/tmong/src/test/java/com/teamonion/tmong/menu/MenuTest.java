@@ -32,9 +32,8 @@ public class MenuTest {
         String information = "장에 좋은 음료";
         String imagePath = "src/main/resources/menuUpload/example/example2.png";
 
-        MenuSaveDto menuSaveDto = new MenuSaveDto(name, price, information, null, imagePath);
+        MenuSaveDto menuSaveDto = new MenuSaveDto(name, price, information, null);
 
-        menu.update(menuSaveDto);
         assertThat(menu.getName()).isEqualTo(name);
         assertThat(menu.getPrice()).isEqualTo(price);
         assertThat(menu.getInformation()).isEqualTo(information);

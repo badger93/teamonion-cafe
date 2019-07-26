@@ -11,8 +11,7 @@ import tmonglogo from '../image/tmonglogo.png';
 const MobileHeader = ({
   isSignedIn,
   logOutDispatch,
-  user,
-  setIsLoginPopup,
+  user = null,
   onRefreshClick,
   setIsList = null,
   isList = false,
@@ -147,17 +146,16 @@ const MobileHeader = ({
 MobileHeader.propTypes = {
   isSignedIn: propTypes.bool.isRequired,
   user: propTypes.shape({
-    id: propTypes.number.isRequired,
-    memberId: propTypes.string.isRequired,
-    memberRole: propTypes.string.isRequired,
-    point: propTypes.number.isRequired,
-    jwt: propTypes.string.isRequired,
-  }).isRequired,
-  setIsLoginPopup: propTypes.func,
+    id: propTypes.number,
+    memberId: propTypes.string,
+    memberRole: propTypes.string,
+    point: propTypes.number,
+    jwt: propTypes.string,
+  }),
   setIsList: propTypes.func,
   isList: propTypes.bool,
   logOutDispatch: propTypes.func.isRequired,
-  onRefreshClick: propTypes.func.isRequired,
+  onRefreshClick: propTypes.func,
 };
 
 export default MobileHeader;

@@ -2,6 +2,7 @@ package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.menu.Menu;
 import lombok.Getter;
+import org.hibernate.criterion.Order;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,6 +29,10 @@ public class OrdersHistoryResponse {
                 .stream()
                 .map(Menu::getName)
                 .collect(Collectors.toList());
+    }
+
+    public static OrdersHistoryResponse toOrderHistoryResponse(Orders orders) {
+        return new OrdersHistoryResponse(null);
     }
 
 }

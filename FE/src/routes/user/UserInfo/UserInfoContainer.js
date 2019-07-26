@@ -11,9 +11,9 @@ const UserInfoContainer = () => {
   useEffect(() => {
     async function fetchHistoryAPI() {
       try {
-        const newHistory = await userOrderAPI(me.id);
-        console.log(newHistory);
-        setHistory(newHistory.data);
+        const { data } = await userOrderAPI(me.id);
+        console.log(data);
+        setHistory(data);
       } catch (e) {
         console.log(e);
       }
