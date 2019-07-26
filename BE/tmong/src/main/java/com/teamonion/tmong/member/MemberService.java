@@ -29,9 +29,9 @@ public class MemberService {
         return new MemberLoginResponse(savedMember, jwtComponent.createToken(savedMember));
     }
 
-    public Member search(String memberId) {
+    public Page<Member> search(Pageable pageable, String memberId) {
         jwtComponent.checkAdmin();
-        return findByMemberId(memberId);
+        return memberRepository.findByMemberIdContaining(pageable, memberId);
     }
 
     public MemberLoginResponse login(MemberLoginRequest memberLoginRequest) {

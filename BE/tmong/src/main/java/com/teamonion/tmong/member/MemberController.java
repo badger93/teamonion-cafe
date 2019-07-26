@@ -45,8 +45,8 @@ public class MemberController {
 
     @CheckJwt
     @GetMapping("/{memberId}")
-    public ResponseEntity<Member> search(@PathVariable String memberId) {
-        return new ResponseEntity<>(memberService.search(memberId), HttpStatus.OK);
+    public ResponseEntity<Page<Member>> search(Pageable pageable, @PathVariable String memberId) {
+        return new ResponseEntity<>(memberService.search(pageable, memberId), HttpStatus.OK);
     }
 
     @CheckJwt
