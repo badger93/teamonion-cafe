@@ -88,7 +88,7 @@ const AdminMemberManagePresenter = ({
         />
         <div className="paginationArea">
           {pagination(memberListPageData, 8, e => {
-            getUserByPage({ itemSize: 10, page: e.target.value });
+            getUserByPage({ itemSize: 10, page: e.target.value - 1 });
           })}
         </div>
       </div>

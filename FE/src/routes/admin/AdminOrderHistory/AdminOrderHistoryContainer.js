@@ -7,7 +7,7 @@ const AdminOrderHistoryContainer = () => {
   const getHistoryDataByCategory = category => {
     getOrderHistory(category)
       .then(res => {
-        setOrderHistoryData(res.data.container);
+        setOrderHistoryData(res.data.content);
       })
       .catch(err => {
         alert(`주문이력 가져오기 실패: ${err}`);

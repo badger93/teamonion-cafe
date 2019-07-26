@@ -33,7 +33,7 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
     {
       key: 'createdDate',
       name: '주문시간',
-      width: 100,
+      width: 150,
       resizable: true,
     },
     {
@@ -63,11 +63,11 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
   ];
 
   const rows = orderHistoryData.map(item => ({
-    order_id: item.order_id,
-    member_id: item.member_id,
-    menus: item.menus,
+    order_id: item.id,
+    member_id: item.buyerId,
+    menus: item.menuNameList.map(menu => `${menu} `),
     paymentType: item.paymentType,
-    createdDate: item.createdDate,
+    createdDate: item.createdDate.replace(/T/gi, ' '),
     amount: item.amount,
     paid: item.paid ? 'YES' : 'NO',
     made: item.made ? 'YES' : 'NO',
@@ -82,7 +82,7 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
           className="allBtn"
           type="button"
           value="전체보기"
-          onClick={() => getHistoryDataByCategory(0, 'ALL')}
+          onClick={() => getHistoryDataByCategory('ALL')}
         />
         <input
           className="nonpayBtn"
