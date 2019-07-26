@@ -9,15 +9,27 @@ const UserInfoContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchHistoryAPI() {
+    const fetchHistoryAPI = async () => {
       try {
-        const { data } = await userOrderAPI(me.id);
-        console.log(data);
-        setHistory(data);
+        const {
+          data: { content },
+        } = await userOrderAPI(me.id);
+
+        const orders =
+          content.length > 0
+            ? content.map(object => ({
+                id: object.id,
+                time: object.createDate,
+                money: object.amount,
+                menu: object.menuNameList.join(','),
+              }))
+            : [];
+        console.log(orders);
+        setHistory(orders);
       } catch (e) {
         console.log(e);
       }
-    }
+    };
     fetchHistoryAPI();
     setIsLoading(false);
   }, []);
@@ -49,13 +61,25 @@ const UserInfoContainer = () => {
       id: 2,
       time: '4:00',
       money: 40000,
-      menu: ['아메리카노', '카페라떼'],
+      menu: ['아메리카노', '카페라떼'].join(' / '),
     },
     {
       id: 3,
       time: '4:00',
       money: 40000,
-      menu: ['아메리카노', '카페라떼'],
+      menu: ['아메리카노', '카페라떼'].join(','),
+    },
+    {
+      id: 4,
+      time: '4:00',
+      money: 40000,
+      menu: ['아메리카노', '카페라떼'].join(','),
+    },
+    {
+      id: 5,
+      time: '4:00',
+      money: 40000,
+      menu: ['아메리카노', '카페라떼'].join(','),
     },
   ];
 

@@ -8,7 +8,7 @@ import Loading from '../../../components/Loading';
 
 const UserInfoPresenter = ({ isLoading, id, point, columns, rows }) => (
   <>
-    isLoading && <Loading />
+    {isLoading && <Loading />}
     <div className="userinfo_section">
       <div className="userinfo_wrapper">
         <div className="userinfo_title_myinfo">내 정보</div>

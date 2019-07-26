@@ -69,17 +69,13 @@
     justify-content: space-around;
     align-items: center;
     width: 100%;
-    height: 30px;
-    padding-top: 70px;
-    padding-bottom: 40px;
+    height: 80px;
     .payform-row-buttons {
       display: flex;
       width: 60%;
-      justify-content: space-around;
+      justify-content: center;
       text-align: center;
-      position: relative;
-      right: -20px;
-      font-size: 1rem;
+      font-size: 0.9rem;
       color: rgba(0, 0, 0, 0.8);
       @media (max-width: 400px) {
         flex-direction: column;
@@ -92,11 +88,12 @@
         align-items: center;
         background-color: #fe6600;
         color: white;
-        padding: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
         border-radius: 30px;
-        width: 40%;
+        padding: 5px;
+        padding-left: 6px;
+        padding-right: 6px;
+        width: 30%;
+        margin-right: 20px;
         cursor: pointer;
         &:hover {
           opacity: 0.5;
@@ -111,12 +108,13 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
         border-radius: 30px;
         border: 1px solid rgba(0, 0, 0, 0.3);
-        width: 40%;
+        width: 30%;
+        padding: 5px;
+        padding-left: 6px;
+        padding-right: 6px;
+        margin-right: 20px;
         &:hover {
           opacity: 0.5;
         }
@@ -131,12 +129,13 @@
         align-items: center;
         background-color: #fe6600;
         color: white;
-        padding: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
         border-radius: 30px;
-        width: 40%;
+        width: 30%;
+        padding: 5px;
+        padding-left: 6px;
+        padding-right: 6px;
         cursor: pointer;
+
         &:hover {
           opacity: 0.5;
         }
@@ -149,12 +148,13 @@
         justify-content: center;
         align-items: center;
         cursor: pointer;
-        padding: 10px;
-        padding-left: 20px;
-        padding-right: 20px;
         border-radius: 30px;
         border: 1px solid rgba(0, 0, 0, 0.3);
-        width: 40%;
+        width: 30%;
+        padding: 5px;
+        padding-left: 6px;
+        padding-right: 6px;
+
         &:hover {
           opacity: 0.5;
         }
@@ -169,7 +169,6 @@
       text-align: center;
     }
     .payform-total-price {
-      padding-left: 70px;
       text-align: center;
       width: 60%;
     }
@@ -187,22 +186,23 @@
   }
   .payform-point_container {
     margin-top: 20px;
-    width: 90%;
+    width: 100%;
     div {
       font-size: 1.3rem;
       width: 100%;
       display: flex;
       justify-content: space-around;
       margin-bottom: 5px;
-      span:nth-child(1) {
-        width: 42%;
+      div:nth-child(1) {
+        width: 40%;
+        text-align: left;
       }
-      span:nth-child(2) {
+      div:nth-child(2) {
         position: relative;
         left: 10px;
         display: flex;
         justify-content: center;
-        width: 50%;
+        width: 60%;
       }
     }
   }

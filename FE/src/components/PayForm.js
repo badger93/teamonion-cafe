@@ -105,24 +105,22 @@ const PayForm = ({
           </div>
           <div className="payform-point_container">
             <div>
-              <span>내 포인트</span>
-              <span>{`${user.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</span>
+              <div>내 포인트</div>
+              <div>{`${user.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</div>
             </div>
             <div>
-              <span>포인트 적립</span>
-              <span>{`${(totalPrice / 10)
-                .toString()
-                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</span>
+              <div>포인트 적립</div>
+              <div>{`${(totalPrice / 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</div>
             </div>
             <div>
-              <span>결제 후 내 포인트</span>
-              <span>
+              <div>결제 후 내 포인트</div>
+              <div>
                 {howPay === 1
                   ? `${afterPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`
                   : `${(user.point + totalPrice / 10)
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}
-              </span>
+              </div>
             </div>
           </div>
           <button type="submit" className="submit-button">
