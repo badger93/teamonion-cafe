@@ -34,4 +34,8 @@ public class Menu {
     void delete() {
         this.deleted = true;
     }
+
+    void update(Long id) {
+        this.id = id;
+    }
 }

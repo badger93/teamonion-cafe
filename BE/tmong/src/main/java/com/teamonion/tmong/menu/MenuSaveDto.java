@@ -17,7 +17,7 @@ public class MenuSaveDto {
     private String name;
 
     @NumberFormat(style = NumberFormat.Style.NUMBER)
-    @NotNull(message = "가격을 입력해주세요")
+    @DecimalMin(value = "0", message = "메뉴 가격은 음수입력이 불가능합니다")
     private long price;
 
     private String information;

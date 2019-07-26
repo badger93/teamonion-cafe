@@ -2,7 +2,6 @@ package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
-import com.teamonion.tmong.member.MemberRole;
 import com.teamonion.tmong.security.JwtComponent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,6 @@ import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -73,6 +71,7 @@ public class MenuService {
         }
 
         menu = menuSaveDto.toEntity(setMenuImagePath(menuSaveDto.getImageFile()));
+        menu.update(id);
         menuRepository.save(menu);
 
         deleteMenuImage(path);
