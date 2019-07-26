@@ -17,18 +17,18 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
     e => {
       e.preventDefault();
       if (popupName && popupPrice && popupInformation && popupFile) {
-        const payload = {
-          name: popupName,
-          price: popupPrice,
-          information: popupInformation,
-          imageFile: inputImgRef.current.getAttribute('src'),
-        };
-        const formFile = fileInputRef;
+        const formData = new FormData();
+        formData.append('name', popupName);
+        formData.append('price', popupPrice);
+        formData.append('information', popupInformation);
+        formData.append('imageFile', popupFile);
+
+        const fakeImg = inputImgRef.current.getAttribute('src');
         if (isEdit) {
-          updateItem({ ...payload, id });
+          updateItem(formData, id, fakeImg);
           setIsPopup(false);
         } else {
-          createItem(payload);
+          createItem(formData, fakeImg);
           setIsPopup(false);
         }
       } else {
@@ -40,14 +40,14 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
 
   useEffect(() => {
     if (isEdit) {
-      // 수정모드
+      // 수정모드 init
       setPopupName(name);
       setPopupPrice(price);
       setPopupInformation(information);
       setPopupFile('');
       inputImgRef.current.setAttribute('src', '');
     } else {
-      // 추가모드
+      // 추가모드 init
       setPopupName('');
       setPopupPrice('');
       setPopupInformation('');
@@ -85,7 +85,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
         <div className="priceArea inputArea">
           <div className="areaTitle">가격</div>
           <input
-            type="text"
+            type="number"
             value={popupPrice}
             onChange={e => setPopupPrice(e.target.value)}
             className="priceInput"
@@ -103,13 +103,11 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
           <div className="areaTitle">이미지</div>
           <input
             type="file"
-            value={popupFile}
             className="fileInput"
             ref={fileInputRef}
             onChange={e => {
-              console.dir(e.target.files);
               inputImgPreview(fileInputRef.current, inputImgRef.current);
-              setPopupFile(e.target.value);
+              setPopupFile(e.target.files[0]);
             }}
           />
           <div className="previewImgWrap">

@@ -11,14 +11,25 @@ const AdminMenuManageContainer = () => {
         setMenuList(change);
       })
       .catch(err => {
+        console.dir(err);
         alert(`삭제실패${err}`);
       });
   };
 
-  const updateItem = changeItem => {
-    updateMenuList(changeItem.id, { ...changeItem, imageFile: '' }) // 인코딩 된 blob imageFile을 빈값으로 초기화
+  const updateItem = (formData, id, fakeImg) => {
+    updateMenuList(id, formData)
       .then(() => {
-        const change = menuList.map(item => (item.id === changeItem.id ? changeItem : item));
+        const change = menuList.map(item =>
+          item.id === id
+            ? {
+                ...item,
+                name: formData.get('name'),
+                price: formData.get('price'),
+                information: formData.get('information'),
+                imageFile: fakeImg,
+              }
+            : item,
+        );
         setMenuList(change);
       })
       .catch(err => {
@@ -26,11 +37,16 @@ const AdminMenuManageContainer = () => {
       });
   };
 
-  const createItem = newItem => {
-    console.log({ ...newItem, imageFile: '' });
-    createMenuList({ ...newItem, imageFile: '' }) // 인코딩 된 blob imageFile을 빈값으로 초기화
-      .then(id => {
-        const list = menuList.concat({ id, ...newItem });
+  const createItem = (formData, fakeImg) => {
+    createMenuList(formData)
+      .then(res => {
+        const list = menuList.concat({
+          id: res.data,
+          name: formData.get('name'),
+          price: formData.get('price'),
+          information: formData.get('information'),
+          imageFile: fakeImg,
+        });
         setMenuList(list);
       })
       .catch(err => {

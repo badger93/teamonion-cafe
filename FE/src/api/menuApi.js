@@ -20,10 +20,13 @@ export const getMenuList = callback => {
     });
 };
 
-export const deleteMenuList = id => axios.delete(`admin/api/menus/${id}`);
+export const deleteMenuList = id => axios.delete(`api/menus/${id}`);
 
-export const createMenuList = item =>
-  axios.post('admin/api/menus/', item, { headers: { 'Content-Type': 'multipart/form-data' } });
+export const createMenuList = item => {
+  return axios.post('api/menus', item, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+};
 
 export const updateMenuList = (id, item) =>
-  axios.put(`admin/api/menus/${id}`, item, { headers: { 'Content-Type': 'multipart/form-data' } });
+  axios.put(`api/menus/${id}`, item, { headers: { 'Content-Type': 'multipart/form-data' } });
