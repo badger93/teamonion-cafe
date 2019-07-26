@@ -3,6 +3,7 @@ package com.teamonion.tmong.security;
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
+import com.teamonion.tmong.member.MemberRole;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,5 +58,12 @@ public class JwtComponent {
                 .parseClaimsJws(jwt)
                 .getBody()
                 .get(claimName);
+    }
+
+    public void checkAdmin() {
+        if (!getClaimValueByToken(ROLE).equals(MemberRole.ADMIN.toString())) {
+            log.debug("checkAdmin fail.. this member role : {}", getClaimValueByToken(ROLE));
+            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
+        }
     }
 }

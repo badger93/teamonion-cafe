@@ -54,4 +54,16 @@ public class Orders {
         this.made = false;
         this.pickup = false;
     }
+
+    public void pay() {
+        this.paid = true;
+    }
+
+    public void make() {
+        this.made = true;
+    }
+
+    public void pick() {
+        this.pickup = true;
+    }
 }

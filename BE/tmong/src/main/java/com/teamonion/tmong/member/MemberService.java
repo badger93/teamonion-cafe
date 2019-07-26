@@ -30,7 +30,7 @@ public class MemberService {
     }
 
     public Member search(String memberId) {
-        checkAdmin();
+        jwtComponent.checkAdmin();
         return findByMemberId(memberId);
     }
 
@@ -49,12 +49,12 @@ public class MemberService {
     }
 
     public Page<Member> getMembers(Pageable pageable) {
-        checkAdmin();
+        jwtComponent.checkAdmin();
         return memberRepository.findAll(pageable);
     }
 
     public long pointUpdate(Long id, long point) {
-        checkAdmin();
+        jwtComponent.checkAdmin();
         Member member = findById(id);
         member.pointUpdate(point);
         return memberRepository.save(member).getPoint();
@@ -64,14 +64,7 @@ public class MemberService {
         return findById(id).getPoint();
     }
 
-    private void checkAdmin() {
-        if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN.toString())) {
-            log.debug("MemberService - checkAdmin fail.. role : {}", jwtComponent.getClaimValueByToken(JwtComponent.ROLE));
-            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
-        }
-    }
-
-    public Member findById(Long id) {
+    private Member findById(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(() -> new ValidCustomException(ValidExceptionType.MEMBER_NOT_FOUND));
     }

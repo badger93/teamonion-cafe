@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping("/api")
+@RequestMapping("/api/orders")
 @RestController
 public class OrdersController {
 
@@ -26,9 +26,16 @@ public class OrdersController {
     }
 
     @CheckJwt
-    @GetMapping("/{member_id}/orders")
-    public ResponseEntity<Page<OrdersHistoryResponse>> myOrder(Pageable pageable, @PathVariable Long member_id, boolean pickup) {
-        return new ResponseEntity<>(ordersService.getMyOrders(pageable, member_id, pickup), HttpStatus.OK);
+    @GetMapping("/my")
+    public ResponseEntity<Page<OrdersHistoryResponse>> getMyOrders(Pageable pageable, boolean pickup) {
+        return new ResponseEntity<>(ordersService.getMyOrders(pageable, pickup), HttpStatus.OK);
+    }
+
+    @CheckJwt
+    @PutMapping("/{order_id}")
+    public ResponseEntity updateOrder(@PathVariable Long order_id, @RequestBody OrdersUpdateRequest ordersUpdateRequest) {
+        ordersService.updateOrder(order_id, ordersUpdateRequest);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @CheckJwt
