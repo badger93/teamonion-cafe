@@ -2,11 +2,22 @@ import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
 import { useLocalStorage } from '../utils/cart';
+import { useDispatch } from 'react-redux';
+import { cartToPayAction } from '../redux/actions/payAction';
+import { Redirect } from 'react-router-dom';
 
 const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
   const { id, name, price, information, imageFile } = menuDetailData;
   const { storedValue, setValue } = useLocalStorage('CART', []);
   const [isCart, setIsCart] = useState(false);
+  const [isPay, setIsPay] = useState(false);
+  const dispatch = useDispatch();
+
+  const onClickPay = () => {
+    dispatch(cartToPayAction({ 0: { id, menuName: name, menuPrice: price } }));
+    setIsPay(true);
+    setTimeout(() => setIsPay(false), 5000);
+  };
 
   // 장바구니 로컬스토리지 추가버튼
   const onClickCart = () => {
@@ -38,6 +49,7 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
 
   return (
     <>
+      {isPay && <Redirect to="/payment" />}
       <div className="menuDetail">
         <aside>
           <div className="img-area">
@@ -66,7 +78,7 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
             </div>
           )}
           <div className="btnArea">
-            <input className="buyBtn" type="button" value="구매" />
+            <input className="buyBtn" type="button" onClick={onClickPay} value="구매" />
             <input className="cartBtn" type="button" onClick={onClickCart} value="장바구니" />
           </div>
         </main>

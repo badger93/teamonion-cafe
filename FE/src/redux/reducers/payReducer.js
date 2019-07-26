@@ -9,6 +9,7 @@ const initState = {
 const payReducer = (state = initState, action) => {
   switch (action.type) {
     case CARTTOPAY: {
+      console.log(action.data);
       return { ...state, itemsForPay: action.data };
     }
     case PAY_REQUEST: {

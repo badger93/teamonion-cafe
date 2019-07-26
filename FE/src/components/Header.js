@@ -23,7 +23,7 @@ const Header = () => {
       try {
         const { data } = await myPointApi(me.id);
         await dispatch(changePoint(data));
-        localStorage.setItem('USER', JSON.stringify({ me, point: data })); // 리덕스 state와 로컬스토리지 포인트 변경
+        localStorage.setItem('USER', JSON.stringify({ ...me, point: data })); // 리덕스 state와 로컬스토리지 포인트 변경
       } catch (e) {
         console.log(e);
       }
