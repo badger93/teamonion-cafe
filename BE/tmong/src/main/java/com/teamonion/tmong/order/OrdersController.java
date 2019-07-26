@@ -20,7 +20,7 @@ public class OrdersController {
     }
 
     @CheckJwt
-    @PostMapping("/orders")
+    @PostMapping
     public ResponseEntity makeOrder(@RequestBody @Valid OrdersAddRequest ordersAddRequest) {
         return new ResponseEntity<>(ordersService.makeOrder(ordersAddRequest), HttpStatus.CREATED);
     }
