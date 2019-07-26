@@ -38,11 +38,17 @@ button {
     &:hover {
       opacity: 0.8;
     }
+    &:focus {
+      border: solid 1px #f96600;
+    }
   }
   .signup_id_input {
     width: 80%;
     &:hover {
       opacity: 0.8;
+    }
+    &:focus {
+      border: solid 1px #f96600;
     }
   }
 }

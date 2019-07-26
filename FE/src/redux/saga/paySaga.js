@@ -5,10 +5,9 @@ import { CHANGE_POINT } from '../actions/userAction';
 
 function* pay(action) {
   try {
-    yield call(() => payAPI(action));
+    yield call(() => payAPI(action.data));
     // yield delay(2000);
     yield put({
-      // put은 dispatch 동일
       type: PAY_SUCCESS,
     });
     yield put({
@@ -16,8 +15,7 @@ function* pay(action) {
       data: action.data.afterPoint,
     });
   } catch (e) {
-    // loginAPI 실패
-    console.error(e.response);
+    console.log(e);
     yield put({
       type: PAY_FAILURE,
     });
@@ -28,10 +26,6 @@ function* watchPay() {
   yield takeLatest(PAY_REQUEST, pay);
 }
 
-// all은 여러 이펙트를 동시 실행가능케함
 export default function* paySaga() {
   yield all([fork(watchPay)]);
-  // 괄호 위치 유의!!
-  // 리스너 여러개 쓰고싶으면 all을 씀
-  // all은 여러 이펙트를 동시 실행가능케함
 }

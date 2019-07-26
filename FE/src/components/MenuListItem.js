@@ -20,7 +20,8 @@ const MenuListItem = ({ item, mapDetailData, setIsMenuPopup }) => {
       </div>
       <div className="info-area">
         <div className="title">{name}</div>
-        <div className="price">{`₩ ${price}`}</div>
+        <div className="price">{`${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>{' '}
+        {/* 숫자에 콤마찍는 정규식 */}
       </div>
     </div>
   );
