@@ -55,7 +55,9 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
             <div className="title">{name}</div>
           </div>
           <div className="informationArea">
-            <div className="price">{`₩ ${price}`}</div>
+            <div className="price">{`${price
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
             <div className="information">{information}</div>
           </div>
           {isCart && <div className="cart-added">장바구니에 추가되었습니다!</div>}

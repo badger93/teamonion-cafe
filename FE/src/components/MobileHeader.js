@@ -155,7 +155,7 @@ MobileHeader.propTypes = {
   setIsList: propTypes.func,
   isList: propTypes.bool,
   logOutDispatch: propTypes.func.isRequired,
-  onRefreshClick: propTypes.func.isRequired,
+  onRefreshClick: propTypes.func,
 };
 
 export default MobileHeader;
