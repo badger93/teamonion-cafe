@@ -55,8 +55,8 @@ const MyOrderCard = ({
   );
 };
 MyOrderCard.propTypes = {
-  paid: propTypes.string.isRequired,
-  made: propTypes.string.isRequired,
+  paid: propTypes.bool.isRequired,
+  made: propTypes.bool.isRequired,
   menu: propTypes.arrayOf(propTypes.string).isRequired,
   setOrders: propTypes.func.isRequired,
   userId: propTypes.number.isRequired,

@@ -57,7 +57,7 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
       isInitialMount.current = false;
     } else if (tryPay && isSignedIn) {
       // 결제시도 + 로그인 까지 해야지 바로결제
-      console.log('onSubmitAgain');
+      // console.log('onSubmitAgain');
       setTryPay(false);
       onSubmit();
     } // 업데이트 시에만 작동
@@ -93,12 +93,12 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
           </div>
 
           <div className="cartform-total">
-            <div>총결제액</div>
+            <div className="cartform-total-price-title">총결제액</div>
             <div className="cartform-total-price">
               {checkedItem.forEach(element => {
                 totalPrice += element.menuPrice;
               })}
-              {`${totalPrice}`}
+              {`${totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}
             </div>
           </div>
           <button type="submit" className="submit-button">

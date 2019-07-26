@@ -5,9 +5,9 @@ const MyHistory = ({ columns, rows = [] }) => (
   <ReactDataGrid
     columns={columns}
     rowGetter={i => rows[i]}
-    rowsCount={3}
-    minHeight={150}
-    isScrolling
+    rowsCount={rows.length}
+    minHeight={400}
+    isScrolling={true}
   />
 );
 

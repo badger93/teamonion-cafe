@@ -11,7 +11,7 @@ export const signUpApi = data => axios.post('api/members', data);
 export const signInApi = data => axios.post('api/members/login', data);
 
 export const userOrderAPI = (memberId, pickup = true, size = 20, page = 0) => {
-  return axios.get(`api/${memberId}/orders`, { params: { pickup, page, size } });
+  return axios.get(`api/orders/my`, { params: { pickup, page, size } });
 };
 
 // export const myOrderAPI = memberId => axios.get(`/api/${memberId}/orders/state`);

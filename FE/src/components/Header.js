@@ -14,17 +14,20 @@ const Header = () => {
 
   const logOutDispatch = useCallback(() => {
     dispatch(logOutAction());
+    localStorage.removeItem('USER');
+    localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
   }, [dispatch]);
 
   const onRefreshClick = useCallback(() => {
-    async function myPointAsyncApi() {
+    const myPointAsyncApi = async () => {
       try {
         const { data } = await myPointApi(me.id);
-        await dispatch(changePoint(data)); // 리덕스 state와 로컬스토리지 포인트 변경
+        await dispatch(changePoint(data));
+        localStorage.setItem('USER', JSON.stringify({ ...me, point: data })); // 리덕스 state와 로컬스토리지 포인트 변경
       } catch (e) {
         console.log(e);
       }
-    }
+    };
     myPointAsyncApi();
   }, [me, dispatch]);
 

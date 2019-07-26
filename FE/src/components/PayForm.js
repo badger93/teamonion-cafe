@@ -30,13 +30,13 @@ const PayForm = ({
       alert('포인트가 부족합니다');
     }
 
-    const menuSet = Object.values(itemsForPay).map(item => item.id);
+    const menuIdList = Object.values(itemsForPay).map(item => item.id);
     const requestInfo = {
       paid: howPay === 1,
-      paymentType: howPay === 1 ? 'point' : 'cash',
-      menuSet,
+      paymentType: howPay === 1 ? 'POINT' : 'CASH',
+      menuIdList,
       member_id: user.id,
-      afterPoint,
+      afterPoint: afterPoint,
     };
     dispatch(payRequestAction(requestInfo));
     // PayRequest
@@ -78,41 +78,49 @@ const PayForm = ({
             ))}
           </div>
           <div className="payform-row">
-            <div>결제수단</div>
-            <div>
-              <span>포인트결제</span>
-              <input
-                type="radio"
-                name="payment"
-                value="포인트결제"
-                defaultChecked="true"
-                onChange={onPointRadioChange}
-              />
-              <span>현장결제</span>
-              <input type="radio" name="payment" value="현장결제" onChange={onCashRadioChange} />
+            <div className="payform-row-title">결제수단</div>
+            <div className="payform-row-buttons">
+              <div
+                className={howPay === 1 ? 'payform-pointPay-checked' : 'payform-pointPay-unchecked'}
+                onClick={onPointRadioChange}
+              >
+                <span>포인트결제</span>
+              </div>
+              <div
+                className={howPay === 2 ? 'payform-cashPay-checked' : 'payform-cashPay-unchecked'}
+                onClick={onCashRadioChange}
+              >
+                <span>현장결제</span>
+              </div>
             </div>
           </div>
           <div className="payform-row">
-            <div>총결제액</div>
+            <div className="payform-row-title">총결제액</div>
             <div className="payform-total-price">
               {Object.values(itemsForPay).forEach(element => {
                 totalPrice += element.menuPrice;
               })}
-              {`${totalPrice}`}
+              {`${totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}
             </div>
           </div>
           <div className="payform-point_container">
             <div>
-              <span>내 포인트</span>
-              <span>{`${user.point} P`}</span>
+              <div>내 포인트</div>
+              <div>{`${user.point.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</div>
             </div>
             <div>
-              <span>포인트 적립</span>
-              <span>{`${totalPrice / 10} P`}</span>
+              <div>포인트 적립</div>
+              <div>{`${(totalPrice / 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</div>
             </div>
             <div>
-              <span>결제 후 내 포인트</span>
-              <span>{howPay === 1 ? `${afterPoint} P` : `${user.point + totalPrice / 10} P`}</span>
+              <div>결제 후 내 포인트</div>
+              <div>
+                {howPay === 1
+                  ? `${afterPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`
+                  : `${(user.point + totalPrice / 10)
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}
+              </div>
             </div>
           </div>
           <button type="submit" className="submit-button">
@@ -125,7 +133,7 @@ const PayForm = ({
 };
 
 PayForm.propTypes = {
-  dispatch: propTypes.bool.isRequired,
+  dispatch: propTypes.func.isRequired,
   itemsForPay: propTypes.object,
   isPaying: propTypes.bool.isRequired,
   isPaid: propTypes.bool.isRequired,

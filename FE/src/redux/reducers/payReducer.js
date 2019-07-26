@@ -1,7 +1,7 @@
 import { CARTTOPAY, PAY_REQUEST, PAY_SUCCESS, PAY_FAILURE, PAY_FINISH } from '../actions/payAction';
 
 const initState = {
-  itemsForPay: [],
+  itemsForPay: {},
   isPaying: false,
   isPaid: false,
 };
@@ -9,6 +9,7 @@ const initState = {
 const payReducer = (state = initState, action) => {
   switch (action.type) {
     case CARTTOPAY: {
+      console.log(action.data);
       return { ...state, itemsForPay: action.data };
     }
     case PAY_REQUEST: {

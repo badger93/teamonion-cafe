@@ -7,7 +7,7 @@ const PayListItem = ({ menuName = 'none', menuPrice = 0 }) => (
     <div className="pay-item-column" />
     <div className="pay-item-column">{`${menuName}`}</div>
     <div className="pay-item-column">
-      <div>{`${menuPrice}`}</div>
+      <div>{`${menuPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>
     </div>
     <div className="pay-item-column" />
   </div>
