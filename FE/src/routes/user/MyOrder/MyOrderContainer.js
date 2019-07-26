@@ -12,9 +12,11 @@ const MyOrderContainer = () => {
     async function fetchMyOrder() {
       try {
         if (me) {
-          const newOrders = await userOrderAPI(me.id, false);
-          console.log(newOrders);
-          setOrders(newOrders.data.content);
+          const {
+            data: { content },
+          } = await userOrderAPI(me.id, false);
+          console.log(content);
+          setOrders(content);
         }
       } catch (e) {
         console.log(e);

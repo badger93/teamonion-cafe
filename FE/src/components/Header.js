@@ -19,8 +19,8 @@ const Header = () => {
   const onRefreshClick = useCallback(() => {
     async function myPointAsyncApi() {
       try {
-        const changedPointApiValue = await myPointApi(me.id);
-        await dispatch(changePoint(changedPointApiValue.data)); // 리덕스 state와 로컬스토리지 포인트 변경
+        const { data } = await myPointApi(me.id);
+        await dispatch(changePoint(data)); // 리덕스 state와 로컬스토리지 포인트 변경
       } catch (e) {
         console.log(e);
       }

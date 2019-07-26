@@ -15,8 +15,8 @@ const MyOrderCard = ({
 }) => {
   const onRefreshClick = useCallback(async () => {
     try {
-      const newOrders = await userOrderAPI(userId, false);
-      setOrders(newOrders);
+      const { data } = await userOrderAPI(userId, false);
+      setOrders(data);
     } catch (e) {
       console.log(e);
     }
