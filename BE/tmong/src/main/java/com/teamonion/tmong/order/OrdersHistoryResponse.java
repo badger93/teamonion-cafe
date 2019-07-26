@@ -11,12 +11,14 @@ import java.util.stream.Collectors;
 @Getter
 public class OrdersHistoryResponse {
     private Long id;
+    private String buyerName;
     private LocalDateTime createdDate;
     private long amount;
     private boolean pickup;
     private boolean paid;
     private boolean made;
     private List<String> menuNameList;
+    private PaymentType paymentType;
 
     public OrdersHistoryResponse(Orders orders) {
         this.id = orders.getId();
@@ -33,6 +35,20 @@ public class OrdersHistoryResponse {
 
     public static OrdersHistoryResponse toOrderHistoryResponse(Orders orders) {
         return new OrdersHistoryResponse(null);
+    }
+
+    static OrdersHistoryResponse AllOrdersHistoryResponse(Orders orders) {
+        OrdersHistoryResponse ordersHistoryResponse = new OrdersHistoryResponse(orders);
+        ordersHistoryResponse.id = orders.getId();
+        ordersHistoryResponse.buyerName = orders.getBuyer().getMemberId();
+        ordersHistoryResponse.paymentType = orders.getPaymentType();
+        ordersHistoryResponse.amount = orders.getAmount();
+        ordersHistoryResponse.createdDate = orders.getCreatedDate();
+        ordersHistoryResponse.paid = orders.isPaid();
+        ordersHistoryResponse.made = orders.isMade();
+        ordersHistoryResponse.pickup = orders.isPickup();
+
+        return ordersHistoryResponse;
     }
 
 }

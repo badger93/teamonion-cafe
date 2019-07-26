@@ -6,6 +6,7 @@ import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
+import com.teamonion.tmong.security.JwtComponent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -35,25 +36,30 @@ public class OrdersService {
     @NonNull
     private final PointService pointService;
 
-    @Transactional
-    public Long add(Long member_id, OrdersAddRequest ordersAddRequest) {
-        Member buyer = memberService.findById(member_id);
+    @NonNull
+    private final JwtComponent jwtComponent;
 
-        Orders orders = getOrdersDetail(ordersAddRequest, buyer);
+    @Transactional
+    public Long makeOrder(OrdersAddRequest ordersAddRequest) {
+        // TODO : Transactional 메소드 필요한지
+        Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
+
+        Orders orders = makeOrderDetail(ordersAddRequest, buyer);
 
         pointService.proceedOrder(orders);
 
         return ordersRepository.save(orders).getId();
     }
 
-    private Orders getOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
+    private Orders makeOrderDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
         List<Menu> menuList = new ArrayList<>();
         long amount = 0;
 
         for (Long id : ordersAddRequest.getMenuIdList()) {
-            Menu menu = menuRepository.findById(id)
+            Menu menu = menuRepository.findByIdAndDeletedFalse(id)
                     .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
             menuList.add(menu);
+            amount += menu.getPrice();
         }
 
         return ordersAddRequest.toEntity(amount, buyer, menuList);
@@ -65,8 +71,17 @@ public class OrdersService {
                 .map(OrdersHistoryResponse::toOrderHistoryResponse);
     }
 
-    Page<OrdersHistoryResponse> getAllOrders(Pageable pageable, boolean paid, boolean made, boolean pickup) {
-        return ordersRepository.findByPaidAndMadeAndPickup(pageable, paid, made, pickup)
-                .map(OrdersHistoryResponse::new);
+    Page<OrdersHistoryResponse> getAllOrders(Pageable pageable, String category) {
+        // 카테고리 구분
+        // 카테고리 별 검색
+        switch (category) {
+            case "PAID_TRUE":
+                return ordersRepository.findAllByPaidTrue(pageable).map(OrdersHistoryResponse::AllOrdersHistoryResponse);
+            case "PAID_FALSE":
+                return ordersRepository.findAllByPaidFalse(pageable).map(OrdersHistoryResponse::AllOrdersHistoryResponse);
+            case "MADE_TRUE":
+                return ordersRepository.findAllByMadeTrue(pageable).map(OrdersHistoryResponse::AllOrdersHistoryResponse);
+        }
+        return ordersRepository.findAll(pageable).map(OrdersHistoryResponse::AllOrdersHistoryResponse);
     }
 }
