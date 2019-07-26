@@ -44,14 +44,14 @@ public class OrdersService {
         // TODO : Transactional 메소드 필요한지
         Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
 
-        Orders orders = makeOrderDetail(ordersAddRequest, buyer);
+        Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
 
-        pointService.proceedOrder(orders);
+        pointService.pointProcess(orders);
 
         return ordersRepository.save(orders).getId();
     }
 
-    private Orders makeOrderDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
+    private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
         List<Menu> menuList = new ArrayList<>();
         long amount = 0;
 
@@ -68,20 +68,30 @@ public class OrdersService {
 
     public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, Long buyer_id, boolean pickup) {
         return ordersRepository.findByBuyerIdAndPickup(pageable, buyer_id, pickup)
-                .map(OrdersHistoryResponse::toOrderHistoryResponse);
+                .map(OrdersHistoryResponse::new);
     }
 
-    Page<OrdersHistoryResponse> getAllOrders(Pageable pageable, String category) {
-        // 카테고리 구분
-        // 카테고리 별 검색
+    Page<OrdersCategoryResponse> getOrdersByCategory(Pageable pageable, String category) {
+        jwtComponent.checkAdmin();
+
+        Page<Orders> response;
         switch (category) {
             case "PAID_TRUE":
-                return ordersRepository.findAllByPaidTrue(pageable).map(OrdersHistoryResponse::AllOrdersHistoryResponse);
+                response = ordersRepository.findAllByPaidTrue(pageable);
+                break;
             case "PAID_FALSE":
-                return ordersRepository.findAllByPaidFalse(pageable).map(OrdersHistoryResponse::AllOrdersHistoryResponse);
+                response = ordersRepository.findAllByPaidFalse(pageable);
+                break;
             case "MADE_TRUE":
-                return ordersRepository.findAllByMadeTrue(pageable).map(OrdersHistoryResponse::AllOrdersHistoryResponse);
+                response = ordersRepository.findAllByMadeTrue(pageable);
+                break;
+            case "ALL" :
+                response = ordersRepository.findAll(pageable);
+                break;
+            default:
+                throw new HandleRuntimeException(GlobalExceptionType.ORDER_CATEGORY_INVALID);
         }
-        return ordersRepository.findAll(pageable).map(OrdersHistoryResponse::AllOrdersHistoryResponse);
+        return response.map(OrdersCategoryResponse::new);
+
     }
 }

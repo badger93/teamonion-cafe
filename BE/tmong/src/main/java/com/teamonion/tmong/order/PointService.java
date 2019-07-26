@@ -17,7 +17,7 @@ public class PointService {
 
     private static final double BONUS_RATE = 0.1;
 
-    void proceedOrder(Orders orders) {
+    void pointProcess(Orders orders) {
         long buyerOwnPoint = getBuyerPoint(orders.getBuyer().getId());
         if (orders.getPaymentType().equals(PaymentType.POINT)) {
             buyerOwnPoint = payByPoint(orders.getBuyer(), buyerOwnPoint, orders.getAmount());

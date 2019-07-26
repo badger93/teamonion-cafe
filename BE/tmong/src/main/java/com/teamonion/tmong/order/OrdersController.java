@@ -31,9 +31,10 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.getMyOrders(pageable, member_id, pickup), HttpStatus.OK);
     }
 
+    @CheckJwt
     @GetMapping("/orders")
-    public ResponseEntity<Page<OrdersHistoryResponse>> allOrder(Pageable pageable, String category) {
-        return new ResponseEntity<>(ordersService.getAllOrders(pageable, category), HttpStatus.OK);
+    public ResponseEntity<Page<OrdersCategoryResponse>> getOrdersByCategory(Pageable pageable, String category) {
+        return new ResponseEntity<>(ordersService.getOrdersByCategory(pageable, category), HttpStatus.OK);
     }
 
 }
