@@ -39,7 +39,7 @@ public class OrdersController {
     }
 
     @CheckJwt
-    @GetMapping("/orders")
+    @GetMapping
     public ResponseEntity<Page<OrdersCategoryResponse>> getOrdersByCategory(Pageable pageable, String category) {
         return new ResponseEntity<>(ordersService.getOrdersByCategory(pageable, category), HttpStatus.OK);
     }

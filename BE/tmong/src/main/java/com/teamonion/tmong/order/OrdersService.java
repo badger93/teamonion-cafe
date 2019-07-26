@@ -88,6 +88,9 @@ public class OrdersService {
             case "MADE_TRUE":
                 response = ordersRepository.findAllByMadeTrue(pageable);
                 break;
+            case "PICKUP_FALSE":
+                response = ordersRepository.findAllByPickupFalse(pageable);
+                break;
             case "ALL":
                 response = ordersRepository.findAll(pageable);
                 break;
