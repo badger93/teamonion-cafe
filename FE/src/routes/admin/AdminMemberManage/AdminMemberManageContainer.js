@@ -9,7 +9,6 @@ const AdminMemberManageContainer = () => {
   const getUserByPage = ({ itemSize, page }) => {
     getUserList({ itemSize, page })
       .then(res => {
-        console.dir(res);
         const { content, totalPages, size } = res.data;
         setMemberListData(content);
         setMemberPageData({ page, totalPages, itemSize: size });
@@ -26,18 +25,15 @@ const AdminMemberManageContainer = () => {
         setMemberListData(result);
       })
       .catch(err => {
-        const result = memberListData.map(item =>
-          item.id === id ? { ...item, point: changePoint } : item,
-        );
-        setMemberListData(result);
         alert(`포인트 수정 실패 : ${err}`);
+        console.dir(err);
       });
   };
 
   const searchUserByID = async memberId => {
     try {
       const userList = await searchUser(memberId);
-      setMemberListData(userList);
+      setMemberListData([userList.data]);
     } catch (err) {
       alert(`유저검색 실패 : ${err}`);
     }

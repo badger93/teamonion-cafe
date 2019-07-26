@@ -33,6 +33,7 @@ const AdminMenuManageContainer = () => {
         setMenuList(change);
       })
       .catch(err => {
+        console.dir(err);
         alert(`수정실패${err}`);
       });
   };
@@ -50,12 +51,22 @@ const AdminMenuManageContainer = () => {
         setMenuList(list);
       })
       .catch(err => {
+        console.dir(err);
         alert(`추가실패 ${err}`);
       });
   };
 
   useEffect(() => {
-    getMenuList(setMenuList);
+    const getAllMenu = async () => {
+      try {
+        const res = await getMenuList();
+        setMenuList(res.data.content);
+      } catch (err) {
+        alert('상품로드 실패', err);
+        setMenuList([]);
+      }
+    };
+    getAllMenu();
   }, []);
 
   return (
