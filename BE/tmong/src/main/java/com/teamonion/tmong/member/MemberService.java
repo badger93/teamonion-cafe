@@ -29,9 +29,9 @@ public class MemberService {
         return new MemberLoginResponse(savedMember, jwtComponent.createToken(savedMember));
     }
 
-    public Member search(String memberId) {
+    public Page<Member> search(Pageable pageable, String memberId) {
         jwtComponent.checkAdmin();
-        return findByMemberId(memberId);
+        return memberRepository.findByMemberIdContaining(pageable, memberId);
     }
 
     public MemberLoginResponse login(MemberLoginRequest memberLoginRequest) {
@@ -53,10 +53,10 @@ public class MemberService {
         return memberRepository.findAll(pageable);
     }
 
-    public long pointUpdate(Long id, long point) {
+    public long pointUpdate(Long id, String point) {
         jwtComponent.checkAdmin();
         Member member = findById(id);
-        member.pointUpdate(point);
+        member.pointUpdate(Long.parseLong(point));
         return memberRepository.save(member).getPoint();
     }
 

@@ -1,5 +1,7 @@
 package com.teamonion.tmong.security;
 
+import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.HandleRuntimeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,9 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         String authorization = request.getHeader("Authorization");
+        log.info("-------authorization : {}", authorization);
         if(authorization == null) {
-            return false;
+            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
         String jwt = authorization.substring("Bearer".length()).trim();
 
