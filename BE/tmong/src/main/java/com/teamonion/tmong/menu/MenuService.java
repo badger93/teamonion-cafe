@@ -38,7 +38,7 @@ public class MenuService {
     private final JwtComponent jwtComponent;
 
     Long add(MenuSaveDto menuSaveDto) {
-        checkAdmin();
+        jwtComponent.checkAdmin();
 
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
@@ -56,7 +56,7 @@ public class MenuService {
 
     @Transactional
     public void updateMenu(Long id, MenuSaveDto menuSaveDto) {
-        checkAdmin();
+        jwtComponent.checkAdmin();
 
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
@@ -95,7 +95,7 @@ public class MenuService {
 
     @Transactional
     void deleteByMenuId(Long id) {
-        checkAdmin();
+        jwtComponent.checkAdmin();
 
         Menu menu = menuRepository.findById(id).orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
         String path = menu.getImagePath();
@@ -118,10 +118,4 @@ public class MenuService {
         return menuRepository.findByNameAndDeletedFalse(name);
     }
 
-    private void checkAdmin() {
-        if (!jwtComponent.getClaimValueByToken(JwtComponent.ROLE).equals(MemberRole.ADMIN.toString())) {
-            log.debug("menuservice - checkadmin fail.. role : {}", jwtComponent.getClaimValueByToken(JwtComponent.ROLE));
-            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
-        }
-    }
 }

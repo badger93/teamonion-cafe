@@ -4,8 +4,10 @@ import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberRepository;
+import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
+import com.teamonion.tmong.security.JwtComponent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -21,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class OrdersService {
-    private static final Logger logger = LoggerFactory.getLogger(OrdersService.class);
+    private static final Logger log = LoggerFactory.getLogger(OrdersService.class);
 
     @NonNull
     private final OrdersRepository ordersRepository;
@@ -31,6 +33,12 @@ public class OrdersService {
 
     @NonNull
     private final MemberRepository memberRepository;
+
+    @NonNull
+    private final MemberService memberService;
+
+    @NonNull
+    private final JwtComponent jwtComponent;
 
     private static final double BONUS_RATE = 0.1;
 
@@ -93,9 +101,26 @@ public class OrdersService {
         return memberRepository.save(member).getPoint();
     }
 
-    public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, Long buyer_id, boolean pickup) {
+    public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, boolean pickup) {
+        Long buyer_id = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID)).getId();
         return ordersRepository.findByBuyerIdAndPickup(pageable, buyer_id, pickup)
-                .map(OrdersHistoryResponse::toOrderHistoryResponse);
+                .map(OrdersHistoryResponse::new);
     }
 
+    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
+        jwtComponent.checkAdmin();
+        Orders orders = ordersRepository.findById(order_id)
+                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
+
+        if (ordersUpdateRequest.isPaid()) {
+            orders.pay();
+        }
+        if (ordersUpdateRequest.isMade()) {
+            orders.make();
+        }
+        if (ordersUpdateRequest.isPickup()) {
+            orders.pick();
+        }
+        ordersRepository.save(orders);
+    }
 }
