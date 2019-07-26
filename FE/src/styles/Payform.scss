@@ -1,7 +1,7 @@
 .payform-container {
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 70%;
   min-width: 350px;
   min-height: 700px;
   height: 100%;
@@ -25,15 +25,14 @@
     display: flex;
     justify-content: center;
     margin-top: 5%;
-    margin-left: 10%;
-    margin-bottom: 7%;
+    margin-left: 6%;
+    margin-bottom: 6%;
   }
   .payform-column {
-    background-color: rgba(34, 47, 62, 0.8);
-    color: white;
+    color: rgba(0, 0, 0, 0.8);
     font-size: 1.2rem;
-    border-top: solid 2px rgba(0, 0, 0, 0.4);
-    border-bottom: solid 1px rgba(0, 0, 0, 0.4);
+    border-top: solid 2px #222f3e;
+    border-bottom: solid 2px rgba(0, 0, 0, 0.1);
     width: 100%;
     padding-top: 12px;
     padding-bottom: 12px;
@@ -61,7 +60,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    width: 70%;
+    width: 80%;
     height: 90%;
   }
   .payform-row {
@@ -71,27 +70,108 @@
     align-items: center;
     width: 100%;
     height: 30px;
-    padding-top: 40px;
+    padding-top: 70px;
     padding-bottom: 40px;
-
-    div {
+    .payform-row-buttons {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 50px;
-      span {
-        font-size: 1rem;
-      }
-    }
-    div:nth-child(1) {
-      width: 30%;
-    }
-    div:nth-child(2) {
       width: 60%;
       justify-content: space-around;
+      text-align: center;
+      position: relative;
+      right: -20px;
+      font-size: 1rem;
+      color: rgba(0, 0, 0, 0.8);
+      @media (max-width: 400px) {
+        flex-direction: column;
+        font-size: 0.9rem;
+      }
+
+      .payform-pointPay-checked {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fe6600;
+        color: white;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 30px;
+        width: 40%;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.5;
+        }
+        @media (max-width: 400px) {
+          width: 90%;
+          margin-bottom: 10px;
+        }
+      }
+      .payform-pointPay-unchecked {
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 30px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        width: 40%;
+        &:hover {
+          opacity: 0.5;
+        }
+        @media (max-width: 400px) {
+          width: 90%;
+          margin-bottom: 10px;
+        }
+      }
+      .payform-cashPay-checked {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #fe6600;
+        color: white;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 30px;
+        width: 40%;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.5;
+        }
+        @media (max-width: 400px) {
+          width: 90%;
+        }
+      }
+      .payform-cashPay-unchecked {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        padding: 10px;
+        padding-left: 20px;
+        padding-right: 20px;
+        border-radius: 30px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        width: 40%;
+        &:hover {
+          opacity: 0.5;
+        }
+        @media (max-width: 400px) {
+          width: 90%;
+        }
+      }
+    }
+
+    .payform-row-title {
+      width: 40%;
+      text-align: center;
     }
     .payform-total-price {
-      padding-left: 50px;
+      padding-left: 70px;
+      text-align: center;
+      width: 60%;
     }
   }
   .payform-list {
@@ -114,7 +194,6 @@
       display: flex;
       justify-content: space-around;
       margin-bottom: 5px;
-      padding-left: 5px;
       span:nth-child(1) {
         width: 42%;
       }

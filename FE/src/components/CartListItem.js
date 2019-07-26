@@ -2,6 +2,8 @@ import React from 'react';
 import '../styles/CartListItem.scss';
 import propTypes from 'prop-types';
 import { CartDelete } from '../utils/cart';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const CartListItem = ({
   cartId = 0,
@@ -34,12 +36,17 @@ const CartListItem = ({
     <div className="cartform-list-item">
       <div className="cart-item-column">
         <label htmlFor={`${cartId}`} className="cartform-list-item-name">
-          <input id={`${cartId}`} type="checkbox" onClick={Checked} />
+          <input
+            className="cart-item-checkbox"
+            id={`${cartId}`}
+            type="checkbox"
+            onClick={Checked}
+          />
         </label>
       </div>
       <div className="cart-item-column">{`${menuName}`}</div>
       <div className="cart-item-column">
-        <div>{`${menuPrice}`}</div>{' '}
+        <div>{`${menuPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>{' '}
       </div>
       <div className="cart-item-column">
         <button
@@ -47,7 +54,9 @@ const CartListItem = ({
           className="cartform-item-delete"
           onClick={() => CartDelete(cart, setAllCart, cartId, checkedItem, setCheckedItem)}
         >
-          <span>삭제</span>
+          <span>
+            <FontAwesomeIcon icon={faTimes} size="lg" />
+          </span>
         </button>
       </div>
     </div>

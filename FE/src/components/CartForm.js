@@ -93,12 +93,12 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
           </div>
 
           <div className="cartform-total">
-            <div>총결제액</div>
+            <div className="cartform-total-price-title">총결제액</div>
             <div className="cartform-total-price">
               {checkedItem.forEach(element => {
                 totalPrice += element.menuPrice;
               })}
-              {`${totalPrice}`}
+              {`${totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}
             </div>
           </div>
           <button type="submit" className="submit-button">
