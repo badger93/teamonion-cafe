@@ -2,23 +2,10 @@ import fetchClient from './axios';
 
 const axios = fetchClient();
 
-/* eslint-disable import/prefer-default-export */
-// const getMenuListUrl = 'http://localhost:8080/api/menus';
 // 'https://my-json-server.typicode.com/badger012/mockserver/menus'
-const getMenuListUrl = 'api/menus';
 
-export const getMenuList = callback => {
-  // name, price, information, imageFile(src)
-  axios
-    .get(getMenuListUrl)
-    .then(res => {
-      callback(res.data.content);
-    })
-    .catch(err => {
-      callback([]);
-      alert('상품로드 실패', err);
-    });
-};
+// name, price, information, imageFile(src)
+export const getMenuList = () => axios.get('api/menus');
 
 export const deleteMenuList = id => axios.delete(`api/menus/${id}`);
 

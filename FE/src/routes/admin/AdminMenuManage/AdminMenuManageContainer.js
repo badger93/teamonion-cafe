@@ -55,7 +55,16 @@ const AdminMenuManageContainer = () => {
   };
 
   useEffect(() => {
-    getMenuList(setMenuList);
+    const getAllMenu = async () => {
+      try {
+        const res = await getMenuList();
+        setMenuList(res.data.content);
+      } catch (err) {
+        alert('상품로드 실패', err);
+        setMenuList([]);
+      }
+    };
+    getAllMenu();
   }, []);
 
   return (

@@ -27,7 +27,9 @@ export const putOrderState = (callback, { member_id, order_id, made, paid, picku
     });
 };
 // TODO adminOrder API 명세 나오는 대로 상태별 주문이력 가져오기로 코드 수정하자
-export const getOrderHistory = () =>
-  axios.get('https://my-json-server.typicode.com/badger012/mockserver/orders');
+export const getOrderHistory = (category = 'ALL', page = 0) => {
+  // mockUrl : 'https://my-json-server.typicode.com/badger012/mockserver/orders'
+  return axios.get(`api/orders?page=${page}&category=${category}`);
+};
 
 export default getNonpickupAll;

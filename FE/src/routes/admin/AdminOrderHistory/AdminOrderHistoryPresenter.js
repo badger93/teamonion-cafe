@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
 
-const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByState }) => {
+const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory }) => {
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
 
   const colums = [
@@ -83,25 +83,25 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByState })
           className="allBtn"
           type="button"
           value="전체보기"
-          onClick={() => getHistoryDataByState()}
+          onClick={() => getHistoryDataByState(0, 'ALL')}
         />
         <input
           className="nonpayBtn"
           type="button"
           value="미결제"
-          onClick={() => getHistoryDataByState()}
+          onClick={() => getHistoryDataByState('PAID_FALSE')}
         />
         <input
           className="paidBtn"
           type="button"
           value="결제완료"
-          onClick={() => getHistoryDataByState()}
+          onClick={() => getHistoryDataByState('PAID_TRUE')}
         />
         <input
           className="madeBtn"
           type="button"
           value="제작완료"
-          onClick={() => getHistoryDataByState()}
+          onClick={() => getHistoryDataByState('MADE_TRUE')}
         />
       </div>
 
@@ -119,12 +119,12 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByState })
 
 AdminOrderHistoryPresenter.defaultProps = {
   orderHistoryData: [],
-  getHistoryDataByState: () => {},
+  getHistoryDataByCategory: () => {},
 };
 
 AdminOrderHistoryPresenter.propTypes = {
   orderHistoryData: propTypes.arrayOf(),
-  getHistoryDataByState: propTypes.func,
+  getHistoryDataByCategory: propTypes.func,
 };
 
 export default AdminOrderHistoryPresenter;

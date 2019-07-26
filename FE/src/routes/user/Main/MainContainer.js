@@ -12,10 +12,18 @@ const MainContainer = () => {
     setMenuDetailData(data);
   };
 
-  // 최초 리스트 불러오기
   useEffect(() => {
-    getMenuList(setStoreList);
-    setIsLoading(false);
+    const getAllMenu = async () => {
+      try {
+        const res = await getMenuList();
+        setStoreList(res.data.content);
+        setIsLoading(false);
+      } catch (err) {
+        alert('상품로드 실패', err);
+        setStoreList([]);
+      }
+    };
+    getAllMenu();
   }, []);
 
   return (
