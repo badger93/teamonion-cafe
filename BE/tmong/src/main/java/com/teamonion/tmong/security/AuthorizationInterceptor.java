@@ -31,7 +31,6 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         String authorization = request.getHeader("Authorization");
-        log.info("-------authorization : {}", authorization);
         if(authorization == null) {
             throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
