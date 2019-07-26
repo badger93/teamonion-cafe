@@ -20,7 +20,7 @@ public class OrdersController {
     }
 
     @CheckJwt
-    @PostMapping("/orders")
+    @PostMapping
     public ResponseEntity makeOrder(@RequestBody @Valid OrdersAddRequest ordersAddRequest) {
         return new ResponseEntity<>(ordersService.makeOrder(ordersAddRequest), HttpStatus.CREATED);
     }
@@ -39,7 +39,7 @@ public class OrdersController {
     }
 
     @CheckJwt
-    @GetMapping("/orders")
+    @GetMapping
     public ResponseEntity<Page<OrdersCategoryResponse>> getOrdersByCategory(Pageable pageable, String category) {
         return new ResponseEntity<>(ordersService.getOrdersByCategory(pageable, category), HttpStatus.OK);
     }
