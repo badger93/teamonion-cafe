@@ -77,31 +77,30 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
   return (
     <div className="AdminOrderHistoryPresenter">
       <div className="pageTitle">주문이력</div>
-      {/* TODO -- 상태 별 getHistoryDataByState 파라미터 넣어주기 */}
       <div className="orderTabArea">
         <input
           className="allBtn"
           type="button"
           value="전체보기"
-          onClick={() => getHistoryDataByState(0, 'ALL')}
+          onClick={() => getHistoryDataByCategory(0, 'ALL')}
         />
         <input
           className="nonpayBtn"
           type="button"
           value="미결제"
-          onClick={() => getHistoryDataByState('PAID_FALSE')}
+          onClick={() => getHistoryDataByCategory('PAID_FALSE')}
         />
         <input
           className="paidBtn"
           type="button"
           value="결제완료"
-          onClick={() => getHistoryDataByState('PAID_TRUE')}
+          onClick={() => getHistoryDataByCategory('PAID_TRUE')}
         />
         <input
           className="madeBtn"
           type="button"
           value="제작완료"
-          onClick={() => getHistoryDataByState('MADE_TRUE')}
+          onClick={() => getHistoryDataByCategory('MADE_TRUE')}
         />
       </div>
 

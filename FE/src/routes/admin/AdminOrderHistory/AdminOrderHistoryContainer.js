@@ -15,7 +15,7 @@ const AdminOrderHistoryContainer = () => {
   };
 
   useEffect(() => {
-    getHistoryDataByState('ALL');
+    getHistoryDataByCategory('ALL');
   }, []);
 
   return (
