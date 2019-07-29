@@ -1,17 +1,21 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
 import Pagination from '../../../components/Pagination';
 
-const AdminOrderHistoryPresenter = ({
-  orderHistoryData,
-  getHistoryDataByCategory,
-  pageData,
-  fetchHistoryAPI,
-}) => {
+const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory, pageData }) => {
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
+  const [currentCategory, setCurrentCategory] = useState('ALL');
 
+  const chageStateCallback = useCallback(
+    category => {
+      setCurrentCategory(category);
+      getHistoryDataByCategory(category);
+    },
+    [currentCategory],
+  );
+  console.log(pageData);
   const colums = [
     {
       key: 'order_id',
@@ -88,25 +92,25 @@ const AdminOrderHistoryPresenter = ({
           className="allBtn"
           type="button"
           value="전체보기"
-          onClick={() => getHistoryDataByCategory('ALL')}
+          onClick={() => chageStateCallback('ALL')}
         />
         <input
           className="nonpayBtn"
           type="button"
           value="미결제"
-          onClick={() => getHistoryDataByCategory('PAID_FALSE')}
+          onClick={() => chageStateCallback('PAID_FALSE')}
         />
         <input
           className="paidBtn"
           type="button"
           value="결제완료"
-          onClick={() => getHistoryDataByCategory('PAID_TRUE')}
+          onClick={() => chageStateCallback('PAID_TRUE')}
         />
         <input
           className="madeBtn"
           type="button"
           value="제작완료"
-          onClick={() => getHistoryDataByCategory('MADE_TRUE')}
+          onClick={() => chageStateCallback('MADE_TRUE')}
         />
       </div>
 
@@ -121,7 +125,7 @@ const AdminOrderHistoryPresenter = ({
       <Pagination
         pageData={pageData}
         callback={e => {
-          fetchHistoryAPI(20, e.target.value - 1);
+          getHistoryDataByCategory(currentCategory, e.target.value - 1, 10);
         }}
       />
     </div>
