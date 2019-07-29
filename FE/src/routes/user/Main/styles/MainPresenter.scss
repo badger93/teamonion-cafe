@@ -5,4 +5,13 @@
   @media (max-width: 414px) {
     width: 90%;
   }
+  position: relative;
+  .SearchBar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    @media (max-width: 414px) {
+      position: static;
+    }
+  }
 }

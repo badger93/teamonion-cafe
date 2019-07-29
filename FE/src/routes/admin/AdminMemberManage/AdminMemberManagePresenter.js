@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminMemberManagePresenter.scss';
@@ -12,7 +12,6 @@ const AdminMemberManagePresenter = ({
   getUserByPage,
   searchUserByID,
 }) => {
-  const [searchText, setSearchText] = useState('');
   const colums = [
     {
       key: 'id',
@@ -52,9 +51,9 @@ const AdminMemberManagePresenter = ({
 
   return (
     <div className="AdminMemberManagePresenter">
+      <SearchBar searchCallback={searchUserByID} />
       <div className="pageTitle">사용자관리</div>
       <div className="memberManageList">
-        <SearchBar searchCallback={searchUserByID} />
         <ReactDataGrid
           className="memberGrid"
           columns={colums}

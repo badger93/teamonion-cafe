@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import MainPresenter from './MainPresenter';
-import { getMenuList } from '../../../api/menuApi';
+import { getMenuList, searchMenu } from '../../../api/menuApi';
 
 const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
@@ -10,6 +10,15 @@ const MainContainer = () => {
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
   const mapDetailData = data => {
     setMenuDetailData(data);
+  };
+
+  const searchMenuListByName = async menuName => {
+    try {
+      const menuList = await searchMenu(menuName);
+      setStoreList(menuList.data.content);
+    } catch (err) {
+      alert(`메뉴검색 실패 : ${err}`);
+    }
   };
 
   useEffect(() => {
@@ -32,6 +41,7 @@ const MainContainer = () => {
       list={storeList}
       menuDetailData={menuDetailData}
       mapDetailData={mapDetailData}
+      searchMenuListByName={searchMenuListByName}
     />
   );
 };

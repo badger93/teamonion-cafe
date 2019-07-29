@@ -4,13 +4,19 @@ import MenuListItem from '../../../components/MenuListItem';
 import MenuDetail from '../../../components/MenuDetail';
 import './styles/MainPresenter.scss';
 import Loading from '../../../components/Loading';
+import SearchBar from '../../../components/SearchBar';
 
-const MainPresenter = ({ isLoading, list, mapDetailData, menuDetailData }) => {
+const MainPresenter = ({
+  isLoading,
+  list,
+  mapDetailData,
+  menuDetailData,
+  searchMenuListByName,
+}) => {
   const [isMenuPopup, setIsMenuPopup] = useState(false);
   // 메뉴 리스트 뿌리기
   const mapMenuListItem = list.map((item, index) => (
     <MenuListItem
-      // eslint-disable-next-line react/no-array-index-key
       key={`item-${index}`}
       item={item}
       mapDetailData={mapDetailData}
@@ -23,6 +29,7 @@ const MainPresenter = ({ isLoading, list, mapDetailData, menuDetailData }) => {
       {isLoading && <Loading />}
       <div className="mainPresenter">
         <h1>MENU</h1>
+        <SearchBar searchCallback={searchMenuListByName} />
         <div className="menulist">{mapMenuListItem}</div>
         {isMenuPopup && (
           <div className="menuDetailContainer">
@@ -38,6 +45,7 @@ MainPresenter.defaultProps = {
   list: [],
   mapDetailData: () => {},
   menuDetailData: {},
+  searchMenuListByName: () => {},
 };
 
 MainPresenter.propTypes = {
@@ -45,6 +53,7 @@ MainPresenter.propTypes = {
   list: propTypes.arrayOf(propTypes.object),
   mapDetailData: propTypes.func,
   menuDetailData: propTypes.objectOf(propTypes.string),
+  searchMenuListByName: propTypes.func,
 };
 
 export default MainPresenter;

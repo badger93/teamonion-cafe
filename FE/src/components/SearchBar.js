@@ -15,7 +15,7 @@ const SearchBar = ({ searchCallback }) => {
 
   return (
     <form
-      className="searchArea"
+      className="SearchBar"
       onSubmit={e => {
         if (submitCallback !== undefined) {
           submitCallback(e);
