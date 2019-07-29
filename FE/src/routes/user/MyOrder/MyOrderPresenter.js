@@ -8,7 +8,8 @@ const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => (
   <>
     {isLoading && <Loading />}
     <div className="myorder-wrapper">
-      {orders.length > 0 ? (
+      {orders &&
+        orders.length > 0 &&
         orders.map(
           (order, index) =>
             !order.pickup && (
@@ -21,8 +22,8 @@ const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => (
                 userId={userId}
               />
             ),
-        )
-      ) : (
+        )}
+      {!isLoading && orders && (
         <div className="myorder-nothing">
           <div className="myorder-nothing-cry" />
           <div className="myorder-nothing-empty">Empty</div>

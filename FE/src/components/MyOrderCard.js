@@ -41,6 +41,9 @@ const MyOrderCard = ({
               <div className="myorder-status-ball-finish" />
               <div className="myorder-status-ball-finish" />
               <div className="myorder-status-ball-finish" />
+              <div className="myorder-status-ball-finish" />
+              <div className="myorder-status-ball-finish" />
+              <div className="myorder-status-ball-finish" />
             </>
           )}
         </div>
