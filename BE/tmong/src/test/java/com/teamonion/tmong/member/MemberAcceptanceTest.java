@@ -5,9 +5,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,9 +19,9 @@ public class MemberAcceptanceTest {
     TestRestTemplate template;
 
     @Test
-    public void singUp() {
-        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
+    public void singUpTest_성공() {
         String memberId = "chicken";
+        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
         memberSignUpRequest.setMemberId(memberId);
         memberSignUpRequest.setPassword("123456789a");
         memberSignUpRequest.setPasswordCheck("123456789a");
@@ -33,4 +33,24 @@ public class MemberAcceptanceTest {
         assertThat(response.getBody().getMemberId()).isEqualTo(memberId);
         assertThat(response.getBody().getJwt()).isNotNull();
     }
+
+    @Test
+    public void overlapCheckTest() {
+        String memberId = "chicken2";
+        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
+        memberSignUpRequest.setMemberId(memberId);
+        memberSignUpRequest.setPassword("123456789a");
+        memberSignUpRequest.setPasswordCheck("123456789a");
+
+        template.postForEntity("/api/members", memberSignUpRequest, MemberLoginResponse.class);
+
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString("/api/members/overlap")
+                .queryParam("memberId", memberId);
+        ResponseEntity<Boolean> response = template
+                .getForEntity(uriComponentsBuilder.toUriString(), Boolean.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isTrue();
+    }
+
 }
