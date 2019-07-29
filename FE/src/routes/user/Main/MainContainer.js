@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import MainPresenter from './MainPresenter';
 import { getMenuList, searchMenu } from '../../../api/menuApi';
+import { async } from 'q';
 
 const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
   const [menuDetailData, setMenuDetailData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [menuPageData, setMenuPageData] = useState([]);
 
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
   const mapDetailData = data => {
@@ -21,18 +23,20 @@ const MainContainer = () => {
     }
   };
 
+  const getMenuByPage = async ({ itemSize, page }) => {
+    try {
+      const res = await getMenuList({ itemSize, page });
+      const { content, totalPages, size } = res.data;
+      setStoreList(content);
+      setMenuPageData({ page, totalPages, itemSize: size });
+      setIsLoading(false);
+    } catch (err) {
+      alert('상품로드 실패', err);
+    }
+  };
+
   useEffect(() => {
-    const getAllMenu = async () => {
-      try {
-        const res = await getMenuList();
-        setStoreList(res.data.content);
-        setIsLoading(false);
-      } catch (err) {
-        alert('상품로드 실패', err);
-        setStoreList([]);
-      }
-    };
-    getAllMenu();
+    getMenuByPage({ itemSize: 20, page: 0 });
   }, []);
 
   return (
@@ -42,6 +46,8 @@ const MainContainer = () => {
       menuDetailData={menuDetailData}
       mapDetailData={mapDetailData}
       searchMenuListByName={searchMenuListByName}
+      menuPageData={menuPageData}
+      getMenuByPage={getMenuByPage}
     />
   );
 };

@@ -62,15 +62,13 @@ const AdminMemberManagePresenter = ({
           onGridRowsUpdated={onGridRowsUpdated}
           enableCellSelect
         />
-        <div className="paginationArea">
-          <Pagination
-            pageData={memberListPageData}
-            maxIndex={8}
-            callback={e => {
-              getUserByPage({ itemSize: 10, page: e.target.value - 1 });
-            }}
-          />
-        </div>
+        <Pagination
+          pageData={memberListPageData}
+          maxIndex={8}
+          callback={e => {
+            getUserByPage({ itemSize: 10, page: e.target.value - 1 });
+          }}
+        />
       </div>
     </div>
   );
