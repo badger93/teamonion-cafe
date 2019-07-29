@@ -8,6 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,6 +62,9 @@ public class MenuServiceTest {
         //then
         assertThat(menuService.add(menuSaveDto)).isEqualTo(menu.getId());
     }
+//    TODO : 이미지 파일 용량 ㅈㅔ한
+//    TODO : 이미지 이외의 타입 파일 업로드
+
 
     @Test
     public void 전체조회_비어있는메뉴목록() {
@@ -117,12 +121,13 @@ public class MenuServiceTest {
     public void 메뉴검색_없는메뉴() {
         //given
         String name = "americano";
-        List list = new ArrayList<>();
-
+        Page<Menu> menus = Page.empty();
+        Pageable pageable = Pageable.unpaged();
         //when
-        Mockito.when(menuRepository.findByNameAndDeletedFalse(name)).thenReturn(list);
 
-        menuService.selectByName(name);
+        Mockito.when(menuRepository.findByNameContainingAndDeletedFalse(pageable, name)).thenReturn(menus);
+
+        menuService.selectByName(pageable, name);
     }
 
 }
