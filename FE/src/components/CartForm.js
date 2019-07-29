@@ -7,6 +7,7 @@ import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
 import { useShowupString } from '../utils/signUpForm';
+import ShowUpMessage from './ShowUpMessage';
 
 const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
   const { cart, setAllCart } = handleCart;
@@ -104,7 +105,9 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
               {`${totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}
             </div>
           </div>
-          <div className="cartform-popup-error">{isShowing && showupString}</div>
+
+          <ShowUpMessage isShowing={isShowing} showupString={showupString} />
+
           <button type="submit" className="submit-button">
             결제하러가기
           </button>

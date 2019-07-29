@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import PayListItem from './PayListItem';
 import { payRequestAction, payFinishAction } from '../redux/actions/payAction';
 import { useShowupString } from '../utils/signUpForm';
+import ShowUpMessage from './ShowUpMessage';
 
 const PayForm = ({
   dispatch,
@@ -126,7 +127,7 @@ const PayForm = ({
               </div>
             </div>
           </div>
-          <div className="payform-popup-error">{isShowing && showupString}</div>
+          <ShowUpMessage isShowing={isShowing} showupString={showupString} />
           <button type="submit" className="submit-button">
             결제하기
           </button>
