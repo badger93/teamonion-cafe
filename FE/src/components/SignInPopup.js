@@ -1,17 +1,30 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
 import '../styles/SignInPopup.scss';
 import propTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import tmonglogo from '../image/tmonglogo.png';
 import { signInRequestAction, signInPopupChangeAction } from '../redux/actions/userAction';
+import { useShowupString } from '../utils/signUpForm';
 
 const SignInPopup = ({ setIsLoginPopup }) => {
   const [inputId, setInputID] = useState('');
   const [inputPw, setInputPw] = useState('');
   const [resultId] = useState('');
   const [isStayLogin, setIsStayLogin] = useState(true);
+  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
+
   const dispatch = useDispatch();
+  const { signInErrorReason } = useSelector(state => state.user);
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      setShowupStringFunc(signInErrorReason);
+    }
+  }, [signInErrorReason]);
 
   const submitCallback = useCallback(
     e => {
@@ -20,10 +33,10 @@ const SignInPopup = ({ setIsLoginPopup }) => {
         dispatch(signInRequestAction({ memberId: inputId, password: inputPw, isStayLogin }));
         setIsLoginPopup('false');
       } else {
-        alert('정보입력이 필요합니다');
+        setShowupStringFunc('정보입력이 필요합니다');
       }
     },
-    [inputId, inputPw, dispatch, setIsLoginPopup],
+    [inputId, inputPw, dispatch, setIsLoginPopup, setShowupStringFunc],
   );
 
   const popupControl = useCallback(() => {
@@ -32,6 +45,8 @@ const SignInPopup = ({ setIsLoginPopup }) => {
 
   return (
     <div className="loginPopup">
+      {console.log(signInErrorReason)}
+      {console.log('showupString :' + showupString, 'isshowing:' + isShowing)}
       <input
         className="closeBtn"
         type="button"
@@ -82,6 +97,7 @@ const SignInPopup = ({ setIsLoginPopup }) => {
             <Link to="/signup">회원가입</Link>
           </div>
         </div>
+        <div className="showupString">{isShowing && showupString}</div>
         <input className="submitBtn" type="submit" value="로그인" />
       </form>
       <div>{resultId}</div>

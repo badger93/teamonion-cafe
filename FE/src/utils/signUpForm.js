@@ -6,7 +6,7 @@ export const useShowupString = string => {
   const setShowupStringFunc = string => {
     setShowupString(string);
     setIsShowing(true);
-    setTimeout(() => setIsShowing(false), 3000);
+    setTimeout(() => setIsShowing(false), 2000);
   };
 
   return { setShowupStringFunc, showupString, isShowing };
