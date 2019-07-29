@@ -32,8 +32,17 @@ const MyOrderCard = ({
         <FontAwesomeIcon icon={faRedo} size="2x" />
       </div>
       <div className="myorder-card">
-        <div className={!made ? 'myorder-status-ball' : 'myorder-status-ball-finish'}>
-          {!made ? '제작중' : '제작완료'}
+        <div className={!made ? 'myorder-status' : 'myorder-status-finish'}>
+          {!made ? (
+            <img className="myorder-status-image" src="http://i.imgur.com/QPSr0cT.jpg" />
+          ) : (
+            <>
+              <img className="myorder-status-image-finish" src=" http://i.imgur.com/3mkHz2x.jpg" />
+              <div className="myorder-status-ball-finish" />
+              <div className="myorder-status-ball-finish" />
+              <div className="myorder-status-ball-finish" />
+            </>
+          )}
         </div>
         <div className="myorder-status-box">
           <div className="myorder-box-making">
