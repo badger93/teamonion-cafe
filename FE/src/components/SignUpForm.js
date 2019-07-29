@@ -55,11 +55,9 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
 
             // const result = false;
             if (data) {
-              // alert('이미 있는 아이디입니다');
               setShowupStringFunc('이미 있는 아이디입니다');
               setDuplicateError(true);
             } else {
-              // alert('사용가능한 아이디입니다!');
               setShowupStringFunc('사용가능한 아이디입니다');
               setDuplicateError(false);
             }
