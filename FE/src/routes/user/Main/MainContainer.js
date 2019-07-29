@@ -1,23 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import MainPresenter from './MainPresenter';
 import { getMenuList, searchMenu } from '../../../api/menuApi';
-import { async } from 'q';
 
 const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
   const [menuDetailData, setMenuDetailData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [menuPageData, setMenuPageData] = useState([]);
+  const [isSearch, setIsSearch] = useState('');
 
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
   const mapDetailData = data => {
     setMenuDetailData(data);
   };
 
-  const searchMenuListByName = async menuName => {
+  const searchMenuListByName = async (menuName, page = 0, itemSize = 20) => {
     try {
-      const menuList = await searchMenu(menuName);
-      setStoreList(menuList.data.content);
+      const res = await searchMenu(menuName, page, itemSize);
+      const { content, totalPages, size } = res.data;
+      setStoreList(content);
+      setMenuPageData({ page, totalPages, itemSize: size });
+      setIsLoading(false);
+      setIsSearch(menuName);
     } catch (err) {
       alert(`메뉴검색 실패 : ${err}`);
     }
@@ -48,6 +52,7 @@ const MainContainer = () => {
       searchMenuListByName={searchMenuListByName}
       menuPageData={menuPageData}
       getMenuByPage={getMenuByPage}
+      isSearch={isSearch}
     />
   );
 };

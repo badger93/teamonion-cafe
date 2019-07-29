@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import MenuListItem from '../../../components/MenuListItem';
 import MenuDetail from '../../../components/MenuDetail';
@@ -15,6 +15,7 @@ const MainPresenter = ({
   searchMenuListByName,
   menuPageData,
   getMenuByPage,
+  isSearch,
 }) => {
   const [isMenuPopup, setIsMenuPopup] = useState(false);
   // 메뉴 리스트 뿌리기
@@ -27,6 +28,11 @@ const MainPresenter = ({
     />
   ));
 
+  const pageCallback = useCallback(e => {
+    return !isSearch
+      ? getMenuByPage({ itemSize: 20, page: e.target.value - 1 })
+      : searchMenuListByName(isSearch, e.target.value - 1);
+  });
   return (
     <>
       {isLoading && <Loading />}
@@ -41,13 +47,7 @@ const MainPresenter = ({
             <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
           </div>
         )}
-        <Pagination
-          pageData={menuPageData}
-          maxIndex={8}
-          callback={e => {
-            getMenuByPage({ itemSize: 20, page: e.target.value - 1 });
-          }}
-        />
+        <Pagination pageData={menuPageData} maxIndex={8} callback={e => pageCallback(e)} />
       </div>
     </>
   );

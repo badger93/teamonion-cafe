@@ -19,4 +19,5 @@ export const createMenuList = item => {
 export const updateMenuList = (id, item) =>
   axios.put(`api/menus/${id}`, item, { headers: { 'Content-Type': 'multipart/form-data' } });
 
-export const searchMenu = menuName => axios.get(`api/menus/search?menu_name=${menuName}`);
+export const searchMenu = (menuName, page = 0, size = 20) =>
+  axios.get(`api/menus/search?page=${page}&size=${size}&menu_name=${menuName}`);
