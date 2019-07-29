@@ -85,7 +85,7 @@ public class MenuService {
             Path path = Paths.get(DOWNLOAD_PATH + date + "/" + fileName);
             imageFile.transferTo(path);
 
-            return DOWNLOAD_PATH + "/" + fileName;
+            return DOWNLOAD_PATH + date + "/" + fileName;
         } catch (IOException e) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
         }
