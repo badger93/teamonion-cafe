@@ -10,13 +10,14 @@ const SignInPopup = ({ setIsLoginPopup }) => {
   const [inputId, setInputID] = useState('');
   const [inputPw, setInputPw] = useState('');
   const [resultId] = useState('');
+  const [isStayLogin, setIsStayLogin] = useState(true);
   const dispatch = useDispatch();
 
   const submitCallback = useCallback(
     e => {
       e.preventDefault();
       if (inputId !== '' && inputPw !== '') {
-        dispatch(signInRequestAction({ memberId: inputId, password: inputPw }));
+        dispatch(signInRequestAction({ memberId: inputId, password: inputPw, isStayLogin }));
         setIsLoginPopup('false');
       } else {
         alert('정보입력이 필요합니다');
@@ -67,8 +68,19 @@ const SignInPopup = ({ setIsLoginPopup }) => {
             value={inputPw}
           />
         </div>
-        <div className="signUp" onClick={() => popupControl()}>
-          <Link to="/signup">회원가입</Link>
+        <div className="bottom-row">
+          <div>
+            <input
+              className="bottom-row-checkbox"
+              type="checkbox"
+              defaultChecked="checked"
+              onClick={() => setIsStayLogin(prev => !prev)}
+            />
+            <span>로그인 상태 유지</span>
+          </div>
+          <div className="signUp" onClick={() => popupControl()}>
+            <Link to="/signup">회원가입</Link>
+          </div>
         </div>
         <input className="submitBtn" type="submit" value="로그인" />
       </form>

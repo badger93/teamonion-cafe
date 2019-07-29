@@ -81,14 +81,45 @@
         }
       }
     }
-
-    .signUp {
-      width: 20%;
-      margin: 20px 15px 15px 0;
-      cursor: pointer;
-      font-size: 14px;
-      color: rgb(0, 162, 255);
-      text-align: right;
+    .bottom-row {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      span {
+        margin-left: 5px;
+      }
+      .bottom-row-checkbox {
+        all: unset;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        border: 1px solid rgb(180, 177, 177);
+        position: relative;
+        cursor: pointer;
+      }
+      .bottom-row-checkbox:checked:before {
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        font-style: normal;
+        content: '\f00c';
+        position: absolute;
+        font-size: 10px;
+        text-align: center;
+        width: 13px;
+        height: 13px;
+        border-radius: 2px;
+        top: -0.5px;
+        background-color: #fe6600;
+        color: white;
+        cursor: pointer;
+      }
+      .signUp {
+        cursor: pointer;
+        font-size: 14px;
+        color: rgb(0, 162, 255);
+      }
     }
 
     .submitBtn {

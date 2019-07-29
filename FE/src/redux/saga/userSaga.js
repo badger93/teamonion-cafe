@@ -11,15 +11,18 @@ import {
 import { signUpApi, signInApi } from '../../api/userApi';
 
 function* signIn(action) {
+  const { memberId, password, isStayLogin } = action.data;
   try {
-    const { data } = yield call(() => signInApi(action.data));
+    const { data } = yield call(() => signInApi({ memberId, password }));
     yield put({
       // put은 dispatch 동일
       type: SIGNIN_SUCCESS,
       data: { ...data },
     });
-    localStorage.setItem('USER', JSON.stringify(data));
-    localStorage.setItem('TOKEN', data.jwt); // 로그인 성공시 로컬에 토큰저장
+    if (isStayLogin) {
+      localStorage.setItem('USER', JSON.stringify(data));
+      localStorage.setItem('TOKEN', data.jwt); // 로그인 성공시 로컬에 토큰저장
+    }
   } catch (e) {
     // signupAPI 실패
     console.log(e.response.data.errorMessage);
