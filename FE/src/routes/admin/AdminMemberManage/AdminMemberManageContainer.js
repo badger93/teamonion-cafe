@@ -33,7 +33,7 @@ const AdminMemberManageContainer = () => {
   const searchUserByID = async memberId => {
     try {
       const userList = await searchUser(memberId);
-      setMemberListData([userList.data]);
+      setMemberListData(userList.data.content);
     } catch (err) {
       alert(`유저검색 실패 : ${err}`);
     }
