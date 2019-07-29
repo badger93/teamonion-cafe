@@ -23,7 +23,7 @@ const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => (
               />
             ),
         )}
-      {!isLoading && orders && (
+      {!isLoading && orders && orders.length === 0 && (
         <div className="myorder-nothing">
           <div className="myorder-nothing-cry" />
           <div className="myorder-nothing-empty">Empty</div>
