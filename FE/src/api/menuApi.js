@@ -5,7 +5,8 @@ const axios = fetchClient();
 // 'https://my-json-server.typicode.com/badger012/mockserver/menus'
 
 // name, price, information, imageFile(src)
-export const getMenuList = () => axios.get('api/menus');
+export const getMenuList = ({ itemSize, page }) =>
+  axios.get(`api/menus?page=${page}&size=${itemSize}`);
 
 export const deleteMenuList = id => axios.delete(`api/menus/${id}`);
 

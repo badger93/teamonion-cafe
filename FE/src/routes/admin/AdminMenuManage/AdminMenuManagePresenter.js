@@ -4,8 +4,16 @@ import ReactDataGrid from 'react-data-grid';
 import { Formatters } from 'react-data-grid-addons';
 import MenuManagePopup from '../../../components/MenuManagePopup';
 import './styles/AdminMenuManagePresenter.scss';
+import Pagination from '../../../components/Pagination';
 
-const AdminMenuManagePresenter = ({ menuList, deleteItem, updateItem, createItem }) => {
+const AdminMenuManagePresenter = ({
+  menuList,
+  deleteItem,
+  updateItem,
+  createItem,
+  pageData,
+  getMenuBypage,
+}) => {
   const [menuPopupData, setMenuPopupData] = useState({});
   const [isPopup, setIsPopup] = useState(false);
 
@@ -111,6 +119,13 @@ const AdminMenuManagePresenter = ({ menuList, deleteItem, updateItem, createItem
           />
         </div>
       )}
+
+      <Pagination
+        pageData={pageData}
+        callback={e => {
+          getMenuBypage({ itemSize: 10, page: e.target.value - 1 });
+        }}
+      />
     </div>
   );
 };
@@ -120,6 +135,8 @@ AdminMenuManagePresenter.defaultProps = {
   deleteItem: () => {},
   updateItem: () => {},
   createItem: () => {},
+  getMenuBypage: () => {},
+  pageData: {},
 };
 
 AdminMenuManagePresenter.propTypes = {
@@ -127,6 +144,8 @@ AdminMenuManagePresenter.propTypes = {
   deleteItem: propTypes.func,
   updateItem: propTypes.func,
   createItem: propTypes.func,
+  getMenuBypage: propTypes.func,
+  pageData: propTypes.objectOf,
 };
 
 export default AdminMenuManagePresenter;
