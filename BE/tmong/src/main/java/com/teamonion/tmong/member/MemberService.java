@@ -53,10 +53,10 @@ public class MemberService {
         return memberRepository.findAll(pageable);
     }
 
-    public long pointUpdate(Long id, String point) {
+    public long pointUpdate(Long id, long point) {
         jwtComponent.checkAdmin();
         Member member = findById(id);
-        member.pointUpdate(Long.parseLong(point));
+        member.pointUpdate(point);
         return memberRepository.save(member).getPoint();
     }
 
