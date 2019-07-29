@@ -1,8 +1,10 @@
-import '../styles/pagination.scss';
+import '../styles/Pagination.scss';
 import React from 'react';
 
 // page, totalPages 속성이 들어간 pageData, 페이지버튼 갯수, 버튼 온클릭콜백 (e)
-const pagination = ({ page, totalPages }, maxIndex, callback) => {
+const Pagination = ({ pageData, maxIndex, callback }) => {
+  const { page } = pageData;
+  let { totalPages } = pageData;
   totalPages += 1;
   const currentPage = page + 1;
   const beforeShow = 3;
@@ -21,7 +23,8 @@ const pagination = ({ page, totalPages }, maxIndex, callback) => {
   for (pageIndex; pageIndex < pageGoal(); pageIndex += 1) {
     pageNumArr.push(pageIndex);
   }
-  return pageNumArr.map(item => (
+
+  const pageItems = pageNumArr.map(item => (
     <input
       type="button"
       className={`paginationBtn ${item === Number(currentPage) ? 'active' : ''}`}
@@ -36,6 +39,8 @@ const pagination = ({ page, totalPages }, maxIndex, callback) => {
       }}
     />
   ));
+
+  return <div className="paginationArea">{pageItems}</div>;
 };
 
-export default pagination;
+export default Pagination;

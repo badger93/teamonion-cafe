@@ -25,6 +25,10 @@ export const getUserList = ({ itemSize, page }) =>
   axios.get(`/api/members?page=${page}&size=${itemSize}`);
 
 export const setUserPoint = ({ id, changePoint: point }) =>
-  axios.put(`api/members/${id}/point`, point);
+  axios.put(`api/members/${id}/point`, point, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 
 export const searchUser = memberId => axios.get(`api/members/${memberId}`);

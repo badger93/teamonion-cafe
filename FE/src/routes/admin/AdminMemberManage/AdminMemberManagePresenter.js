@@ -2,7 +2,8 @@ import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminMemberManagePresenter.scss';
-import pagination from '../../../components/pagination';
+import Pagination from '../../../components/Pagination';
+import SearchBar from '../../../components/SearchBar';
 
 const AdminMemberManagePresenter = ({
   memberListData,
@@ -49,35 +50,11 @@ const AdminMemberManagePresenter = ({
     setPoint(data);
   };
 
-  const submitCallback = useCallback(
-    e => {
-      e.preventDefault();
-      searchUserByID(searchText);
-    },
-    [searchText],
-  );
-
   return (
     <div className="AdminMemberManagePresenter">
       <div className="pageTitle">사용자관리</div>
       <div className="memberManageList">
-        <form
-          className="searchArea"
-          onSubmit={e => {
-            if (submitCallback !== undefined) {
-              submitCallback(e);
-            }
-          }}
-        >
-          <input
-            className="searchText"
-            value={searchText}
-            onChange={e => setSearchText(e.target.value)}
-            type="text"
-            placeholder="사용자ID로 검색"
-          />
-          <input className="searchSubmit" value="검색" type="submit" />
-        </form>
+        <SearchBar searchCallback={searchUserByID} />
         <ReactDataGrid
           className="memberGrid"
           columns={colums}
@@ -87,9 +64,13 @@ const AdminMemberManagePresenter = ({
           enableCellSelect
         />
         <div className="paginationArea">
-          {pagination(memberListPageData, 8, e => {
-            getUserByPage({ itemSize: 10, page: e.target.value - 1 });
-          })}
+          <Pagination
+            pageData={memberListPageData}
+            maxIndex={8}
+            callback={e => {
+              getUserByPage({ itemSize: 10, page: e.target.value - 1 });
+            }}
+          />
         </div>
       </div>
     </div>
