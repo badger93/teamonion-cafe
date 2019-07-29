@@ -42,7 +42,7 @@ public class MenuService {
 
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
-        if (imageFile.getOriginalFilename() == null) {
+        if (imageFile.isEmpty()) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
@@ -60,7 +60,7 @@ public class MenuService {
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
         // TODO : 파일 서비스 분리 고민
-        if (imageFile.getOriginalFilename() == null) {
+        if (imageFile.isEmpty()) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
