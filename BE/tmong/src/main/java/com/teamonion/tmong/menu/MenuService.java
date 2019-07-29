@@ -1,5 +1,6 @@
 package com.teamonion.tmong.menu;
 
+import com.google.common.io.PatternFilenameFilter;
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.security.JwtComponent;
@@ -41,18 +42,11 @@ public class MenuService {
 
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
-        if (imageFile.getOriginalFilename().isEmpty()) {
+        if (imageFile.getOriginalFilename() == null) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
         return menuRepository.save(menuSaveDto.toEntity(setMenuImagePath(imageFile))).getId();
-    }
-
-    Page<Menu> selectAll(Pageable pageable) {
-        return menuRepository.findAllByDeletedFalse(pageable);
-//        Page<Menu> collect = new Page<Menu>();
-//        collect = menuRepository.findAll(pageable).filter(menu -> !menu.isDeleted()).stream().collect(Collectors.toCollection(Page::new));
-//        return collect;
     }
 
     @Transactional
@@ -66,7 +60,7 @@ public class MenuService {
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
         // TODO : 파일 서비스 분리 고민
-        if (imageFile.getOriginalFilename().isEmpty()) {
+        if (imageFile.getOriginalFilename() == null) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
@@ -77,7 +71,9 @@ public class MenuService {
         deleteMenuImage(path);
     }
 
-    public String setMenuImagePath(MultipartFile imageFile) {
+    private String setMenuImagePath(MultipartFile imageFile) {
+        checkFileType(imageFile.getContentType());
+
         try {
             int randomString = (int) (Math.random() * 10000) + 1;
             String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();
@@ -93,6 +89,29 @@ public class MenuService {
         } catch (IOException e) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
         }
+    }
+
+    private void checkFileType(String contentType) {
+        // TODO : check null
+        // the content type, or null if not defined (or no file has been chosen in the multipart form)
+        if(contentType == null){
+            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
+        }
+
+        log.info("fileContentType : {}", contentType);
+        String fileContentType = contentType.substring(0, contentType.indexOf("/"));
+
+        if(!fileContentType.equals("image")) {
+            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_FILE_TYPE_ERROR);
+        }
+    }
+
+    Page<Menu> selectAll(Pageable pageable) {
+        return menuRepository.findAllByDeletedFalse(pageable);
+    }
+
+    Page<Menu> selectByName(Pageable pageable, String name) {
+        return menuRepository.findByNameContainingAndDeletedFalse(pageable, name);
     }
 
     @Transactional
@@ -114,10 +133,6 @@ public class MenuService {
         if (file.exists()) {
             file.delete();
         }
-    }
-
-    List<Menu> selectByName(String name) {
-        return menuRepository.findByNameAndDeletedFalse(name);
     }
 
 }
