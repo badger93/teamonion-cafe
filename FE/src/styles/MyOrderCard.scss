@@ -1,15 +1,17 @@
-@keyframes rotate {
+@keyframes shake {
   0% {
     transform: rotate(0deg);
-    background-color: rgba(254, 102, 0, 1);
   }
   50% {
-    transform: rotate(180deg);
-    background-color: rgba(254, 102, 0, 0.3);
+    transform: translateY(-20px) rotate(-10deg);
   }
-  100% {
-    transform: rotate(360deg);
-    background-color: rgba(254, 102, 0, 1);
+  60% {
+    transform: rotate(10deg);
+  }
+  70% {
+  }
+  75% {
+    transform: rotate(0deg);
   }
 }
 @keyframes rotate3 {
@@ -20,6 +22,38 @@
   100% {
     transform-origin: center;
     transform: rotate(360deg);
+  }
+}
+
+@keyframes finish {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0.8);
+  }
+}
+@keyframes finish2 {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  20% {
+    opacity: 0.4;
+  }
+  30% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.3);
   }
 }
 
@@ -73,25 +107,11 @@
         opacity: 0.2;
       }
     }
-    @keyframes finish {
-      0% {
-        transform: scale(0.8);
-        background-color: rgba(254, 102, 0, 1);
-      }
-      50% {
-        transform: scale(1);
-        background-color: rgba(254, 102, 0, 0.3);
-      }
-      100% {
-        transform: scale(0.8);
-        background-color: rgba(254, 102, 0, 1);
-      }
-    }
 
-    .myorder-status-ball {
+    .myorder-status {
       color: rgba(255, 255, 255, 0.8);
       font-size: 2rem;
-      animation: rotate 3s infinite;
+      animation: shake 1s infinite;
       position: relative;
       top: -60px;
       display: flex;
@@ -101,12 +121,15 @@
       height: 250px;
       margin-bottom: 0px;
       border-radius: 100%;
+      .myorder-status-image {
+        transform: rotate(-5deg);
+        height: 100%;
+      }
     }
 
-    .myorder-status-ball-finish {
+    .myorder-status-finish {
       color: rgba(255, 255, 255, 0.8);
       font-size: 2rem;
-      animation: finish 3s infinite;
       position: relative;
       top: -60px;
       display: flex;
@@ -116,12 +139,47 @@
       height: 250px;
       margin-bottom: 0px;
       border-radius: 100%;
+      .myorder-status-image-finish {
+        transform: rotate(-5deg);
+        height: 100%;
+        z-index: 10;
+        animation: finish 3s infinite;
+      }
+      .myorder-status-ball-finish {
+        position: absolute;
+        border: 1px solid #ec6725;
+        border-radius: 50%;
+        height: 120%;
+        width: 120%;
+        z-index: 3;
+        animation: finish2 3s infinite;
+      }
+      .myorder-status-ball-finish:nth-child(2) {
+        animation-delay: 0.5s;
+        opacity: 0;
+      }
+      .myorder-status-ball-finish:nth-child(3) {
+        animation-delay: 1s;
+        opacity: 0;
+      }
+      .myorder-status-ball-finish:nth-child(4) {
+        animation-delay: 1.5s;
+        opacity: 0;
+      }
+      .myorder-status-ball-finish:nth-child(5) {
+        animation-delay: 2s;
+        opacity: 0;
+      }
+      .myorder-status-ball-finish:nth-child(6) {
+        animation-delay: 2.5s;
+        opacity: 0;
+      }
     }
 
     .myorder-box-making {
       margin-bottom: 10px;
       padding-bottom: 10px;
-      border-bottom: solid 1px rgba(0, 0, 0, 0.7);
+      border-bottom: solid 1px rgba(0, 0, 0, 0.2);
       display: flex;
       justify-content: center;
       flex-direction: column;
@@ -136,5 +194,22 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    div:nth-child(2) {
+      margin-top: 3px;
+      font-size: 1.3rem;
+      color: #ec6725;
+      @keyframes blink2 {
+        0% {
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0.2;
+        }
+      }
+      animation: blink2 2s infinite;
+    }
   }
 }

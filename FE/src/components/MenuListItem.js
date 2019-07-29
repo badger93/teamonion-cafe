@@ -34,7 +34,11 @@ MenuListItem.defaultProps = {
 };
 
 MenuListItem.propTypes = {
-  item: propTypes.objectOf(propTypes.oneOfType([propTypes.number, propTypes.string])),
+  item: propTypes.shape({
+    name: propTypes.string,
+    price: propTypes.number,
+    imageFile: propTypes.string,
+  }),
   mapDetailData: propTypes.func,
   setIsMenuPopup: propTypes.func,
 };

@@ -64,7 +64,7 @@ const userReducer = (state = initState, action) => {
         ...state,
         isSigningIn: false,
         isSignedIn: true,
-        signInPopup: !state.signInPopup,
+        signInPopup: state.signInPopup && false, // true 일때만 변경되도록 수정
         me: { ...action.data },
       };
     }
