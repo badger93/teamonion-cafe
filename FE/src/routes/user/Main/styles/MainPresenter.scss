@@ -12,4 +12,19 @@
       margin-top: 20px;
     }
   }
+
+  .main-wrapper {
+    padding-left: 10%;
+    @media (max-width: 414px) {
+      padding-left: 5%;
+    }
+    .menulist {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, 300px);
+      grid-gap: 10px;
+      grid-auto-rows: minmax(100px, auto);
+      justify-items: center;
+      align-items: center;
+    }
+  }
 }

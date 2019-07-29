@@ -6,6 +6,8 @@ import { signInPopupChangeAction } from '../redux/actions/userAction';
 import CartListItem from './CartListItem';
 import { CartDelete } from '../utils/cart';
 import { cartToPayAction } from '../redux/actions/payAction';
+import { useShowupString } from '../utils/signUpForm';
+import ShowUpMessage from './ShowUpMessage';
 
 const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
   const { cart, setAllCart } = handleCart;
@@ -13,6 +15,8 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
 
   const [tryPay, setTryPay] = useState(false); // 로그인후 바로 리디렉션을 위한 값
   const [willPay, setWillPay] = useState(false); // 리디렉션을 위한 값
+
+  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
 
   const popupControl = useCallback(() => {
     dispatch(signInPopupChangeAction());
@@ -25,7 +29,7 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
       async function asyncSubmit() {
         if (checkedItem.length === 0) {
           // 선택안하고 결제 눌렀을시 예외처리
-          alert('상품 선택이 필요합니다');
+          setShowupStringFunc('상품 선택이 필요합니다');
           return;
         }
         if (!isSignedIn) {
@@ -101,6 +105,9 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
               {`${totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}
             </div>
           </div>
+
+          <ShowUpMessage isShowing={isShowing} showupString={showupString} />
+
           <button type="submit" className="submit-button">
             결제하러가기
           </button>

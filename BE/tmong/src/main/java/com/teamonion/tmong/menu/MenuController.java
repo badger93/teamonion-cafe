@@ -29,9 +29,21 @@ public class MenuController {
         return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
     }
 
+    @CheckJwt
+    @PutMapping("/{menu_id}")
+    public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuSaveDto menuSaveDto) {
+        menuService.updateMenu(menu_id, menuSaveDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     @GetMapping
     public ResponseEntity selectAll(Pageable pageable) {
         return new ResponseEntity<>(menuService.selectAll(pageable), HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity selectByName(Pageable pageable, @RequestParam String menu_name) {
+        return new ResponseEntity<>(menuService.selectByName(pageable, menu_name), HttpStatus.OK);
     }
 
     @CheckJwt
@@ -41,16 +53,4 @@ public class MenuController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @CheckJwt
-    @PutMapping("/{menu_id}")
-    public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuSaveDto menuSaveDto) {
-        log.info("Menu updateOne Api call..");
-        menuService.updateMenu(menu_id, menuSaveDto);
-        return new ResponseEntity(HttpStatus.OK);
-    }
-
-    @GetMapping("/{menu_name}")
-    public ResponseEntity selectByName(@PathVariable String menu_name) {
-        return new ResponseEntity<>(menuService.selectByName(menu_name), HttpStatus.OK);
-    }
 }

@@ -93,7 +93,14 @@ MenuDetail.defaultProps = {
 };
 
 MenuDetail.propTypes = {
-  menuDetailData: propTypes.objectOf(propTypes.string),
+  menuDetailData: propTypes.shape({
+    deleted: propTypes.bool,
+    id: propTypes.number,
+    imagePath: propTypes.string,
+    information: propTypes.string,
+    name: propTypes.string,
+    price: propTypes.number,
+  }),
   setIsMenuPopup: propTypes.func,
 };
 

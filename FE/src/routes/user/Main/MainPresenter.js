@@ -66,10 +66,17 @@ MainPresenter.propTypes = {
   isLoading: propTypes.bool.isRequired,
   list: propTypes.arrayOf(propTypes.object),
   mapDetailData: propTypes.func,
-  menuDetailData: propTypes.objectOf(propTypes.string),
   searchMenuListByName: propTypes.func,
   menuPageData: propTypes.objectOf(),
   getMenuByPage: propTypes.func,
+  menuDetailData: propTypes.shape({
+    deleted: propTypes.bool,
+    id: propTypes.number,
+    imagePath: propTypes.string,
+    information: propTypes.string,
+    name: propTypes.string,
+    price: propTypes.number,
+  }),
 };
 
 export default MainPresenter;

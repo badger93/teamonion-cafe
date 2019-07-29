@@ -4,6 +4,8 @@ import '../styles/Payform.scss';
 import { Redirect } from 'react-router-dom';
 import PayListItem from './PayListItem';
 import { payRequestAction, payFinishAction } from '../redux/actions/payAction';
+import { useShowupString } from '../utils/signUpForm';
+import ShowUpMessage from './ShowUpMessage';
 
 const PayForm = ({
   dispatch,
@@ -18,6 +20,8 @@ const PayForm = ({
   let totalPrice = 0;
   const [afterPoint, setAfterPoint] = useState(0);
 
+  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
+
   useEffect(() => {
     const Point = user.point - totalPrice + totalPrice / 10;
     setAfterPoint(Point);
@@ -27,7 +31,7 @@ const PayForm = ({
     e.preventDefault();
     if (afterPoint < 0) {
       // 포인트 부족할때 경고
-      alert('포인트가 부족합니다');
+      setShowupStringFunc('포인트가 부족합니다');
     }
 
     const menuIdList = Object.values(itemsForPay).map(item => item.id);
@@ -123,6 +127,7 @@ const PayForm = ({
               </div>
             </div>
           </div>
+          <ShowUpMessage isShowing={isShowing} showupString={showupString} />
           <button type="submit" className="submit-button">
             결제하기
           </button>
