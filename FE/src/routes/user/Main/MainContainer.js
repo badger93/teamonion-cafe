@@ -17,9 +17,9 @@ const MainContainer = () => {
   const searchMenuListByName = async (menuName, page = 0, itemSize = 20) => {
     try {
       const res = await searchMenu(menuName, page, itemSize);
-      const { content, totalPages, size } = res.data;
+      const { content, totalPages } = res.data;
       setStoreList(content);
-      setMenuPageData({ page, totalPages, itemSize: size });
+      setMenuPageData({ page, totalPages });
       setIsLoading(false);
       setSearchText(menuName);
     } catch (err) {
@@ -30,9 +30,9 @@ const MainContainer = () => {
   const getMenuByPage = async ({ itemSize, page }) => {
     try {
       const res = await getMenuList({ itemSize, page });
-      const { content, totalPages, size } = res.data;
+      const { content, totalPages } = res.data;
       setStoreList(content);
-      setMenuPageData({ page, totalPages, itemSize: size });
+      setMenuPageData({ page, totalPages });
       setIsLoading(false);
     } catch (err) {
       alert('상품로드 실패', err);
@@ -52,7 +52,7 @@ const MainContainer = () => {
       searchMenuListByName={searchMenuListByName}
       menuPageData={menuPageData}
       getMenuByPage={getMenuByPage}
-      searchText={searchText}
+      searchText={isSearch}
     />
   );
 };

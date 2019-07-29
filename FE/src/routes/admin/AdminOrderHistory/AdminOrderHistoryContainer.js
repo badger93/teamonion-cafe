@@ -9,9 +9,9 @@ const AdminOrderHistoryContainer = () => {
   const getHistoryDataByCategory = (category, page = 0, listSize = 10) => {
     getOrderHistory(category, page, listSize)
       .then(res => {
-        const { content, totalPages, size } = res.data;
+        const { content, totalPages } = res.data;
         setOrderHistoryData(content);
-        setPageData({ page, totalPages, itemSize: size });
+        setPageData({ page, totalPages });
       })
       .catch(err => {
         alert(`주문이력 가져오기 실패: ${err}`);

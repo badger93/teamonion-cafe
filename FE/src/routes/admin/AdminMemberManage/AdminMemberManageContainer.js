@@ -10,9 +10,9 @@ const AdminMemberManageContainer = () => {
   const getUserByPage = ({ itemSize, page }) => {
     getUserList({ itemSize, page })
       .then(res => {
-        const { content, totalPages, size } = res.data;
+        const { content, totalPages } = res.data;
         setMemberListData(content);
-        setMemberPageData({ page, totalPages, itemSize: size });
+        setMemberPageData({ page, totalPages });
       })
       .catch(err => alert(`userList 가져오기 실패: ${err}`));
   };
@@ -34,9 +34,9 @@ const AdminMemberManageContainer = () => {
   const searchUserByID = async (memberId, page, itemSize) => {
     try {
       const res = await searchUser(memberId, page, itemSize);
-      const { content, totalPages, size } = res.data;
+      const { content, totalPages } = res.data;
       setMemberListData(content);
-      setMemberPageData({ page, totalPages, itemSize: size });
+      setMemberPageData({ page, totalPages });
       setSearchText(memberId);
     } catch (err) {
       alert(`유저검색 실패 : ${err}`);

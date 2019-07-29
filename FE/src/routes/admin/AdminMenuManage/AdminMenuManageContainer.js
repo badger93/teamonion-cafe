@@ -60,9 +60,9 @@ const AdminMenuManageContainer = () => {
   const getMenuBypage = async ({ itemSize, page }) => {
     try {
       const res = await getMenuList({ itemSize, page });
-      const { content, totalPages, size } = res.data;
+      const { content, totalPages } = res.data;
       setMenuList(content);
-      setPageData({ page, totalPages, itemSize: size });
+      setPageData({ page, totalPages });
     } catch (err) {
       alert('상품로드 실패', err);
       console.dir(err);
