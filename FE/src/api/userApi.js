@@ -31,4 +31,5 @@ export const setUserPoint = ({ id, changePoint: point }) =>
     },
   });
 
-export const searchUser = memberId => axios.get(`api/members/${memberId}`);
+export const searchUser = (memberId, page = 0, size = 20) =>
+  axios.get(`api/members/search?memberId=${memberId}&page=${page}&size=${size}`);
