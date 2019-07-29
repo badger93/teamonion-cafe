@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import tmonglogo from '../image/tmonglogo.png';
 import { signInRequestAction, signInPopupChangeAction } from '../redux/actions/userAction';
 import { useShowupString } from '../utils/signUpForm';
+import ShowUpMessage from './ShowUpMessage';
 
 const SignInPopup = ({ setIsLoginPopup }) => {
   const [inputId, setInputID] = useState('');
@@ -97,7 +98,7 @@ const SignInPopup = ({ setIsLoginPopup }) => {
             <Link to="/signup">회원가입</Link>
           </div>
         </div>
-        <div className="showupString">{isShowing && showupString}</div>
+        <ShowUpMessage isShowing={isShowing} showupString={showupString} />
         <input className="submitBtn" type="submit" value="로그인" />
       </form>
       <div>{resultId}</div>

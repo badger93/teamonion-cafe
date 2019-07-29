@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { duplicateCheckApi } from '../api/userApi';
 import { signUpRequestAction } from '../redux/actions/userAction';
 import { useShowupString } from '../utils/signUpForm';
+import ShowUpMessage from './ShowUpMessage';
 
 const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
   const [id, setId] = useState('');
@@ -124,7 +125,7 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
         />
       </div>
       {passwordError && <div style={{ color: 'red' }}>비밀번호가 다릅니다!</div>}
-      {isShowing && <div style={{ color: 'red' }}>{`${showupString}`}</div>}
+      <ShowUpMessage isShowing={isShowing} showupString={showupString} />
       <div className="signup_form_row signup_form_submit">
         <button className="submit_button" type="submit">
           Submit
