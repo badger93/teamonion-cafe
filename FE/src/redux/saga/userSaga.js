@@ -14,6 +14,11 @@ function* signIn(action) {
   const { memberId, password, isStayLogin } = action.data;
   try {
     const { data } = yield call(() => signInApi({ memberId, password }));
+    const lastSignInTime = new Date();
+    const expireDate = lastSignInTime.setHours(lastSignInTime.getHours() + 23);
+    const userData = { ...data, expireDate };
+    console.log(userData);
+    console.log(lastSignInTime > expireDate);
     yield put({
       // put은 dispatch 동일
       type: SIGNIN_SUCCESS,
