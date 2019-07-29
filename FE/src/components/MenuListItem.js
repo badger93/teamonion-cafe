@@ -6,7 +6,6 @@ import '../styles/MenuListItem.scss';
 
 const MenuListItem = ({ item, mapDetailData, setIsMenuPopup }) => {
   const { name, price, imageFile } = item;
-
   return (
     <div
       className="menuListItem"

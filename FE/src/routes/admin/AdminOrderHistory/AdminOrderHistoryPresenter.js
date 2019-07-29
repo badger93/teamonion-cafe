@@ -2,8 +2,14 @@ import React from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
+import Pagination from '../../../components/Pagination';
 
-const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory }) => {
+const AdminOrderHistoryPresenter = ({
+  orderHistoryData,
+  getHistoryDataByCategory,
+  pageData,
+  fetchHistoryAPI,
+}) => {
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
 
   const colums = [
@@ -112,6 +118,12 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
           rowsCount={rows.length}
         />
       </div>
+      <Pagination
+        pageData={pageData}
+        callback={e => {
+          fetchHistoryAPI(20, e.target.value - 1);
+        }}
+      />
     </div>
   );
 };
@@ -119,11 +131,15 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
 AdminOrderHistoryPresenter.defaultProps = {
   orderHistoryData: [],
   getHistoryDataByCategory: () => {},
+  pageData: {},
+  fetchHistoryAPI: () => {},
 };
 
 AdminOrderHistoryPresenter.propTypes = {
   orderHistoryData: propTypes.arrayOf(),
   getHistoryDataByCategory: propTypes.func,
+  pageData: propTypes.objectOf,
+  fetchHistoryAPI: propTypes.func,
 };
 
 export default AdminOrderHistoryPresenter;
