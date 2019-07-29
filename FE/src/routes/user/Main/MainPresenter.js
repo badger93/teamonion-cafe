@@ -31,8 +31,10 @@ const MainPresenter = ({
     <>
       {isLoading && <Loading />}
       <div className="mainPresenter">
-        <h1>MENU</h1>
-        <SearchBar searchCallback={searchMenuListByName} />
+        <div className="head">
+          <h1>MENU</h1>
+          <SearchBar searchCallback={searchMenuListByName} />
+        </div>
         <div className="menulist">{mapMenuListItem}</div>
         {isMenuPopup && (
           <div className="menuDetailContainer">
