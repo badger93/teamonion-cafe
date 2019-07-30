@@ -52,7 +52,7 @@ const MainContainer = () => {
       searchMenuListByName={searchMenuListByName}
       menuPageData={menuPageData}
       getMenuByPage={getMenuByPage}
-      searchText={isSearch}
+      searchText={searchText}
     />
   );
 };
