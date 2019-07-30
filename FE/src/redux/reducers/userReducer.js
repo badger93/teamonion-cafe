@@ -13,23 +13,22 @@ import {
 
 const initState = {
   isSigningIn: false,
-  isSignedIn: !!localStorage.getItem('USER'), // 더미
+  isSignedIn: !!localStorage.getItem('USER') || !!sessionStorage.getItem('USER'), // 더미
   signInErrorReason: '',
   isSigningOut: false,
   isSigningUp: false,
   isSignedUp: false,
   signUpErrorReason: '',
   signInPopup: false, // 로그인 팝업창 띄울지 말지
-  me: localStorage.getItem('USER')
-    ? JSON.parse(localStorage.getItem('USER'))
-    : {
-        id: -1,
-        memberId: '',
-        memberRole: 'NORMAL',
-        point: 0,
-        jwt: null,
-        lastSignInTime: null,
-      },
+  me: (localStorage.getItem('USER') && JSON.parse(localStorage.getItem('USER'))) ||
+    (sessionStorage.getItem('USER') && JSON.parse(sessionStorage.getItem('USER'))) || {
+      id: -1,
+      memberId: '',
+      memberRole: 'NORMAL',
+      point: 0,
+      jwt: null,
+      lastSignInTime: null,
+    },
 };
 
 const userReducer = (state = initState, action) => {

@@ -25,6 +25,9 @@ function* signIn(action) {
     if (isStayLogin) {
       localStorage.setItem('USER', JSON.stringify(userData));
       localStorage.setItem('TOKEN', userData.jwt); // 로그인 성공시 로컬에 토큰저장
+    } else {
+      sessionStorage.setItem('USER', JSON.stringify(userData));
+      sessionStorage.setItem('TOKEN', userData.jwt); // 로그인 성공시 로컬에 토큰저장
     }
   } catch (e) {
     // signupAPI 실패
