@@ -1,6 +1,5 @@
 package com.teamonion.tmong.menu;
 
-import com.google.common.io.PatternFilenameFilter;
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.security.JwtComponent;
@@ -21,7 +20,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -85,7 +83,7 @@ public class MenuService {
             Path path = Paths.get(DOWNLOAD_PATH + date + "/" + fileName);
             imageFile.transferTo(path);
 
-            return DOWNLOAD_PATH + "/" + fileName;
+            return DOWNLOAD_PATH + date + "/" + fileName;
         } catch (IOException e) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
         }
@@ -94,14 +92,14 @@ public class MenuService {
     private void checkFileType(String contentType) {
         // TODO : check null
         // the content type, or null if not defined (or no file has been chosen in the multipart form)
-        if(contentType == null){
+        if (contentType == null) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
         log.info("fileContentType : {}", contentType);
         String fileContentType = contentType.substring(0, contentType.indexOf("/"));
 
-        if(!fileContentType.equals("image")) {
+        if (!fileContentType.equals("image")) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_FILE_TYPE_ERROR);
         }
     }

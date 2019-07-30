@@ -1,8 +1,10 @@
 package com.teamonion.tmong.member;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class MemberLoginResponse {
     private Long id;
     private String memberId;
