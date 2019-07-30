@@ -6,16 +6,17 @@ import Loading from '../../../components/Loading';
 
 const PaymentPresenter = ({
   dispatch,
-  itemsForPay = {},
+  itemsForPay,
   isPaying,
   isPaid,
   user,
   isSignedIn,
   howPay,
   setHowPay,
+  payErrorReason,
 }) => (
   <>
-    {isPaying && <Loading />}
+    {isPaying && !isPaid && <Loading />}
     <div className="payment-wrapper">
       <div className="payment-title">결제하기</div>
       <div className="payment-container">
@@ -28,6 +29,7 @@ const PaymentPresenter = ({
           howPay={howPay}
           setHowPay={setHowPay}
           isSignedIn={isSignedIn}
+          payErrorReason={payErrorReason}
         />
       </div>
     </div>
@@ -49,6 +51,7 @@ PaymentPresenter.propTypes = {
   howPay: propTypes.number.isRequired,
   setHowPay: propTypes.func.isRequired,
   isSignedIn: propTypes.bool.isRequired,
+  payErrorReason: propTypes.string.isRequired,
 };
 
 export default PaymentPresenter;

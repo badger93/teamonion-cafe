@@ -46,8 +46,6 @@ const SignInPopup = ({ setIsLoginPopup }) => {
 
   return (
     <div className="loginPopup">
-      {console.log(signInErrorReason)}
-      {console.log('showupString :' + showupString, 'isshowing:' + isShowing)}
       <input
         className="closeBtn"
         type="button"

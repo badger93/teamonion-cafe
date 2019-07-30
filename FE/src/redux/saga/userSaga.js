@@ -9,26 +9,32 @@ import {
   SIGNUP_FINISH,
 } from '../actions/userAction';
 import { signUpApi, signInApi } from '../../api/userApi';
+import moment from 'moment';
 
 function* signIn(action) {
   const { memberId, password, isStayLogin } = action.data;
   try {
     const { data } = yield call(() => signInApi({ memberId, password }));
+    const lastSignInTime = moment().format();
+    const userData = { ...data, lastSignInTime };
     yield put({
       // put은 dispatch 동일
       type: SIGNIN_SUCCESS,
-      data: { ...data },
+      data: { ...userData },
     });
     if (isStayLogin) {
-      localStorage.setItem('USER', JSON.stringify(data));
-      localStorage.setItem('TOKEN', data.jwt); // 로그인 성공시 로컬에 토큰저장
+      localStorage.setItem('USER', JSON.stringify(userData));
+      localStorage.setItem('TOKEN', userData.jwt); // 로그인 성공시 로컬에 토큰저장
+    } else {
+      sessionStorage.setItem('USER', JSON.stringify(userData));
+      sessionStorage.setItem('TOKEN', userData.jwt); // 로그인 성공시 로컬에 토큰저장
     }
   } catch (e) {
     // signupAPI 실패
-    console.log(e.response.data.errorMessage);
+    const { response: { data: { errorMessage = '' } = {} } = {} } = e;
     yield put({
       type: SIGNIN_FAILURE,
-      error: e.response.data.errorMessage,
+      error: errorMessage,
     });
   }
 }
@@ -55,11 +61,7 @@ function* signUp(action) {
     });
   } catch (e) {
     const errorArray = [];
-    const {
-      response: {
-        data: { errors },
-      },
-    } = e;
+    const { response: { data: { errors = [] } = {} } = {} } = e;
     // signupAPI 실패
     if (errors.length > 0) {
       errors.forEach(object => object.errorMessage && errorArray.push(object.errorMessage));

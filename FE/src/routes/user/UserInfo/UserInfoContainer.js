@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import UserInfoPresenter from './UserInfoPresenter';
 import { userOrderAPI } from '../../../api/userApi';
+import { useDispatch } from 'react-redux';
+import { logOutAction } from '../../../redux/actions/userAction';
 
 const UserInfoContainer = () => {
   const { me } = useSelector(state => state.user);
   const [history, setHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [pageData, setPageData] = useState({});
+  const dispatch = useDispatch();
 
   const fetchHistoryAPI = async (listSize = 20, page = 0) => {
     try {
@@ -29,6 +32,9 @@ const UserInfoContainer = () => {
       setPageData({ page, totalPages });
     } catch (e) {
       console.log(e);
+      dispatch(logOutAction());
+      localStorage.removeItem('USER');
+      localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
     }
   };
 

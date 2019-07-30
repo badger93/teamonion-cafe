@@ -4,6 +4,7 @@ const initState = {
   itemsForPay: {},
   isPaying: false,
   isPaid: false,
+  payErrorReason: '',
 };
 
 const payReducer = (state = initState, action) => {
@@ -18,7 +19,12 @@ const payReducer = (state = initState, action) => {
       return { ...state, isPaying: false, isPaid: true };
     }
     case PAY_FAILURE: {
-      return { ...state, isPaying: false, isPaid: false };
+      return {
+        ...state,
+        isPaying: false,
+        isPaid: false,
+        payErrorReason: action.payErrorReason,
+      };
     }
     case PAY_FINISH: {
       return { ...state, isPaid: false };

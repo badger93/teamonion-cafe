@@ -5,9 +5,7 @@ import { CHANGE_POINT } from '../actions/userAction';
 
 function* pay(action) {
   try {
-    console.log(action.data);
     const result = yield call(() => payAPI(action.data));
-    console.log(result);
     // yield delay(2000);
     yield put({
       type: PAY_SUCCESS,
@@ -17,9 +15,10 @@ function* pay(action) {
       data: action.data.afterPoint,
     });
   } catch (e) {
-    console.log(e);
+    const { response: { data = '' } = {} } = e;
     yield put({
       type: PAY_FAILURE,
+      payErrorReason: data,
     });
   }
 }
