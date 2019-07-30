@@ -39,11 +39,8 @@ public class OrdersService {
     @NonNull
     private final JwtComponent jwtComponent;
 
-    private static final double BONUS_RATE = 0.1;
-
     @Transactional
     public Long makeOrder(OrdersAddRequest ordersAddRequest) {
-        // TODO : Transactional 메소드 필요한지
         Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
 
         Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
@@ -54,6 +51,11 @@ public class OrdersService {
     }
 
     private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
+        log.info("사이즈 : {}", ordersAddRequest.getMenuIdList().size());
+        if(ordersAddRequest.getMenuIdList().size() == 0) {
+            throw new HandleRuntimeException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
+        }
+
         List<Menu> menuList = new ArrayList<>();
         long amount = 0;
 

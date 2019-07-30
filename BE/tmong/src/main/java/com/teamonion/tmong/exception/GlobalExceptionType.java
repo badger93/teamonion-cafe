@@ -12,7 +12,8 @@ public enum GlobalExceptionType {
     UNAUTHORIZED("인증에 실패했습니다", HttpStatus.UNAUTHORIZED),
     REQUEST_IS_NULL("요청값이 null 입니다", HttpStatus.BAD_REQUEST),
     ORDER_CATEGORY_INVALID("유효하지 않은 카테고리 입니다", HttpStatus.BAD_REQUEST),
-    ORDER_NOT_FOUND("주문이 존재하지 않습니다", HttpStatus.BAD_REQUEST);
+    ORDER_NOT_FOUND("주문이 존재하지 않습니다", HttpStatus.BAD_REQUEST),
+    ORDER_MENU_NOT_FOUND("주문 메뉴 정보가 존재하지 않습니다", HttpStatus.BAD_REQUEST);
 
     private String errorMessage;
     private HttpStatus httpStatus;
