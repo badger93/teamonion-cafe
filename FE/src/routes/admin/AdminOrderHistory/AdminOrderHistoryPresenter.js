@@ -8,14 +8,14 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
   const [currentCategory, setCurrentCategory] = useState('ALL');
 
-  const chageStateCallback = useCallback(
+  const changeStateCallback = useCallback(
     category => {
       setCurrentCategory(category);
       getHistoryDataByCategory(category);
     },
     [currentCategory],
   );
-  console.log(pageData);
+
   const colums = [
     {
       key: 'order_id',
@@ -89,28 +89,28 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
       <div className="pageTitle">주문이력</div>
       <div className="orderTabArea">
         <input
-          className="allBtn"
+          className={`allBtn ${currentCategory == 'ALL' && 'active'}`}
           type="button"
           value="전체보기"
-          onClick={() => chageStateCallback('ALL')}
+          onClick={() => changeStateCallback('ALL')}
         />
         <input
-          className="nonpayBtn"
+          className={`nonpayBtn ${currentCategory == 'PAID_FALSE' && 'active'}`}
           type="button"
           value="미결제"
-          onClick={() => chageStateCallback('PAID_FALSE')}
+          onClick={() => changeStateCallback('PAID_FALSE')}
         />
         <input
-          className="paidBtn"
+          className={`paidBtn ${currentCategory == 'PAID_TRUE' && 'active'}`}
           type="button"
           value="결제완료"
-          onClick={() => chageStateCallback('PAID_TRUE')}
+          onClick={() => changeStateCallback('PAID_TRUE')}
         />
         <input
-          className="madeBtn"
+          className={`madeBtn ${currentCategory == 'MADE_TRUE' && 'active'}`}
           type="button"
           value="제작완료"
-          onClick={() => chageStateCallback('MADE_TRUE')}
+          onClick={() => changeStateCallback('MADE_TRUE')}
         />
       </div>
 
