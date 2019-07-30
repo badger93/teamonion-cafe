@@ -13,8 +13,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${download-path-file}")
-    private String downloadPathFile;
+    @Value("${download-path}")
+    private String downloadPath;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -37,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/menuImage/**")
-                .addResourceLocations(downloadPathFile);
+                .addResourceLocations("file:" + downloadPath);
     }
 
 }
