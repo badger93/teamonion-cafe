@@ -28,6 +28,7 @@ const initState = {
         memberRole: 'NORMAL',
         point: 0,
         jwt: null,
+        lastSignInTime: null,
       },
 };
 

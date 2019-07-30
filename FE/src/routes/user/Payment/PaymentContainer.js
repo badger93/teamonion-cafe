@@ -5,7 +5,7 @@ import PaymentPresenter from './PaymentPresenter';
 const PaymentContainer = () => {
   const dispatch = useDispatch();
   const { me, isSignedIn } = useSelector(state => state.user);
-  const { itemsForPay, isPaying, isPaid } = useSelector(state => state.pay);
+  const { itemsForPay, isPaying, isPaid, payErrorReason } = useSelector(state => state.pay);
   const [howPay, setHowPay] = useState(1);
 
   return (
@@ -18,6 +18,7 @@ const PaymentContainer = () => {
       isSignedIn={isSignedIn}
       howPay={howPay}
       setHowPay={setHowPay}
+      payErrorReason={payErrorReason}
     />
   );
 };

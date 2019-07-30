@@ -9,13 +9,14 @@ import ShowUpMessage from './ShowUpMessage';
 
 const PayForm = ({
   dispatch,
-  itemsForPay = {},
+  itemsForPay,
   isSignedIn,
   isPaying,
   isPaid,
   user,
   howPay,
   setHowPay,
+  payErrorReason,
 }) => {
   let totalPrice = 0;
   const [afterPoint, setAfterPoint] = useState(0);
@@ -25,14 +26,15 @@ const PayForm = ({
   useEffect(() => {
     const Point = user.point - totalPrice + totalPrice / 10;
     setAfterPoint(Point);
-  }, [howPay, isSignedIn, totalPrice, user.point]);
+    setShowupStringFunc(payErrorReason);
+  }, [howPay, isSignedIn, totalPrice, user.point, payErrorReason, isPaying]);
 
   const onSubmit = async e => {
     e.preventDefault();
-    if (afterPoint < 0) {
-      // 포인트 부족할때 경고
-      setShowupStringFunc('포인트가 부족합니다');
-    }
+    // if (afterPoint < 0) {
+    //   // 포인트 부족할때 경고
+    //   setShowupStringFunc('포인트가 부족합니다');
+    // }
 
     const menuIdList = Object.values(itemsForPay).map(item => item.id);
     const requestInfo = {
@@ -47,6 +49,7 @@ const PayForm = ({
     setTimeout(() => dispatch(payFinishAction()), 5000);
     // PayFinish, redux state change
   };
+
   const onPointRadioChange = useCallback(
     // 포인트 결제시 라디오버튼
     () => {
@@ -65,7 +68,7 @@ const PayForm = ({
 
   return (
     <div className="payform-container">
-      {!isSignedIn && <Redirect to="/" />}
+      {!isSignedIn || (Object.keys(itemsForPay).length === 0 && <Redirect to="/" />)}
       {isPaid && <Redirect to="/myorder" />}
       <div className="payform-title">내역</div>
       <div className="payform-wrapper">
@@ -139,7 +142,7 @@ const PayForm = ({
 
 PayForm.propTypes = {
   dispatch: propTypes.func.isRequired,
-  itemsForPay: propTypes.object,
+  itemsForPay: propTypes.object.isRequired,
   isPaying: propTypes.bool.isRequired,
   isPaid: propTypes.bool.isRequired,
   user: propTypes.shape({
@@ -152,6 +155,7 @@ PayForm.propTypes = {
   howPay: propTypes.number.isRequired,
   setHowPay: propTypes.func.isRequired,
   isSignedIn: propTypes.bool.isRequired,
+  payErrorReason: propTypes.string.isRequired,
 };
 
 export default PayForm;
