@@ -41,7 +41,7 @@ public class MenuServiceTest {
                 .name("americano")
                 .price(1000)
                 .information("직장인의 기본 음료")
-                .imagePath("src/main/resources/menuUpload/example/example.jpg")
+                .imagePath("src/main/resources/menuImage/example/example.jpg")
                 .build();
         mockMultipartFile = new MockMultipartFile("example", "example.jpg", "application/form-data",
                 new FileInputStream(new File(menu.getImagePath())));

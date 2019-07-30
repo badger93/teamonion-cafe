@@ -16,7 +16,7 @@ public class MenuTest {
                 .name("americano")
                 .price(1000)
                 .information("직장인들의 기본 음료")
-                .imagePath("src/main/resources/menuUpload/example/example.jpg")
+                .imagePath("src/main/resources/menuImage/example/example.jpg")
                 .build();
 
         assertThat(menu).isNotNull();
@@ -30,7 +30,7 @@ public class MenuTest {
         String name = "maesil";
         long price = 1200;
         String information = "장에 좋은 음료";
-        String imagePath = "src/main/resources/menuUpload/example/example2.png";
+        String imagePath = "src/main/resources/menuImage/example/example2.png";
 
         MenuSaveDto menuSaveDto = new MenuSaveDto(name, price, information, null);
 

@@ -14,7 +14,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfig implements WebMvcConfigurer {
 
     @Value("${download-path}")
-    private String DOWNLOAD_PATH;
+    private String downloadPath;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
@@ -37,7 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**")
-                .addResourceLocations(DOWNLOAD_PATH);
+                .addResourceLocations("file:/" + downloadPath);
     }
 
 }

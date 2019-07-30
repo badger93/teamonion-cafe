@@ -38,7 +38,7 @@ public class MenuControllerTest {
     @Test
     public void 메뉴_추가() throws Exception {
         MultipartFile mockMultipartFile = new MockMultipartFile("example", "example.jpg", "application/form-data",
-                new FileInputStream(new File("src/main/resources/menuUpload/example/example.jpg")));
+                new FileInputStream(new File("src/main/resources/menuImage/example/example.jpg")));
 
         MenuSaveDto menuSaveDto = new MenuSaveDto("americano", 1000, "직장인의 인기 메뉴", mockMultipartFile);
 
