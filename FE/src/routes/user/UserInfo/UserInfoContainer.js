@@ -12,7 +12,7 @@ const UserInfoContainer = () => {
   const fetchHistoryAPI = async (listSize = 20, page = 0) => {
     try {
       const {
-        data: { content, totalPages, size },
+        data: { content, totalPages },
       } = await userOrderAPI(me.id, true, listSize, page);
 
       const orders =
@@ -26,7 +26,7 @@ const UserInfoContainer = () => {
           : [];
       console.log(orders);
       setHistory(orders);
-      setPageData({ page, totalPages, size });
+      setPageData({ page, totalPages });
     } catch (e) {
       console.log(e);
     }

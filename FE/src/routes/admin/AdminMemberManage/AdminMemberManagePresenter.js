@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminMemberManagePresenter.scss';
@@ -11,6 +11,7 @@ const AdminMemberManagePresenter = ({
   setPoint,
   getUserByPage,
   searchUserByID,
+  searchText,
 }) => {
   const colums = [
     {
@@ -49,6 +50,15 @@ const AdminMemberManagePresenter = ({
     setPoint(data);
   };
 
+  const pageCallback = useCallback(
+    e => {
+      return searchText
+        ? searchUserByID(searchText, e.target.value - 1)
+        : getUserByPage({ itemSize: 10, page: e.target.value - 1 });
+    },
+    [searchText],
+  );
+
   return (
     <div className="AdminMemberManagePresenter">
       <SearchBar searchCallback={searchUserByID} />
@@ -62,13 +72,7 @@ const AdminMemberManagePresenter = ({
           onGridRowsUpdated={onGridRowsUpdated}
           enableCellSelect
         />
-        <Pagination
-          pageData={memberListPageData}
-          maxIndex={8}
-          callback={e => {
-            getUserByPage({ itemSize: 10, page: e.target.value - 1 });
-          }}
-        />
+        <Pagination pageData={memberListPageData} maxIndex={8} callback={e => pageCallback(e)} />
       </div>
     </div>
   );
@@ -80,6 +84,7 @@ AdminMemberManagePresenter.defaultProps = {
   setPoint: () => {},
   getUserByPage: () => {},
   searchUserByID: () => {},
+  searchText: '',
 };
 
 AdminMemberManagePresenter.propTypes = {
@@ -88,6 +93,7 @@ AdminMemberManagePresenter.propTypes = {
   setPoint: propTypes.func,
   getUserByPage: propTypes.func,
   searchUserByID: propTypes.func,
+  searchText: propTypes.string,
 };
 
 export default AdminMemberManagePresenter;

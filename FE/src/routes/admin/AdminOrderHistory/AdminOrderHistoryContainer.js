@@ -4,10 +4,14 @@ import { getOrderHistory } from '../../../api/adminOrderApi';
 
 const AdminOrderHistoryContainer = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
-  const getHistoryDataByCategory = category => {
-    getOrderHistory(category)
+  const [pageData, setPageData] = useState([]);
+
+  const getHistoryDataByCategory = (category, page = 0, listSize = 10) => {
+    getOrderHistory(category, page, listSize)
       .then(res => {
-        setOrderHistoryData(res.data.content);
+        const { content, totalPages } = res.data;
+        setOrderHistoryData(content);
+        setPageData({ page, totalPages });
       })
       .catch(err => {
         alert(`주문이력 가져오기 실패: ${err}`);
@@ -22,6 +26,7 @@ const AdminOrderHistoryContainer = () => {
     <AdminOrderHistoryPresenter
       orderHistoryData={orderHistoryData}
       getHistoryDataByCategory={getHistoryDataByCategory}
+      pageData={pageData}
     />
   );
 };
