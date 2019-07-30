@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MyOrderCard.scss';
-import { userOrderAPI } from '../api/userApi';
+import { userOrderAPI } from '../../../../api/userApi';
 
 const MyOrderCard = ({
   // 전체 주문목록 새로고침

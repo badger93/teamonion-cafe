@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuManagePopup.scss';
-import inputImgPreview from '../utils/inputImgPreview';
+import inputImgPreview from '../../../../utils/inputImgPreview';
 
 const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) => {
   const { id, name, price, information } = menuPopupData;

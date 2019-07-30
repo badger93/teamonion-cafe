@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/CartListItem.scss';
 import propTypes from 'prop-types';
-import { CartDelete } from '../utils/cart';
+import { CartDelete } from '../../../../utils/cart';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 

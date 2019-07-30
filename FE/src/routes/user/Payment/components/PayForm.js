@@ -3,9 +3,9 @@ import propTypes from 'prop-types';
 import '../styles/Payform.scss';
 import { Redirect } from 'react-router-dom';
 import PayListItem from './PayListItem';
-import { payRequestAction, payFinishAction } from '../redux/actions/payAction';
-import { useShowupString } from '../utils/signUpForm';
-import ShowUpMessage from './ShowUpMessage';
+import { payRequestAction, payFinishAction } from '../../../../redux/actions/payAction';
+import { useShowupString } from '../../../../utils/signUpForm';
+import ShowUpMessage from '../../../../components/ShowUpMessage';
 
 const PayForm = ({
   dispatch,

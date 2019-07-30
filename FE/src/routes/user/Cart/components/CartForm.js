@@ -2,12 +2,12 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
-import { signInPopupChangeAction } from '../redux/actions/userAction';
+import { signInPopupChangeAction } from '../../../../redux/actions/userAction';
 import CartListItem from './CartListItem';
-import { CartDelete } from '../utils/cart';
-import { cartToPayAction } from '../redux/actions/payAction';
-import { useShowupString } from '../utils/signUpForm';
-import ShowUpMessage from './ShowUpMessage';
+import { CartDelete } from '../../../../utils/cart';
+import { cartToPayAction } from '../../../../redux/actions/payAction';
+import { useShowupString } from '../../../../utils/signUpForm';
+import ShowUpMessage from '../../../../components/ShowUpMessage';
 
 const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
   const { cart, setAllCart } = handleCart;

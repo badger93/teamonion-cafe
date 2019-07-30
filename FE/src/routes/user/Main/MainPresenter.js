@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
-import MenuListItem from '../../../components/MenuListItem';
-import MenuDetail from '../../../components/MenuDetail';
+import MenuListItem from './components/MenuListItem';
+import MenuDetail from './components/MenuDetail';
 import './styles/MainPresenter.scss';
 import Loading from '../../../components/Loading';
 import SearchBar from '../../../components/SearchBar';
