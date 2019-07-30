@@ -9,5 +9,5 @@ export const useShowupString = string => {
     setTimeout(() => setIsShowing(false), 2000);
   };
 
-  return { setShowupStringFunc, showupString, isShowing };
+  return { setShowupStringFunc, showupString, isShowing, setIsShowing };
 };

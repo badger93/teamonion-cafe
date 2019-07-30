@@ -6,13 +6,14 @@ import Loading from '../../../components/Loading';
 
 const PaymentPresenter = ({
   dispatch,
-  itemsForPay = {},
+  itemsForPay,
   isPaying,
   isPaid,
   user,
   isSignedIn,
   howPay,
   setHowPay,
+  payErrorReason,
 }) => (
   <>
     {isPaying && <Loading />}
@@ -28,6 +29,7 @@ const PaymentPresenter = ({
           howPay={howPay}
           setHowPay={setHowPay}
           isSignedIn={isSignedIn}
+          payErrorReason={payErrorReason}
         />
       </div>
     </div>
@@ -49,6 +51,7 @@ PaymentPresenter.propTypes = {
   howPay: propTypes.number.isRequired,
   setHowPay: propTypes.func.isRequired,
   isSignedIn: propTypes.bool.isRequired,
+  payErrorReason: propTypes.string.isRequired,
 };
 
 export default PaymentPresenter;
