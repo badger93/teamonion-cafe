@@ -13,7 +13,7 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
       setCurrentCategory(category);
       getHistoryDataByCategory(category);
     },
-    [currentCategory],
+    [setCurrentCategory, getHistoryDataByCategory],
   );
 
   const colums = [
@@ -89,25 +89,25 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
       <div className="pageTitle">주문이력</div>
       <div className="orderTabArea">
         <input
-          className={`allBtn ${currentCategory == 'ALL' && 'active'}`}
+          className={`allBtn ${currentCategory === 'ALL' && 'active'}`}
           type="button"
           value="전체보기"
           onClick={() => changeStateCallback('ALL')}
         />
         <input
-          className={`nonpayBtn ${currentCategory == 'PAID_FALSE' && 'active'}`}
+          className={`nonpayBtn ${currentCategory === 'PAID_FALSE' && 'active'}`}
           type="button"
           value="미결제"
           onClick={() => changeStateCallback('PAID_FALSE')}
         />
         <input
-          className={`paidBtn ${currentCategory == 'PAID_TRUE' && 'active'}`}
+          className={`paidBtn ${currentCategory === 'PAID_TRUE' && 'active'}`}
           type="button"
           value="결제완료"
           onClick={() => changeStateCallback('PAID_TRUE')}
         />
         <input
-          className={`madeBtn ${currentCategory == 'MADE_TRUE' && 'active'}`}
+          className={`madeBtn ${currentCategory === 'MADE_TRUE' && 'active'}`}
           type="button"
           value="제작완료"
           onClick={() => changeStateCallback('MADE_TRUE')}
@@ -140,9 +140,12 @@ AdminOrderHistoryPresenter.defaultProps = {
 };
 
 AdminOrderHistoryPresenter.propTypes = {
-  orderHistoryData: propTypes.arrayOf(),
+  orderHistoryData: propTypes.arrayOf(propTypes.object),
   getHistoryDataByCategory: propTypes.func,
-  pageData: propTypes.objectOf(),
+  pageData: propTypes.shape({
+    page: propTypes.number,
+    totalPage: propTypes.number,
+  }),
   fetchHistoryAPI: propTypes.func,
 };
 

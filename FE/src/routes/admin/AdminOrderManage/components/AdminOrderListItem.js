@@ -5,8 +5,8 @@ import '../styles/AdminOrderListItem.scss';
 
 const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
   const { order_id, menus, made, paid, createdDate, amount, member_id } = list;
-  const alignMenus = menus.map(item => {
-    const result = <li>{item}</li>;
+  const alignMenus = menus.map((item, index) => {
+    const result = <li key={index}>{item}</li>;
     return result;
   }, '');
 
