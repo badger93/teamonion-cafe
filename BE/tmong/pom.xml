@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.teamonion</groupId>
     <artifactId>tmong</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.4</version>
     <name>tmong</name>
     <description>Demo project for Spring Boot</description>
 
@@ -52,11 +52,9 @@
             <version>2.9.2</version>
         </dependency>
 
-
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -1,0 +1,26 @@
+.AdminMemberManagePresenter {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 40px;
+  @media (max-width: 414px) {
+    width: 90%;
+  }
+  position: relative;
+
+  .SearchBar {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .pageTitle {
+    font: {
+      size: 20px;
+      weight: 600;
+    }
+  }
+  .memberManageList {
+    position: relative;
+    margin-top: 65px;
+  }
+}

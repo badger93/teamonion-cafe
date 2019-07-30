@@ -25,17 +25,21 @@ public class Member {
     private MemberRole memberRole = MemberRole.NORMAL;
 
     @Column(nullable = false)
-    private String point;
+    private long point;
 
     @Builder
     public Member(String memberId, String password) {
         this.memberId = memberId;
         this.password = password;
-        this.point = "0";
+        this.point = 0;
     }
 
     public boolean match(String password) {
         return this.password.equals(password);
+    }
+
+    public void pointUpdate(long point) {
+        this.point = point;
     }
 }
 

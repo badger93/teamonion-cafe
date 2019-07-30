@@ -1,13 +1,20 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.exception.MenuNotFoundException;
+import com.teamonion.tmong.exception.HandleRuntimeException;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +22,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class MenuServiceTest {
@@ -26,24 +32,39 @@ public class MenuServiceTest {
     @InjectMocks
     MenuService menuService;
 
-    @Test
-    public void 메뉴추가테스트() throws IOException {
-        //TODO : 이미지 파일이 없을 경우와 있을 경우로 나누어서 Test 진행
-        //given
-        MenuAddDto menuAddDto = new MenuAddDto();
-        menuAddDto.setName("americano");
-        menuAddDto.setPrice("1000");
-        menuAddDto.setInformation("직장인의 인기 메뉴");
-        menuAddDto.setImage(null);
+    private Menu menu;
+    private MultipartFile mockMultipartFile;
 
-        Menu menu = menuAddDto.toEntity();
+    @Before
+    public void setUp() throws IOException {
+        menu = Menu.builder()
+                .name("americano")
+                .price(1000)
+                .information("직장인의 기본 음료")
+                .imagePath("src/main/resources/menuImage/example/example.jpg")
+                .build();
+        mockMultipartFile = new MockMultipartFile("example", "example.jpg", "application/form-data",
+                new FileInputStream(new File(menu.getImagePath())));
+    }
+
+    @Test
+    public void 메뉴추가테스트() {
+        //given
+        MenuSaveDto menuSaveDto = new MenuSaveDto();
+        menuSaveDto.setName(menu.getName());
+        menuSaveDto.setPrice(menu.getPrice());
+        menuSaveDto.setInformation(menu.getInformation());
+        menuSaveDto.setImageFile(mockMultipartFile);
 
         //when
         Mockito.when(menuRepository.save(menu)).thenReturn(menu);
 
         //then
-        assertThat(menuService.add(menuAddDto)).isEqualTo(menu);
+        assertThat(menuService.add(menuSaveDto)).isEqualTo(menu.getId());
     }
+//    TODO : 이미지 파일 용량 ㅈㅔ한
+//    TODO : 이미지 이외의 타입 파일 업로드
+
 
     @Test
     public void 전체조회_비어있는메뉴목록() {
@@ -54,7 +75,8 @@ public class MenuServiceTest {
         Mockito.when(menuRepository.findAll()).thenReturn(list);
 
         //then
-        assertThat(menuService.selectAll()).isEmpty();
+        // TODO : pageable 추가
+        assertThat(menuService.selectAll(Pageable.unpaged())).isEmpty();
     }
 
     @Test
@@ -66,35 +88,46 @@ public class MenuServiceTest {
         Mockito.when(menuRepository.findAll()).thenReturn(list);
 
         //then
-        assertThat(menuService.selectAll()).containsAll(list);
+        // TODO : pageable 추가
+        assertThat(menuService.selectAll(Pageable.unpaged())).containsAll(list);
     }
 
-    @Test(expected = MenuNotFoundException.class)
+    @Test(expected = HandleRuntimeException.class)
     public void 메뉴삭제시_메뉴ID없음() {
         Long menu_id = 0L;
 
-        doThrow(MenuNotFoundException.class).when(menuRepository).deleteById(menu_id);
+        doThrow(HandleRuntimeException.class).when(menuRepository).deleteById(menu_id);
 
         menuRepository.deleteById(menu_id);
     }
 
     @Test
-    public void 메뉴삭제시_메뉴ID있음() {
-        //TODO : 재컴토 필요
+    public void 메뉴_수정() {
         //given
-        Long menu_id = 1L;
+        MenuSaveDto menuSaveDto = new MenuSaveDto();
+        menuSaveDto.setName(menu.getName());
+        menuSaveDto.setPrice(2000);
+        menuSaveDto.setInformation(menu.getInformation());
+        menuSaveDto.setImageFile(mockMultipartFile);
 
         //when
-        when(menuRepository.findById(menu_id)).thenReturn(Optional.of(Menu.builder()
-                .id(1L)
-                .name("americano")
-                .price("1000")
-                .information("직장인의 인기 메뉴")
-                //.imagePath("example")
-                .build()));
+        Mockito.when(menuRepository.save(menu)).thenReturn(menu);
+        Mockito.when(menuRepository.findById(1L)).thenReturn(Optional.of(menu));
 
-
-        //then
-        //assertThat(menuService.isExistMenu(menu_id)).isTrue();
+        menuService.updateMenu(1L, menuSaveDto);
     }
+
+    @Test
+    public void 메뉴검색_없는메뉴() {
+        //given
+        String name = "americano";
+        Page<Menu> menus = Page.empty();
+        Pageable pageable = Pageable.unpaged();
+        //when
+
+        Mockito.when(menuRepository.findByNameContainingAndDeletedFalse(pageable, name)).thenReturn(menus);
+
+        menuService.selectByName(pageable, name);
+    }
+
 }

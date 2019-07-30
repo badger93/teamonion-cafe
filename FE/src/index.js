@@ -11,7 +11,6 @@ import reducers from './redux/reducers';
 
 import rootSaga from './redux/saga';
 
-
 const sagaMiddleware = createSagaMiddleware(); // 사가만들고
 
 const middlewares = [sagaMiddleware];
@@ -26,6 +25,7 @@ const enhancer = compose(
 const store = createStore(reducers, enhancer);
 
 sagaMiddleware.run(rootSaga); // 미들웨어 장착후 가능, 루트사가 등록필요
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

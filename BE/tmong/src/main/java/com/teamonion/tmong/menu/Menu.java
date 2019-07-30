@@ -11,19 +11,31 @@ import javax.persistence.*;
 @Builder
 @Getter
 @EqualsAndHashCode(of = "id")
+@ToString(exclude = "id")
 public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(nullable = false)
     private String name;
 
-    private String price;
+    @Column(nullable = false)
+    private long price;
 
     private String information;
 
-    @Lob
-    private byte[] imageFile;
+    private String imagePath;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
+    void delete() {
+        this.deleted = true;
+    }
+
+    void update(Long id) {
+        this.id = id;
+    }
 }

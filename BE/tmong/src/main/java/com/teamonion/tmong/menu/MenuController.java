@@ -1,47 +1,56 @@
 package com.teamonion.tmong.menu;
 
+import com.teamonion.tmong.security.CheckJwt;
+import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
-import java.util.List;
 
 @RequestMapping("/api/menus")
 @RestController
 public class MenuController {
+    private static final Logger log = LoggerFactory.getLogger(MenuService.class);
 
-    private static Logger log = LoggerFactory.getLogger(MenuController.class);
+    @NonNull
+    private final MenuService menuService;
 
-    @Autowired
-    private MenuService menuService;
+    public MenuController(MenuService menuService) {
+        this.menuService = menuService;
+    }
 
+    @CheckJwt
     @PostMapping
-    public ResponseEntity add(@ModelAttribute @Valid MenuAddDto menuAddDto) throws IOException {
-        log.info(menuAddDto.getName());
-        log.info(menuAddDto.getPrice());
-        log.info(menuAddDto.getInformation());
-        log.info(menuAddDto.getImage().getOriginalFilename());
-        log.info(menuAddDto.getImage().getResource().getDescription());
+    public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
+        return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
+    }
 
-        menuService.add(menuAddDto);
-        return new ResponseEntity(HttpStatus.CREATED);
+    @CheckJwt
+    @PutMapping("/{menu_id}")
+    public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuSaveDto menuSaveDto) {
+        menuService.updateMenu(menu_id, menuSaveDto);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity selectAll() {
-        List<Menu> menus = menuService.selectAll();
-        return new ResponseEntity(menus, HttpStatus.OK);
+    public ResponseEntity selectAll(Pageable pageable) {
+        return new ResponseEntity<>(menuService.selectAll(pageable), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{menu_id}")
-    public ResponseEntity deleteMenu(@PathVariable Long menu_id) {
-        menuService.deleteByMenuId(menu_id);
+    @GetMapping("/search")
+    public ResponseEntity selectByName(Pageable pageable, @RequestParam String menu_name) {
+        return new ResponseEntity<>(menuService.selectByName(pageable, menu_name), HttpStatus.OK);
+    }
 
+    @CheckJwt
+    @DeleteMapping("/{menu_id}")
+    public ResponseEntity deleteOne(@PathVariable Long menu_id) {
+        menuService.deleteByMenuId(menu_id);
         return new ResponseEntity(HttpStatus.OK);
     }
+
 }

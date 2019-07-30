@@ -4,30 +4,23 @@ import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuListItem.scss';
 
-const MenuListItem = ({ item, mapDetailData }) => {
-  const { name, price, imagePath } = item;
-
-  const showPopup = () => {
-    const popup = document.querySelector('.menuDetail');
-    popup.style.display = 'block';
-    popup.style.left = `${(window.innerWidth - 650) / 2}px`;
-    popup.style.top = `${(window.innerHeight - 350) / 2}px`;
-  };
-
+const MenuListItem = ({ item, mapDetailData, setIsMenuPopup }) => {
+  const { name, price, imageFile } = item;
   return (
     <div
       className="menuListItem"
       onClick={() => {
         mapDetailData(item);
-        showPopup();
+        setIsMenuPopup(true);
       }}
     >
       <div className="img-area">
-        <img src={imagePath} alt="상품이미지" />
+        <img src={imageFile} alt="상품이미지" />
       </div>
       <div className="info-area">
-        <p className="title">{name}</p>
-        <p className="price">{price}</p>
+        <div className="title">{name}</div>
+        <div className="price">{`${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}원`}</div>{' '}
+        {/* 숫자에 콤마찍는 정규식 */}
       </div>
     </div>
   );
@@ -36,13 +29,17 @@ const MenuListItem = ({ item, mapDetailData }) => {
 MenuListItem.defaultProps = {
   item: {},
   mapDetailData: () => {},
+  setIsMenuPopup: () => {},
 };
 
 MenuListItem.propTypes = {
-  item: propTypes.objectOf(
-    propTypes.oneOfType([propTypes.number, propTypes.string]),
-  ),
+  item: propTypes.shape({
+    name: propTypes.string,
+    price: propTypes.number,
+    imageFile: propTypes.string,
+  }),
   mapDetailData: propTypes.func,
+  setIsMenuPopup: propTypes.func,
 };
 
 export default MenuListItem;

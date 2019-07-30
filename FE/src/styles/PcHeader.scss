@@ -1,3 +1,13 @@
+@keyframes rotate3 {
+  0% {
+    transform-origin: center;
+    transform: rotate(0deg);
+  }
+  100% {
+    transform-origin: center;
+    transform: rotate(360deg);
+  }
+}
 .header_pc {
   @media (max-width: 960px) {
     display: none;
@@ -10,6 +20,7 @@
   background-color: #222f3e;
   color: white;
   // background-color: #f6f5f0;
+
   a {
     &:hover {
       //color: #fe6600;
@@ -57,12 +68,26 @@
         width: 40%;
         height: 30px;
         font-size: 0.8rem;
-        .login_button {
+        .header_pc-refresh {
+          cursor: pointer;
+          :hover {
+            animation: rotate3 1s infinite;
+          }
+        }
+        .header_pc-logout {
+          cursor: pointer;
           &:hover {
             //color: #fe6600;
             color: #ffa502;
             transition: 0.1s ease-in-out;
-            cursor: pointer;
+          }
+        }
+        .signInBtn {
+          cursor: pointer;
+          &:hover {
+            //color: #fe6600;
+            color: #ffa502;
+            transition: 0.1s ease-in-out;
           }
         }
       }

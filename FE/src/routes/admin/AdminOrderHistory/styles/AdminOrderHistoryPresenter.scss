@@ -1,0 +1,44 @@
+.AdminOrderHistoryPresenter {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 40px;
+  @media (max-width: 414px) {
+    width: 90%;
+  }
+
+  .pageTitle {
+    font: {
+      size: 20px;
+      weight: 600;
+    }
+  }
+  .historyGrid {
+    div {
+      text-align: center;
+    }
+  }
+
+  .orderTabArea {
+    margin: 30px 0 0 30px;
+    input[type='button'] {
+      color: #fff;
+      font-size: 20px;
+      font-weight: 600;
+      display: inline-block;
+      border: none;
+      background-color: #222f3e;
+      padding: 5px 10px;
+      cursor: pointer;
+    }
+    input[type='button'] + input[type='button'] {
+      margin-left: 50px;
+    }
+    input.active {
+      background-color: #f96503;
+    }
+  }
+
+  .historyList {
+    margin-top: 40px;
+  }
+}

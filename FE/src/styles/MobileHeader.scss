@@ -34,6 +34,27 @@
     font-size: 0.8rem;
     margin-right: 10px;
     color: rgba(255, 255, 255, 0.8);
+    .header_mobile-point {
+      text-align: end;
+      width: 170px;
+      padding: 10px;
+      font-size: 1rem;
+      span {
+        color: rgba(254, 102, 0, 1);
+      }
+    }
+    .header_mobile-refresh {
+      font-size: 1rem;
+      margin-right: 10px;
+      cursor: pointer;
+    }
+    .logout_btn {
+      cursor: pointer;
+      margin: 7px;
+      &:hover {
+        opacity: 0.5;
+      }
+    }
     a {
       cursor: pointer;
       margin: 7px;
@@ -72,7 +93,7 @@
   font-size: 1.5rem;
   background-color: #95a5a6;
   padding-top: 50px;
-  z-index: 5;
+  z-index: 20;
   transition: 0.5s ease-in-out;
   animation-fill-mode: forwards;
   -ms-overflow-style: none;
@@ -191,6 +212,7 @@
 
     z-index: 5;
   }
+
   a {
     margin: 30px;
     &:hover {
@@ -208,6 +230,20 @@
   opacity: 0.3;
   z-index: 5;
   padding-left: 25px;
+  cursor: pointer;
+  .header_mobile-signIn {
+    margin: 20px;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+  .header_moblie-logout {
+    margin: 30px;
+    &:hover {
+      opacity: 0.5;
+    }
+    z-index: 5;
+  }
   a {
     margin: 20px;
   }

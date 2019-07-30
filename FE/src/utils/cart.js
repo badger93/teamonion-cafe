@@ -1,11 +1,8 @@
 import { useState } from 'react';
 
-
 // 로컬스토리지, 체크배열, 장바구니배열 삭제기능 함수
 
 export const CartDelete = (array, setArray, cartId, array2 = null, setArray2 = null) => {
-  console.log(`cartid:${cartId}`);
-
   const deleteIndex = array.findIndex(element => element.cartId === cartId);
   // 체크해놓고 삭제시 처리
 
@@ -15,7 +12,8 @@ export const CartDelete = (array, setArray, cartId, array2 = null, setArray2 = n
         element => element.cartId === array[deleteIndex].cartId,
       );
 
-      if (deleteIndexArray2 !== -1) { // 삭제시 체크된 목록에서도 같이삭제
+      if (deleteIndexArray2 !== -1) {
+        // 삭제시 체크된 목록에서도 같이삭제
         array2.splice(deleteIndexArray2, 1);
         setArray2([...array2]);
       }
@@ -25,12 +23,11 @@ export const CartDelete = (array, setArray, cartId, array2 = null, setArray2 = n
   }
 };
 
-
 // 장바구니 스테이트와 동일시 되게
 export const useCart = (initCart, localStorage = null) => {
   const [cart, setStateCart] = useState(initCart);
 
-  const setAllCart = (newCart) => {
+  const setAllCart = newCart => {
     setStateCart(newCart);
     // 여기에 로컬 스토리지 업데이트
     localStorage && localStorage.setValue(newCart);
@@ -57,7 +54,7 @@ export const useLocalStorage = (key, initialValue) => {
 
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
-  const setValue = (value) => {
+  const setValue = value => {
     try {
       // Allow value to be a function so we have same API as useState
       const valueToStore = value instanceof Function ? value(storedValue) : value;

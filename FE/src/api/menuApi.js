@@ -1,11 +1,23 @@
-import axios from 'axios';
+import fetchClient from './axios';
 
-/* eslint-disable import/prefer-default-export */
-const getMenuListUrl =  'https://my-json-server.typicode.com/badger012/mockserver/menus';
+const axios = fetchClient();
 
-export const getMenuList = (callback) => {
-  axios
-    .get(getMenuListUrl)
-    .then(res => callback(res.data.menu))
-    .catch(err => alert('상품로드 실패', err));
+// 'https://my-json-server.typicode.com/badger012/mockserver/menus'
+
+// name, price, information, imageFile(src)
+export const getMenuList = ({ itemSize, page }) =>
+  axios.get(`api/menus?page=${page}&size=${itemSize}`);
+
+export const deleteMenuList = id => axios.delete(`api/menus/${id}`);
+
+export const createMenuList = item => {
+  return axios.post('api/menus', item, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
 };
+
+export const updateMenuList = (id, item) =>
+  axios.put(`api/menus/${id}`, item, { headers: { 'Content-Type': 'multipart/form-data' } });
+
+export const searchMenu = (menuName, page = 0, size = 20) =>
+  axios.get(`api/menus/search?page=${page}&size=${size}&menu_name=${menuName}`);

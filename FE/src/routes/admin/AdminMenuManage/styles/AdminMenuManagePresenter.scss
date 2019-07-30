@@ -1,0 +1,38 @@
+.AdminMenuManagePresenter {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 40px;
+  @media (max-width: 414px) {
+    width: 90%;
+  }
+
+  .pageTitle {
+    font: {
+      size: 20px;
+      weight: 600;
+    }
+  }
+
+  .menuList {
+    padding-top: 40px;
+    margin-top: 40px;
+    position: relative;
+  }
+  .createBtn {
+    cursor: pointer;
+    position: absolute;
+    border: none;
+    top: 0;
+    right: 0;
+    font: {
+      size: 14px;
+      weight: 600;
+    }
+    color: #fff;
+    padding: 5px 15px;
+    background-color: rgb(255, 103, 0);
+  }
+  .gridBtn {
+    cursor: pointer;
+  }
+}

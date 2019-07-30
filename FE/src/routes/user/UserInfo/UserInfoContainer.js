@@ -1,31 +1,61 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import UserInfoPresenter from './UserInfoPresenter';
+import { userOrderAPI } from '../../../api/userApi';
 
 const UserInfoContainer = () => {
-  const dummyUser = { id: 'hyunjae', point: 10000 };
+  const { me } = useSelector(state => state.user);
+  const [history, setHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [pageData, setPageData] = useState({});
+
+  const fetchHistoryAPI = async (listSize = 20, page = 0) => {
+    try {
+      const {
+        data: { content, totalPages },
+      } = await userOrderAPI(me.id, true, listSize, page);
+
+      const orders =
+        content.length > 0
+          ? content.map(object => ({
+              id: object.id,
+              time: object.createdDate,
+              money: object.amount,
+              menu: object.menuNameList.join(' , '),
+            }))
+          : [];
+      console.log(orders);
+      setHistory(orders);
+      setPageData({ page, totalPages });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchHistoryAPI();
+    setIsLoading(false);
+  }, []);
+
   const defaultColumnProperties = {
     resizable: true,
   };
   const columns = [
-    { key: 'id', name: '주문번호' },
-    { key: 'time', name: '주문시간' },
-    { key: 'money', name: '주문금액' },
+    { key: 'id', name: '번호', width: 50 },
+    { key: 'time', name: '주문시간', width: 130 },
+    { key: 'money', name: '주문금액', width: 80 },
     { key: 'menu', name: '주문메뉴' },
-  ].map((c) => ({ ...c, ...defaultColumnProperties }));
-
-  const rows = [
-    { id: 0, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'] },
-    { id: 1, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'] },
-    { id: 2, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'] },
-    { id: 3, time: '4:00', money: 40000, menu: ['아메리카노', '카페라떼'] },
-  ];
+  ].map(c => ({ ...c, ...defaultColumnProperties }));
 
   return (
     <UserInfoPresenter
+      isLoading={isLoading}
       columns={columns}
-      rows={rows}
-      id={dummyUser.id}
-      point={dummyUser.point}
+      rows={history}
+      id={me.memberId}
+      point={me.point}
+      pageData={pageData}
+      fetchHistoryAPI={fetchHistoryAPI}
     />
   );
 };

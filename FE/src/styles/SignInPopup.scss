@@ -4,10 +4,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 90vh;
+  height: 100vh;
   width: 100vw;
-  z-index: 99;
-  pointer-events: none;
+  z-index: 30;
+  pointer-events: all;
+  display: flex;
+}
+.signInContainer::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
 }
 
 .loginPopup * {
@@ -18,11 +27,15 @@
   position: fixed;
   background-color: #fff;
   z-index: 999;
-  width: 450px;
-  height: 380px;
-  border: 6px solid #222f3e;
+  max-width: 450px;
+  max-height: 420px;
+  width: 90vw;
+  height: 100%;
+  border: 2px solid #222f3e;
   border-radius: 20px;
-  display: none;
+  // @media (max-width: 600px) {
+  //   width: 90%;
+  // }
   .closeBtn {
     width: 30px;
     height: 30px;
@@ -54,21 +67,59 @@
       .idInput {
         width: 100%;
         height: 30px;
+        &:focus {
+          border: solid 1px #f96600;
+        }
       }
     }
     .pw-area {
       .pwInput {
         width: 100%;
         height: 30px;
+        &:focus {
+          border: solid 1px #f96600;
+        }
       }
     }
-
-    .signUp {
-      margin: 20px 15px 15px 0;
-      cursor: pointer;
-      font-size: 14px;
-      color: rgb(0, 162, 255);
-      text-align: right;
+    .bottom-row {
+      margin-top: 15px;
+      margin-bottom: 15px;
+      display: flex;
+      justify-content: space-between;
+      span {
+        margin-left: 5px;
+      }
+      .bottom-row-checkbox {
+        all: unset;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        border: 1px solid rgb(180, 177, 177);
+        position: relative;
+        cursor: pointer;
+      }
+      .bottom-row-checkbox:checked:before {
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        font-style: normal;
+        content: '\f00c';
+        position: absolute;
+        font-size: 10px;
+        text-align: center;
+        width: 13px;
+        height: 13px;
+        border-radius: 2px;
+        top: -0.5px;
+        background-color: #fe6600;
+        color: white;
+        cursor: pointer;
+      }
+      .signUp {
+        cursor: pointer;
+        font-size: 14px;
+        color: rgb(0, 162, 255);
+      }
     }
 
     .submitBtn {
@@ -82,4 +133,13 @@
       color: white;
     }
   }
+}
+
+.showupString {
+  position: relative;
+  height: 15px;
+  top: -10px;
+  color: rgb(254, 102, 0);
+  display: flex;
+  justify-content: center;
 }

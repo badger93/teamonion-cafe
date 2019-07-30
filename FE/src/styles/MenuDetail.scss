@@ -1,15 +1,34 @@
+.menuDetailContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  pointer-events: all;
+}
+
+.menuDetailContainer::after {
+  content: '';
+  width: 100%;
+  height: 100%;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 19;
+}
+
 .menuDetail {
-  border: 6px solid #222f3e;
+  border: 2px solid #222f3e;
   border-radius: 10px;
   width: 650px;
   height: 350px;
   padding: 0;
-  overflow: hidden;
-  position: fixed;
-  display: none;
-  top: 200px;
-  left: 200px;
+  z-index: 20;
   background-color: #fff;
+  position: relative;
 
   aside {
     width: 45%;
@@ -22,6 +41,7 @@
       margin: 0 auto;
       margin-top: 40px;
       position: relative;
+
       img {
         position: absolute;
         width: 100%;
@@ -34,7 +54,6 @@
     width: 55%;
     float: left;
     height: 100%;
-    position: relative;
 
     .closeBtn {
       width: 20px;
@@ -50,13 +69,16 @@
     }
 
     .titleArea {
-      height: 20%;
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      margin-left: 10px;
       .title {
         display: block;
-        margin-top: 20px;
         vertical-align: middle;
         font: {
-          size: 24px;
+          size: 1.6rem;
           weight: 600;
         }
       }
@@ -65,34 +87,45 @@
     .informationArea {
       height: 55%;
       position: relative;
-
+      margin-left: 10px;
       .price {
-        position: absolute;
-        right: 25px;
         font: {
-          size: 30px;
+          size: 1.1rem;
         }
+        color: #fe6600;
       }
 
       .information {
-        padding: 10px;
-        width: 250px;
+        color: rgba(0, 0, 0, 0.6);
         font: {
-          size: 14px;
+          size: 1rem;
         }
       }
     }
-    .cart-added{
+    .cart-added {
       position: absolute;
-      bottom:90px;
-      left:100px;
-      color:red;
-      opacity:0.8;
+      bottom: 90px;
+      right: 100px;
+      color: red;
+      opacity: 0.8;
     }
+    @media (max-width: 400) {
+      .cart-added {
+        height: 100%;
+        display: flex;
+        right: 0px;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        height: 20px;
+      }
+    }
+
     .btnArea {
+      display: flex;
+      justify-content: space-between;
       height: 20%;
-      width: 80%;
-      margin: 0 auto;
+      width: 90%;
       .buyBtn {
         display: inline-block;
         width: 40%;
@@ -104,10 +137,77 @@
         cursor: pointer;
         background-color: rgb(254, 102, 0);
         margin: 0 10px;
+        &:hover {
+          opacity: 0.7;
+        }
       }
       .cartBtn {
         @extend .buyBtn;
         background-color: rgb(34, 32, 32);
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .menuDetail {
+    width: 90%;
+    height: 80%;
+    aside {
+      float: inherit;
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+      height: 60%;
+      div {
+        height: 100%;
+      }
+      .img-area {
+        width: 100%;
+        height: 100%;
+        margin-top: 0px;
+        img {
+          object-fit: cover;
+        }
+      }
+    }
+    main {
+      float: inherit;
+      display: block;
+      width: 100%;
+      height: auto;
+      padding: 0 20px;
+      .closeBtn {
+        color: #fff;
+      }
+      .titleArea {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        margin-top: 15px;
+        height: auto;
+      }
+      .informationArea {
+        height: auto;
+        margin-left: 10px;
+        .information {
+          margin-top: 10px;
+        }
+      }
+      .btnArea {
+        width: 90%;
+        position: absolute;
+        height: auto;
+        display: block;
+        bottom: 15px;
+        display: flex;
+        justify-content: space-around;
+        .buyBtn {
+          margin: 0;
+        }
       }
     }
   }
