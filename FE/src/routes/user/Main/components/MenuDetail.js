@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
-import { useLocalStorage } from '../utils/cart';
+import { useLocalStorage } from '../../../../utils/cart';
 import { useDispatch } from 'react-redux';
-import { cartToPayAction } from '../redux/actions/payAction';
+import { cartToPayAction } from '../../../../redux/actions/payAction';
 import { Redirect } from 'react-router-dom';
 
 const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {

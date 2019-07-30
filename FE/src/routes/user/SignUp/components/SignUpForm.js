@@ -2,10 +2,10 @@ import React, { useState, useCallback } from 'react';
 import '../styles/SignUpForm.scss';
 import propTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { duplicateCheckApi } from '../api/userApi';
-import { signUpRequestAction } from '../redux/actions/userAction';
-import { useShowupString } from '../utils/signUpForm';
-import ShowUpMessage from './ShowUpMessage';
+import { duplicateCheckApi } from '../../../../api/userApi';
+import { signUpRequestAction } from '../../../../redux/actions/userAction';
+import { useShowupString } from '../../../../utils/signUpForm';
+import ShowUpMessage from '../../../../components/ShowUpMessage';
 
 const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
   const [id, setId] = useState('');
