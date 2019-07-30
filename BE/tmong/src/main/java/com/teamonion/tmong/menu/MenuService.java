@@ -125,7 +125,7 @@ public class MenuService {
     }
 
     private void deleteMenuImage(String path) {
-        File file = new File(path);
+        File file = new File(downloadPath + path);
 
         // TODO : delete() 확인 필요
         if (file.exists()) {
