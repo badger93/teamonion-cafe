@@ -40,6 +40,7 @@ const CartListItem = ({
             className="cart-item-checkbox"
             id={`${cartId}`}
             type="checkbox"
+            defaultChecked="checked"
             onClick={Checked}
           />
         </label>
