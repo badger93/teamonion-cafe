@@ -1,6 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import MyOrderCard from '../../../components/MyOrderCard';
+import MyOrderCard from './components/MyOrderCard';
 import './styles/MyOrderPresenter.scss';
 import Loading from '../../../components/Loading';
 

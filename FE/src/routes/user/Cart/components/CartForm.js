@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
 import { signInPopupChangeAction } from '../../../../redux/actions/userAction';
-import CartListItem from '../../../../components/CartListItem';
+import CartListItem from './CartListItem';
 import { CartDelete } from '../../../../utils/cart';
 import { cartToPayAction } from '../../../../redux/actions/payAction';
 import { useShowupString } from '../../../../utils/signUpForm';
