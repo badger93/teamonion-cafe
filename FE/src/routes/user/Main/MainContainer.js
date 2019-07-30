@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MainPresenter from './MainPresenter';
 import { getMenuList, searchMenu } from '../../../api/menuApi';
+import changeImagePath from '../../../utils/changeImagePath';
 
 const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
@@ -18,7 +19,8 @@ const MainContainer = () => {
     try {
       const res = await searchMenu(menuName, page, itemSize);
       const { content, totalPages } = res.data;
-      setStoreList(content);
+      const newContent = changeImagePath(content);
+      setStoreList(newContent);
       setMenuPageData({ page, totalPages });
       setIsLoading(false);
       setSearchText(menuName);
@@ -31,7 +33,8 @@ const MainContainer = () => {
     try {
       const res = await getMenuList({ itemSize, page });
       const { content, totalPages } = res.data;
-      setStoreList(content);
+      const newContent = changeImagePath(content);
+      setStoreList(newContent);
       setMenuPageData({ page, totalPages });
       setIsLoading(false);
     } catch (err) {
