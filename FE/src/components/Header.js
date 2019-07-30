@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
@@ -6,6 +6,7 @@ import SignInPopup from './SignInPopup';
 import { logOutAction, changePoint } from '../redux/actions/userAction';
 import { myPointApi } from '../api/userApi';
 import Loading from './Loading';
+import moment from 'moment';
 
 const Header = () => {
   const { isSignedIn, isSigningIn, me, signInPopup } = useSelector(state => state.user);
@@ -30,6 +31,21 @@ const Header = () => {
     };
     myPointAsyncApi();
   }, [me, dispatch]);
+
+  const expireTimeChecker = () => {
+    // 로그인시 23시간 이상된 아이디면 자동 로그아웃
+    const nowTime = new Date();
+    const oldTime = new Date(me.lastSignInTime);
+    const gap = moment.duration(nowTime - oldTime).asMinutes();
+    console.log(gap);
+    return gap > 1380 ? true : false;
+  };
+
+  useEffect(() => {
+    if (me.lastSignInTime && expireTimeChecker()) {
+      dispatch(logOutAction());
+    }
+  }, []);
 
   return (
     <>
