@@ -7,7 +7,11 @@ const MainContainer = () => {
   const [menuDetailData, setMenuDetailData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [menuPageData, setMenuPageData] = useState([]);
+<<<<<<< HEAD
   const [searchText, setSearchText] = useState('');
+=======
+  const [isSearch, setIsSearch] = useState('');
+>>>>>>> 0d538c3a8f7743f82e662bfe70b8c9477765afea
 
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
   const mapDetailData = data => {
@@ -17,11 +21,19 @@ const MainContainer = () => {
   const searchMenuListByName = async (menuName, page = 0, itemSize = 20) => {
     try {
       const res = await searchMenu(menuName, page, itemSize);
+<<<<<<< HEAD
       const { content, totalPages } = res.data;
       setStoreList(content);
       setMenuPageData({ page, totalPages });
       setIsLoading(false);
       setSearchText(menuName);
+=======
+      const { content, totalPages, size } = res.data;
+      setStoreList(content);
+      setMenuPageData({ page, totalPages, itemSize: size });
+      setIsLoading(false);
+      setIsSearch(menuName);
+>>>>>>> 0d538c3a8f7743f82e662bfe70b8c9477765afea
     } catch (err) {
       alert(`메뉴검색 실패 : ${err}`);
     }
