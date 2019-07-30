@@ -27,7 +27,7 @@ public class MenuService {
     private static final Logger log = LoggerFactory.getLogger(MenuService.class);
 
     @Value("${download-path}")
-    private String DOWNLOAD_PATH;
+    private String downloadPath;
 
     @NonNull
     private final MenuRepository menuRepository;
@@ -77,13 +77,13 @@ public class MenuService {
             String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();
             String date = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
 
-            File file = new File(DOWNLOAD_PATH + date + "/");
+            File file = new File(downloadPath + date + "/");
             file.mkdirs();
 
-            Path path = Paths.get(DOWNLOAD_PATH + date + "/" + fileName);
+            Path path = Paths.get(downloadPath + date + "/" + fileName);
             imageFile.transferTo(path);
 
-            return DOWNLOAD_PATH + date + "/" + fileName;
+            return date + "/" + fileName;
         } catch (IOException e) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
         }
