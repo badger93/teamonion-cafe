@@ -1,7 +1,7 @@
 import { all, fork, takeLatest, call, put, delay } from 'redux-saga/effects';
 import { PAY_FAILURE, PAY_SUCCESS, PAY_REQUEST } from '../actions/payAction';
 import { payAPI } from '../../api/payApi';
-import { CHANGE_POINT } from '../actions/userAction';
+import { CHANGE_POINT_REQUEST } from '../actions/userAction';
 
 function* pay(action) {
   try {
@@ -11,8 +11,8 @@ function* pay(action) {
       type: PAY_SUCCESS,
     });
     yield put({
-      type: CHANGE_POINT,
-      data: action.data.afterPoint,
+      type: CHANGE_POINT_REQUEST,
+      data: action.data.memberId,
     });
   } catch (e) {
     const { response: { data = '' } = {} } = e;
