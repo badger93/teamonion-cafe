@@ -1,4 +1,4 @@
-import '../styles/Pagination.scss';
+import '../styles/pagination.scss';
 import React from 'react';
 
 // page, totalPages 속성이 들어간 pageData, 페이지버튼 갯수, 버튼 온클릭콜백 (e)

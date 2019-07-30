@@ -5,7 +5,7 @@ import MenuDetail from '../../../components/MenuDetail';
 import './styles/MainPresenter.scss';
 import Loading from '../../../components/Loading';
 import SearchBar from '../../../components/SearchBar';
-import Pagination from '../../../components/Pagination';
+import Pagination from '../../../components/pagination';
 
 const MainPresenter = ({
   isLoading,

@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminMemberManagePresenter.scss';
-import Pagination from '../../../components/Pagination';
+import Pagination from '../../../components/pagination';
 import SearchBar from '../../../components/SearchBar';
 
 const AdminMemberManagePresenter = ({

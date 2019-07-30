@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
-import Pagination from '../../../components/Pagination';
+import Pagination from '../../../components/pagination';
 
 const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory, pageData }) => {
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
