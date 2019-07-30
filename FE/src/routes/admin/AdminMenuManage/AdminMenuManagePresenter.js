@@ -4,7 +4,7 @@ import ReactDataGrid from 'react-data-grid';
 import { Formatters } from 'react-data-grid-addons';
 import MenuManagePopup from '../../../components/MenuManagePopup';
 import './styles/AdminMenuManagePresenter.scss';
-import Pagination from '../../../components/Pagination';
+import Pagination from '../../../components/pagination';
 
 const AdminMenuManagePresenter = ({
   menuList,

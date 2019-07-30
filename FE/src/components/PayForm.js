@@ -46,7 +46,7 @@ const PayForm = ({
     };
     dispatch(payRequestAction(requestInfo));
     // PayRequest
-    setTimeout(() => dispatch(payFinishAction()), 5000);
+    setTimeout(() => dispatch(payFinishAction()), 500);
     // PayFinish, redux state change
   };
 

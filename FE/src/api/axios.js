@@ -14,8 +14,13 @@ const fetchClient = () => {
 
   // Set the AUTH token for any request
   axiosInstance.interceptors.request.use(config => {
-    const token = localStorage.getItem('TOKEN');
-    config.headers.Authorization = token ? `Bearer ${token}` : '';
+    const localToken = localStorage.getItem('TOKEN');
+    const sessionToken = sessionStorage.getItem('TOKEN');
+    config.headers.Authorization = localToken
+      ? `Bearer ${localToken}`
+      : '' || sessionToken
+      ? `Bearer ${sessionToken}`
+      : '';
     return config;
   });
 

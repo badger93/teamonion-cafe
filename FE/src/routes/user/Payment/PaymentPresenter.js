@@ -16,7 +16,7 @@ const PaymentPresenter = ({
   payErrorReason,
 }) => (
   <>
-    {isPaying && <Loading />}
+    {isPaying && !isPaid && <Loading />}
     <div className="payment-wrapper">
       <div className="payment-title">결제하기</div>
       <div className="payment-container">
