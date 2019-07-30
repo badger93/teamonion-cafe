@@ -44,15 +44,15 @@ public class MemberController {
     }
 
     @CheckJwt
-    @GetMapping("/{memberId}")
-    public ResponseEntity<Page<Member>> search(Pageable pageable, @PathVariable String memberId) {
+    @GetMapping("/search")
+    public ResponseEntity<Page<Member>> search(Pageable pageable, @RequestParam String memberId) {
         return new ResponseEntity<>(memberService.search(pageable, memberId), HttpStatus.OK);
     }
 
     @CheckJwt
     @GetMapping("/{id}/point")
-    public ResponseEntity getPoint(@PathVariable Long id) {
-        return new ResponseEntity(memberService.getPoint(id), HttpStatus.OK);
+    public ResponseEntity<Long> getPoint(@PathVariable Long id) {
+        return new ResponseEntity<>(memberService.getPoint(id), HttpStatus.OK);
     }
 
     @CheckJwt
