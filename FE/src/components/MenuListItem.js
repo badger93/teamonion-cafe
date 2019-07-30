@@ -5,7 +5,7 @@ import propTypes from 'prop-types';
 import '../styles/MenuListItem.scss';
 
 const MenuListItem = ({ item, mapDetailData, setIsMenuPopup }) => {
-  const { name, price, imageFile } = item;
+  const { name, price, imagePath } = item;
   return (
     <div
       className="menuListItem"
@@ -15,7 +15,7 @@ const MenuListItem = ({ item, mapDetailData, setIsMenuPopup }) => {
       }}
     >
       <div className="img-area">
-        <img src={imageFile} alt="상품이미지" />
+        <img src={imagePath} alt="상품이미지" />
       </div>
       <div className="info-area">
         <div className="title">{name}</div>
@@ -36,7 +36,7 @@ MenuListItem.propTypes = {
   item: propTypes.shape({
     name: propTypes.string,
     price: propTypes.number,
-    imageFile: propTypes.string,
+    imagePath: propTypes.string,
   }),
   mapDetailData: propTypes.func,
   setIsMenuPopup: propTypes.func,

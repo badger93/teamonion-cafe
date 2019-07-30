@@ -56,7 +56,7 @@ const AdminMenuManagePresenter = ({
 
   const rows = menuList.map(item => ({
     id: item.id,
-    imageFile: item.imageFile,
+    imageFile: item.imagePath,
     name: item.name,
     price: item.price,
     information: item.information,

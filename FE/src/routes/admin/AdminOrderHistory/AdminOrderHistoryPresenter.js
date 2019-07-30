@@ -142,7 +142,7 @@ AdminOrderHistoryPresenter.defaultProps = {
 AdminOrderHistoryPresenter.propTypes = {
   orderHistoryData: propTypes.arrayOf(),
   getHistoryDataByCategory: propTypes.func,
-  pageData: propTypes.objectOf,
+  pageData: propTypes.objectOf(),
   fetchHistoryAPI: propTypes.func,
 };
 
