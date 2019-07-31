@@ -3,12 +3,17 @@ import propTypes from 'prop-types';
 import AdminOrderListItem from './AdminOrderListItem';
 import '../styles/AdminMakingArea.scss';
 
-const AdminMakingArea = ({ list, areaName, setCurrentOrderList }) => {
+const AdminMakingArea = ({ list, areaName, setCurrentOrderList, socketSetOrderState }) => {
   const title = areaName === 'before' ? '제작중' : '제작완료';
   const mapListItem = list.map((item, index) => {
     const keyOfItem = index;
     return (
-      <AdminOrderListItem key={keyOfItem} list={item} setCurrentOrderList={setCurrentOrderList} />
+      <AdminOrderListItem
+        key={keyOfItem}
+        list={item}
+        setCurrentOrderList={setCurrentOrderList}
+        socketSetOrderState={socketSetOrderState}
+      />
     );
   });
 
