@@ -53,4 +53,26 @@ public class MemberAcceptanceTest {
         assertThat(response.getBody()).isTrue();
     }
 
+    @Test
+    public void loginTest() {
+        String memberId = "chicken3";
+        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
+        memberSignUpRequest.setMemberId(memberId);
+        memberSignUpRequest.setPassword("123456789a");
+        memberSignUpRequest.setPasswordCheck("123456789a");
+
+        MemberLoginRequest memberLoginRequest = new MemberLoginRequest();
+        memberLoginRequest.setMemberId(memberId);
+        memberLoginRequest.setPassword("123456789a");
+
+        template.postForEntity("/api/members", memberSignUpRequest, MemberLoginResponse.class);
+
+        ResponseEntity<MemberLoginResponse> response = template
+                .postForEntity("/api/members/login", memberLoginRequest, MemberLoginResponse.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody().getMemberId()).isEqualTo(memberId);
+        assertThat(response.getBody().getJwt()).isNotNull();
+    }
+
 }
