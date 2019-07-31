@@ -20,7 +20,7 @@ public class WebSocketController {
 
     @MessageMapping("/api/orders/update")
     @SendTo("/topic/order")
-    public ResponseEntity<OrdersCategoryResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
+    public ResponseEntity<OrdersResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
         log.info("--------------------------------");
         log.info("-------------updateOrder--------");
         log.info("payload ordersupdaterequest : {}", ordersUpdateRequest);

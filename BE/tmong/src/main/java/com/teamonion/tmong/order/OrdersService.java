@@ -70,13 +70,13 @@ public class OrdersService {
     }
 
 
-    public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, boolean pickup) {
+    public Page<OrdersResponse> getMyOrders(Pageable pageable, boolean pickup) {
         Long buyer_id = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID)).getId();
         return ordersRepository.findByBuyerIdAndPickup(pageable, buyer_id, pickup)
-                .map(OrdersHistoryResponse::new);
+                .map(OrdersResponse::new);
     }
 
-    Page<OrdersCategoryResponse> getOrdersByCategory(Pageable pageable, String category) {
+    Page<OrdersResponse> getOrdersByCategory(Pageable pageable, String category) {
         jwtComponent.checkAdmin();
 
         Page<Orders> response;
@@ -99,7 +99,7 @@ public class OrdersService {
             default:
                 throw new HandleRuntimeException(GlobalExceptionType.ORDER_CATEGORY_INVALID);
         }
-        return response.map(OrdersCategoryResponse::new);
+        return response.map(OrdersResponse::new);
     }
 
 //    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
@@ -119,7 +119,7 @@ public class OrdersService {
 //        ordersRepository.save(orders);
 //    }
 
-    public OrdersCategoryResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
+    public OrdersResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
         //jwtComponent.checkAdmin();
         log.info("!!service!! ordersUpdateRequest : {}", ordersUpdateRequest);
         Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
@@ -135,9 +135,9 @@ public class OrdersService {
             orders.pick();
         }
 
-        OrdersCategoryResponse ordersCategoryResponse = new OrdersCategoryResponse(ordersRepository.save(orders));
-        log.info("!!service!! ordersCategoryResponse : {}", ordersCategoryResponse);
+        OrdersResponse ordersResponse = new OrdersResponse(ordersRepository.save(orders));
+        log.info("!!service!! ordersCategoryResponse : {}", ordersResponse);
         log.info("=========================");
-        return ordersCategoryResponse;
+        return ordersResponse;
     }
 }
