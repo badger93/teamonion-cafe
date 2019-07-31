@@ -41,7 +41,7 @@ const AdminOrderManageContainer = () => {
   const socketSetOrderState = ({ order_id, member_id }, change) => {
     const payload = Object.assign({ orderId: order_id, buyerId: member_id }, change);
 
-    client.send('api/orders/update', {}, JSON.stringify(payload));
+    client.send('/api/orders/update', {}, JSON.stringify(payload));
   };
 
   const setOrderState = (orderId, stateToSet) => {
