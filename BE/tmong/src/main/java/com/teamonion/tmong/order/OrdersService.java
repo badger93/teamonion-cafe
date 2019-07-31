@@ -122,7 +122,7 @@ public class OrdersService {
     public OrdersCategoryResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
         //jwtComponent.checkAdmin();
         log.info("!!service!! ordersUpdateRequest : {}", ordersUpdateRequest);
-        Orders orders = ordersRepository.findById(ordersUpdateRequest.getOrderId())
+        Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
 
         if (ordersUpdateRequest.isPaid()) {
