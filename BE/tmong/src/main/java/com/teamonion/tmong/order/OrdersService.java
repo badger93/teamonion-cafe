@@ -119,7 +119,7 @@ public class OrdersService {
 //        ordersRepository.save(orders);
 //    }
 
-    public OrdersHistoryResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
+    public OrdersCategoryResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
         //jwtComponent.checkAdmin();
         Orders orders = ordersRepository.findById(ordersUpdateRequest.getOrder_id())
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
@@ -134,6 +134,6 @@ public class OrdersService {
             orders.pick();
         }
 
-        return new OrdersHistoryResponse(ordersRepository.save(orders));
+        return new OrdersCategoryResponse(ordersRepository.save(orders));
     }
 }
