@@ -13,7 +13,8 @@ const AdminOrderManageContainer = () => {
     : '' || sessionToken
     ? `Bearer ${sessionToken}`
     : '';
-  const client = Stomp.over(new SockJS('http://tmonion/', null, { Authorization: token }));
+  const client = Stomp.over(new SockJS('teamonion', null, { Authorization: token }));
+  console.log(client);
 
   const socketOrderInit = () => {
     client.connect({}, frame => {
@@ -37,10 +38,10 @@ const AdminOrderManageContainer = () => {
       });
     });
   };
-  const socketSetOrderState = ({ order_id }, change) => {
-    const payload = Object.assign({ orderId: order_id }, change);
-    console.log(payload);
-    client.send('/topic/order', {}, JSON.stringify(payload));
+  const socketSetOrderState = ({ order_id, member_id }, change) => {
+    const payload = Object.assign({ orderId: order_id, buyerId: member_id }, change);
+
+    client.send('api/orders/update', {}, JSON.stringify(payload));
   };
 
   const setOrderState = (orderId, stateToSet) => {
