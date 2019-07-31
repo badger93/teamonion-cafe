@@ -65,7 +65,7 @@ const MyOrderContainer = () => {
             data: { content },
           } = await userOrderAPI(me.id, false);
           // console.log(content);
-          setOrders(content);
+          await setOrders(content);
         }
       } catch (e) {
         console.log(e);
