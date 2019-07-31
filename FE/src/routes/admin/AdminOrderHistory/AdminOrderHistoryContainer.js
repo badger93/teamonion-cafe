@@ -4,7 +4,7 @@ import { getOrderHistory } from '../../../api/adminOrderApi';
 
 const AdminOrderHistoryContainer = () => {
   const [orderHistoryData, setOrderHistoryData] = useState([]);
-  const [pageData, setPageData] = useState([]);
+  const [pageData, setPageData] = useState({});
 
   const getHistoryDataByCategory = (category, page = 0, listSize = 10) => {
     getOrderHistory(category, page, listSize)

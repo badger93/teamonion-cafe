@@ -1,10 +1,14 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import propTypes from 'prop-types';
-import AdminMakingArea from '../../../components/AdminMakingArea';
+import AdminMakingArea from './components/AdminMakingArea';
 import './styles/AdminOrderManagePresenter.scss';
 
-const AdminOrderManagePresenter = ({ currentOrderList, setCurrentOrderList }) => {
+const AdminOrderManagePresenter = ({
+  currentOrderList,
+  setCurrentOrderList,
+  socketSetOrderState,
+}) => {
   const beforeList = currentOrderList.filter(item => item.made === false && item.pickup === false);
   const afterList = currentOrderList.filter(item => item.made === true && item.pickup === false);
   // 주문 리스트정렬 제작중엔 미결제가 상단, 제작 완료시 결제완료된 것이 상단, 같은 조건시에는 주문번호순 정렬
@@ -19,6 +23,7 @@ const AdminOrderManagePresenter = ({ currentOrderList, setCurrentOrderList }) =>
           list={beforeList}
           areaName="before"
           setCurrentOrderList={setCurrentOrderList}
+          socketSetOrderState={socketSetOrderState}
         />
         <div className="arrowContainer">
           <img
@@ -30,6 +35,7 @@ const AdminOrderManagePresenter = ({ currentOrderList, setCurrentOrderList }) =>
           list={afterList}
           areaName="after"
           setCurrentOrderList={setCurrentOrderList}
+          socketSetOrderState={socketSetOrderState}
         />
       </div>
     </div>
@@ -39,11 +45,13 @@ const AdminOrderManagePresenter = ({ currentOrderList, setCurrentOrderList }) =>
 AdminOrderManagePresenter.defaultProps = {
   currentOrderList: [],
   setCurrentOrderList: () => {},
+  socketSetOrderState: () => {},
 };
 
 AdminOrderManagePresenter.propTypes = {
   currentOrderList: propTypes.arrayOf(propTypes.object),
   setCurrentOrderList: propTypes.func,
+  socketSetOrderState: propTypes.func,
 };
 
 export default AdminOrderManagePresenter;

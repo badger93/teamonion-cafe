@@ -1,6 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import CartForm from '../../../components/CartForm';
+import CartForm from './components/CartForm';
 import './styles/CartPresenter.scss';
 
 const CartPresenter = ({ signInRef, handleCart, handleCheckedCart, dispatch, isSignedIn }) => (

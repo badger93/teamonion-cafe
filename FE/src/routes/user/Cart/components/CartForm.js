@@ -2,12 +2,12 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/CartForm.scss';
 import { Redirect } from 'react-router-dom';
-import { signInPopupChangeAction } from '../redux/actions/userAction';
+import { signInPopupChangeAction } from '../../../../redux/actions/userAction';
 import CartListItem from './CartListItem';
-import { CartDelete } from '../utils/cart';
-import { cartToPayAction } from '../redux/actions/payAction';
-import { useShowupString } from '../utils/signUpForm';
-import ShowUpMessage from './ShowUpMessage';
+import { CartDelete } from '../../../../utils/cart';
+import { cartToPayAction } from '../../../../redux/actions/payAction';
+import { useShowupString } from '../../../../utils/signUpForm';
+import ShowUpMessage from '../../../../components/ShowUpMessage';
 
 const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
   const { cart, setAllCart } = handleCart;
@@ -43,7 +43,14 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
 
         // 체크된 메뉴들 삭제
         for (let i = 0; i < checkedItem.length; i + 1) {
-          CartDelete(cart, setAllCart, checkedItem[i].cartId, checkedItem, setCheckedItem);
+          CartDelete(
+            cart,
+            setAllCart,
+            checkedItem[i].cartId,
+            checkedItem,
+            setCheckedItem,
+            setShowupStringFunc,
+          );
         }
 
         setWillPay(true); // 리디렉션을 위한 값
@@ -51,7 +58,17 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
       }
       asyncSubmit();
     },
-    [cart, setAllCart, checkedItem, setCheckedItem, setWillPay, dispatch, isSignedIn, popupControl],
+    [
+      cart,
+      setAllCart,
+      checkedItem,
+      setCheckedItem,
+      setWillPay,
+      dispatch,
+      isSignedIn,
+      popupControl,
+      setShowupStringFunc,
+    ],
   );
 
   const isInitialMount = useRef(true); // 최초 마운트시점이 아닌 업데이트시만 작동하도록 확인

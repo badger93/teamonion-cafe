@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AdminMenuManagePresenter from './AdminMenuManagePresenter';
 import { getMenuList, deleteMenuList, updateMenuList, createMenuList } from '../../../api/menuApi';
+import changeImagePath from '../../../utils/changeImagePath';
 
 const AdminMenuManageContainer = () => {
   const [menuList, setMenuList] = useState([]);
-  const [pageData, setPageData] = useState([]);
+  const [pageData, setPageData] = useState({});
   const deleteItem = id => {
     deleteMenuList(id)
       .then(() => {
@@ -12,7 +13,6 @@ const AdminMenuManageContainer = () => {
         setMenuList(change);
       })
       .catch(err => {
-        console.dir(err);
         alert(`삭제실패${err}`);
       });
   };
@@ -34,7 +34,6 @@ const AdminMenuManageContainer = () => {
         setMenuList(change);
       })
       .catch(err => {
-        console.dir(err);
         alert(`수정실패${err}`);
       });
   };
@@ -61,7 +60,8 @@ const AdminMenuManageContainer = () => {
     try {
       const res = await getMenuList({ itemSize, page });
       const { content, totalPages } = res.data;
-      setMenuList(content);
+      const newContent = changeImagePath(content);
+      setMenuList(newContent);
       setPageData({ page, totalPages });
     } catch (err) {
       alert('상품로드 실패', err);

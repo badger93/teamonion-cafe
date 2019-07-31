@@ -4,7 +4,6 @@ import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
 import { logOutAction, changePoint } from '../redux/actions/userAction';
-import { myPointApi } from '../api/userApi';
 import Loading from './Loading';
 import moment from 'moment';
 
@@ -22,22 +21,21 @@ const Header = () => {
   const onRefreshClick = useCallback(() => {
     const myPointAsyncApi = async () => {
       try {
-        const { data } = await myPointApi(me.id);
-        await dispatch(changePoint(data));
-        localStorage.setItem('USER', JSON.stringify({ ...me, point: data })); // 리덕스 state와 로컬스토리지 포인트 변경
+        dispatch(changePoint());
+        // 리덕스 state와 로컬스토리지 포인트 변경
       } catch (e) {
         console.log(e);
       }
     };
     myPointAsyncApi();
-  }, [me, dispatch]);
+  }, [dispatch]);
 
   const expireTimeChecker = () => {
     // 로그인시 23시간 이상된 아이디면 자동 로그아웃
     const nowTime = new Date();
     const oldTime = new Date(me.lastSignInTime);
     const gap = moment.duration(nowTime - oldTime).asMinutes();
-    console.log(gap);
+    // console.log(gap);
     return gap > 1380 ? true : false;
   };
 

@@ -88,8 +88,11 @@ AdminMemberManagePresenter.defaultProps = {
 };
 
 AdminMemberManagePresenter.propTypes = {
-  memberListData: propTypes.arrayOf(),
-  memberListPageData: propTypes.objectOf(),
+  memberListData: propTypes.arrayOf(propTypes.object),
+  memberListPageData: propTypes.shape({
+    page: propTypes.number,
+    totalPages: propTypes.number,
+  }),
   setPoint: propTypes.func,
   getUserByPage: propTypes.func,
   searchUserByID: propTypes.func,

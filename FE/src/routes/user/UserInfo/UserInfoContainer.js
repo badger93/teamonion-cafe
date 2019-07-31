@@ -27,7 +27,7 @@ const UserInfoContainer = () => {
               menu: object.menuNameList.join(' , '),
             }))
           : [];
-      console.log(orders);
+      // console.log(orders);
       setHistory(orders);
       setPageData({ page, totalPages });
     } catch (e) {

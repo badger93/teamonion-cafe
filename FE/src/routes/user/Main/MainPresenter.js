@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
-import MenuListItem from '../../../components/MenuListItem';
-import MenuDetail from '../../../components/MenuDetail';
+import MenuListItem from './components/MenuListItem';
+import MenuDetail from './components/MenuDetail';
 import './styles/MainPresenter.scss';
 import Loading from '../../../components/Loading';
 import SearchBar from '../../../components/SearchBar';
@@ -68,7 +68,10 @@ MainPresenter.propTypes = {
   list: propTypes.arrayOf(propTypes.object),
   mapDetailData: propTypes.func,
   searchMenuListByName: propTypes.func,
-  menuPageData: propTypes.objectOf(),
+  menuPageData: propTypes.shape({
+    page: propTypes.number,
+    totalPages: propTypes.number,
+  }),
   getMenuByPage: propTypes.func,
   menuDetailData: propTypes.shape({
     deleted: propTypes.bool,
