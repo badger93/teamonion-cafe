@@ -45,14 +45,14 @@ public class OrdersController {
 //        return new ResponseEntity(HttpStatus.OK);
 //    }
 
-    @MessageMapping("/api/orders/update")
-    @SendTo("/topic/order")
-    public ResponseEntity<OrdersCategoryResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
-        log.info("--------------------------------");
-        log.info("-------------updateOrder--------");
-        log.info("--------------------------------");
-        return new ResponseEntity<>(ordersService.updateOrder(ordersUpdateRequest), HttpStatus.OK);
-    }
+//    @MessageMapping("/api/orders/update")
+//    @SendTo("/topic/order")
+//    public ResponseEntity<OrdersCategoryResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
+//        log.info("--------------------------------");
+//        log.info("-------------updateOrder--------");
+//        log.info("--------------------------------");
+//        return new ResponseEntity<>(ordersService.updateOrder(ordersUpdateRequest), HttpStatus.OK);
+//    }
 
     @CheckJwt
     @GetMapping
