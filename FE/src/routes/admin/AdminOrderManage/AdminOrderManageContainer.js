@@ -21,19 +21,19 @@ const AdminOrderManageContainer = () => {
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
         const res = JSON.parse(msg.body).content;
-        const arrangedList = res.map(item => {
-          return {
-            order_id: item.id,
-            menus: item.menuNameList,
-            paymentType: item.paymentType,
-            paid: item.paid,
-            made: item.made,
-            pickup: item.pickup,
-            createdDate: item.createdDate,
-            amount: item.amount,
-            member_id: item.buyerId,
-          };
-        });
+        console.dir(res);
+        const arrangedItem = {
+          order_id: res.id,
+          menus: res.menuNameList,
+          paymentType: res.paymentType,
+          paid: res.paid,
+          made: res.made,
+          pickup: res.pickup,
+          createdDate: res.createdDate,
+          amount: res.amount,
+          member_id: res.buyerId,
+        };
+        const arrangedList = [...currentOrderList, arrangedItem];
         setCurrentOrderList(arrangedList);
       });
     });
@@ -54,6 +54,7 @@ const AdminOrderManageContainer = () => {
 
   // 최초 api call
   useEffect(() => {
+    getNonpickupAll(setCurrentOrderList);
     socketOrderInit();
     return () => {
       client.disconnect(() => {
