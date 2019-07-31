@@ -32,7 +32,7 @@ const MyOrderContainer = () => {
       client.subscribe('/topic/order', msg => {
         console.log('message : ' + msg);
         const newArrayOrders = orders;
-        const changedData = msg && JSON.parse(msg);
+        const changedData = msg.body && JSON.parse(msg.body);
         console.log('changedData:' + changedData);
         console.log('orders:' + orders);
         const changedDataIndex =
