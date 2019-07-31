@@ -23,6 +23,7 @@ public class WebSocketController {
     public ResponseEntity<OrdersCategoryResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
         log.info("--------------------------------");
         log.info("-------------updateOrder--------");
+        log.info("payload ordersupdaterequest : {}", ordersUpdateRequest);
         log.info("--------------------------------");
         return new ResponseEntity<>(ordersService.updateOrder(ordersUpdateRequest), HttpStatus.OK);
     }

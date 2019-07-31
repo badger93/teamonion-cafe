@@ -121,7 +121,8 @@ public class OrdersService {
 
     public OrdersCategoryResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
         //jwtComponent.checkAdmin();
-        Orders orders = ordersRepository.findById(ordersUpdateRequest.getOrder_id())
+        log.info("!!service!! ordersUpdateRequest : {}", ordersUpdateRequest);
+        Orders orders = ordersRepository.findById(ordersUpdateRequest.getOrderId())
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
 
         if (ordersUpdateRequest.isPaid()) {
@@ -134,6 +135,9 @@ public class OrdersService {
             orders.pick();
         }
 
-        return new OrdersCategoryResponse(ordersRepository.save(orders));
+        OrdersCategoryResponse ordersCategoryResponse = new OrdersCategoryResponse(ordersRepository.save(orders));
+        log.info("!!service!! ordersCategoryResponse : {}", ordersCategoryResponse);
+        log.info("=========================");
+        return ordersCategoryResponse;
     }
 }

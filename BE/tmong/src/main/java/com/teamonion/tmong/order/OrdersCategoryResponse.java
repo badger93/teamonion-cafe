@@ -2,12 +2,14 @@ package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.menu.Menu;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
+@ToString
 public class OrdersCategoryResponse {
     private Long id;
     private String buyerId;
