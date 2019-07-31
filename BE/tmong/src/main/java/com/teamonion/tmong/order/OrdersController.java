@@ -34,7 +34,7 @@ public class OrdersController {
 
     @CheckJwt
     @GetMapping("/my")
-    public ResponseEntity<Page<OrdersHistoryResponse>> getMyOrders(Pageable pageable, boolean pickup) {
+    public ResponseEntity<Page<OrdersResponse>> getMyOrders(Pageable pageable, boolean pickup) {
         return new ResponseEntity<>(ordersService.getMyOrders(pageable, pickup), HttpStatus.OK);
     }
 
@@ -47,7 +47,7 @@ public class OrdersController {
 
 //    @MessageMapping("/api/orders/update")
 //    @SendTo("/topic/order")
-//    public ResponseEntity<OrdersCategoryResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
+//    public ResponseEntity<OrdersResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
 //        log.info("--------------------------------");
 //        log.info("-------------updateOrder--------");
 //        log.info("--------------------------------");
@@ -56,7 +56,7 @@ public class OrdersController {
 
     @CheckJwt
     @GetMapping
-    public ResponseEntity<Page<OrdersCategoryResponse>> getOrdersByCategory(Pageable pageable, String category) {
+    public ResponseEntity<Page<OrdersResponse>> getOrdersByCategory(Pageable pageable, String category) {
         return new ResponseEntity<>(ordersService.getOrdersByCategory(pageable, category), HttpStatus.OK);
     }
 

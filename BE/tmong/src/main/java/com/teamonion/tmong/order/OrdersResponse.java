@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @ToString
-public class OrdersCategoryResponse {
+public class OrdersResponse {
     private Long id;
     private String buyerId;
     private LocalDateTime createdDate;
@@ -21,7 +21,7 @@ public class OrdersCategoryResponse {
     private boolean made;
     private List<String> menuNameList;
 
-    public OrdersCategoryResponse(Orders orders) {
+    public OrdersResponse(Orders orders) {
         this.id = orders.getId();
         this.buyerId = orders.getBuyer().getMemberId();
         this.createdDate = orders.getCreatedDate();
