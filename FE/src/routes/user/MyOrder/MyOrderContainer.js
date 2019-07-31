@@ -26,10 +26,10 @@ const MyOrderContainer = () => {
   );
 
   const socketMyOrderInit = () => {
-    client.connect({}, frame => {
+    client.connect({}, async frame => {
       console.log(frame);
       alert(`socket conneted: ${frame}`);
-      client.subscribe('/topic/order', msg => {
+      await client.subscribe('/topic/order', msg => {
         console.log('message : ' + msg);
         const newArrayOrders = orders;
         const changedData = msg.body && JSON.parse(msg.body);
@@ -70,9 +70,9 @@ const MyOrderContainer = () => {
       } catch (e) {
         console.log(e);
       }
+      await socketMyOrderInit();
     };
     fetchMyOrder();
-    socketMyOrderInit();
     setIsLoading(false);
     // console.log(orders);
     return () => {
