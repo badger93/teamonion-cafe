@@ -21,9 +21,10 @@ const AdminOrderManageContainer = () => {
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
         const res = JSON.parse(msg.body).content;
+        console.dir(msg);
         console.dir(res);
         const arrangedItem = {
-          order_id: res.id,
+          order_id: res.orderId,
           menus: res.menuNameList,
           paymentType: res.paymentType,
           paid: res.paid,
@@ -39,7 +40,7 @@ const AdminOrderManageContainer = () => {
     });
   };
   const socketSetOrderState = ({ order_id, member_id }, change) => {
-    const payload = Object.assign({ orderId: order_id, buyerId: member_id }, change);
+    const payload = Object.assign({ order_id, buyerId: member_id }, change);
 
     client.send('/api/orders/update', {}, JSON.stringify(payload));
   };
