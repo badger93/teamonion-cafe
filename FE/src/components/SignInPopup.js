@@ -37,7 +37,7 @@ const SignInPopup = ({ setIsLoginPopup }) => {
         setShowupStringFunc('정보입력이 필요합니다');
       }
     },
-    [inputId, inputPw, dispatch, setIsLoginPopup, setShowupStringFunc],
+    [inputId, inputPw, dispatch, setIsLoginPopup, setShowupStringFunc, isStayLogin],
   );
 
   const popupControl = useCallback(() => {

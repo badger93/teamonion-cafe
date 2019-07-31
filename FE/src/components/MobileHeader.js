@@ -80,7 +80,7 @@ const MobileHeader = ({
               setIsList(prev => !prev);
             }}
           >
-            <FontAwesomeIcon icon={faTimes} size="1.3x" />
+            <FontAwesomeIcon icon={faTimes} size="lg" />
           </button>
           <Link to="/">
             <div
