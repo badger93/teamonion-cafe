@@ -10,7 +10,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class OrdersUpdateRequest {
-    private Long orderId;
+    private Long id;
     private String buyerId;
     private boolean paid;
     private boolean made;
