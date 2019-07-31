@@ -20,7 +20,7 @@ const AdminOrderManageContainer = () => {
     client.connect({}, frame => {
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
-        const res = JSON.parse(msg.body.body);
+        const res = JSON.parse(msg.body);
         console.dir(msg);
         console.dir(res);
         if (res) {
