@@ -8,9 +8,7 @@ import Stomp from 'stompjs';
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
   const [orders, setOrders] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // 웹소켓을 이용한 내 주문정보 가져오기
+  const [isLoading, setIsLoading] = useState(false);
 
   const localToken = localStorage.getItem('TOKEN');
   const sessionToken = sessionStorage.getItem('TOKEN');
@@ -32,18 +30,33 @@ const MyOrderContainer = () => {
       console.log(frame);
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
+        console.log('message : ' + msg);
         const myOrderData = msg.body && JSON.parse(msg.body).content;
-        console.log(myOrderData);
-        myOrderData && setOrders(myOrderData);
+        console.log('변경될 데이터 ? : ' + myOrderData);
+        // myOrderData && setOrders(myOrderData);
       });
       // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
     });
   };
 
-  // // 최초 api call
   useEffect(() => {
+    const fetchMyOrder = async () => {
+      try {
+        if (me) {
+          const {
+            data: { content },
+          } = await userOrderAPI(me.id, false);
+          // console.log(content);
+          setOrders(content);
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    };
+    fetchMyOrder();
     socketMyOrderInit();
-    // console.log(client);
+    setIsLoading(false);
+    // console.log(orders);
     return () => {
       try {
         client.disconnect(() => {
@@ -54,25 +67,6 @@ const MyOrderContainer = () => {
       }
     };
   }, []);
-
-  // useEffect(() => {
-  //   const fetchMyOrder = async () => {
-  //     try {
-  //       if (me) {
-  //         const {
-  //           data: { content },
-  //         } = await userOrderAPI(me.id, false);
-  //         // console.log(content);
-  //         setOrders(content);
-  //       }
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   fetchMyOrder();
-  //   setIsLoading(false);
-  //   // console.log(orders);
-  // }, []);
 
   return (
     <MyOrderPresenter isLoading={isLoading} orders={orders} setOrders={setOrders} userId={me.id} />

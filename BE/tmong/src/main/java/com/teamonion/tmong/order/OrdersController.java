@@ -47,7 +47,7 @@ public class OrdersController {
 
     @MessageMapping("/api/orders/update")
     @SendTo("/topic/order")
-    public ResponseEntity<OrdersHistoryResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
+    public ResponseEntity<OrdersCategoryResponse> updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
         log.info("--------------------------------");
         log.info("-------------updateOrder--------");
         log.info("--------------------------------");
