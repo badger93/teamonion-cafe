@@ -4,7 +4,6 @@ import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import { config } from '@fortawesome/fontawesome-svg-core';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
@@ -23,28 +22,36 @@ const MyOrderContainer = () => {
 
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
-    new SockJS('http://tmonion/', null, { headers: { Authorization: token, memberId: me.id } }),
+    new SockJS('teamonion', null, {
+      headers: { Authorization: token },
+    }),
   );
 
   const socketMyOrderInit = () => {
     client.connect({}, frame => {
+      console.log(frame);
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
         const myOrderData = msg.body && JSON.parse(msg.body).content;
         console.log(myOrderData);
         myOrderData && setOrders(myOrderData);
       });
-      client.send('/topic/order', {}, JSON.stringify({ memberId: me.id }));
+      // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
     });
   };
 
   // // 최초 api call
   useEffect(() => {
     socketMyOrderInit();
+    // console.log(client);
     return () => {
-      client.disconnect(() => {
-        alert('socket disconnected!');
-      });
+      try {
+        client.disconnect(() => {
+          alert('socket disconnected!');
+        });
+      } catch (e) {
+        console.log(e);
+      }
     };
   }, []);
 
