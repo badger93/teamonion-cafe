@@ -27,17 +27,7 @@ public class MenuTest {
 
     @Test
     public void UpdateTest() {
-        String name = "maesil";
-        long price = 1200;
-        String information = "장에 좋은 음료";
-        String imagePath = "src/main/resources/menuImage/example/example2.png";
 
-        MenuSaveDto menuSaveDto = new MenuSaveDto(name, price, information, null);
-
-        assertThat(menu.getName()).isEqualTo(name);
-        assertThat(menu.getPrice()).isEqualTo(price);
-        assertThat(menu.getInformation()).isEqualTo(information);
-        assertThat(menu.getImagePath()).isEqualTo(imagePath);
     }
 
 
