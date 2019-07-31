@@ -23,19 +23,23 @@ const AdminOrderManageContainer = () => {
         const res = JSON.parse(msg.body);
         console.dir(msg);
         console.dir(res);
-        const arrangedItem = {
-          order_id: res.id,
-          menus: res.menuNameList,
-          paymentType: res.paymentType,
-          paid: res.paid,
-          made: res.made,
-          pickup: res.pickup,
-          createdDate: res.createdDate,
-          amount: res.amount,
-          member_id: res.buyerId,
-        };
-        const arrangedList = [...currentOrderList, arrangedItem];
-        setCurrentOrderList(arrangedList);
+        if (res.body) {
+          const arrangedItem = {
+            order_id: res.id,
+            menus: res.menuNameList,
+            paymentType: res.paymentType,
+            paid: res.paid,
+            made: res.made,
+            pickup: res.pickup,
+            createdDate: res.createdDate,
+            amount: res.amount,
+            member_id: res.buyerId,
+          };
+          const arrangedList = currentOrderList.map(item =>
+            item.order_id === arrangedItem.order_id ? arrangedItem : item,
+          );
+          setCurrentOrderList(arrangedList);
+        }
       });
     });
   };
