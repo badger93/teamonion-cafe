@@ -6,12 +6,12 @@ import Stomp from 'stompjs';
 
 const AdminOrderManageContainer = () => {
   const [currentOrderList, setCurrentOrderList] = useState([]);
-  const client = Stomp.over(new SockJS('endpointUrl'));
+  const client = Stomp.over(new SockJS('http://tmonion/'));
 
   const socketOrderInit = () => {
     client.connect({}, frame => {
       alert(`socket conneted: ${frame}`);
-      client.subscribe('url', msg => {
+      client.subscribe('/topic/order', msg => {
         const res = JSON.parse(msg.body).content;
         const arrangedList = res.map(item => {
           return {
@@ -32,7 +32,7 @@ const AdminOrderManageContainer = () => {
   };
   const socketSetOrderState = (list, change) => {
     const payload = Object.assign(list, change);
-    client.send('url', {}, JSON.stringify(payload));
+    client.send('/topic/order', {}, JSON.stringify(payload));
   };
 
   const setOrderState = (orderId, stateToSet) => {
