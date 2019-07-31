@@ -32,13 +32,16 @@ const MyOrderContainer = () => {
       client.subscribe('/topic/order', msg => {
         console.log('message : ' + msg);
         const newArrayOrders = orders;
-        const changedData = msg.body && JSON.parse(msg.body);
+        const changedData = msg && JSON.parse(msg);
+        console.log('changedData:' + changedData);
+        console.log('orders:' + orders);
         const changedDataIndex =
+          orders &&
           orders.length > 0 &&
           orders.findIndex(e => {
             return e.id === changedData.id;
           });
-        if (newArrayOrders.length > 0) {
+        if (newArrayOrders && newArrayOrders.length > 0) {
           newArrayOrders[changedDataIndex] = {
             ...orders[changedDataIndex],
             made: changedData.made,
