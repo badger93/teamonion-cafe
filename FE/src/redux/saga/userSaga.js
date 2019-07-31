@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, call, put, delay } from 'redux-saga/effects';
+import { all, fork, takeLatest, call, put } from 'redux-saga/effects';
 import {
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,

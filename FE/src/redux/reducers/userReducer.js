@@ -7,7 +7,6 @@ import {
   SIGNIN_REQUEST,
   LOG_OUT,
   SIGNIN_POPUP_CHANGE,
-  CHANGE_POINT,
   SIGNUP_FINISH,
   CHANGE_POINT_SUCCESS,
 } from '../actions/userAction';

@@ -1,11 +1,11 @@
-import { all, fork, takeLatest, call, put, delay } from 'redux-saga/effects';
+import { all, fork, takeLatest, call, put } from 'redux-saga/effects';
 import { PAY_FAILURE, PAY_SUCCESS, PAY_REQUEST } from '../actions/payAction';
 import { payAPI } from '../../api/payApi';
 import { CHANGE_POINT_REQUEST } from '../actions/userAction';
 
 function* pay(action) {
   try {
-    const result = yield call(() => payAPI(action.data));
+    yield call(() => payAPI(action.data));
     // yield delay(2000);
     yield put({
       type: PAY_SUCCESS,
