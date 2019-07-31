@@ -6,7 +6,14 @@ import Stomp from 'stompjs';
 
 const AdminOrderManageContainer = () => {
   const [currentOrderList, setCurrentOrderList] = useState([]);
-  const client = Stomp.over(new SockJS('http://tmonion/'));
+  const localToken = localStorage.getItem('TOKEN');
+  const sessionToken = sessionStorage.getItem('TOKEN');
+  const token = localToken
+    ? `Bearer ${localToken}`
+    : '' || sessionToken
+    ? `Bearer ${sessionToken}`
+    : '';
+  const client = Stomp.over(new SockJS('http://tmonion/', null, { Authorization: token }));
 
   const socketOrderInit = () => {
     client.connect({}, frame => {
@@ -30,8 +37,9 @@ const AdminOrderManageContainer = () => {
       });
     });
   };
-  const socketSetOrderState = (list, change) => {
-    const payload = Object.assign(list, change);
+  const socketSetOrderState = ({ order_id }, change) => {
+    const payload = Object.assign({ orderId: order_id }, change);
+    console.log(payload);
     client.send('/topic/order', {}, JSON.stringify(payload));
   };
 
