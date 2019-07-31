@@ -33,7 +33,7 @@ public class Orders {
     @ManyToOne
     private Member buyer;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Menu> menuList = new ArrayList<>();
 
     @Column(nullable = false)
