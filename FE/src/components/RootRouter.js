@@ -13,6 +13,7 @@ import AdminMemberManage from '../routes/admin/AdminMemberManage';
 import AdminMenuManage from '../routes/admin/AdminMenuManage';
 import AdminOrderManage from '../routes/admin/AdminOrderManage';
 import AdminOrderHistory from '../routes/admin/AdminOrderHistory';
+import Footer from './Footer';
 
 const RootRouter = () => {
   const { isSignedIn, me } = useSelector(state => state.user);
@@ -66,6 +67,7 @@ const RootRouter = () => {
           />
           <Redirect from="*" to="/" />
         </Switch>
+        <Footer />
       </>
     </Router>
   );
