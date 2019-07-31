@@ -20,10 +20,10 @@ const AdminOrderManageContainer = () => {
     client.connect({}, frame => {
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
-        const res = JSON.parse(msg.body);
+        const res = JSON.parse(msg.body.body);
         console.dir(msg);
         console.dir(res);
-        if (res.body) {
+        if (res) {
           const arrangedItem = {
             order_id: res.id,
             menus: res.menuNameList,
