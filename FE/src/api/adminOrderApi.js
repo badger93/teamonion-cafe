@@ -11,7 +11,7 @@ const getNonpickupAll = callback => {
       const resList = res.data.content;
       const listData = resList.map(item => {
         return {
-          order_id: item.orderId,
+          order_id: item.id,
           menus: item.menuNameList,
           paymentType: item.paymentType,
           paid: item.paid,
