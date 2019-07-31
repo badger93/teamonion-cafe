@@ -102,9 +102,26 @@ public class OrdersService {
         return response.map(OrdersCategoryResponse::new);
     }
 
-    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
-        jwtComponent.checkAdmin();
-        Orders orders = ordersRepository.findById(order_id)
+//    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
+//        jwtComponent.checkAdmin();
+//        Orders orders = ordersRepository.findById(order_id)
+//                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
+//
+//        if (ordersUpdateRequest.isPaid()) {
+//            orders.pay();
+//        }
+//        if (ordersUpdateRequest.isMade()) {
+//            orders.make();
+//        }
+//        if (ordersUpdateRequest.isPickup()) {
+//            orders.pick();
+//        }
+//        ordersRepository.save(orders);
+//    }
+
+    public OrdersHistoryResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
+        //jwtComponent.checkAdmin();
+        Orders orders = ordersRepository.findById(ordersUpdateRequest.getOrder_id())
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
 
         if (ordersUpdateRequest.isPaid()) {
@@ -116,6 +133,7 @@ public class OrdersService {
         if (ordersUpdateRequest.isPickup()) {
             orders.pick();
         }
-        ordersRepository.save(orders);
+
+        return new OrdersHistoryResponse(ordersRepository.save(orders));
     }
 }

@@ -8,6 +8,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 public class OrdersUpdateRequest {
+    private Long order_id;
+    private Long buyer_id;
     private boolean paid;
     private boolean made;
     private boolean pickup;
