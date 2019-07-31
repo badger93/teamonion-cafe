@@ -5,7 +5,7 @@ import changeImagePath from '../../../utils/changeImagePath';
 
 const AdminMenuManageContainer = () => {
   const [menuList, setMenuList] = useState([]);
-  const [pageData, setPageData] = useState([]);
+  const [pageData, setPageData] = useState({});
   const deleteItem = id => {
     deleteMenuList(id)
       .then(() => {
@@ -13,7 +13,6 @@ const AdminMenuManageContainer = () => {
         setMenuList(change);
       })
       .catch(err => {
-        console.dir(err);
         alert(`삭제실패${err}`);
       });
   };

@@ -68,7 +68,10 @@ MainPresenter.propTypes = {
   list: propTypes.arrayOf(propTypes.object),
   mapDetailData: propTypes.func,
   searchMenuListByName: propTypes.func,
-  menuPageData: propTypes.objectOf(),
+  menuPageData: propTypes.shape({
+    page: propTypes.number,
+    totalPages: propTypes.number,
+  }),
   getMenuByPage: propTypes.func,
   menuDetailData: propTypes.shape({
     deleted: propTypes.bool,

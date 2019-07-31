@@ -145,7 +145,10 @@ AdminMenuManagePresenter.propTypes = {
   updateItem: propTypes.func,
   createItem: propTypes.func,
   getMenuBypage: propTypes.func,
-  pageData: propTypes.objectOf,
+  pageData: propTypes.shape({
+    page: propTypes.number,
+    total: propTypes.number,
+  }),
 };
 
 export default AdminMenuManagePresenter;

@@ -7,7 +7,7 @@ const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
   const [menuDetailData, setMenuDetailData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [menuPageData, setMenuPageData] = useState([]);
+  const [menuPageData, setMenuPageData] = useState({});
   const [searchText, setSearchText] = useState('');
 
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
