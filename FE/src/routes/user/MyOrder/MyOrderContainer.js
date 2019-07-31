@@ -2,11 +2,42 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
+import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
   const [orders, setOrders] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const localToken = localStorage.getItem('TOKEN');
+  const sessionToken = sessionStorage.getItem('TOKEN');
+  const token = localToken
+    ? `Bearer ${localToken}`
+    : '' || sessionToken
+    ? `Bearer ${sessionToken}`
+    : '';
+
+  // const [currentOrderList, setCurrentOrderList] = useState([]);
+  const client = Stomp.over(
+    new SockJS('/teamonion', null, {
+      headers: { Authorization: token },
+    }),
+  );
+
+  const socketMyOrderInit = () => {
+    client.connect({}, frame => {
+      console.log(frame);
+      alert(`socket conneted: ${frame}`);
+      client.subscribe('/topic/order', msg => {
+        console.log('message : ' + msg);
+        const myOrderData = msg.body && JSON.parse(msg.body).content;
+        console.log('변경될 데이터 ? : ' + myOrderData);
+        // myOrderData && setOrders(myOrderData);
+      });
+      // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
+    });
+  };
 
   useEffect(() => {
     const fetchMyOrder = async () => {
@@ -23,8 +54,18 @@ const MyOrderContainer = () => {
       }
     };
     fetchMyOrder();
+    socketMyOrderInit();
     setIsLoading(false);
     // console.log(orders);
+    return () => {
+      try {
+        client.disconnect(() => {
+          alert('socket disconnected!');
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    };
   }, []);
 
   return (
