@@ -13,7 +13,7 @@ const AdminOrderManageContainer = () => {
     : '' || sessionToken
     ? `Bearer ${sessionToken}`
     : '';
-  const client = Stomp.over(new SockJS('teamonion', null, { Authorization: token }));
+  const client = Stomp.over(new SockJS('/teamonion', null, { Authorization: token }));
   console.log(client);
 
   const socketOrderInit = () => {
