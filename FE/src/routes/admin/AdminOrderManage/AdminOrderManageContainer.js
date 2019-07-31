@@ -35,6 +35,7 @@ const AdminOrderManageContainer = () => {
           member_id: res.buyerId,
         };
         console.log(arrangedItem);
+        console.log(currentOrderList);
         const arrangedList = currentOrderList.map(item =>
           item.order_id == arrangedItem.order_id ? arrangedItem : item,
         );
@@ -59,8 +60,15 @@ const AdminOrderManageContainer = () => {
 
   // 최초 api call
   useEffect(() => {
-    getNonpickupAll(setCurrentOrderList);
-    socketOrderInit();
+    const socketInit = async () => {
+      try {
+        await getNonpickupAll(setCurrentOrderList);
+        await socketOrderInit();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    socketInit();
     return () => {
       client.disconnect(() => {
         alert('socket disconnected!');
