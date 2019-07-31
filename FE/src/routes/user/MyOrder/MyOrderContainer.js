@@ -31,9 +31,24 @@ const MyOrderContainer = () => {
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
         console.log('message : ' + msg);
-        const myOrderData = msg.body && JSON.parse(msg.body).content;
-        console.log('변경될 데이터 ? : ' + myOrderData);
-        // myOrderData && setOrders(myOrderData);
+        const newArrayOrders = orders;
+        const changedData = msg.body && JSON.parse(msg.body);
+        const changedDataIndex =
+          orders.length > 0 &&
+          orders.findIndex(e => {
+            return e.id === changedData.id;
+          });
+        if (newArrayOrders.length > 0) {
+          newArrayOrders[changedDataIndex] = {
+            ...orders[changedDataIndex],
+            made: changedData.made,
+            paid: changedData.paid,
+          };
+          if (changedData.pickup === true) {
+            newArrayOrders = newArrayOrders.slice(changedDataIndex);
+          }
+        }
+        setOrders(...newArrayOrders);
       });
       // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
     });
