@@ -73,7 +73,7 @@ const MyOrderContainer = () => {
   useEffect(() => {
     if (orders.length > 0 && changedData) {
       console.dir(orders);
-      const newOrders = [...orders];
+      let newOrders = [...orders];
       console.dir(newOrders);
       console.dir(changedData);
       const changedDataIndex = newOrders.findIndex(e => {
