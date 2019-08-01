@@ -83,15 +83,19 @@ const MyOrderContainer = () => {
       console.dir(newOrders);
       console.dir(changedData);
       const changedDataIndex = newOrders.findIndex(e => {
+        // 변화된 주문정보 찾기
         return e.id === changedData.id;
       });
       console.log('dataindex:' + changedDataIndex);
       if (changedData.pickup === true) {
-        console.log('pickup : ');
-        // pick up 된거면 제거
-        newOrders = newOrders.slice(changedDataIndex);
-        console.dir(newOrders);
+        // 픽업된 주문정보 삭제
+        const ordersWithoutAfterPickup = [
+          ...newOrders.slice(0, changedDataIndex),
+          ...newOrders.slice(changedDataIndex + 1, newOrders.length),
+        ];
+        newOrders = [...ordersWithoutAfterPickup];
       } else {
+        // 변화만 된 주문정보 변경
         newOrders[changedDataIndex] = {
           ...newOrders[changedDataIndex],
           made: changedData.made,
