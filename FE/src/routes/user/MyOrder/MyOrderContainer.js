@@ -73,24 +73,26 @@ const MyOrderContainer = () => {
   useEffect(() => {
     if (orders.length > 0 && changedData) {
       console.log('orders:' + orders);
+      const newOrders = [...orders];
+      console.log('newOrders:' + newOrders);
       console.log('changedData:' + changedData);
-      const changedDataIndex = orders.findIndex(e => {
+      const changedDataIndex = newOrders.findIndex(e => {
         return e.id === changedData.id;
       });
 
       if (changedData.pickup === true) {
         // pick up 된거면 제거
-        orders = orders.slice(changedDataIndex);
+        newOrders = newOrders.slice(changedDataIndex);
       } else {
-        orders[changedDataIndex] = {
-          ...orders[changedDataIndex],
+        newOrders[changedDataIndex] = {
+          ...newOrders[changedDataIndex],
           made: changedData.made,
           paid: changedData.paid,
         };
       }
+      setOrders([...newOrders]);
     }
-    setOrders(orders);
-  }, [orders]);
+  }, [changedData]);
 
   return (
     <MyOrderPresenter isLoading={isLoading} orders={orders} setOrders={setOrders} userId={me.id} />
