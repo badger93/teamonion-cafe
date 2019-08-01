@@ -2,13 +2,15 @@ package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.menu.Menu;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class OrdersCategoryResponse {
+@ToString
+public class OrdersResponse {
     private Long id;
     private String buyerId;
     private LocalDateTime createdDate;
@@ -19,7 +21,7 @@ public class OrdersCategoryResponse {
     private boolean made;
     private List<String> menuNameList;
 
-    public OrdersCategoryResponse(Orders orders) {
+    public OrdersResponse(Orders orders) {
         this.id = orders.getId();
         this.buyerId = orders.getBuyer().getMemberId();
         this.createdDate = orders.getCreatedDate();

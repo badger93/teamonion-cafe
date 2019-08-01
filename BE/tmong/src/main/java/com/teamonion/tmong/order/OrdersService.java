@@ -70,13 +70,13 @@ public class OrdersService {
     }
 
 
-    public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, boolean pickup) {
+    public Page<OrdersResponse> getMyOrders(Pageable pageable, boolean pickup) {
         Long buyer_id = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID)).getId();
         return ordersRepository.findByBuyerIdAndPickup(pageable, buyer_id, pickup)
-                .map(OrdersHistoryResponse::new);
+                .map(OrdersResponse::new);
     }
 
-    Page<OrdersCategoryResponse> getOrdersByCategory(Pageable pageable, String category) {
+    Page<OrdersResponse> getOrdersByCategory(Pageable pageable, String category) {
         jwtComponent.checkAdmin();
 
         Page<Orders> response;
@@ -99,12 +99,30 @@ public class OrdersService {
             default:
                 throw new HandleRuntimeException(GlobalExceptionType.ORDER_CATEGORY_INVALID);
         }
-        return response.map(OrdersCategoryResponse::new);
+        return response.map(OrdersResponse::new);
     }
 
-    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
-        jwtComponent.checkAdmin();
-        Orders orders = ordersRepository.findById(order_id)
+//    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
+//        jwtComponent.checkAdmin();
+//        Orders orders = ordersRepository.findById(order_id)
+//                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
+//
+//        if (ordersUpdateRequest.isPaid()) {
+//            orders.pay();
+//        }
+//        if (ordersUpdateRequest.isMade()) {
+//            orders.make();
+//        }
+//        if (ordersUpdateRequest.isPickup()) {
+//            orders.pick();
+//        }
+//        ordersRepository.save(orders);
+//    }
+
+    public OrdersResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
+        //jwtComponent.checkAdmin();
+        log.info("!!service!! ordersUpdateRequest : {}", ordersUpdateRequest);
+        Orders orders = ordersRepository.findById(ordersUpdateRequest.getOrderId())
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
 
         if (ordersUpdateRequest.isPaid()) {
@@ -116,6 +134,10 @@ public class OrdersService {
         if (ordersUpdateRequest.isPickup()) {
             orders.pick();
         }
-        ordersRepository.save(orders);
+
+        OrdersResponse ordersResponse = new OrdersResponse(ordersRepository.save(orders));
+        log.info("!!service!! ordersCategoryResponse : {}", ordersResponse);
+        log.info("=========================");
+        return ordersResponse;
     }
 }
