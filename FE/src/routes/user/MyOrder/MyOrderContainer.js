@@ -35,8 +35,10 @@ const MyOrderContainer = () => {
       client.subscribe('/topic/order', msg => {
         console.log('message : ' + msg);
         // const newArrayOrders = [...orders];
-        const changedData = msg.body && JSON.parse(msg.body);
-        setChangedData(changedData);
+        const Data = msg.body && JSON.parse(msg.body);
+        setChangedData(Data);
+        console.log('changedData:');
+        console.dir(changedData);
       });
       // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
     });
@@ -73,7 +75,8 @@ const MyOrderContainer = () => {
   useEffect(() => {
     console.log('im useeffect in somthing');
     console.dir(orders);
-    console.log('changeddata : ' + changedData);
+    console.log('changeddata :');
+    console.dir(changedData);
     if (orders.length > 0 && changedData) {
       console.dir(orders);
       let newOrders = [...orders];
@@ -82,17 +85,21 @@ const MyOrderContainer = () => {
       const changedDataIndex = newOrders.findIndex(e => {
         return e.id === changedData.id;
       });
-
+      console.log('dataindex:' + changedDataIndex);
       if (changedData.pickup === true) {
+        console.log('pickup : ');
         // pick up 된거면 제거
         newOrders = newOrders.slice(changedDataIndex);
+        console.dir(newOrders);
       } else {
         newOrders[changedDataIndex] = {
           ...newOrders[changedDataIndex],
           made: changedData.made,
           paid: changedData.paid,
         };
+        console.dir(newOrders[changedDataIndex]);
       }
+      console.dir(newOrders);
       setOrders([...newOrders]);
     }
   }, [changedData]);
