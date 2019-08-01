@@ -72,10 +72,10 @@ const MyOrderContainer = () => {
 
   useEffect(() => {
     if (orders.length > 0 && changedData) {
-      console.log('orders:' + orders);
-      const newOrders = [...orders];
-      console.log('newOrders:' + newOrders);
-      console.log('changedData:' + changedData);
+      console.dir(orders);
+      let newOrders = [...orders];
+      console.dir(newOrders);
+      console.dir(changedData);
       const changedDataIndex = newOrders.findIndex(e => {
         return e.id === changedData.id;
       });
