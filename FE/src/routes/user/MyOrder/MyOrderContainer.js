@@ -29,11 +29,12 @@ const MyOrderContainer = () => {
 
   const socketMyOrderInit = () => {
     client.connect({}, frame => {
+      // 의문점 : 콜백 함수안에 들어가면 처음 초기의 빈값이 계속유지됨
       console.log(frame);
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
         console.log('message : ' + msg);
-        const newArrayOrders = [...orders];
+        // const newArrayOrders = [...orders];
         const changedData = msg.body && JSON.parse(msg.body);
         setChangedData(changedData);
       });
@@ -71,6 +72,8 @@ const MyOrderContainer = () => {
 
   useEffect(() => {
     if (orders.length > 0 && changedData) {
+      console.log('orders:' + orders);
+      console.log('changedData:' + changedData);
       const changedDataIndex = orders.findIndex(e => {
         return e.id === changedData.id;
       });
