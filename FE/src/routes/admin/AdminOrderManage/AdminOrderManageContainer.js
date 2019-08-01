@@ -6,6 +6,7 @@ import Stomp from 'stompjs';
 
 const AdminOrderManageContainer = () => {
   const [currentOrderList, setCurrentOrderList] = useState([]);
+  const [arrangedItem, setArrangedItem] = useState({});
   const localToken = localStorage.getItem('TOKEN');
   const sessionToken = sessionStorage.getItem('TOKEN');
   const token = localToken
@@ -14,16 +15,13 @@ const AdminOrderManageContainer = () => {
     ? `Bearer ${sessionToken}`
     : '';
   const client = Stomp.over(new SockJS('/teamonion', null, { Authorization: token }));
-  console.log(client);
 
   const socketOrderInit = () => {
     client.connect({}, frame => {
       alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
         const res = JSON.parse(msg.body);
-        console.dir(msg);
-        console.dir(res);
-        const arrangedItem = {
+        setArrangedItem({
           order_id: res.id,
           menus: res.menuNameList,
           paymentType: res.paymentType,
@@ -33,14 +31,7 @@ const AdminOrderManageContainer = () => {
           createdDate: res.createdDate,
           amount: res.amount,
           member_id: res.buyerId,
-        };
-        console.log(arrangedItem);
-        console.log(currentOrderList);
-        const arrangedList = currentOrderList.map(item =>
-          item.order_id == arrangedItem.order_id ? arrangedItem : item,
-        );
-        console.log(arrangedList);
-        setCurrentOrderList(arrangedList);
+        });
       });
     });
   };
@@ -75,6 +66,17 @@ const AdminOrderManageContainer = () => {
       });
     };
   }, []);
+
+  useEffect(() => {
+    if (Object.keys(arrangedItem).length > 0) {
+      const arrangedList = currentOrderList.map(item =>
+        item.order_id == arrangedItem.order_id ? arrangedItem : item,
+      );
+      console.log(currentOrderList);
+      console.log(arrangedItem);
+      setCurrentOrderList(arrangedList);
+    }
+  }, [arrangedItem]);
 
   return (
     <AdminOrderManagePresenter
