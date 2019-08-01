@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
 import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
+import Stomp from '@stomp/stompjs';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
