@@ -14,7 +14,10 @@ const AdminOrderManageContainer = () => {
     : '' || sessionToken
     ? `Bearer ${sessionToken}`
     : '';
-  const client = Stomp.over(new SockJS('/teamonion', null, { Authorization: token }));
+  const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
+  const client = Stomp.over(
+    new SockJS('/teamonion', null, { Authorization: token, transports: sockJsProtocols }),
+  );
 
   const socketOrderInit = () => {
     client.connect({}, frame => {
