@@ -3,75 +3,8 @@ import propTypes from 'prop-types';
 import MyOrderCard from './components/MyOrderCard';
 import './styles/MyOrderPresenter.scss';
 import Loading from '../../../components/Loading';
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
 
 const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => {
-  const localToken = localStorage.getItem('TOKEN');
-  const sessionToken = sessionStorage.getItem('TOKEN');
-  const token = localToken
-    ? `Bearer ${localToken}`
-    : '' || sessionToken
-    ? `Bearer ${sessionToken}`
-    : '';
-
-  // const [currentOrderList, setCurrentOrderList] = useState([]);
-  const client = Stomp.over(
-    new SockJS('/teamonion', null, {
-      headers: { Authorization: token },
-    }),
-  );
-
-  const socketMyOrderInit = () => {
-    client.connect({}, async frame => {
-      console.log(frame);
-      alert(`socket conneted: ${frame}`);
-      await client.subscribe('/topic/order', msg => {
-        console.log('message : ' + msg);
-        const newArrayOrders = [...orders];
-        const changedData = msg.body && JSON.parse(msg.body);
-        console.log('newArrayOrders' + newArrayOrders);
-        console.log('changedData:' + changedData);
-        console.log('orders:' + orders);
-
-        if (newArrayOrders.length > 0) {
-          const changedDataIndex = newArrayOrders.findIndex(e => {
-            return e.id === changedData.id;
-          });
-
-          if (changedData.pickup === true) {
-            // pick up 된거면 제거
-            newArrayOrders = newArrayOrders.slice(changedDataIndex);
-          } else {
-            newArrayOrders[changedDataIndex] = {
-              ...newArrayOrders[changedDataIndex],
-              made: changedData.made,
-              paid: changedData.paid,
-            };
-          }
-        }
-
-        setOrders([...newArrayOrders]);
-      });
-      // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
-    });
-  };
-
-  useEffect(() => {
-    console.log('useeffect in presenter');
-    socketMyOrderInit();
-
-    return () => {
-      try {
-        client.disconnect(() => {
-          alert('socket disconnected!');
-        });
-      } catch (e) {
-        console.log(e);
-      }
-    };
-  }, []);
-
   return (
     <>
       {isLoading && <Loading />}
