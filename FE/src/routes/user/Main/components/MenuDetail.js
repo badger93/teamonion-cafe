@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
-import { useLocalStorage } from '../utils/cart';
+import { useLocalStorage } from '../../../../utils/cart';
 import { useDispatch } from 'react-redux';
-import { cartToPayAction } from '../redux/actions/payAction';
+import { cartToPayAction } from '../../../../redux/actions/payAction';
 import { Redirect } from 'react-router-dom';
 
 const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
-  const { id, name, price, information, imageFile } = menuDetailData;
+  const { id, name, price, information, imagePath } = menuDetailData;
   const { storedValue, setValue } = useLocalStorage('CART', []);
   const [isCart, setIsCart] = useState(false);
   const [isPay, setIsPay] = useState(false);
@@ -53,7 +53,7 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
       <div className="menuDetail">
         <aside>
           <div className="img-area">
-            <img src={imageFile} alt="제품이미지" />
+            <img src={imagePath} alt="제품이미지" />
           </div>
         </aside>
         <main className="main">

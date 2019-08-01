@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import { Formatters } from 'react-data-grid-addons';
-import MenuManagePopup from '../../../components/MenuManagePopup';
+import MenuManagePopup from './components/MenuManagePopup';
 import './styles/AdminMenuManagePresenter.scss';
 import Pagination from '../../../components/pagination';
 
@@ -56,7 +56,7 @@ const AdminMenuManagePresenter = ({
 
   const rows = menuList.map(item => ({
     id: item.id,
-    imageFile: item.imageFile,
+    imageFile: item.imagePath,
     name: item.name,
     price: item.price,
     information: item.information,
@@ -145,7 +145,10 @@ AdminMenuManagePresenter.propTypes = {
   updateItem: propTypes.func,
   createItem: propTypes.func,
   getMenuBypage: propTypes.func,
-  pageData: propTypes.objectOf,
+  pageData: propTypes.shape({
+    page: propTypes.number,
+    total: propTypes.number,
+  }),
 };
 
 export default AdminMenuManagePresenter;

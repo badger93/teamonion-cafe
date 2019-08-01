@@ -1,4 +1,4 @@
-import { all, fork, takeLatest, call, put, delay } from 'redux-saga/effects';
+import { all, fork, takeLatest, call, put } from 'redux-saga/effects';
 import {
   SIGNUP_FAILURE,
   SIGNUP_SUCCESS,
@@ -7,8 +7,11 @@ import {
   SIGNIN_FAILURE,
   SIGNIN_REQUEST,
   SIGNUP_FINISH,
+  CHANGE_POINT_FAILURE,
+  CHANGE_POINT_SUCCESS,
+  CHANGE_POINT_REQUEST,
 } from '../actions/userAction';
-import { signUpApi, signInApi } from '../../api/userApi';
+import { signUpApi, signInApi, myPointApi } from '../../api/userApi';
 import moment from 'moment';
 
 function* signIn(action) {
@@ -79,6 +82,28 @@ function* watchSignUp() {
   yield takeLatest(SIGNUP_REQUEST, signUp);
 }
 
+function* changePoint(action) {
+  try {
+    const me = localStorage.getItem('USER') && JSON.parse(localStorage.getItem('USER'));
+    const result = yield call(() => myPointApi(me.id));
+    // yield delay(2000);
+    yield put({
+      type: CHANGE_POINT_SUCCESS,
+      data: result.data,
+    });
+    localStorage.setItem('USER', JSON.stringify({ ...me, point: result.data }));
+  } catch (e) {
+    console.dir(e);
+    yield put({
+      type: CHANGE_POINT_FAILURE,
+    });
+  }
+}
+
+function* watchChangePoint() {
+  yield takeLatest(CHANGE_POINT_REQUEST, changePoint);
+}
+
 export default function* userSaga() {
-  yield all([fork(watchSignUp), fork(watchSignIn)]);
+  yield all([fork(watchSignUp), fork(watchSignIn), fork(watchChangePoint)]);
 }

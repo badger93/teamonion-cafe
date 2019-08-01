@@ -7,8 +7,8 @@ import {
   SIGNIN_REQUEST,
   LOG_OUT,
   SIGNIN_POPUP_CHANGE,
-  CHANGE_POINT,
   SIGNUP_FINISH,
+  CHANGE_POINT_SUCCESS,
 } from '../actions/userAction';
 
 const initState = {
@@ -74,7 +74,7 @@ const userReducer = (state = initState, action) => {
     case SIGNIN_POPUP_CHANGE: {
       return { ...state, signInPopup: !state.signInPopup };
     }
-    case CHANGE_POINT: {
+    case CHANGE_POINT_SUCCESS: {
       return { ...state, me: { ...state.me, point: action.data } };
     }
     case LOG_OUT: {

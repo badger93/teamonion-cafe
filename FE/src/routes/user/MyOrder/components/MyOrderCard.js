@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MyOrderCard.scss';
-import { userOrderAPI } from '../api/userApi';
+import { userOrderAPI } from '../../../../api/userApi';
 
 const MyOrderCard = ({
   // 전체 주문목록 새로고침
@@ -34,10 +34,18 @@ const MyOrderCard = ({
       <div className="myorder-card">
         <div className={!made ? 'myorder-status' : 'myorder-status-finish'}>
           {!made ? (
-            <img className="myorder-status-image" src="http://i.imgur.com/QPSr0cT.jpg" />
+            <img
+              className="myorder-status-image"
+              alt="cupimg"
+              src="http://i.imgur.com/QPSr0cT.jpg"
+            />
           ) : (
             <>
-              <img className="myorder-status-image-finish" src=" http://i.imgur.com/3mkHz2x.jpg" />
+              <img
+                className="myorder-status-image-finish"
+                alt="cupimg-finish"
+                src=" http://i.imgur.com/3mkHz2x.jpg"
+              />
               <div className="myorder-status-ball-finish" />
               <div className="myorder-status-ball-finish" />
               <div className="myorder-status-ball-finish" />

@@ -54,19 +54,20 @@ public class MenuService {
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
 
-        String path = menu.getImagePath();
+        String menuImagePath = menu.getImagePath();
         MultipartFile imageFile = menuSaveDto.getImageFile();
 
-        // TODO : 파일 서비스 분리 고민
-        if (imageFile.isEmpty()) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
+
+        if (!imageFile.isEmpty()) {
+            deleteMenuImage(menuImagePath);
+
+            menuImagePath = setMenuImagePath(menuSaveDto.getImageFile());
         }
 
-        menu = menuSaveDto.toEntity(setMenuImagePath(menuSaveDto.getImageFile()));
+        menu = menuSaveDto.toEntity(menuImagePath);
+
         menu.update(id);
         menuRepository.save(menu);
-
-        deleteMenuImage(path);
     }
 
     private String setMenuImagePath(MultipartFile imageFile) {
