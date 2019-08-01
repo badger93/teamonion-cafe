@@ -71,6 +71,9 @@ const MyOrderContainer = () => {
   }, []);
 
   useEffect(() => {
+    console.log('im useeffect in somthing');
+    console.dir(orders);
+    console.log('changeddata : ' + changedData);
     if (orders.length > 0 && changedData) {
       console.dir(orders);
       let newOrders = [...orders];
