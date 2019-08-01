@@ -58,6 +58,7 @@ const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => {
   };
 
   useEffect(() => {
+    console.log('useeffect in presenter');
     socketMyOrderInit();
 
     return () => {
