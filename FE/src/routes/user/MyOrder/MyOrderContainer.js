@@ -50,13 +50,13 @@ const MyOrderContainer = () => {
           } = await userOrderAPI(me.id, false);
           // console.log(content);
           setOrders([...content]);
+          await socketMyOrderInit(); // 웹 소켓 연결
         }
       } catch (e) {
         console.log(e);
       }
     };
     fetchMyOrder();
-    socketMyOrderInit();
     setIsLoading(false);
     // console.log(orders);
     return () => {
