@@ -48,9 +48,7 @@ public class WebSocketController {
         log.info("Subscription Id : {}" , simpMessageHeaderAccessor.getSubscriptionId());
         log.info("Destination : {}" , simpMessageHeaderAccessor.getDestination());
         log.info("Message Type : {}" , simpMessageHeaderAccessor.getMessageType());
-
         log.info("--------------------------------");
-        log.info("DetailLogMessage : {}" , simpMessageHeaderAccessor.getDetailedLogMessage(ordersUpdateRequest));
 
         return ordersService.updateOrder(ordersUpdateRequest);
     }
