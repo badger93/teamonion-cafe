@@ -20,7 +20,7 @@ const MyOrderContainer = () => {
     ? `Bearer ${sessionToken}`
     : '';
 
-  const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
+  const sockJsProtocols = ['xhr-streaming', 'xhr-polling', 'websocket (hybi-10)'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
     new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
