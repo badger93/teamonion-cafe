@@ -20,10 +20,11 @@ const MyOrderContainer = () => {
     ? `Bearer ${sessionToken}`
     : '';
 
+  const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
     new SockJS('/teamonion', null, {
-      headers: { Authorization: token },
+      headers: { Authorization: token, transports: sockJsProtocols },
     }),
   );
 
