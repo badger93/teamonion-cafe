@@ -43,8 +43,6 @@ public class WebSocketController {
         log.info("payload ordersupdaterequest : {}", ordersUpdateRequest);
         log.info("--------------------------------");
         log.info("--------------------------------");
-        log.info("User Name : {}" , user.getName());
-        log.info("User Info : {}" , user.toString());
         log.info("--------------------------------");
         log.info("Session Id : {}" , simpMessageHeaderAccessor.getSessionId());
         log.info("Subscription Id : {}" , simpMessageHeaderAccessor.getSubscriptionId());
