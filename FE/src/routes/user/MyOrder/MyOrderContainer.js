@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
 import SockJS from 'sockjs-client';
-import Stomp from '@stomp/stompjs';
+import Stomp from 'stompjs';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
@@ -23,7 +23,7 @@ const MyOrderContainer = () => {
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
-    new SockJS('/teamonion', null, {
+    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
       headers: { Authorization: token, transports: sockJsProtocols },
     }),
   );
