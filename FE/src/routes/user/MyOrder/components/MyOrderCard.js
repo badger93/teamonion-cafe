@@ -9,7 +9,7 @@ const MyOrderCard = ({
   // 전체 주문목록 새로고침
   paid,
   made,
-  menu,
+  menu = [],
   setOrders,
   userId,
 }) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
@@ -9,7 +9,8 @@ const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
   const [orders, setOrders] = useState([]);
   const [changedData, setChangedData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [letsConnection, setLetsConnection] = useState(false);
 
   const localToken = localStorage.getItem('TOKEN');
   const sessionToken = sessionStorage.getItem('TOKEN');
@@ -29,22 +30,28 @@ const MyOrderContainer = () => {
   );
 
   const socketMyOrderInit = () => {
-    client.connect({}, frame => {
-      // 의문점 : 콜백 함수안에 들어가면 처음 초기의 빈값이 계속유지됨
-      console.log(frame);
-      alert(`socket conneted: ${frame}`);
-      client.subscribe('/topic/order', msg => {
-        console.log('message : ' + msg);
-        // const newArrayOrders = [...orders];
-        const Data = msg.body && JSON.parse(msg.body);
-        setChangedData(Data);
-        console.log('changedData:');
-        console.dir(changedData);
+    console.log(client);
+    if (client.connected === false) {
+      client.connect({}, frame => {
+        // 의문점 : 콜백 함수안에 들어가면 처음 초기의 빈값이 계속유지됨
+        // componentdidmount 라이프 사이클 안에서 실행되서 그런듯하다
+        console.log(frame);
+        alert(`socket conneted: ${frame}`);
+
+        client.subscribe('/topic/order', msg => {
+          // console.log('message : ' + msg);
+          const Data = msg.body && JSON.parse(msg.body);
+          console.log(Data);
+          setChangedData(Data);
+        });
+        console.log(client);
+        // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
       });
-      // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
-    });
+    }
   };
+
   useEffect(() => {
+    console.log('im in didmount effect');
     const fetchMyOrder = async () => {
       try {
         if (me) {
@@ -53,7 +60,7 @@ const MyOrderContainer = () => {
           } = await userOrderAPI(me.id, false);
           // console.log(content);
           setOrders([...content]);
-          await socketMyOrderInit(); // 웹 소켓 연결
+          setLetsConnection(true);
         }
       } catch (e) {
         console.log(e);
@@ -62,21 +69,30 @@ const MyOrderContainer = () => {
     fetchMyOrder();
     setIsLoading(false);
     // console.log(orders);
+  }, []);
+
+  useEffect(() => {
+    if (letsConnection === true) {
+      // 한번만 연결 되도록
+      socketMyOrderInit();
+    }
     return () => {
       try {
-        client.disconnect(() => {
-          alert('socket disconnected!');
-        });
+        if (client.connected === true) {
+          client.disconnect(() => {
+            alert('socket disconnected!');
+          });
+        }
       } catch (e) {
         console.log(e);
       }
     };
-  }, []);
+  }, [letsConnection]);
 
   useEffect(() => {
+    // 변경될 것 있을시 추가
     console.log('im useeffect in somthing');
     console.dir(orders);
-    console.log('changeddata :');
     console.dir(changedData);
     if (orders.length > 0 && changedData) {
       console.dir(orders);
@@ -110,7 +126,14 @@ const MyOrderContainer = () => {
   }, [changedData]);
 
   return (
-    <MyOrderPresenter isLoading={isLoading} orders={orders} setOrders={setOrders} userId={me.id} />
+    <>
+      <MyOrderPresenter
+        isLoading={isLoading}
+        orders={orders}
+        setOrders={setOrders}
+        userId={me.id}
+      />
+    </>
   );
 };
 
