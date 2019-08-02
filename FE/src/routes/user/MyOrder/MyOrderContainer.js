@@ -36,7 +36,7 @@ const MyOrderContainer = () => {
         // 의문점 : 콜백 함수안에 들어가면 처음 초기의 빈값이 계속유지됨
         // componentdidmount 라이프 사이클 안에서 실행되서 그런듯하다
         console.log(frame);
-        alert(`socket conneted: ${frame}`);
+        //  alert(`socket conneted: ${frame}`);
 
         client.subscribe('/topic/order', msg => {
           // console.log('message : ' + msg);
@@ -80,7 +80,7 @@ const MyOrderContainer = () => {
       try {
         if (client.connected === true) {
           client.disconnect(() => {
-            alert('socket disconnected!');
+            // alert('socket disconnected!');
           });
         }
       } catch (e) {
