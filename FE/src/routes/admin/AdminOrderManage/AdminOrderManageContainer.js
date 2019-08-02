@@ -6,7 +6,7 @@ import Stomp from 'stompjs';
 
 const AdminOrderManageContainer = () => {
   const [currentOrderList, setCurrentOrderList] = useState([]);
-  const [arrangedItem, setArrangedItem] = useState({});
+  const [arrangedItem, setArrangedItem] = useState(null);
   const localToken = localStorage.getItem('TOKEN');
   const sessionToken = sessionStorage.getItem('TOKEN');
   const token = localToken
@@ -16,13 +16,30 @@ const AdminOrderManageContainer = () => {
     : '';
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
-    new SockJS('/teamonion', null, { Authorization: token, transports: sockJsProtocols }),
+    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
+      headers: {
+        Authorization: token,
+        transports: sockJsProtocols,
+      },
+    }),
   );
 
   const socketOrderInit = () => {
+    console.log('Hi order man');
     client.connect({}, frame => {
-      alert(`socket conneted: ${frame}`);
       client.subscribe('/topic/order', msg => {
+        console.log(msg);
+        const res = JSON.parse(msg.body);
+        const aitem = {
+          order_id: res.id,
+          paid: res.paid,
+          made: res.made,
+          pickup: res.pickup,
+          member_id: res.buyerId,
+        };
+        setArrangedItem(aitem);
+      });
+      client.subscribe('/topic/orders/add', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
           order_id: res.id,
@@ -38,18 +55,10 @@ const AdminOrderManageContainer = () => {
       });
     });
   };
-  const socketSetOrderState = ({ order_id, member_id }, change) => {
-    const payload = Object.assign({ id: order_id, buyerId: member_id }, change);
-
+  const socketSetOrderState = ({ order_id, member_id, made, paid, pickup }, change) => {
+    const payload = Object.assign({ id: order_id, buyerId: member_id, made, paid, pickup }, change);
+    console.log(payload);
     client.send('/api/orders/update', {}, JSON.stringify(payload));
-  };
-
-  const setOrderState = (orderId, stateToSet) => {
-    // ex) setOrderState( 주문번호, { made: true } )
-    const arrToReplace = currentOrderList.map(item =>
-      item.order_id === orderId ? Object.assign(item, stateToSet) : item,
-    );
-    setCurrentOrderList(arrToReplace);
   };
 
   // 최초 api call
@@ -64,19 +73,23 @@ const AdminOrderManageContainer = () => {
     };
     socketInit();
     return () => {
-      client.disconnect(() => {
-        alert('socket disconnected!');
-      });
+      client.disconnect(() => {});
     };
   }, []);
 
   useEffect(() => {
-    if (Object.keys(arrangedItem).length > 0) {
+    if (arrangedItem) {
+      //수정
       const arrangedList = currentOrderList.map(item =>
-        item.order_id == arrangedItem.order_id ? arrangedItem : item,
+        item.order_id == arrangedItem.order_id ? { ...item, ...arrangedItem } : item,
       );
-      console.log(currentOrderList);
-      console.log(arrangedItem);
+      console.log('edit');
+      console.dir(arrangedList);
+      setCurrentOrderList(arrangedList);
+    }
+    if (arrangedItem && arrangedItem.menus) {
+      const arrangedList = currentOrderList.concat(arrangedItem);
+      console.log('add');
       setCurrentOrderList(arrangedList);
     }
   }, [arrangedItem]);
@@ -84,7 +97,6 @@ const AdminOrderManageContainer = () => {
   return (
     <AdminOrderManagePresenter
       currentOrderList={currentOrderList}
-      setCurrentOrderList={setOrderState}
       socketSetOrderState={socketSetOrderState}
     />
   );
