@@ -127,7 +127,6 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
           getHistoryDataByCategory(currentCategory, e.target.value - 1, 10);
         }}
       />
-      <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js" />
     </div>
   );
 };
