@@ -35,7 +35,7 @@ UserInfoPresenter.propTypes = {
   point: propTypes.number.isRequired,
   columns: propTypes.array.isRequired,
   rows: propTypes.array.isRequired,
-  pageData: propTypes.objectOf,
+  pageData: propTypes.object,
   fetchHistoryAPI: propTypes.func,
 };
 

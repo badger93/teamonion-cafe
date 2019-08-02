@@ -40,14 +40,14 @@ public class OrdersService {
     private final JwtComponent jwtComponent;
 
     @Transactional
-    public Long makeOrder(OrdersAddRequest ordersAddRequest) {
+    public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
         Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
 
         Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
 
         pointService.pointProcess(orders);
 
-        return ordersRepository.save(orders).getId();
+        return new OrdersResponse(ordersRepository.save(orders));
     }
 
     private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
@@ -70,13 +70,13 @@ public class OrdersService {
     }
 
 
-    public Page<OrdersHistoryResponse> getMyOrders(Pageable pageable, boolean pickup) {
+    public Page<OrdersResponse> getMyOrders(Pageable pageable, boolean pickup) {
         Long buyer_id = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID)).getId();
         return ordersRepository.findByBuyerIdAndPickup(pageable, buyer_id, pickup)
-                .map(OrdersHistoryResponse::new);
+                .map(OrdersResponse::new);
     }
 
-    Page<OrdersCategoryResponse> getOrdersByCategory(Pageable pageable, String category) {
+    Page<OrdersResponse> getOrdersByCategory(Pageable pageable, String category) {
         jwtComponent.checkAdmin();
 
         Page<Orders> response;
@@ -99,12 +99,30 @@ public class OrdersService {
             default:
                 throw new HandleRuntimeException(GlobalExceptionType.ORDER_CATEGORY_INVALID);
         }
-        return response.map(OrdersCategoryResponse::new);
+        return response.map(OrdersResponse::new);
     }
 
-    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
-        jwtComponent.checkAdmin();
-        Orders orders = ordersRepository.findById(order_id)
+//    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
+//        jwtComponent.checkAdmin();
+//        Orders orders = ordersRepository.findById(order_id)
+//                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
+//
+//        if (ordersUpdateRequest.isPaid()) {
+//            orders.pay();
+//        }
+//        if (ordersUpdateRequest.isMade()) {
+//            orders.make();
+//        }
+//        if (ordersUpdateRequest.isPickup()) {
+//            orders.pick();
+//        }
+//        ordersRepository.save(orders);
+//    }
+
+    public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
+        //jwtComponent.checkAdmin();
+        log.info("!!service!! ordersUpdateRequest : {}", ordersUpdateRequest);
+        Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
 
         if (ordersUpdateRequest.isPaid()) {
@@ -116,6 +134,10 @@ public class OrdersService {
         if (ordersUpdateRequest.isPickup()) {
             orders.pick();
         }
-        ordersRepository.save(orders);
+
+        WebSocketResponse ordersResponse = new WebSocketResponse(ordersRepository.save(orders));
+        log.info("!!service!! ordersCategoryResponse : {}", ordersResponse);
+        log.info("=========================");
+        return ordersResponse;
     }
 }
