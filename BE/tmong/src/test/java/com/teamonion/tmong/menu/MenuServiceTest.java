@@ -27,6 +27,9 @@ public class MenuServiceTest {
     @Mock
     JwtComponent jwtComponent;
 
+    @Mock
+    ImageFileService imageFileService;
+
     @InjectMocks
     MenuService menuService;
 
