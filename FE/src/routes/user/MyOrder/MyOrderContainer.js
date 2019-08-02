@@ -20,7 +20,7 @@ const MyOrderContainer = () => {
     ? `Bearer ${sessionToken}`
     : '';
 
-  const sockJsProtocols = ['xhr-streaming', 'xhr-polling', 'websocket (hybi-10)'];
+  const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
     new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
@@ -29,22 +29,26 @@ const MyOrderContainer = () => {
   );
 
   const socketMyOrderInit = () => {
-    client.connect({}, frame => {
-      // 의문점 : 콜백 함수안에 들어가면 처음 초기의 빈값이 계속유지됨
-      console.log(frame);
-      alert(`socket conneted: ${frame}`);
-      client.subscribe('/topic/order', msg => {
-        console.log('message : ' + msg);
-        // const newArrayOrders = [...orders];
-        const Data = msg.body && JSON.parse(msg.body);
-        setChangedData(Data);
-        console.log('changedData:');
-        console.dir(changedData);
+    if (client.connected === false) {
+      client.connect({}, frame => {
+        // 의문점 : 콜백 함수안에 들어가면 처음 초기의 빈값이 계속유지됨
+        // componentdidmount 라이프 사이클 안에서 실행되서 그런듯하다
+        console.log(frame);
+        alert(`socket conneted: ${frame}`);
+        client.subscribe('/topic/order', msg => {
+          console.log('message : ' + msg);
+          // const newArrayOrders = [...orders];
+          const Data = msg.body && JSON.parse(msg.body);
+          setChangedData(Data);
+          console.dir(changedData);
+        });
+        console.log(client);
+        // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
       });
-      // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
-    });
+    }
   };
   useEffect(() => {
+    console.log('im in didmount effect');
     const fetchMyOrder = async () => {
       try {
         if (me) {
@@ -64,9 +68,11 @@ const MyOrderContainer = () => {
     // console.log(orders);
     return () => {
       try {
-        client.disconnect(() => {
-          alert('socket disconnected!');
-        });
+        if (client.connected === true) {
+          client.disconnect(() => {
+            alert('socket disconnected!');
+          });
+        }
       } catch (e) {
         console.log(e);
       }
@@ -76,7 +82,6 @@ const MyOrderContainer = () => {
   useEffect(() => {
     console.log('im useeffect in somthing');
     console.dir(orders);
-    console.log('changeddata :');
     console.dir(changedData);
     if (orders.length > 0 && changedData) {
       console.dir(orders);
@@ -110,7 +115,14 @@ const MyOrderContainer = () => {
   }, [changedData]);
 
   return (
-    <MyOrderPresenter isLoading={isLoading} orders={orders} setOrders={setOrders} userId={me.id} />
+    <>
+      <MyOrderPresenter
+        isLoading={isLoading}
+        orders={orders}
+        setOrders={setOrders}
+        userId={me.id}
+      />
+    </>
   );
 };
 
