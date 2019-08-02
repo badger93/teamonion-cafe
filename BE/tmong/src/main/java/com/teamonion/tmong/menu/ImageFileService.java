@@ -23,10 +23,8 @@ public class ImageFileService {
     private String downloadPath;
 
     String imageAddProcess(MultipartFile imageFile) {
-        log.info("파일 존재 여부 : {}", imageFile.isEmpty());
 
         if (imageFile.isEmpty()) {
-            log.info("imageAddProcess main : 파일이 존재하지 않습니다. ");
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
@@ -38,7 +36,6 @@ public class ImageFileService {
     private void checkFileType(String contentType) {
         // the content type, or null if not defined (or no file has been chosen in the multipart form)
         if (contentType == null) {
-            log.info("contentType Check : is null");
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
@@ -71,7 +68,7 @@ public class ImageFileService {
 
         final boolean checkDeleted = file.delete();
         if (!checkDeleted) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
+            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_DELETE_ERROR);
         }
     }
 }
