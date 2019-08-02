@@ -34,7 +34,7 @@ const MyOrderContainer = () => {
       client.connect({}, frame => {
         client.subscribe('/topic/order', msg => {
           const Data = msg.body && JSON.parse(msg.body);
-          console.log(Data);
+          // console.log(Data);
           setChangedData(Data);
         });
       });
@@ -82,13 +82,13 @@ const MyOrderContainer = () => {
   useEffect(() => {
     // 변경될 것 있을시 추가
     if (changedData && me.memberId === changedData.buyerId && orders.length > 0) {
-      console.dir(orders);
+      // console.dir(orders);
       let newOrders = [...orders];
       const changedDataIndex = newOrders.findIndex(e => {
         // 변화된 주문정보 찾기
         return e.id === changedData.id;
       });
-      console.log('dataindex:' + changedDataIndex);
+      // console.log('dataindex:' + changedDataIndex);
       if (changedData.pickup === true && changedDataIndex >= 0) {
         // 픽업된 주문정보 삭제
         const ordersWithoutAfterPickup = [
@@ -103,9 +103,9 @@ const MyOrderContainer = () => {
           made: changedData.made,
           paid: changedData.paid,
         };
-        console.dir(newOrders[changedDataIndex]);
+        // console.dir(newOrders[changedDataIndex]);
       }
-      console.dir(newOrders);
+      // console.dir(newOrders);
       setOrders([...newOrders]);
     }
   }, [changedData]);
