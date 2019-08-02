@@ -56,7 +56,7 @@ public class MenuServiceTest {
     }
 
     @Test
-    public void 메뉴추가테스트() throws IOException {
+    public void 메뉴추가테스트() {
         menu = menuSaveDto.toEntity("test");
 
         Mockito.when(menuRepository.save(menu)).thenReturn(menu);
@@ -71,7 +71,15 @@ public class MenuServiceTest {
         Mockito.when(menuRepository.findById(id)).thenReturn(Optional.of(menu));
 
         menuService.updateMenu(id, menuSaveDto);
-        //assertThat();
+    }
+
+    @Test
+    public void 메뉴삭제테스트() {
+        Long id = 1L;
+
+        Mockito.when(menuRepository.findById(id)).thenReturn(Optional.of(menu));
+
+        menuService.deleteByMenuId(id);
     }
 
 }
