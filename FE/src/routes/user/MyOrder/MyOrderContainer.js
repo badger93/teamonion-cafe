@@ -9,7 +9,8 @@ const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
   const [orders, setOrders] = useState([]);
   const [changedData, setChangedData] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [letsConnection, setLetsConnection] = useState(false);
 
   const localToken = localStorage.getItem('TOKEN');
   const sessionToken = sessionStorage.getItem('TOKEN');
@@ -23,7 +24,7 @@ const MyOrderContainer = () => {
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
-    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
+    new SockJS('/teamonion', null, {
       headers: { Authorization: token, transports: sockJsProtocols },
     }),
   );
@@ -31,24 +32,16 @@ const MyOrderContainer = () => {
   const socketMyOrderInit = () => {
     if (client.connected === false) {
       client.connect({}, frame => {
-        // 의문점 : 콜백 함수안에 들어가면 처음 초기의 빈값이 계속유지됨
-        // componentdidmount 라이프 사이클 안에서 실행되서 그런듯하다
-        console.log(frame);
-        alert(`socket conneted: ${frame}`);
         client.subscribe('/topic/order', msg => {
-          console.log('message : ' + msg);
-          // const newArrayOrders = [...orders];
           const Data = msg.body && JSON.parse(msg.body);
+          //  console.log(Data);
           setChangedData(Data);
-          console.dir(changedData);
         });
-        console.log(client);
-        // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
       });
     }
   };
+
   useEffect(() => {
-    console.log('im in didmount effect');
     const fetchMyOrder = async () => {
       try {
         if (me) {
@@ -57,7 +50,7 @@ const MyOrderContainer = () => {
           } = await userOrderAPI(me.id, false);
           // console.log(content);
           setOrders([...content]);
-          await socketMyOrderInit(); // 웹 소켓 연결
+          setLetsConnection(true);
         }
       } catch (e) {
         console.log(e);
@@ -66,50 +59,53 @@ const MyOrderContainer = () => {
     fetchMyOrder();
     setIsLoading(false);
     // console.log(orders);
+  }, []);
+
+  useEffect(() => {
+    if (letsConnection === true) {
+      // 한번만 연결 되도록
+      socketMyOrderInit();
+    }
     return () => {
       try {
         if (client.connected === true) {
           client.disconnect(() => {
-            alert('socket disconnected!');
+            // alert('socket disconnected!');
           });
         }
       } catch (e) {
         console.log(e);
       }
     };
-  }, []);
+  }, [letsConnection]);
 
   useEffect(() => {
-    console.log('im useeffect in somthing');
-    console.dir(orders);
-    console.dir(changedData);
-    if (orders.length > 0 && changedData) {
-      console.dir(orders);
+    // 변경될 것 있을시 추가
+    if (changedData && me.memberId === changedData.buyerId && orders.length > 0) {
+      // console.dir(orders);
       let newOrders = [...orders];
-      console.dir(newOrders);
-      console.dir(changedData);
       const changedDataIndex = newOrders.findIndex(e => {
         // 변화된 주문정보 찾기
         return e.id === changedData.id;
       });
-      console.log('dataindex:' + changedDataIndex);
-      if (changedData.pickup === true) {
+      // console.log('dataindex:' + changedDataIndex);
+      if (changedData.pickup === true && changedDataIndex >= 0) {
         // 픽업된 주문정보 삭제
         const ordersWithoutAfterPickup = [
           ...newOrders.slice(0, changedDataIndex),
           ...newOrders.slice(changedDataIndex + 1, newOrders.length),
         ];
         newOrders = [...ordersWithoutAfterPickup];
-      } else {
+      } else if (changedDataIndex >= 0) {
         // 변화만 된 주문정보 변경
         newOrders[changedDataIndex] = {
           ...newOrders[changedDataIndex],
           made: changedData.made,
           paid: changedData.paid,
         };
-        console.dir(newOrders[changedDataIndex]);
+        // console.dir(newOrders[changedDataIndex]);
       }
-      console.dir(newOrders);
+      // console.dir(newOrders);
       setOrders([...newOrders]);
     }
   }, [changedData]);
