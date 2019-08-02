@@ -58,7 +58,18 @@ const AdminOrderManageContainer = () => {
   const socketSetOrderState = ({ order_id, member_id, made, paid, pickup }, change) => {
     const payload = Object.assign({ id: order_id, buyerId: member_id, made, paid, pickup }, change);
     console.log(payload);
-    client.send('/api/orders/update', {}, JSON.stringify(payload));
+    if (client) {
+      client.send('/api/orders/update', {}, JSON.stringify(payload));
+    } else {
+      client = Stomp.over(
+        new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
+          headers: {
+            Authorization: token,
+            transports: sockJsProtocols,
+          },
+        }),
+      );
+    }
   };
 
   // 최초 api call
