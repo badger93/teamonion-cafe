@@ -8,7 +8,10 @@
     margin-left: 10px;
   }
   input[type='text'] {
-    border: 4px solid #f96503;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    &:focus {
+      border: 1px solid #fe6600;
+    }
   }
   input[type='submit'] {
     background-color: #222f3e;

@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import { putOrderState } from '../../../../api/adminOrderApi'; // putOrderState(callback, 리스트, 변경할 State)
 import '../styles/AdminOrderListItem.scss';
 
-const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
+const AdminOrderListItem = ({ list, setCurrentOrderList, socketSetOrderState }) => {
   const { order_id, menus, made, paid, createdDate, amount, member_id } = list;
   const alignMenus = menus.map((item, index) => {
     const result = <li key={index}>{item}</li>;
@@ -19,7 +19,8 @@ const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
           type="button"
           value="→"
           onClick={() => {
-            putOrderState(setCurrentOrderList, list, { made: true });
+            // putOrderState(setCurrentOrderList, list, { made: true });
+            socketSetOrderState(list, { made: true });
           }}
           className="madeBtn"
         />
@@ -37,7 +38,7 @@ const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
               className="payBtn"
               type="button"
               value="결제하기"
-              onClick={() => putOrderState(setCurrentOrderList, list, { paid: true })}
+              onClick={() => socketSetOrderState(list, { paid: true })}
             />
           </>
         )}
@@ -47,7 +48,7 @@ const AdminOrderListItem = ({ list, setCurrentOrderList }) => {
           className="pickupBtn"
           type="button"
           value="PickUp"
-          onClick={() => putOrderState(setCurrentOrderList, list, { pickup: true })}
+          onClick={() => socketSetOrderState(list, { pickup: true })}
         />
       ) : (
         <></>

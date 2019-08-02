@@ -79,8 +79,8 @@ const PayForm = ({
             <div />
           </div>
           <div className="payform-list">
-            {Object.values(itemsForPay).map(item => (
-              <PayListItem key={item.cartId} menuName={item.menuName} menuPrice={item.menuPrice} />
+            {Object.values(itemsForPay).map((item, index) => (
+              <PayListItem key={index} menuName={item.menuName} menuPrice={item.menuPrice} />
             ))}
           </div>
           <div className="payform-row">

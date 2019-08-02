@@ -28,11 +28,14 @@ const MainPresenter = ({
     />
   ));
 
-  const pageCallback = useCallback(e => {
-    return searchText
-      ? searchMenuListByName(searchText, e.target.value - 1)
-      : getMenuByPage({ itemSize: 20, page: e.target.value - 1 });
-  });
+  const pageCallback = useCallback(
+    e => {
+      return searchText
+        ? searchMenuListByName(searchText, e.target.value - 1)
+        : getMenuByPage({ itemSize: 20, page: e.target.value - 1 });
+    },
+    [getMenuByPage, searchMenuListByName],
+  );
   return (
     <>
       {isLoading && <Loading />}

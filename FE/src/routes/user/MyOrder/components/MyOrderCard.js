@@ -9,28 +9,28 @@ const MyOrderCard = ({
   // 전체 주문목록 새로고침
   paid,
   made,
-  menu,
+  menu = [],
   setOrders,
   userId,
 }) => {
-  const onRefreshClick = useCallback(() => {
-    const RefreshOrder = async () => {
-      try {
-        const {
-          data: { content },
-        } = await userOrderAPI(userId, false);
-        setOrders(content);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    RefreshOrder();
-  }, [userId, setOrders]);
+  // const onRefreshClick = useCallback(() => {
+  //   const RefreshOrder = async () => {
+  //     try {
+  //       const {
+  //         data: { content },
+  //       } = await userOrderAPI(userId, false);
+  //       setOrders(content);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   };
+  //   RefreshOrder();
+  // }, [userId, setOrders]);
   return (
     <div className="myorder-card-container">
-      <div className="refresh-button" onClick={onRefreshClick}>
+      {/* <div className="refresh-button" onClick={onRefreshClick}>
         <FontAwesomeIcon icon={faRedo} size="2x" />
-      </div>
+      </div> */}
       <div className="myorder-card">
         <div className={!made ? 'myorder-status' : 'myorder-status-finish'}>
           {!made ? (

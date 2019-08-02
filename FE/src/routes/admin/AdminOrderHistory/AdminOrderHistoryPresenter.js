@@ -15,7 +15,6 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
     },
     [setCurrentCategory, getHistoryDataByCategory],
   );
-
   const colums = [
     {
       key: 'order_id',

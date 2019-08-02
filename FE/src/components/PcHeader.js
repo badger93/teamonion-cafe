@@ -53,8 +53,8 @@ const PcHeader = ({ isSignedIn, user = null, logOutDispatch, onRefreshClick }) =
             {user.memberRole === 'ADMIN' ? (
               <>
                 <Link to="/admin/order-manage">주문현황</Link>
-                <Link to="/admin/menu-manage">메뉴관리</Link>
                 <Link to="/admin/order-history">주문히스토리</Link>
+                <Link to="/admin/menu-manage">메뉴관리</Link>
                 <Link to="/admin/member-manage">사용자관리</Link>
               </>
             ) : (
