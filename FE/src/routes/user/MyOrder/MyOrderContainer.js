@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
@@ -30,28 +30,18 @@ const MyOrderContainer = () => {
   );
 
   const socketMyOrderInit = () => {
-    console.log(client);
     if (client.connected === false) {
       client.connect({}, frame => {
-        // 의문점 : 콜백 함수안에 들어가면 처음 초기의 빈값이 계속유지됨
-        // componentdidmount 라이프 사이클 안에서 실행되서 그런듯하다
-        console.log(frame);
-        //  alert(`socket conneted: ${frame}`);
-
         client.subscribe('/topic/order', msg => {
-          // console.log('message : ' + msg);
           const Data = msg.body && JSON.parse(msg.body);
           console.log(Data);
           setChangedData(Data);
         });
-        console.log(client);
-        // client.send('/api/orders/update', {}, JSON.stringify({ memberId: me.id }));
       });
     }
   };
 
   useEffect(() => {
-    console.log('im in didmount effect');
     const fetchMyOrder = async () => {
       try {
         if (me) {
@@ -91,27 +81,22 @@ const MyOrderContainer = () => {
 
   useEffect(() => {
     // 변경될 것 있을시 추가
-    console.log('im useeffect in somthing');
-    console.dir(orders);
-    console.dir(changedData);
-    if (orders.length > 0 && changedData) {
+    if (changedData && me.memberId === changedData.buyerId && orders.length > 0) {
       console.dir(orders);
       let newOrders = [...orders];
-      console.dir(newOrders);
-      console.dir(changedData);
       const changedDataIndex = newOrders.findIndex(e => {
         // 변화된 주문정보 찾기
         return e.id === changedData.id;
       });
       console.log('dataindex:' + changedDataIndex);
-      if (changedData.pickup === true) {
+      if (changedData.pickup === true && changedDataIndex >= 0) {
         // 픽업된 주문정보 삭제
         const ordersWithoutAfterPickup = [
           ...newOrders.slice(0, changedDataIndex),
           ...newOrders.slice(changedDataIndex + 1, newOrders.length),
         ];
         newOrders = [...ordersWithoutAfterPickup];
-      } else {
+      } else if (changedDataIndex >= 0) {
         // 변화만 된 주문정보 변경
         newOrders[changedDataIndex] = {
           ...newOrders[changedDataIndex],
