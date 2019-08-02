@@ -27,7 +27,7 @@ public class WebSocketController {
 
     @MessageMapping("/api/orders/update")
     @SendTo("/topic/order")
-    public OrdersResponse updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest
+    public String updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest
             , SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
 
         Principal user = simpMessageHeaderAccessor.getUser();
@@ -50,6 +50,7 @@ public class WebSocketController {
         log.info("Message Type : {}" , simpMessageHeaderAccessor.getMessageType());
         log.info("--------------------------------");
 
-        return ordersService.updateOrder(ordersUpdateRequest);
+        //return ordersService.updateOrder(ordersUpdateRequest);
+        return "asd";
     }
 }
