@@ -8,11 +8,11 @@
   pointer-events: all;
   z-index: 1000;
   @media (max-width: 960px) {
-    bottom: -40px;
+    top: 40px;
   }
-  @media (max-width: 450px) and (max-height: 380) {
-    bottom: 0px;
-  }
+  // @media (max-width: 450px) and (max-height: 380) {
+  //   bottom: 0px;
+  // }
 }
 
 .loader {
