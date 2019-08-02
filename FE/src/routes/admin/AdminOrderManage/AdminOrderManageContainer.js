@@ -14,6 +14,7 @@ const AdminOrderManageContainer = () => {
     : '' || sessionToken
     ? `Bearer ${sessionToken}`
     : '';
+
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
     new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
@@ -25,20 +26,19 @@ const AdminOrderManageContainer = () => {
   );
 
   const socketOrderInit = () => {
-    console.log('Hi order man');
     client.connect({}, frame => {
+      //상태변경 구독
       client.subscribe('/topic/order', msg => {
-        console.log(msg);
         const res = JSON.parse(msg.body);
-        const aitem = {
+        setArrangedItem({
           order_id: res.id,
           paid: res.paid,
           made: res.made,
           pickup: res.pickup,
           member_id: res.buyerId,
-        };
-        setArrangedItem(aitem);
+        });
       });
+      // 주문추가 구독
       client.subscribe('/topic/orders/add', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
@@ -55,20 +55,13 @@ const AdminOrderManageContainer = () => {
       });
     });
   };
-  const socketSetOrderState = ({ order_id, member_id, made, paid, pickup }, change) => {
+  const socketSetOrderState = async ({ order_id, member_id, made, paid, pickup }, change) => {
     const payload = Object.assign({ id: order_id, buyerId: member_id, made, paid, pickup }, change);
-    console.log(payload);
     if (client) {
       client.send('/api/orders/update', {}, JSON.stringify(payload));
     } else {
-      client = Stomp.over(
-        new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
-          headers: {
-            Authorization: token,
-            transports: sockJsProtocols,
-          },
-        }),
-      );
+      alert('연결 없음');
+      await socketOrderInit();
     }
   };
 
@@ -88,19 +81,18 @@ const AdminOrderManageContainer = () => {
     };
   }, []);
 
+  // 변경된 아이템이 감지되면 렌더하기 위한 코드
   useEffect(() => {
+    // 수정
     if (arrangedItem) {
-      //수정
       const arrangedList = currentOrderList.map(item =>
         item.order_id == arrangedItem.order_id ? { ...item, ...arrangedItem } : item,
       );
-      console.log('edit');
-      console.dir(arrangedList);
       setCurrentOrderList(arrangedList);
     }
+    // 추가
     if (arrangedItem && arrangedItem.menus) {
       const arrangedList = currentOrderList.concat(arrangedItem);
-      console.log('add');
       setCurrentOrderList(arrangedList);
     }
   }, [arrangedItem]);
