@@ -40,14 +40,14 @@ public class OrdersService {
     private final JwtComponent jwtComponent;
 
     @Transactional
-    public Long makeOrder(OrdersAddRequest ordersAddRequest) {
+    public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
         Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
 
         Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
 
         pointService.pointProcess(orders);
 
-        return ordersRepository.save(orders).getId();
+        return new OrdersResponse(ordersRepository.save(orders));
     }
 
     private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
@@ -119,7 +119,7 @@ public class OrdersService {
 //        ordersRepository.save(orders);
 //    }
 
-    public OrdersResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
+    public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
         //jwtComponent.checkAdmin();
         log.info("!!service!! ordersUpdateRequest : {}", ordersUpdateRequest);
         Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
@@ -135,7 +135,7 @@ public class OrdersService {
             orders.pick();
         }
 
-        OrdersResponse ordersResponse = new OrdersResponse(ordersRepository.save(orders));
+        WebSocketResponse ordersResponse = new WebSocketResponse(ordersRepository.save(orders));
         log.info("!!service!! ordersCategoryResponse : {}", ordersResponse);
         log.info("=========================");
         return ordersResponse;
