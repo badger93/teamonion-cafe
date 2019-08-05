@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import propTypes from 'prop-types';
 import '../styles/AdminOrderListItem.scss';
 
@@ -6,14 +6,20 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
   const { order_id, menus, made, paid, createdDate, amount, member_id } = list;
   const orderCard = useRef(null);
 
-  const cardFadeout = element => {
-    element.classList.add('active');
+  const cardEffect = (element, effect) => {
+    element.classList.add(effect);
+    setTimeout(() => {
+      element.classList.remove(effect);
+    }, 1000);
   };
+
   // state 변경 callback
   const handleChangeState = useCallback(
     (list, state, graphicEffect) => {
       const controlChange = async () => {
-        await graphicEffect();
+        if (graphicEffect) {
+          graphicEffect();
+        }
         await socketSetOrderState(list, state);
       };
       controlChange();
@@ -36,7 +42,7 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
         type="button"
         value="→"
         onClick={() => {
-          handleChangeState(list, { made: true });
+          handleChangeState(list, { made: true }, () => cardEffect(orderCard.current, 'ghost'));
         }}
         className="madeBtn"
       />
@@ -54,7 +60,9 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
           className="payBtn"
           type="button"
           value="결제하기"
-          onClick={() => handleChangeState(list, { paid: true })}
+          onClick={() =>
+            handleChangeState(list, { paid: true }, () => cardEffect(orderCard.current, 'blink'))
+          }
         />
       </>
     );
@@ -67,7 +75,9 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
         className="pickupBtn"
         type="button"
         value="PickUp"
-        onClick={() => handleChangeState(list, { pickup: true })}
+        onClick={() =>
+          handleChangeState(list, { pickup: true }, () => cardEffect(orderCard.current, 'fly'))
+        }
       />
     ) : (
       <></>

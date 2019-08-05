@@ -99,9 +99,16 @@
   }
 }
 
-.AdminOrderListItem,
-.active {
+.AdminOrderListItem.ghost {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s 2s, opacity 2s linear;
+  transform: translate(100px, 0px);
+  transition: transform 1s linear, visibility 0s 1s, opacity 1s linear;
+}
+
+.AdminOrderListItem.fly {
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(100px, -80px);
+  transition: transform 1s linear, visibility 0s 1s, opacity 1s linear;
 }
