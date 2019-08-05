@@ -25,7 +25,7 @@ const SignInPopup = ({ setIsLoginPopup }) => {
     } else {
       setShowupStringFunc(signInErrorReason);
     }
-  }, [signInErrorReason, setShowupStringFunc]);
+  }, [signInErrorReason]);
 
   const submitCallback = useCallback(
     e => {

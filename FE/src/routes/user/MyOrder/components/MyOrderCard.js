@@ -7,30 +7,14 @@ import { userOrderAPI } from '../../../../api/userApi';
 
 const MyOrderCard = ({
   // 전체 주문목록 새로고침
+  isDeleting,
   paid,
   made,
   menu = [],
-  setOrders,
-  userId,
 }) => {
-  // const onRefreshClick = useCallback(() => {
-  //   const RefreshOrder = async () => {
-  //     try {
-  //       const {
-  //         data: { content },
-  //       } = await userOrderAPI(userId, false);
-  //       setOrders(content);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   RefreshOrder();
-  // }, [userId, setOrders]);
   return (
     <div className="myorder-card-container">
-      {/* <div className="refresh-button" onClick={onRefreshClick}>
-        <FontAwesomeIcon icon={faRedo} size="2x" />
-      </div> */}
+      {isDeleting && <div className="myorder-card-deleting" />}
       <div className="myorder-card">
         <div className={!made ? 'myorder-status' : 'myorder-status-finish'}>
           {!made ? (

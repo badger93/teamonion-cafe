@@ -11,6 +11,7 @@ const MyOrderContainer = () => {
   const [changedData, setChangedData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [letsConnection, setLetsConnection] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const localToken = localStorage.getItem('TOKEN');
   const sessionToken = sessionStorage.getItem('TOKEN');
@@ -91,11 +92,15 @@ const MyOrderContainer = () => {
       // console.log('dataindex:' + changedDataIndex);
       if (changedData.pickup === true && changedDataIndex >= 0) {
         // 픽업된 주문정보 삭제
-        const ordersWithoutAfterPickup = [
-          ...newOrders.slice(0, changedDataIndex),
-          ...newOrders.slice(changedDataIndex + 1, newOrders.length),
-        ];
-        newOrders = [...ordersWithoutAfterPickup];
+        setIsDeleting(true);
+        setTimeout(() => {
+          const ordersWithoutAfterPickup = [
+            ...newOrders.slice(0, changedDataIndex),
+            ...newOrders.slice(changedDataIndex + 1, newOrders.length),
+          ];
+          newOrders = [...ordersWithoutAfterPickup];
+          setIsDeleting(false);
+        }, 5000);
       } else if (changedDataIndex >= 0) {
         // 변화만 된 주문정보 변경
         newOrders[changedDataIndex] = {
@@ -117,6 +122,7 @@ const MyOrderContainer = () => {
         orders={orders}
         setOrders={setOrders}
         userId={me.id}
+        setIsDeleting={isDeleting}
       />
     </>
   );
