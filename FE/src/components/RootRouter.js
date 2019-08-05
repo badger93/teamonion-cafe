@@ -36,8 +36,7 @@ const RootRouter = () => {
       }}
     />
   );
-  const AdminRoute = ({ component: Component, location, ...rest }) => {
-    console.dir(location);
+  const AdminRoute = ({ component: Component, ...rest }) => {
     return (
       <Route
         {...rest}

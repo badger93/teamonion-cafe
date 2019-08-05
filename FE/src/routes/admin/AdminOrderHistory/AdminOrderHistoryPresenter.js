@@ -1,20 +1,19 @@
 import React, { useState, useCallback } from 'react';
+import queryString from 'query-string';
+import { NavLink } from 'react-router-dom';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
 import Pagination from '../../../components/pagination';
 
-const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory, pageData }) => {
+const AdminOrderHistoryPresenter = ({
+  orderHistoryData,
+  getHistoryDataByCategory,
+  pageData,
+  queryCategory,
+}) => {
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
-  const [currentCategory, setCurrentCategory] = useState('ALL');
 
-  const changeStateCallback = useCallback(
-    category => {
-      setCurrentCategory(category);
-      getHistoryDataByCategory(category);
-    },
-    [setCurrentCategory, getHistoryDataByCategory],
-  );
   const colums = [
     {
       key: 'order_id',
@@ -87,30 +86,37 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
     <div className="AdminOrderHistoryPresenter">
       <div className="pageTitle">주문이력</div>
       <div className="orderTabArea">
-        <input
-          className={`allBtn ${currentCategory === 'ALL' && 'active'}`}
-          type="button"
-          value="전체보기"
-          onClick={() => changeStateCallback('ALL')}
-        />
-        <input
-          className={`nonpayBtn ${currentCategory === 'PAID_FALSE' && 'active'}`}
-          type="button"
-          value="미결제"
-          onClick={() => changeStateCallback('PAID_FALSE')}
-        />
-        <input
-          className={`paidBtn ${currentCategory === 'PAID_TRUE' && 'active'}`}
-          type="button"
-          value="결제완료"
-          onClick={() => changeStateCallback('PAID_TRUE')}
-        />
-        <input
-          className={`madeBtn ${currentCategory === 'MADE_TRUE' && 'active'}`}
-          type="button"
-          value="제작완료"
-          onClick={() => changeStateCallback('MADE_TRUE')}
-        />
+        <NavLink
+          className="categoryBtn"
+          to="/admin/order-history?category=ALL"
+          activeClassName="active"
+        >
+          전체보기
+        </NavLink>
+        <NavLink
+          className="categoryBtn"
+          exact
+          to="/admin/order-history?category=PAID_FALSE"
+          activeClassName="active"
+        >
+          미결제
+        </NavLink>
+        <NavLink
+          className="categoryBtn"
+          exact
+          to="/admin/order-history?category=PAID_TRUE"
+          activeClassName="active"
+        >
+          결제완료
+        </NavLink>
+        <NavLink
+          className="categoryBtn"
+          exact
+          to="/admin/order-history?category=MADE_TRUE"
+          activeClassName="active"
+        >
+          제작완료
+        </NavLink>
       </div>
 
       <div className="historyList">
@@ -124,7 +130,7 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
       <Pagination
         pageData={pageData}
         callback={e => {
-          getHistoryDataByCategory(currentCategory, e.target.value - 1, 10);
+          getHistoryDataByCategory(queryCategory, e.target.value - 1, 10);
         }}
       />
       <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js" />
