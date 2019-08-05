@@ -4,7 +4,7 @@ import '../styles/MenuManagePopup.scss';
 import inputImgPreview from '../../../../utils/inputImgPreview';
 
 const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) => {
-  const { id, name, price, information } = menuPopupData;
+  const { id, name, price, information, imageFile } = menuPopupData;
   const [popupName, setPopupName] = useState('');
   const [popupPrice, setPopupPrice] = useState('');
   const [popupInformation, setPopupInformation] = useState('');
@@ -16,7 +16,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
   const onSubmitCallback = useCallback(
     e => {
       e.preventDefault();
-      if (popupName && popupPrice && popupInformation && popupFile) {
+      if (popupName && popupPrice && popupInformation) {
         const formData = new FormData();
         formData.append('name', popupName);
         formData.append('price', popupPrice);
@@ -28,8 +28,12 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
           updateItem(formData, id, fakeImg);
           setIsPopup(false);
         } else {
-          createItem(formData, fakeImg);
-          setIsPopup(false);
+          if (popupFile) {
+            createItem(formData, fakeImg);
+            setIsPopup(false);
+          } else {
+            alert('이미지를 넣어주세요');
+          }
         }
       } else {
         alert('내용을 마저 채워주세요');
@@ -44,14 +48,14 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
       setPopupName(name);
       setPopupPrice(price);
       setPopupInformation(information);
-      setPopupFile('');
-      inputImgRef.current.setAttribute('src', '');
+      setPopupFile(null);
+      inputImgRef.current.setAttribute('src', imageFile);
     } else {
       // 추가모드 init
       setPopupName('');
       setPopupPrice('');
       setPopupInformation('');
-      setPopupFile('');
+      setPopupFile(null);
       inputImgRef.current.setAttribute('src', ''); // 이미지 미리보기 초기화
     }
   }, [menuPopupData]);
