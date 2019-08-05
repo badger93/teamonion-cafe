@@ -58,6 +58,9 @@
 }
 
 .myorder-card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
   min-width: 150px;
   min-height: 200px;
@@ -165,7 +168,7 @@
   .myorder-card {
     position: relative;
     z-index: 10;
-    min-width: 150px;
+    min-width: 400px;
     min-height: 200px;
     width: 30vw;
     height: 80vh;
@@ -195,7 +198,95 @@
         opacity: 0.2;
       }
     }
+    .myorder-card-status-cloud {
+      position: absolute;
+      background-color: transparent;
+      width: 100%;
+      height: 50%;
+      top: 8%;
+      @keyframes showUp1 {
+        0% {
+          top: 20%;
+          left: 30%;
+        }
 
+        50% {
+          top: 50%;
+          left: 30%;
+        }
+
+        100% {
+          transform: scale(1.3);
+          top: 10%;
+          left: 20%;
+        }
+      }
+      @keyframes showUp2 {
+        0% {
+          top: 40%;
+          left: 20%;
+        }
+
+        50% {
+          top: 10%;
+          left: 50%;
+        }
+
+        100% {
+          transform: scale(1.2);
+          top: 50%;
+          left: 10%;
+        }
+      }
+      @keyframes showUp3 {
+        0% {
+          top: 40%;
+          left: 20%;
+        }
+
+        50% {
+          top: 10%;
+          left: 20%;
+        }
+
+        100% {
+          transform: scale(1.2);
+          top: 50%;
+          left: 50%;
+        }
+      }
+      .cloud:nth-child(1) {
+        position: absolute;
+        animation: showUp1 3s infinite;
+        top: 50%;
+        left: 20%;
+        z-index: 30;
+        width: 165px;
+        height: 110px;
+        background-size: cover;
+        background-image: url('https://cdn.pixabay.com/photo/2012/04/25/00/02/cloud-41256_1280.png');
+      }
+      .cloud:nth-child(2) {
+        position: absolute;
+        animation: showUp2 3s infinite;
+        z-index: 30;
+        top: 20%;
+        right: 20%;
+        width: 165px;
+        height: 110px;
+        background-size: cover;
+        background-image: url('https://cdn.pixabay.com/photo/2012/04/25/00/02/cloud-41256_1280.png');
+      }
+      .cloud:nth-child(3) {
+        position: absolute;
+        animation: showUp3 3s infinite;
+        z-index: 30;
+        width: 165px;
+        height: 110px;
+        background-size: cover;
+        background-image: url('https://cdn.pixabay.com/photo/2012/04/25/00/02/cloud-41256_1280.png');
+      }
+    }
     .myorder-status {
       color: rgba(255, 255, 255, 0.8);
       font-size: 2rem;

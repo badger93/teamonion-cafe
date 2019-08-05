@@ -105,7 +105,7 @@ const MyOrderContainer = () => {
         }, 3000);
       } else if (changedDataIndex >= 0) {
         // 변화만 된 주문정보 변경
-        // setIsChanging(true);
+        setIsChanging(true);
 
         setTimeout(() => {
           newOrders[changedDataIndex] = {
@@ -113,7 +113,7 @@ const MyOrderContainer = () => {
             made: changedData.made,
             paid: changedData.paid,
           };
-          // setIsChanging(false);
+          setIsChanging(false);
           setOrders([...newOrders]);
         }, 3000);
 

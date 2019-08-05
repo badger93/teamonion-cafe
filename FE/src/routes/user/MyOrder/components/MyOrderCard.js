@@ -28,6 +28,14 @@ const MyOrderCard = ({
         </div>
       )}
       <div className={`myorder-card ${isDeleting && 'myorder-card-fadeout'}`}>
+        {isChanging && (
+          <div className="myorder-card-status-cloud">
+            <div className="cloud" />
+            <div className="cloud" />
+            <div className="cloud" />
+            <div className="cloud" />
+          </div>
+        )}
         <div className={!made ? 'myorder-status' : 'myorder-status-finish'}>
           {!made ? (
             <img
