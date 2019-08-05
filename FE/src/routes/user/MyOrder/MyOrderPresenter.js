@@ -4,22 +4,34 @@ import MyOrderCard from './components/MyOrderCard';
 import './styles/MyOrderPresenter.scss';
 import Loading from '../../../components/Loading';
 
-const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => {
+const MyOrderPresenter = ({
+  changedData,
+  isDeleting,
+  isChanging,
+  isLoading,
+  orders,
+  setOrders,
+  userId,
+}) => {
   return (
     <>
       {isLoading && <Loading />}
       <div className="myorder-wrapper">
         {orders.length > 0 &&
           orders.map(
-            (order, index) =>
+            order =>
               !order.pickup && (
                 <MyOrderCard
-                  key={index}
+                  key={order.id}
+                  changedData={changedData}
+                  orderId={order.id}
                   made={order.made}
                   paid={order.paid}
                   menu={order.menuNameList}
                   setOrders={setOrders}
                   userId={userId}
+                  isChanging={isChanging}
+                  isDeleting={isDeleting}
                 />
               ),
           )}
@@ -36,6 +48,8 @@ const MyOrderPresenter = ({ isLoading, orders, setOrders, userId }) => {
 };
 
 MyOrderPresenter.propTypes = {
+  isDeleting: propTypes.bool.isRequired,
+  isChanging: propTypes.bool.isRequired,
   isLoading: propTypes.bool.isRequired,
   orders: propTypes.arrayOf(
     propTypes.shape({
