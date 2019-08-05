@@ -21,7 +21,7 @@ public class OrdersResponse {
     private boolean made;
     private List<String> menuNameList;
 
-    public OrdersResponse(Orders orders) {
+    OrdersResponse(Orders orders) {
         this.id = orders.getId();
         this.buyerId = orders.getBuyer().getMemberId();
         this.createdDate = orders.getCreatedDate();

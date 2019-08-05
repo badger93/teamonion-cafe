@@ -34,22 +34,15 @@ public class MenuServiceTest {
     MenuService menuService;
 
     private Menu menu;
-    private MultipartFile mockMultipartFile;
     private MenuSaveDto menuSaveDto;
+    private MenuUpdateDto menuUpdateDto;
 
     @Before
     public void setUp() throws IOException {
-//        menu = Menu.builder()
-//                .name("americano")
-//                .price(1000)
-//                .information("직장인의 기본 음료")
-//                .imagePath("src/main/resources/menuImage/example/example.jpg")
-//                .build();
-//        mockMultipartFile = new MockMultipartFile("example", "example.jpg", "application/form-data",
-//                new FileInputStream(new File(menu.getImagePath())));
         menuSaveDto = new MenuSaveDto();
+        menuUpdateDto =  new MenuUpdateDto();
 
-        mockMultipartFile = new MockMultipartFile("test", "test", "image/jpg"
+        MultipartFile mockMultipartFile = new MockMultipartFile("test", "test", "image/jpg"
                 , new FileInputStream(new File("src/main/resources/menuImage/example/example.jpg")));
 
         menuSaveDto.setImageFile(mockMultipartFile);
@@ -73,7 +66,7 @@ public class MenuServiceTest {
         // TODO : 이미지 경로
         Mockito.when(menuRepository.findById(id)).thenReturn(Optional.of(menu));
 
-        menuService.updateMenu(id, menuSaveDto);
+        menuService.updateMenu(id, menuUpdateDto);
     }
 
     @Test

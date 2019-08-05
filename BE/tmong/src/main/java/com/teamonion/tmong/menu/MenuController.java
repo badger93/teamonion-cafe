@@ -31,8 +31,8 @@ public class MenuController {
 
     @CheckJwt
     @PutMapping("/{menu_id}")
-    public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuSaveDto menuSaveDto) {
-        menuService.updateMenu(menu_id, menuSaveDto);
+    public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuUpdateDto menuUpdateDto) {
+        menuService.updateMenu(menu_id, menuUpdateDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 
