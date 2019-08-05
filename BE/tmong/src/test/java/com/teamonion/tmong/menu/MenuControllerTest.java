@@ -47,7 +47,7 @@ public class MenuControllerTest {
         menuSaveDto = new MenuSaveDto();
         menuUpdateDto = new MenuUpdateDto();
 
-        String imagePath = "src/main/resources/menuImage/example/example.jpg";
+        String imagePath = "src/test/resources/cat.jpg";
         mockMultipartFile = new MockMultipartFile("name", "name.jpg",
                 "image/jpg", new FileInputStream(new File(imagePath)));
 

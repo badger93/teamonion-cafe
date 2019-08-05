@@ -42,10 +42,13 @@ public class MenuServiceTest {
         menuSaveDto = new MenuSaveDto();
         menuUpdateDto =  new MenuUpdateDto();
 
-        MultipartFile mockMultipartFile = new MockMultipartFile("test", "test", "image/jpg"
-                , new FileInputStream(new File("src/main/resources/menuImage/example/example.jpg")));
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("test", "test", "image/jpg"
+                , new FileInputStream(new File("src/test/resources/cat.jpg")));
+
+        MockMultipartFile mockEmptyMultipartFile = new MockMultipartFile("test", null, null, (byte[]) null);
 
         menuSaveDto.setImageFile(mockMultipartFile);
+        menuUpdateDto.setImageFile(mockEmptyMultipartFile);
 
         menu = new Menu();
         menu.update(1L);
