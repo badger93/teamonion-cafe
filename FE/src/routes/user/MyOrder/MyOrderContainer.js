@@ -20,14 +20,15 @@ const MyOrderContainer = () => {
   const token = localToken
     ? `Bearer ${localToken}`
     : '' || sessionToken
-    ? `Bearer ${sessionToken}`
-    : '';
+      ? `Bearer ${sessionToken}`
+      : '';
 
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
-    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
-      headers: { Authorization: token, transports: sockJsProtocols },
+    new SockJS('/teamonion', null, {
+      headers: { 'Authorization': token },
+      transports: sockJsProtocols,
     }),
   );
 

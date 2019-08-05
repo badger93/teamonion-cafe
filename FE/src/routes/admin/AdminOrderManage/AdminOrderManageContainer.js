@@ -12,12 +12,12 @@ const AdminOrderManageContainer = () => {
   const token = localToken
     ? `Bearer ${localToken}`
     : '' || sessionToken
-    ? `Bearer ${sessionToken}`
-    : '';
+      ? `Bearer ${sessionToken}`
+      : '';
 
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
-    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
+    new SockJS('/teamonion', null, {
       headers: {
         Authorization: token,
         transports: sockJsProtocols,
@@ -77,7 +77,7 @@ const AdminOrderManageContainer = () => {
     };
     socketInit();
     return () => {
-      client.disconnect(() => {});
+      client.disconnect(() => { });
     };
   }, []);
 
