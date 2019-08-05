@@ -73,6 +73,7 @@ const AdminMenuManagePresenter = ({
               name: row.name,
               price: row.price,
               information: row.information,
+              imageFile: row.imageFile,
             });
             setIsPopup(true);
           },

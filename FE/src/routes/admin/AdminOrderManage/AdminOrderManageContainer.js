@@ -12,8 +12,8 @@ const AdminOrderManageContainer = () => {
   const token = localToken
     ? `Bearer ${localToken}`
     : '' || sessionToken
-    ? `Bearer ${sessionToken}`
-    : '';
+      ? `Bearer ${sessionToken}`
+      : '';
 
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
@@ -80,7 +80,7 @@ const AdminOrderManageContainer = () => {
     };
     socketInit();
     return () => {
-      client.disconnect(() => {});
+      client.disconnect(() => { });
     };
   }, []);
 

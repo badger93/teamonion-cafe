@@ -36,12 +36,16 @@ const RootRouter = () => {
       }}
     />
   );
-  const AdminRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={props => (me.memberRole === 'ADMIN' ? <Component {...props} /> : <Redirect to="/" />)}
-    />
-  );
+  const AdminRoute = ({ component: Component, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={props =>
+          me.memberRole === 'ADMIN' ? <Component {...props} /> : <Redirect to="/" />
+        }
+      />
+    );
+  };
 
   return (
     <Router>
@@ -57,14 +61,7 @@ const RootRouter = () => {
           <AdminRoute path="/admin/member-manage" exact component={AdminMemberManage} />
           <AdminRoute path="/admin/menu-manage" exact component={AdminMenuManage} />
           <AdminRoute path="/admin/order-manage" exact component={AdminOrderManage} />
-          <AdminRoute path="/admin/order-history" exact component={AdminOrderHistory} />
-          <AdminRoute path="/admin/order-history/payed-non" exact component={AdminOrderHistory} />
-          <AdminRoute path="/admin/order-history/payed-ok" exact component={AdminOrderHistory} />
-          <AdminRoute
-            path="/admin/order-history/product-complete"
-            exact
-            component={AdminOrderHistory}
-          />
+          <AdminRoute path="/admin/order-history" component={AdminOrderHistory} />
           <Redirect from="*" to="/" />
         </Switch>
         <Footer />

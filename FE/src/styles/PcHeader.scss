@@ -20,7 +20,14 @@
   background-color: #222f3e;
   color: white;
   // background-color: #f6f5f0;
-
+  .header_pc-point {
+    width: 180px;
+    text-align: center;
+  }
+  .header_pc-welcome {
+    width: 180px;
+    text-align: center;
+  }
   a {
     &:hover {
       //color: #fe6600;
@@ -60,12 +67,14 @@
       width: 80%;
       .divider {
         opacity: 0.2;
+        margin-left: 10px;
+        margin-right: 10px;
       }
       .header_pc-column-top {
         display: flex;
         justify-content: space-around;
         align-items: center;
-        width: 40%;
+        width: 50%;
         height: 30px;
         font-size: 0.8rem;
         .header_pc-refresh {

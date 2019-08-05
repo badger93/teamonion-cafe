@@ -20,7 +20,7 @@
 
   .orderTabArea {
     margin: 30px 0 0 30px;
-    input[type='button'] {
+    .categoryBtn {
       color: #fff;
       font-size: 20px;
       font-weight: 600;
@@ -29,11 +29,12 @@
       background-color: #222f3e;
       padding: 5px 10px;
       cursor: pointer;
+      border-radius: 8px;
     }
-    input[type='button'] + input[type='button'] {
+    .categoryBtn + .categoryBtn {
       margin-left: 50px;
     }
-    input.active {
+    .categoryBtn.active {
       background-color: #f96503;
     }
   }
