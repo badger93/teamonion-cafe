@@ -1,13 +1,22 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/AdminOrderListItem.scss';
 
 const AdminOrderListItem = ({ list, socketSetOrderState }) => {
   const { order_id, menus, made, paid, createdDate, amount, member_id } = list;
+  const orderCard = useRef(null);
 
+  const cardFadeout = element => {
+    element.classList.add('active');
+  };
+  // state 변경 callback
   const handleChangeState = useCallback(
-    (list, state) => {
-      socketSetOrderState(list, state);
+    (list, state, graphicEffect) => {
+      const controlChange = async () => {
+        await graphicEffect();
+        await socketSetOrderState(list, state);
+      };
+      controlChange();
     },
     [socketSetOrderState],
   );
@@ -66,7 +75,7 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
   }, [made, paid, list, handleChangeState]);
 
   return (
-    <div className="AdminOrderListItem">
+    <div className="AdminOrderListItem" ref={orderCard}>
       {memoMakeBtn}
       <div className="orderNum">{`주문번호. ${order_id}`}</div>
       <div className="member_id">{`ID:  ${member_id}`}</div>
