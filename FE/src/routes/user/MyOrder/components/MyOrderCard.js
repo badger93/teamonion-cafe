@@ -3,10 +3,14 @@ import propTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MyOrderCard.scss';
+import magicCircle from '../../../../image/magiccircle.png';
 import { userOrderAPI } from '../../../../api/userApi';
 
 const MyOrderCard = ({
   // 전체 주문목록 새로고침
+  changedData,
+  orderId,
+  isChanging,
   isDeleting,
   paid,
   made,
@@ -14,8 +18,16 @@ const MyOrderCard = ({
 }) => {
   return (
     <div className="myorder-card-container">
-      {isDeleting && <div className="myorder-card-deleting" />}
-      <div className="myorder-card">
+      {changedData && changedData.id === orderId && isDeleting && (
+        <div className="myorder-card-deleting-container">
+          <div className="myorder-card-deleting" />
+          <div className="myorder-card-deleting" />
+          <div className="myorder-card-deleting" />
+          <div className="myorder-card-deleting" />
+          <img src={magicCircle} alt="magincircle" />
+        </div>
+      )}
+      <div className={`myorder-card ${isDeleting && 'myorder-card-fadeout'}`}>
         <div className={!made ? 'myorder-status' : 'myorder-status-finish'}>
           {!made ? (
             <img
@@ -59,6 +71,8 @@ const MyOrderCard = ({
   );
 };
 MyOrderCard.propTypes = {
+  isDeleting: propTypes.bool.isRequired,
+  isChanging: propTypes.bool.isRequired,
   paid: propTypes.bool.isRequired,
   made: propTypes.bool.isRequired,
   menu: propTypes.arrayOf(propTypes.string).isRequired,

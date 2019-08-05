@@ -76,61 +76,98 @@
       animation: rotate3 1s infinite;
     }
   }
-  .myorder-card-deleting {
-    width: 104%;
-    height: 102%;
+  .myorder-card-deleting-container {
     position: absolute;
-    left: -2%;
-    top: 2%;
-    background-color: #f6b93b;
-    border-radius: 15px;
-    border: none;
-    transition: all 1s ease-in-out;
-    animation: fadeout 5s infinite;
-    filter: blur(8px);
-    opacity: 0;
-    @keyframes fadeout {
-      0% {
-        opacity: 0;
-      }
-      10% {
-        opacity: 0.1;
-      }
-      20% {
-        opacity: 0.2;
-      }
-      30% {
-        opacity: 0.3;
-      }
-      40% {
-        opacity: 0.4;
-      }
-      50% {
-        opacity: 0.5;
-      }
-      60% {
-        opacity: 0.6;
-      }
-      70% {
-        opacity: 0.7;
-      }
-      80% {
-        opacity: 0.8;
-      }
-      90% {
-        opacity: 0.9;
-      }
-      100% {
-        opacity: 1;
+    width: 30vw;
+    height: 80vh;
+    .myorder-card-deleting {
+      width: 104%;
+      height: 102%;
+      position: absolute;
+      border-radius: 15px;
+      border: none;
+      transition: all 1s ease-in-out;
+      animation: fadein 2s;
+      animation-fill-mode: both;
+      filter: blur(8px);
+      opacity: 1;
+
+      @keyframes fadein {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
       }
     }
+    .myorder-card-deleting:nth-child(1) {
+      background-color: #fe6600;
+      left: -2%;
+      top: 2%;
+      z-index: 6;
+    }
+    .myorder-card-deleting:nth-child(2) {
+      width: 102%;
+      height: 101%;
+      left: -1%;
+      top: 3%;
+      z-index: 7;
+      background-color: black;
+    }
+    .myorder-card-deleting:nth-child(3) {
+      width: 115%;
+      height: 103%;
+      left: -8%;
+      top: 2%;
+      z-index: 5;
+      background-color: #f6e58d;
+    }
+    .myorder-card-deleting:nth-child(4) {
+      width: 100.5%;
+      height: 101%;
+      left: -0.5%;
+      top: 3%;
+      z-index: 9;
+      background-color: white;
+    }
+    @keyframes rotate3 {
+      0% {
+        transform-origin: center;
+        transform: rotate(0deg);
+      }
+      100% {
+        transform-origin: center;
+        transform: rotate(360deg);
+      }
+    }
+    img {
+      position: relative;
+      width: 90%;
+      right: -4%;
+      top: 10%;
+      z-index: 10;
+      animation: rotate3 4s infinite;
+    }
+  }
+
+  .myorder-card-fadeout {
+    @keyframes fadeout {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0.1;
+      }
+    }
+    animation: fadeout 4s infinite;
   }
   .myorder-card {
     position: relative;
     z-index: 10;
     min-width: 150px;
     min-height: 200px;
-    width: 60vh;
+    width: 30vw;
     height: 80vh;
     display: flex;
     flex-direction: column;

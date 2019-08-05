@@ -11,6 +11,7 @@ const MyOrderContainer = () => {
   const [changedData, setChangedData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [letsConnection, setLetsConnection] = useState(false);
+  const [isChanging, setIsChanging] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
   const localToken = localStorage.getItem('TOKEN');
@@ -25,7 +26,7 @@ const MyOrderContainer = () => {
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
-    new SockJS('/teamonion', null, {
+    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
       headers: { Authorization: token, transports: sockJsProtocols },
     }),
   );
@@ -100,18 +101,25 @@ const MyOrderContainer = () => {
           ];
           newOrders = [...ordersWithoutAfterPickup];
           setIsDeleting(false);
-        }, 5000);
+          setOrders([...newOrders]);
+        }, 3000);
       } else if (changedDataIndex >= 0) {
         // 변화만 된 주문정보 변경
-        newOrders[changedDataIndex] = {
-          ...newOrders[changedDataIndex],
-          made: changedData.made,
-          paid: changedData.paid,
-        };
+        // setIsChanging(true);
+
+        setTimeout(() => {
+          newOrders[changedDataIndex] = {
+            ...newOrders[changedDataIndex],
+            made: changedData.made,
+            paid: changedData.paid,
+          };
+          // setIsChanging(false);
+          setOrders([...newOrders]);
+        }, 3000);
+
         // console.dir(newOrders[changedDataIndex]);
       }
       // console.dir(newOrders);
-      setOrders([...newOrders]);
     }
   }, [changedData]);
 
@@ -122,7 +130,9 @@ const MyOrderContainer = () => {
         orders={orders}
         setOrders={setOrders}
         userId={me.id}
-        setIsDeleting={isDeleting}
+        isChanging={isChanging}
+        changedData={changedData}
+        isDeleting={isDeleting}
       />
     </>
   );
