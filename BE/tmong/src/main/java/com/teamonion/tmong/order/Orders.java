@@ -66,4 +66,6 @@ public class Orders {
     public void pick() {
         this.pickup = true;
     }
+
+    public void setId(Long id) {this.id = id; }
 }
