@@ -15,17 +15,17 @@ const AdminOrderManageContainer = () => {
     ? `Bearer ${sessionToken}`
     : '';
 
-  const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
+  //const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
     new SockJS('/teamonion', null, {
-      transports: sockJsProtocols,
+      // transports: sockJsProtocols,
     }),
   );
 
   const socketOrderInit = () => {
     client.connect({ Authorization: token }, frame => {
       //상태변경 구독
-      client.subscribe('/user/queue/orders/update', msg => {
+      client.subscribe('/queue/orders/update', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
           order_id: res.id,

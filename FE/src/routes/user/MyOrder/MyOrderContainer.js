@@ -23,18 +23,18 @@ const MyOrderContainer = () => {
     ? `Bearer ${sessionToken}`
     : '';
 
-  const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
+  //const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
     new SockJS('/teamonion', null, {
-      transports: sockJsProtocols,
+      // transports: sockJsProtocols,
     }),
   );
 
   const socketMyOrderInit = () => {
     if (client.connected === false) {
       client.connect({ Authorization: token }, frame => {
-        client.subscribe('/user/queue/orders/update', msg => {
+        client.subscribe('/queue/orders/update', msg => {
           const Data = msg.body && JSON.parse(msg.body);
           //  console.log(Data);
           setChangedData(Data);
