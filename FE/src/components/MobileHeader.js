@@ -18,9 +18,9 @@ const MobileHeader = ({
 }) => {
   const dispatch = useDispatch();
 
-  const popupControl = useCallback(() => {
+  const popupControl = () => {
     dispatch(signInPopupChangeAction());
-  }, [dispatch]);
+  };
 
   return (
     <>

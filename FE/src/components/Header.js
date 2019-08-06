@@ -18,17 +18,14 @@ const Header = () => {
     localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
   };
 
-  const onRefreshClick = useCallback(() => {
-    const myPointAsyncApi = async () => {
-      try {
-        dispatch(changePoint());
-        // 리덕스 state와 로컬스토리지 포인트 변경
-      } catch (e) {
-        console.log(e);
-      }
-    };
-    myPointAsyncApi();
-  }, [dispatch]);
+  const onRefreshClick = () => {
+    try {
+      dispatch(changePoint());
+      // 리덕스 state와 로컬스토리지 포인트 변경
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const expireTimeChecker = () => {
     // 로그인시 23시간 이상된 아이디면 자동 로그아웃
