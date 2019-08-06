@@ -27,19 +27,36 @@ public class WebSocketController {
 
     @CheckJwt
     @MessageMapping("/api/orders/update")
+    @SendTo("/queue/orders/update")
     public WebSocketResponse updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest,
                                          SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
 
-//        Principal user = simpMessageHeaderAccessor.getUser();
         log.info("------------------------------------");
         log.info("------------ updateOrder -----------");
         log.info("payload ordersupdaterequest : {}", ordersUpdateRequest);
-        WebSocketResponse webSocketResponse = ordersService.updateOrder(ordersUpdateRequest);
         log.info("------------------------------------");
+        WebSocketResponse webSocketResponse = ordersService.updateOrder(ordersUpdateRequest);
+
+        // 상태바꾼 관리자
+        String adminSessionId = simpMessageHeaderAccessor.getSessionId();
+        log.info("admin SessionId is ... {}", adminSessionId);
+        simpMessagingTemplate.convertAndSendToUser(adminSessionId, "/queue/orders/update" , webSocketResponse);
+        simpMessagingTemplate.convertAndSend("/queue/orders/update/" + adminSessionId , webSocketResponse);
+
+        // 상태의 주인공
+        String buyerSessionId = StompInterceptor.getProcessingSessions().get(webSocketResponse.getBuyerId());
+        log.info("buyerSessionId is NULL??????????");
+        if(buyerSessionId != null){
+            log.info("No ! buyerSessionId is ... {}", buyerSessionId);
+            simpMessagingTemplate.convertAndSendToUser(buyerSessionId, "/queue/orders/update", webSocketResponse);
+        }
+
+        simpMessagingTemplate.convertAndSendToUser(StompInterceptor.getProcessingSessions().get("sefide"), "/queue/orders/update" , webSocketResponse);
+        simpMessagingTemplate.convertAndSend("/queue/orders/update/" + StompInterceptor.getProcessingSessions().get("sefide") , webSocketResponse);
+//        simpMessagingTemplate.convertAndSend("/topic/order", webSocketResponse);
+
         log.info("simpMessageHeaderAccessor");
-
         log.info("Principal .... getUser() : {}", simpMessageHeaderAccessor.getUser());
-
         log.info("getSubscriptionId .... : {}", simpMessageHeaderAccessor.getSubscriptionId());
         log.info("getMessageType .... : {}", simpMessageHeaderAccessor.getMessageType());
         log.info("getDestination .... : {}", simpMessageHeaderAccessor.getDestination());
@@ -53,23 +70,6 @@ public class WebSocketController {
 
         log.info("------------------------------------");
         log.info("------------------------------------");
-        // 상태바꾼 관리자
-        String adminSessionId = simpMessageHeaderAccessor.getSessionId();
-        log.info("admin SessionId is ... {}", adminSessionId);
-//        simpMessagingTemplate.convertAndSendToUser(adminSessionId,"/topic/order", webSocketResponse);
-        simpMessagingTemplate.convertAndSendToUser(adminSessionId, "/queue/orders/update" , webSocketResponse);
-        simpMessagingTemplate.convertAndSendToUser(adminSessionId, "/topic/orders/add" , webSocketResponse);
-
-        // 상태의 주인공
-        String buyerSessionId = StompInterceptor.getProcessingSessions().get(webSocketResponse.getBuyerId());
-        log.info("buyerSessionId is NULL??????????");
-        if(buyerSessionId != null){
-            log.info("No ! buyerSessionId is ... {}", buyerSessionId);
-            simpMessagingTemplate.convertAndSendToUser(buyerSessionId, "/queue/orders/update", webSocketResponse);
-        }
-//        simpMessagingTemplate.convertAndSend("/topic/order", webSocketResponse);
-
-
         log.info("------------------------------------");
         log.info("--------------- END ---------------");
 
