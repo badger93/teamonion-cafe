@@ -6,6 +6,7 @@ import './styles/MainPresenter.scss';
 import Loading from '../../../components/Loading';
 import SearchBar from '../../../components/SearchBar';
 import Pagination from '../../../components/pagination';
+import MenuListItems from './components/MenuListItems';
 
 const MainPresenter = ({
   isLoading,
@@ -19,14 +20,14 @@ const MainPresenter = ({
 }) => {
   const [isMenuPopup, setIsMenuPopup] = useState(false);
   // 메뉴 리스트 뿌리기
-  const mapMenuListItem = list.map((item, index) => (
-    <MenuListItem
-      key={`item-${index}`}
-      item={item}
-      mapDetailData={mapDetailData}
-      setIsMenuPopup={setIsMenuPopup}
-    />
-  ));
+  // const mapMenuListItem = list.map((item, index) => (
+  //   <MenuListItem
+  //     key={`item-${index}`}
+  //     item={item}
+  //     mapDetailData={mapDetailData}
+  //     setIsMenuPopup={setIsMenuPopup}
+  //   />
+  // ));
 
   const pageCallback = useCallback(
     e => {
@@ -44,7 +45,8 @@ const MainPresenter = ({
           <h1>MENU</h1>
           <SearchBar searchCallback={searchMenuListByName} />
         </div>
-        <div className="menulist">{mapMenuListItem}</div>
+        {/* <div className="menulist">{mapMenuListItem}</div> */}
+        <MenuListItems list={list} mapDetailData={mapDetailData} setIsMenuPopup={setIsMenuPopup} />
         {isMenuPopup && (
           <div className="menuDetailContainer">
             <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
