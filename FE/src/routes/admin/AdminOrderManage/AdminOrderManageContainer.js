@@ -18,9 +18,7 @@ const AdminOrderManageContainer = () => {
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
     new SockJS('/teamonion', null, {
-      headers: {
-        transports: sockJsProtocols,
-      },
+      transports: sockJsProtocols,
     }),
   );
 
