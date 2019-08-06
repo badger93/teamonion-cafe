@@ -12,11 +12,11 @@ const Header = () => {
   const dispatch = useDispatch();
   const [isList, setIsList] = useState(false);
 
-  const logOutDispatch = useCallback(() => {
+  const logOutDispatch = () => {
     dispatch(logOutAction());
     localStorage.removeItem('USER');
     localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
-  }, [dispatch]);
+  };
 
   const onRefreshClick = useCallback(() => {
     const myPointAsyncApi = async () => {
