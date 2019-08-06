@@ -5,6 +5,7 @@ import '../styles/AdminOrderListItem.scss';
 const AdminOrderListItem = ({ list, socketSetOrderState }) => {
   const { order_id, menus, made, paid, createdDate, amount, member_id } = list;
   const orderCard = useRef(null);
+  let timer;
 
   const cardEffect = (element, effect) => {
     element.classList.add(effect);
@@ -17,10 +18,15 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
   const handleChangeState = useCallback(
     (list, state, graphicEffect) => {
       const controlChange = async () => {
-        if (graphicEffect) {
-          graphicEffect();
+        if (!timer) {
+          if (!timer && graphicEffect) {
+            await graphicEffect();
+          }
+          timer = await setTimeout(async () => {
+            timer = null;
+            socketSetOrderState(list, state);
+          }, 1000);
         }
-        await socketSetOrderState(list, state);
       };
       controlChange();
     },
