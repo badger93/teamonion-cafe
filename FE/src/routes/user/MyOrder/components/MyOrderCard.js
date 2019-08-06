@@ -1,7 +1,5 @@
 import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MyOrderCard.scss';
 import magicCircle from '../../../../image/magiccircle.png';
 import { userOrderAPI } from '../../../../api/userApi';
