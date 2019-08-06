@@ -26,7 +26,7 @@ const MyOrderContainer = () => {
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
-    new SockJS('/teamonion', null, {
+    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
       headers: { Authorization: token },
       transports: sockJsProtocols,
     }),
@@ -34,7 +34,7 @@ const MyOrderContainer = () => {
 
   const socketMyOrderInit = () => {
     if (client.connected === false) {
-      client.connect({}, frame => {
+      client.connect({ Authorization: token }, frame => {
         client.subscribe('/topic/order', msg => {
           const Data = msg.body && JSON.parse(msg.body);
           //  console.log(Data);
@@ -54,13 +54,13 @@ const MyOrderContainer = () => {
           // console.log(content);
           setOrders([...content]);
           setLetsConnection(true);
+          setIsLoading(false);
         }
       } catch (e) {
         console.log(e);
       }
     };
     fetchMyOrder();
-    setIsLoading(false);
     // console.log(orders);
   }, []);
 

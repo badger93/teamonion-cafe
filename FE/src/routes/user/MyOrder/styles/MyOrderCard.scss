@@ -81,11 +81,14 @@
   }
   .myorder-card-deleting-container {
     position: absolute;
+    min-width: 400px;
+    min-height: 200px;
     width: 30vw;
     height: 80vh;
     .myorder-card-deleting {
       width: 104%;
-      height: 102%;
+      height: 92%;
+      min-height: 210px;
       position: absolute;
       border-radius: 15px;
       border: none;
@@ -112,7 +115,7 @@
     }
     .myorder-card-deleting:nth-child(2) {
       width: 102%;
-      height: 101%;
+
       left: -1%;
       top: 3%;
       z-index: 7;
@@ -120,7 +123,7 @@
     }
     .myorder-card-deleting:nth-child(3) {
       width: 115%;
-      height: 103%;
+      height: 98%;
       left: -8%;
       top: 2%;
       z-index: 5;
@@ -128,7 +131,7 @@
     }
     .myorder-card-deleting:nth-child(4) {
       width: 100.5%;
-      height: 101%;
+      height: 96%;
       left: -0.5%;
       top: 3%;
       z-index: 9;
