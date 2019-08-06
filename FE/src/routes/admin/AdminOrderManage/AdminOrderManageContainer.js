@@ -19,9 +19,6 @@ const AdminOrderManageContainer = () => {
   const client = Stomp.over(
     new SockJS('/teamonion', null, {
       transports: sockJsProtocols,
-      headers: {
-        Authorization: token,
-      },
     }),
   );
 

@@ -27,7 +27,6 @@ const MyOrderContainer = () => {
   // const [currentOrderList, setCurrentOrderList] = useState([]);
   const client = Stomp.over(
     new SockJS('/teamonion', null, {
-      headers: { Authorization: token },
       transports: sockJsProtocols,
     }),
   );
