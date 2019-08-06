@@ -94,25 +94,19 @@ const AdminOrderHistoryPresenter = ({
         </Link>
         <Link
           className={`categoryBtn ${queryCategory === 'PAID_FALSE' ? 'active' : ''}`}
-          exact
           to="/admin/order-history?category=PAID_FALSE"
-          activeClassName="active"
         >
           미결제
         </Link>
         <Link
           className={`categoryBtn ${queryCategory === 'PAID_TRUE' ? 'active' : ''}`}
-          exact
           to="/admin/order-history?category=PAID_TRUE"
-          activeClassName="active"
         >
           결제완료
         </Link>
         <Link
           className={`categoryBtn ${queryCategory === 'MADE_TRUE' ? 'active' : ''}`}
-          exact
           to="/admin/order-history?category=MADE_TRUE"
-          activeClassName="active"
         >
           제작완료
         </Link>
