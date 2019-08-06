@@ -25,7 +25,7 @@ const AdminOrderManageContainer = () => {
   const socketOrderInit = () => {
     client.connect({ Authorization: token }, frame => {
       //상태변경 구독
-      client.subscribe('/queue/orders/update', msg => {
+      client.subscribe('/user/queue/orders/update', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
           order_id: res.id,
