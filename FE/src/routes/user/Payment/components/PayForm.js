@@ -26,8 +26,11 @@ const PayForm = ({
   useEffect(() => {
     const Point = user.point - totalPrice + totalPrice / 10;
     setAfterPoint(Point);
+  }, []);
+
+  useEffect(() => {
     setShowupStringFunc(payErrorReason);
-  }, [howPay, isSignedIn, totalPrice, user.point, payErrorReason, isPaying]);
+  }, [payErrorReason]);
 
   const onSubmit = async e => {
     e.preventDefault();

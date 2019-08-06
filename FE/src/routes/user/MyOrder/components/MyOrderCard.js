@@ -1,8 +1,7 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/MyOrderCard.scss';
 import magicCircle from '../../../../image/magiccircle.png';
-import { userOrderAPI } from '../../../../api/userApi';
 
 const MyOrderCard = ({
   // 전체 주문목록 새로고침
