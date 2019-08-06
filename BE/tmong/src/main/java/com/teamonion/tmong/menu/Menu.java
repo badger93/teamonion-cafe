@@ -22,7 +22,7 @@ public class Menu {
     private String name;
 
     @Column(nullable = false)
-    private long price;
+    private Long price;
 
     private String information;
 

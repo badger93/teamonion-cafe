@@ -9,7 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -34,21 +33,21 @@ public class MenuServiceTest {
     MenuService menuService;
 
     private Menu menu;
-    private MenuSaveDto menuSaveDto;
-    private MenuUpdateDto menuUpdateDto;
+    private MenuAddRequest menuAddRequest;
+    private MenuUpdateRequest menuUpdateRequest;
 
     @Before
     public void setUp() throws IOException {
-        menuSaveDto = new MenuSaveDto();
-        menuUpdateDto =  new MenuUpdateDto();
+        menuAddRequest = new MenuAddRequest();
+        menuUpdateRequest =  new MenuUpdateRequest();
 
         MockMultipartFile mockMultipartFile = new MockMultipartFile("test", "test", "image/jpg"
                 , new FileInputStream(new File("src/test/resources/cat.jpg")));
 
         MockMultipartFile mockEmptyMultipartFile = new MockMultipartFile("test", null, null, (byte[]) null);
 
-        menuSaveDto.setImageFile(mockMultipartFile);
-        menuUpdateDto.setImageFile(mockEmptyMultipartFile);
+        menuAddRequest.setImageFile(mockMultipartFile);
+        menuUpdateRequest.setImageFile(mockEmptyMultipartFile);
 
         menu = new Menu();
         menu.update(1L);
@@ -56,11 +55,11 @@ public class MenuServiceTest {
 
     @Test
     public void 메뉴추가테스트() {
-        menu = menuSaveDto.toEntity("test");
+        menu = menuAddRequest.toEntity("test");
 
         Mockito.when(menuRepository.save(menu)).thenReturn(menu);
 
-        assertThat(menuService.add(menuSaveDto)).isEqualTo(menu.getId());
+        assertThat(menuService.add(menuAddRequest)).isEqualTo(menu.getId());
     }
 
     @Test
@@ -69,7 +68,7 @@ public class MenuServiceTest {
         // TODO : 이미지 경로
         Mockito.when(menuRepository.findById(id)).thenReturn(Optional.of(menu));
 
-        menuService.updateMenu(id, menuUpdateDto);
+        menuService.updateMenu(id, menuUpdateRequest);
     }
 
     @Test

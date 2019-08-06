@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -39,20 +40,40 @@ public class OrdersService {
     @NonNull
     private final JwtComponent jwtComponent;
 
+    private static Map<String, String> processingOrders;
+
     @Transactional
     public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
-        Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
+        String buyerId = jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID);
+        Member buyer = memberService.findByMemberId(buyerId);
 
         Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
 
         pointService.pointProcess(orders);
 
-        return new OrdersResponse(ordersRepository.save(orders));
+        orders = ordersRepository.save(orders);
+
+        // TODO : processingOrders 생성
+        log.info("------------------------------------");
+        log.info("------------- makeOrder ------------");
+        log.info("------------------------------------");
+        log.info("buyer Id : {}", buyerId);
+//        log.info("Session Id : {}", simpMessageHeaderAccessor.getSessionId());
+//        log.info("Subscription Id : {}", simpMessageHeaderAccessor.getSubscriptionId());
+//        log.info("Destination : {}", simpMessageHeaderAccessor.getDestination());
+//        log.info("Message Type : {}", simpMessageHeaderAccessor.getMessageType());
+        log.info("-----------------------------------");
+        log.info("--------------- END ---------------");
+
+        //String sessionId = processingOrders.get(buyerId);
+        //processingOrders.put(buyerId, sessionId);
+
+        return new OrdersResponse(orders);
     }
 
     private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
         log.info("사이즈 : {}", ordersAddRequest.getMenuIdList().size());
-        if(ordersAddRequest.getMenuIdList().size() == 0) {
+        if (ordersAddRequest.getMenuIdList().size() == 0) {
             throw new HandleRuntimeException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
         }
 
@@ -102,23 +123,6 @@ public class OrdersService {
         return response.map(OrdersResponse::new);
     }
 
-//    public void updateOrder(Long order_id, OrdersUpdateRequest ordersUpdateRequest) {
-//        jwtComponent.checkAdmin();
-//        Orders orders = ordersRepository.findById(order_id)
-//                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
-//
-//        if (ordersUpdateRequest.isPaid()) {
-//            orders.pay();
-//        }
-//        if (ordersUpdateRequest.isMade()) {
-//            orders.make();
-//        }
-//        if (ordersUpdateRequest.isPickup()) {
-//            orders.pick();
-//        }
-//        ordersRepository.save(orders);
-//    }
-
     public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
         //jwtComponent.checkAdmin();
         log.info("!!service!! ordersUpdateRequest : {}", ordersUpdateRequest);
@@ -136,6 +140,7 @@ public class OrdersService {
         }
 
         WebSocketResponse ordersResponse = new WebSocketResponse(ordersRepository.save(orders));
+
         log.info("!!service!! ordersCategoryResponse : {}", ordersResponse);
         log.info("=========================");
         return ordersResponse;
