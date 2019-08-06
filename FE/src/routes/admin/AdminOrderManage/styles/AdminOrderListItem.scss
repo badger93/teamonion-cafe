@@ -102,13 +102,13 @@
 .AdminOrderListItem.ghost {
   visibility: hidden;
   opacity: 0;
-  transform: translate(100px, 0px);
+  transform: translate(200px, 0px);
   transition: transform 1s linear, visibility 0s 1s, opacity 1s linear;
 }
 
 .AdminOrderListItem.fly {
   visibility: hidden;
   opacity: 0;
-  transform: translate(100px, -80px);
+  transform: translate(200px, -160px);
   transition: transform 1s linear, visibility 0s 1s, opacity 1s linear;
 }

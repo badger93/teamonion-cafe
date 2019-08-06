@@ -12,21 +12,20 @@ const AdminOrderManageContainer = () => {
   const token = localToken
     ? `Bearer ${localToken}`
     : '' || sessionToken
-      ? `Bearer ${sessionToken}`
-      : '';
+    ? `Bearer ${sessionToken}`
+    : '';
 
   const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
-    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
+    new SockJS('/teamonion', null, {
       headers: {
-        Authorization: token,
         transports: sockJsProtocols,
       },
     }),
   );
 
   const socketOrderInit = () => {
-    client.connect({}, frame => {
+    client.connect({ Authorization: token }, frame => {
       //상태변경 구독
       client.subscribe('/topic/order', msg => {
         const res = JSON.parse(msg.body);
@@ -59,9 +58,7 @@ const AdminOrderManageContainer = () => {
   const socketSetOrderState = async ({ order_id, member_id, made, paid, pickup }, change) => {
     const payload = Object.assign({ id: order_id, buyerId: member_id, made, paid, pickup }, change);
     try {
-      await window.setTimeout(() => {
-        client.send('/api/orders/update', {}, JSON.stringify(payload));
-      }, 1000);
+      await client.send('/api/orders/update', {}, JSON.stringify(payload));
     } catch (err) {
       alert('연결 없음');
       await socketOrderInit();
@@ -80,7 +77,7 @@ const AdminOrderManageContainer = () => {
     };
     socketInit();
     return () => {
-      client.disconnect(() => { });
+      client.disconnect(() => {});
     };
   }, []);
 
