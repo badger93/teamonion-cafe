@@ -35,6 +35,8 @@ public class StompInterceptor implements ChannelInterceptor {
 //            log.info("authorization ... : {}", authorization );
             log.info("getSessionId ... : {}", header.getSessionId());
 
+            log.info("getSubscriptionId ... : {}", header.getSubscriptionId());
+
             String jwt = authorization.substring("Bearer" .length()).trim();
             String memberId = (String) Jwts.parser()
                     .setSigningKey("secret")
