@@ -1,37 +1,39 @@
 import React, { useCallback } from 'react';
 import propTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import '../styles/MyOrderCard.scss';
+import magicCircle from '../../../../image/magiccircle.png';
 import { userOrderAPI } from '../../../../api/userApi';
 
 const MyOrderCard = ({
   // 전체 주문목록 새로고침
+  changedData,
+  orderId,
+  isChanging,
+  isDeleting,
   paid,
   made,
   menu = [],
-  setOrders,
-  userId,
 }) => {
-  // const onRefreshClick = useCallback(() => {
-  //   const RefreshOrder = async () => {
-  //     try {
-  //       const {
-  //         data: { content },
-  //       } = await userOrderAPI(userId, false);
-  //       setOrders(content);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   RefreshOrder();
-  // }, [userId, setOrders]);
   return (
     <div className="myorder-card-container">
-      {/* <div className="refresh-button" onClick={onRefreshClick}>
-        <FontAwesomeIcon icon={faRedo} size="2x" />
-      </div> */}
-      <div className="myorder-card">
+      {changedData && changedData.id === orderId && isDeleting && (
+        <div className="myorder-card-deleting-container">
+          <div className="myorder-card-deleting" />
+          <div className="myorder-card-deleting" />
+          <div className="myorder-card-deleting" />
+          <div className="myorder-card-deleting" />
+          <img src={magicCircle} alt="magincircle" />
+        </div>
+      )}
+      <div className={`myorder-card ${isDeleting && 'myorder-card-fadeout'}`}>
+        {isChanging && (
+          <div className="myorder-card-status-cloud">
+            <div className="cloud" />
+            <div className="cloud" />
+            <div className="cloud" />
+            <div className="cloud" />
+          </div>
+        )}
         <div className={!made ? 'myorder-status' : 'myorder-status-finish'}>
           {!made ? (
             <img
@@ -75,6 +77,8 @@ const MyOrderCard = ({
   );
 };
 MyOrderCard.propTypes = {
+  isDeleting: propTypes.bool.isRequired,
+  isChanging: propTypes.bool.isRequired,
   paid: propTypes.bool.isRequired,
   made: propTypes.bool.isRequired,
   menu: propTypes.arrayOf(propTypes.string).isRequired,
