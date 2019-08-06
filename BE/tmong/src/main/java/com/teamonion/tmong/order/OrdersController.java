@@ -32,9 +32,11 @@ public class OrdersController {
     public ResponseEntity makeOrder(@RequestBody @Valid OrdersAddRequest ordersAddRequest) {
         OrdersResponse ordersResponse = ordersService.makeOrder(ordersAddRequest);
 
+        ResponseEntity makeOrderResponse = new ResponseEntity<>(ordersResponse.getId(), HttpStatus.CREATED);
+        
         simpMessagingTemplate.convertAndSend("/topic/orders/add", ordersResponse);
 
-        return new ResponseEntity<>(ordersResponse.getId(), HttpStatus.CREATED);
+        return makeOrderResponse;
     }
 
     @CheckJwt

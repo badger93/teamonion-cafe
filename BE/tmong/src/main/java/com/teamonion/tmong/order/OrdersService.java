@@ -58,15 +58,8 @@ public class OrdersService {
         log.info("------------- makeOrder ------------");
         log.info("------------------------------------");
         log.info("buyer Id : {}", buyerId);
-//        log.info("Session Id : {}", simpMessageHeaderAccessor.getSessionId());
-//        log.info("Subscription Id : {}", simpMessageHeaderAccessor.getSubscriptionId());
-//        log.info("Destination : {}", simpMessageHeaderAccessor.getDestination());
-//        log.info("Message Type : {}", simpMessageHeaderAccessor.getMessageType());
         log.info("-----------------------------------");
         log.info("--------------- END ---------------");
-
-        //String sessionId = processingOrders.get(buyerId);
-        //processingOrders.put(buyerId, sessionId);
 
         return new OrdersResponse(orders);
     }

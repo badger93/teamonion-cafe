@@ -57,6 +57,9 @@ public class StompInterceptor implements ChannelInterceptor {
 
     public static Map<String, String> getProcessingSessions(){
         log.info("processingSessions Size : {} " , processingSessions.size());
+        for( String key : processingSessions.keySet() ){
+            log.info( "키 : {}, 값 : {}", key, processingSessions.get(key));
+        }
         return processingSessions;
     }
 }

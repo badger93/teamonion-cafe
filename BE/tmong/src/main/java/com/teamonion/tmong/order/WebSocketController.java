@@ -38,7 +38,8 @@ public class WebSocketController {
 
         // 상태바꾼 관리자
         String adminSessionId = simpMessageHeaderAccessor.getSessionId();
-        simpMessagingTemplate.convertAndSendToUser(adminSessionId,"/queue/order", webSocketResponse);
+//        simpMessagingTemplate.convertAndSendToUser(adminSessionId,"/topic/order", webSocketResponse);
+        simpMessagingTemplate.convertAndSend("/queue/orders/update/" + adminSessionId, webSocketResponse);
 
 
         // 상태의 주인공
@@ -47,7 +48,8 @@ public class WebSocketController {
         log.info("buyerSessionId is NULL??????????");
         if(buyerSessionId != null){
             log.info("No ! buyerSessionId is ... {}", buyerSessionId);
-            simpMessagingTemplate.convertAndSendToUser(buyerSessionId, "topic/order", webSocketResponse);
+            simpMessagingTemplate.convertAndSendToUser(buyerSessionId, "/topic/order", webSocketResponse);
+            simpMessagingTemplate.convertAndSendToUser(buyerSessionId, "/topic/orders/update", webSocketResponse);
         }
 //        simpMessagingTemplate.convertAndSend("/topic/order", webSocketResponse);
 
