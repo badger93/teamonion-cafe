@@ -16,7 +16,7 @@ const AdminOrderHistoryContainer = ({ location }) => {
         setPageData({ page, totalPages });
       })
       .catch(err => {
-        alert(`주문이력 가져오기 실패: ${err}`);
+        // alert(`주문이력 가져오기 실패: ${err}`);
       });
   };
 

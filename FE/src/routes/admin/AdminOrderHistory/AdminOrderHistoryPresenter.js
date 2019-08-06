@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import queryString from 'query-string';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
@@ -86,37 +86,36 @@ const AdminOrderHistoryPresenter = ({
     <div className="AdminOrderHistoryPresenter">
       <div className="pageTitle">주문이력</div>
       <div className="orderTabArea">
-        <NavLink
-          className="categoryBtn"
+        <Link
+          className={`categoryBtn ${queryCategory === 'ALL' ? 'active' : ''}`}
           to="/admin/order-history?category=ALL"
-          activeClassName="active"
         >
           전체보기
-        </NavLink>
-        <NavLink
-          className="categoryBtn"
+        </Link>
+        <Link
+          className={`categoryBtn ${queryCategory === 'PAID_FALSE' ? 'active' : ''}`}
           exact
           to="/admin/order-history?category=PAID_FALSE"
           activeClassName="active"
         >
           미결제
-        </NavLink>
-        <NavLink
-          className="categoryBtn"
+        </Link>
+        <Link
+          className={`categoryBtn ${queryCategory === 'PAID_TRUE' ? 'active' : ''}`}
           exact
           to="/admin/order-history?category=PAID_TRUE"
           activeClassName="active"
         >
           결제완료
-        </NavLink>
-        <NavLink
-          className="categoryBtn"
+        </Link>
+        <Link
+          className={`categoryBtn ${queryCategory === 'MADE_TRUE' ? 'active' : ''}`}
           exact
           to="/admin/order-history?category=MADE_TRUE"
           activeClassName="active"
         >
           제작완료
-        </NavLink>
+        </Link>
       </div>
 
       <div className="historyList">
