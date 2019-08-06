@@ -5,9 +5,12 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -74,5 +77,30 @@ public class MemberAcceptanceTest {
         assertThat(response.getBody().getMemberId()).isEqualTo(memberId);
         assertThat(response.getBody().getJwt()).isNotNull();
     }
+
+    @Test
+    public void getMembersTest() {
+        String memberId = "chicken4";
+        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
+        memberSignUpRequest.setMemberId(memberId);
+        memberSignUpRequest.setPassword("123456789a");
+        memberSignUpRequest.setPasswordCheck("123456789a");
+
+        template.postForEntity("/api/members", memberSignUpRequest, MemberLoginResponse.class);
+
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString("/api/members/");
+
+
+        template.getForEntity(uriComponentsBuilder.toUriString(), Page<Member.class>class);
+//        System.out.println("------body : " + response.getBody());
+    }
+
+
+
+//    @CheckJwt
+//    @GetMapping
+//    public ResponseEntity<Page<Member>> getMembers(Pageable pageable) {
+//        return new ResponseEntity<>(memberService.getMembers(pageable), HttpStatus.OK);
+//    }
 
 }
