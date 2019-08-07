@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import ReactDataGrid from 'react-data-grid';
 
 const MyHistory = ({ columns, rows = [] }) => (
