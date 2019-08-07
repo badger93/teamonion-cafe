@@ -9,6 +9,8 @@ import {
   SIGNIN_POPUP_CHANGE,
   SIGNUP_FINISH,
   CHANGE_POINT_SUCCESS,
+  ORDERLIST_SET,
+  ORDERLIST_DELETE,
 } from '../actions/userAction';
 
 const initState = {
@@ -28,6 +30,7 @@ const initState = {
       point: 0,
       jwt: null,
       lastSignInTime: null,
+      orderList: [],
     },
 };
 
@@ -87,6 +90,26 @@ const userReducer = (state = initState, action) => {
           memberRole: 'NORMAL',
           point: 0,
           jwt: null,
+          ...state.me,
+        },
+      };
+    }
+    case ORDERLIST_SET: {
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          orderList: action.data,
+        },
+      };
+    }
+
+    case ORDERLIST_DELETE: {
+      return {
+        ...state,
+        me: {
+          ...state.me,
+          orderList: state.me.orderList.filter(item => item !== action.data),
         },
       };
     }
