@@ -29,23 +29,15 @@ public class StompInterceptor implements ChannelInterceptor {
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         StompHeaderAccessor header = StompHeaderAccessor.wrap(message);
         String authorization = header.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
-        String memberId = "";
-
-        log.info("getDestination ... : {}", header.getDestination());
         String destination = header.getDestination();
-
-        if(destination != null && destination.equals("/user/queue/orders/update")){
-            jwtComponent.checkAdmin();
-        }
+        String memberId = "";
 
         log.info("=========================================");
         log.info("============ StompInterceptor ===========");
         log.info("================ preSend ================");
+        log.info("getDestination ... : {}", header.getDestination());
         if (destination == null && authorization != null) {
-//            log.info("authorization ... : {}", authorization );
             log.info("getSessionId ... : {}", header.getSessionId());
-
-            log.info("getSubscriptionId ... : {}", header.getSubscriptionId());
 
             String jwt = authorization.substring("Bearer" .length()).trim();
             memberId = (String) Jwts.parser()
