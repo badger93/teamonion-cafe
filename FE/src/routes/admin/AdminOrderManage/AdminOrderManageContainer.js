@@ -28,10 +28,8 @@ const AdminOrderManageContainer = () => {
       client.subscribe('/topic/orders/update', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
+          ...res,
           order_id: res.id,
-          paid: res.paid,
-          made: res.made,
-          pickup: res.pickup,
           member_id: res.buyerId,
         });
       });
@@ -39,14 +37,9 @@ const AdminOrderManageContainer = () => {
       client.subscribe('/topic/orders/add', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
+          ...res,
           order_id: res.id,
           menus: res.menuNameList,
-          paymentType: res.paymentType,
-          paid: res.paid,
-          made: res.made,
-          pickup: res.pickup,
-          createdDate: res.createdDate,
-          amount: res.amount,
           member_id: res.buyerId,
         });
       });
