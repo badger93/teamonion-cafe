@@ -15,6 +15,19 @@ export const CHANGE_POINT_REQUEST = 'CHANGE_POINT_REQUEST';
 export const CHANGE_POINT_SUCCESS = 'CHANGE_POINT_SUCCESS';
 export const CHANGE_POINT_FAILURE = 'CHANGE_POINT_FAILURE';
 
+export const ORDERLIST_SET = 'ORDERLIST_GET';
+export const ORDERLIST_DELETE = 'ORDERLIST_DELETE';
+
+export const orderListDeleteAction = data => ({
+  type: ORDERLIST_DELETE,
+  data,
+});
+
+export const orderListSetAction = data => ({
+  type: ORDERLIST_SET,
+  data,
+});
+
 export const signUpRequestAction = data => ({
   type: SIGNUP_REQUEST,
   data,
