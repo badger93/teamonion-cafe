@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import '../styles/MobileHeader.scss';
 import { Link } from 'react-router-dom';

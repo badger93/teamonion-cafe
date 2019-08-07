@@ -17,7 +17,7 @@ const AdminOrderManageContainer = () => {
 
   // const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
-    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
+    new SockJS('/teamonion', null, {
       //     transports: sockJsProtocols,
     }),
   );
@@ -25,7 +25,7 @@ const AdminOrderManageContainer = () => {
   const socketOrderInit = () => {
     client.connect({ Authorization: token }, frame => {
       //상태변경 구독
-      client.subscribe('/topic/order', msg => {
+      client.subscribe('/topic/orders/update', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
           order_id: res.id,

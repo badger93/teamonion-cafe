@@ -31,7 +31,7 @@ const MyOrderCard = ({
         </div>
       )}
       <div className={`myorder-card ${isDeleting && 'myorder-card-fadeout'}`}>
-        {isChanging && (
+        {changedData && changedData.id === orderId && isChanging && (
           <div className="myorder-card-status-cloud">
             <div className="cloud" />
             <div className="cloud" />
