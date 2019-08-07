@@ -77,7 +77,7 @@ const RootRouter = () => {
             <Redirect from="*" to="/" />
           </Switch>
         </Suspense>
-        {/* <GlobalWs /> */}
+        <GlobalWs />
         <Footer />
       </>
     </Router>

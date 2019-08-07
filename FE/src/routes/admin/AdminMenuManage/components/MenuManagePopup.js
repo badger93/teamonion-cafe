@@ -8,7 +8,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
   const [popupName, setPopupName] = useState('');
   const [popupPrice, setPopupPrice] = useState('');
   const [popupInformation, setPopupInformation] = useState('');
-  const [popupFile, setPopupFile] = useState('');
+  const [popupFile, setPopupFile] = useState(null);
   const isEdit = Object.keys(menuPopupData).length > 1;
   const inputImgRef = useRef(null); // 인풋 미리보기 img 태그
   const fileInputRef = useRef(null); // 파일 input 태그
@@ -21,7 +21,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
         formData.append('name', popupName);
         formData.append('price', popupPrice);
         formData.append('information', popupInformation);
-        formData.append('imageFile', popupFile);
+        if (!isEdit) formData.append('imageFile', popupFile);
 
         const fakeImg = inputImgRef.current.getAttribute('src');
         if (isEdit) {
