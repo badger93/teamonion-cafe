@@ -34,7 +34,7 @@ const MyOrderContainer = () => {
   const socketMyOrderInit = () => {
     if (client.connected === false) {
       client.connect({ Authorization: token }, frame => {
-        client.subscribe('/topic/orders/update', msg => {
+        client.subscribe('/user/queue/orders/update', msg => {
           const Data = msg.body && JSON.parse(msg.body);
           //  console.log(Data);
           setChangedData(Data);
