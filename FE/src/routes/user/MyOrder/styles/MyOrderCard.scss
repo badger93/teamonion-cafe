@@ -86,18 +86,6 @@
     width: 30vw;
     height: 80vh;
     .myorder-card-deleting {
-      width: 104%;
-      height: 92%;
-      min-height: 210px;
-      position: absolute;
-      border-radius: 15px;
-      border: none;
-      transition: all 1s ease-in-out;
-      animation: fadein 2s;
-      animation-fill-mode: both;
-      filter: blur(8px);
-      opacity: 1;
-
       @keyframes fadein {
         0% {
           opacity: 0;
@@ -106,6 +94,17 @@
           opacity: 1;
         }
       }
+      width: 104%;
+      height: 92%;
+      min-height: 210px;
+      position: absolute;
+      border-radius: 15px;
+      border: none;
+      transition: all 1s ease-in-out;
+      animation: fadein 2s infinite;
+      animation-fill-mode: both;
+      filter: blur(8px);
+      opacity: 1;
     }
     .myorder-card-deleting:nth-child(1) {
       background-color: #fe6600;
@@ -140,14 +139,104 @@
     @keyframes rotate3 {
       0% {
         transform-origin: center;
+        opacity: 1;
         transform: rotate(0deg);
       }
       100% {
         transform-origin: center;
+        opacity: 0;
         transform: rotate(360deg);
       }
     }
-    img {
+    @keyframes fly {
+      0% {
+        opacity: 0.8;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(8rem, 7rem);
+      }
+    }
+    @keyframes fly2 {
+      0% {
+        opacity: 0.8;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-7rem, -7rem);
+      }
+    }
+    @keyframes fly3 {
+      0% {
+        opacity: 0.8;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-9rem, 10rem);
+      }
+    }
+    @keyframes fly4 {
+      0% {
+        opacity: 0.8;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(8rem, 8rem);
+      }
+    }
+    @keyframes fly5 {
+      0% {
+        opacity: 0.8;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-3rem, 8rem);
+      }
+    }
+    @keyframes fly6 {
+      0% {
+        opacity: 0.8;
+      }
+      100% {
+        opacity: 0;
+        transform: translate(5rem, -5rem);
+      }
+    }
+
+    .butterfly {
+      opacity: 0;
+      z-index: 50;
+      position: absolute;
+      width: 10%;
+      overflow: hidden;
+      top: 30%;
+      left: 45%;
+    }
+    .butterfly:nth-child(5) {
+      animation: fly 2s infinite;
+      animation-delay: 2s;
+    }
+    .butterfly:nth-child(6) {
+      animation: fly2 2s infinite;
+      animation-delay: 2s;
+    }
+    .butterfly:nth-child(7) {
+      animation: fly3 2s infinite;
+      animation-delay: 2s;
+    }
+    .butterfly:nth-child(8) {
+      animation: fly4 2s infinite;
+      animation-delay: 2s;
+    }
+    .butterfly:nth-child(9) {
+      animation: fly5 2s infinite;
+      animation-delay: 2s;
+    }
+    .butterfly:nth-child(10) {
+      animation: fly6 2s infinite;
+      animation-delay: 2s;
+    }
+    .magiccircle {
       position: relative;
       width: 90%;
       right: -4%;

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import '../styles/MobileHeader.scss';
 import { Link } from 'react-router-dom';
@@ -18,9 +18,9 @@ const MobileHeader = ({
 }) => {
   const dispatch = useDispatch();
 
-  const popupControl = useCallback(() => {
+  const popupControl = () => {
     dispatch(signInPopupChangeAction());
-  }, [dispatch]);
+  };
 
   return (
     <>
