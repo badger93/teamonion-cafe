@@ -56,7 +56,7 @@ const AdminMemberManagePresenter = ({
         ? searchUserByID(searchText, e.target.value - 1)
         : getUserByPage({ itemSize: 10, page: e.target.value - 1 });
     },
-    [searchText],
+    [searchText, searchUserByID, getUserByPage],
   );
 
   return (

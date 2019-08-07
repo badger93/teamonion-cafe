@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
-import MenuListItem from './components/MenuListItem';
 import MenuDetail from './components/MenuDetail';
 import './styles/MainPresenter.scss';
 import Loading from '../../../components/Loading';
@@ -35,7 +34,7 @@ const MainPresenter = ({
         ? searchMenuListByName(searchText, e.target.value - 1)
         : getMenuByPage({ itemSize: 20, page: e.target.value - 1 });
     },
-    [getMenuByPage, searchMenuListByName],
+    [getMenuByPage, searchMenuListByName, searchText],
   );
   return (
     <>
