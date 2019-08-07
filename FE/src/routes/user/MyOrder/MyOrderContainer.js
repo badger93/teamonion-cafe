@@ -4,6 +4,8 @@ import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
+import CanvasModal from './components/CanvasModal';
+import './styles/MyOrderContainer.scss';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
@@ -13,6 +15,7 @@ const MyOrderContainer = () => {
   const [letsConnection, setLetsConnection] = useState(false);
   const [isChanging, setIsChanging] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isCanvasOpen, setIsCanvasOpen] = useState(false);
 
   const localToken = localStorage.getItem('TOKEN');
   const sessionToken = sessionStorage.getItem('TOKEN');
@@ -124,8 +127,10 @@ const MyOrderContainer = () => {
   }, [changedData]);
 
   return (
-    <>
+    <div className="myOrderContainer">
+      {isCanvasOpen && <CanvasModal setIsCanvasOpen={setIsCanvasOpen} />}
       <MyOrderPresenter
+        setIsCanvasOpen={setIsCanvasOpen}
         isLoading={isLoading}
         orders={orders}
         setOrders={setOrders}
@@ -134,7 +139,7 @@ const MyOrderContainer = () => {
         changedData={changedData}
         isDeleting={isDeleting}
       />
-    </>
+    </div>
   );
 };
 
