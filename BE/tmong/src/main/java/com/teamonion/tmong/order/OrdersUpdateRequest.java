@@ -15,4 +15,16 @@ public class OrdersUpdateRequest {
     private boolean paid;
     private boolean made;
     private boolean pickup;
+
+    WebSocketResponse toEntity(boolean valid, String errorMessage) {
+        return WebSocketResponse.builder()
+                .id(id)
+                .buyerId(buyerId)
+                .paid(paid)
+                .made(made)
+                .pickup(pickup)
+                .valid(valid)
+                .errorMessage(errorMessage)
+                .build();
+    }
 }

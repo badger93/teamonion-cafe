@@ -19,7 +19,7 @@ import java.util.Optional;
 public class StompInterceptor implements ChannelInterceptor {
 
     @Autowired
-    JwtComponent jwtComponent;
+    private JwtComponent jwtComponent;
 
     private static Map<String, String> processingSessions = new HashMap<>();
 
@@ -31,25 +31,30 @@ public class StompInterceptor implements ChannelInterceptor {
         String authorization = header.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
         String destination = header.getDestination();
         String memberId = "";
+        String jwt = "";
 
         log.info("=========================================");
         log.info("============ StompInterceptor ===========");
         log.info("================ preSend ================");
+
+        log.info("getCommand ... : {}", header.getCommand().toString());
         log.info("getDestination ... : {}", header.getDestination());
-        if (destination == null && authorization != null) {
+        if (authorization != null) {
             log.info("getSessionId ... : {}", header.getSessionId());
 
-            String jwt = authorization.substring("Bearer" .length()).trim();
+            jwt = authorization.substring("Bearer".length()).trim();
+
             memberId = (String) Jwts.parser()
                     .setSigningKey("secret")
                     .parseClaimsJws(jwt)
                     .getBody()
                     .get("memberId");
 
+
             log.info("memberId ... : {}", memberId);
         }
 
-        StompCommand command = Optional.ofNullable(header.getCommand()).orElseThrow(() -> new RuntimeException("T.T"));
+        StompCommand command = Optional.ofNullable(header.getCommand()).orElseThrow(() -> new RuntimeException("command is null"));
         switch (command) {
             case CONNECT:
                 log.info("CONNECT");
@@ -61,6 +66,19 @@ public class StompInterceptor implements ChannelInterceptor {
                 processingSessions.remove(memberId);
 
                 break;
+            case SEND:
+                log.info("SEND");
+                if (destination != null && destination.equals("/api/orders/update")) {
+                    log.info("jwt ... {}", jwt);
+//                    jwtComponent.checkToken(jwt);
+//
+//                    if (!jwtComponent.getClaimValueByToken("role").equals(MemberRole.ADMIN.toString())) {
+//                        throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
+//                    }
+//                    log.info("jwtComponent ADMIN CHECK SUCCEED");
+                }
+                break;
+
             default:
                 break;
         }

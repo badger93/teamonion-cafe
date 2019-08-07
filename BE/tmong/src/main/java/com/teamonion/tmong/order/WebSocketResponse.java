@@ -1,6 +1,7 @@
 package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.menu.Menu;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -16,6 +17,8 @@ public class WebSocketResponse {
     private boolean made;
     private boolean pickup;
     private List<String> menuNameList;
+    private boolean valid;
+    private String errorMessage;
 
     public WebSocketResponse(Orders orders) {
         this.id = orders.getId();
@@ -27,5 +30,20 @@ public class WebSocketResponse {
                 .stream()
                 .map(Menu::getName)
                 .collect(Collectors.toList());
+        this.valid = true;
+        this.errorMessage = "";
+    }
+
+    @Builder
+    public WebSocketResponse(Long id, String buyerId, boolean paid, boolean made, boolean pickup
+                                , boolean valid, String errorMessage) {
+        this.id = id;
+        this.buyerId = buyerId;
+        this.paid = paid;
+        this.made = made;
+        this.pickup = pickup;
+        this.valid = valid;
+        this.errorMessage = errorMessage;
+        this.menuNameList = null;
     }
 }

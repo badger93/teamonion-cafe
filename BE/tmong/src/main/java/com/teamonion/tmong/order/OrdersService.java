@@ -40,8 +40,6 @@ public class OrdersService {
     @NonNull
     private final JwtComponent jwtComponent;
 
-    private static Map<String, String> processingOrders;
-
     @Transactional
     public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
         String buyerId = jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID);
@@ -114,21 +112,26 @@ public class OrdersService {
         return response.map(OrdersResponse::new);
     }
 
-    public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
+    WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
 //        jwtComponent.checkAdmin();
-        Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
-                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
+        try {
+            Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
+                    .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
 
-        if (ordersUpdateRequest.isPaid()) {
-            orders.pay();
-        }
-        if (ordersUpdateRequest.isMade()) {
-            orders.make();
-        }
-        if (ordersUpdateRequest.isPickup()) {
-            orders.pick();
+            if (ordersUpdateRequest.isPaid()) {
+                orders.pay();
+            }
+            if (ordersUpdateRequest.isMade()) {
+                orders.make();
+            }
+            if (ordersUpdateRequest.isPickup()) {
+                orders.pick();
+            }
+
+            return new WebSocketResponse(ordersRepository.save(orders));
+        }catch (HandleRuntimeException e){
+            return ordersUpdateRequest.toEntity(false, e.getErrorMessage());
         }
 
-        return new WebSocketResponse(ordersRepository.save(orders));
     }
 }
