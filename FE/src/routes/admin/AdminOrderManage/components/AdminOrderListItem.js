@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/AdminOrderListItem.scss';
 

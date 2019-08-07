@@ -78,6 +78,9 @@ const userReducer = (state = initState, action) => {
       return { ...state, signInPopup: !state.signInPopup };
     }
     case CHANGE_POINT_SUCCESS: {
+      if (state.me.point === action.data) {
+        return state;
+      }
       return { ...state, me: { ...state.me, point: action.data } };
     }
     case LOG_OUT: {
