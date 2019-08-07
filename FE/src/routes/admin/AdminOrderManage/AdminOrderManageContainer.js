@@ -17,7 +17,7 @@ const AdminOrderManageContainer = () => {
 
   //const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
-    new SockJS('/teamonion', null, {
+    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
       // transports: sockJsProtocols,
     }),
   );
@@ -25,7 +25,7 @@ const AdminOrderManageContainer = () => {
   const socketOrderInit = () => {
     client.connect({ Authorization: token }, frame => {
       //상태변경 구독
-      client.subscribe('/user/queue/orders/update', msg => {
+      client.subscribe('/topic/orders/update', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
           order_id: res.id,
@@ -56,7 +56,7 @@ const AdminOrderManageContainer = () => {
   const socketSetOrderState = async ({ order_id, member_id, made, paid, pickup }, change) => {
     const payload = Object.assign({ id: order_id, buyerId: member_id, made, paid, pickup }, change);
     try {
-      await client.send('/api/orders/update', {}, JSON.stringify(payload));
+      await client.send('/api/orders/update', { Authorization: token }, JSON.stringify(payload));
     } catch (err) {
       alert('연결 없음');
       await socketOrderInit();
