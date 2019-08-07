@@ -23,7 +23,6 @@ const PaymentPresenter = ({
         <PayForm
           dispatch={dispatch}
           itemsForPay={itemsForPay}
-          isPaying={isPaying}
           isPaid={isPaid}
           user={user}
           howPay={howPay}
