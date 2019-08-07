@@ -47,10 +47,10 @@ public class MenuService {
         String imagePath = menu.getImagePath();
         MultipartFile imageFile = menuUpdateRequest.getImageFile();
 
-        if(imageFile == null) {
-            log.info("메뉴 업데이트 콜 - 메뉴 사진 없음");
-        }
-        if (!imageFile.isEmpty()) {
+//        if(imageFile == null) {
+//            log.info("메뉴 업데이트 콜 - 메뉴 사진 없음");
+//        }
+        if (imageFile != null) {
             imageFileService.deleteImageFile(imagePath);
             // TODO : 이미지 존재 여부 중복 확인 수정
             imagePath = imageFileService.imageAddProcess(imageFile);

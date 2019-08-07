@@ -56,9 +56,7 @@ public class OrdersService {
         // TODO : processingOrders 생성
         log.info("------------------------------------");
         log.info("------------- makeOrder ------------");
-        log.info("------------------------------------");
         log.info("buyer Id : {}", buyerId);
-        log.info("-----------------------------------");
         log.info("--------------- END ---------------");
 
         return new OrdersResponse(orders);
@@ -117,8 +115,7 @@ public class OrdersService {
     }
 
     public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
-        //jwtComponent.checkAdmin();
-        log.info("!!service!! ordersUpdateRequest : {}", ordersUpdateRequest);
+//        jwtComponent.checkAdmin();
         Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
 
@@ -132,10 +129,6 @@ public class OrdersService {
             orders.pick();
         }
 
-        WebSocketResponse ordersResponse = new WebSocketResponse(ordersRepository.save(orders));
-
-        log.info("!!service!! ordersCategoryResponse : {}", ordersResponse);
-        log.info("=========================");
-        return ordersResponse;
+        return new WebSocketResponse(ordersRepository.save(orders));
     }
 }

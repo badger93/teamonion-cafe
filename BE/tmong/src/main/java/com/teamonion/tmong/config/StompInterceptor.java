@@ -31,10 +31,17 @@ public class StompInterceptor implements ChannelInterceptor {
         String authorization = header.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
         String memberId = "";
 
+        log.info("getDestination ... : {}", header.getDestination());
+        String destination = header.getDestination();
+
+        if(destination != null && destination.equals("/user/queue/orders/update")){
+            jwtComponent.checkAdmin();
+        }
+
         log.info("=========================================");
         log.info("============ StompInterceptor ===========");
         log.info("================ preSend ================");
-        if (authorization != null) {
+        if (destination == null && authorization != null) {
 //            log.info("authorization ... : {}", authorization );
             log.info("getSessionId ... : {}", header.getSessionId());
 

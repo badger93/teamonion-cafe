@@ -2,41 +2,32 @@ package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.config.StompInterceptor;
 import com.teamonion.tmong.security.CheckJwt;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 public class WebSocketController {
 
     private static final Logger log = LoggerFactory.getLogger(WebSocketController.class);
 
-    @Autowired
-    private OrdersService ordersService;
+    private final OrdersService ordersService;
 
-    @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @CheckJwt
     @MessageMapping("/api/orders/update")
-    @SendTo("/topic/orders/update")
-    public WebSocketResponse updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest,
-                                         SimpMessageHeaderAccessor simpMessageHeaderAccessor) {
+    public void updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
         log.info("------------------------------------");
         log.info("------------ updateOrder -----------");
         WebSocketResponse webSocketResponse = ordersService.updateOrder(ordersUpdateRequest);
-
-        // 상태바꾼 관리자
-//        String adminSessionId = simpMessageHeaderAccessor.getSessionId();
-//        log.info("admin SessionId is ... {}", adminSessionId);
-        // TODO : 관리자 url 수정 topic/orders/update
 
         // 상태의 주인공
         String buyerSessionId = StompInterceptor.getProcessingSessions().get(webSocketResponse.getBuyerId());
@@ -49,11 +40,9 @@ public class WebSocketController {
                     headerAccessor.getMessageHeaders());
         }
 
+        // 관리자
         simpMessagingTemplate.convertAndSend("/topic/orders/update", webSocketResponse);
-        log.info("------------------------------------");
         log.info("--------------- END ---------------");
-
-        return webSocketResponse;
     }
 
 }
