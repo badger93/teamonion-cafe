@@ -2,7 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 import '../styles/MyOrderCard.scss';
 import magicCircle from '../../../../image/magiccircle.png';
-
+import butterfly from '../../../../image/butterfly.png';
 const MyOrderCard = ({
   // 전체 주문목록 새로고침
   changedData,
@@ -21,7 +21,13 @@ const MyOrderCard = ({
           <div className="myorder-card-deleting" />
           <div className="myorder-card-deleting" />
           <div className="myorder-card-deleting" />
-          <img src={magicCircle} alt="magincircle" />
+          <img className="butterfly" src={butterfly} alt="butterfly" />
+          <img className="butterfly" src={butterfly} alt="butterfly" />
+          <img className="butterfly" src={butterfly} alt="butterfly" />
+          <img className="butterfly" src={butterfly} alt="butterfly" />
+          <img className="butterfly" src={butterfly} alt="butterfly" />
+          <img className="butterfly" src={butterfly} alt="butterfly" />
+          <img className="magiccircle" src={magicCircle} alt="magincircle" />
         </div>
       )}
       <div className={`myorder-card ${isDeleting && 'myorder-card-fadeout'}`}>

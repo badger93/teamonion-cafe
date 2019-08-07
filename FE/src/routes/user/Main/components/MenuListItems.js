@@ -17,11 +17,8 @@ const MenuListItems = ({ list, mapDetailData, setIsMenuPopup }) => {
   );
 };
 
+// memo를 이용해서 리덕스 변경시 리렌더 방지
 const MemoizedMenuListItems = memo(MenuListItems, (prevProps, nextProps) => {
-  console.dir(prevProps);
-  console.dir(nextProps);
-  console.log(Object.is(prevProps.list, nextProps.list));
-  console.log(prevProps.list == nextProps.list);
   return Object.is(prevProps.list, nextProps.list);
 });
 
