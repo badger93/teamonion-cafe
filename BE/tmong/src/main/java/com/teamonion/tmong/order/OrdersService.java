@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -115,6 +114,14 @@ public class OrdersService {
     WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
 //        jwtComponent.checkAdmin();
         try {
+            if (ordersUpdateRequest.getId() == null) {
+                throw new RuntimeException("주문 번호 정보가 올바르지 않습니다");
+            }
+
+            if (ordersUpdateRequest.getBuyerId() == null) {
+                throw new RuntimeException("주문자 정보가 올바르지 않습니다");
+            }
+
             Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
                     .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
 
@@ -129,8 +136,10 @@ public class OrdersService {
             }
 
             return new WebSocketResponse(ordersRepository.save(orders));
-        }catch (HandleRuntimeException e){
+        } catch (HandleRuntimeException e) {
             return ordersUpdateRequest.toEntity(false, e.getErrorMessage());
+        } catch (RuntimeException e) {
+            return ordersUpdateRequest.toEntity(false, e.getMessage());
         }
 
     }

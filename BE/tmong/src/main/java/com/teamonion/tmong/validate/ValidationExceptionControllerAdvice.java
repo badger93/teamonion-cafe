@@ -31,7 +31,6 @@ public class ValidationExceptionControllerAdvice {
         return getValidationErrorResponses(e.getBindingResult());
     }
 
-
     private ValidationErrorsResponse getValidationErrorResponses(BindingResult e) {
         ValidationErrorsResponse response = new ValidationErrorsResponse();
 
@@ -42,7 +41,6 @@ public class ValidationExceptionControllerAdvice {
         }
         return response;
     }
-
 
     @ExceptionHandler(ValidCustomException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)

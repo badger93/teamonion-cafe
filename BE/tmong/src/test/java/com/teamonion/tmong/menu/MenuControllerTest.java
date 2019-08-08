@@ -95,9 +95,6 @@ public class MenuControllerTest {
                 .param("size", "20"))
                 .andDo(print())
                 .andExpect(status().isOk());
-
-        //.andExpect(content().contentType("application/json")
-        // java.lang.AssertionError: Content type not set
     }
 
     @Test

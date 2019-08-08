@@ -27,38 +27,38 @@ public class StompInterceptor implements ChannelInterceptor {
 
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
-        StompHeaderAccessor header = StompHeaderAccessor.wrap(message);
-        String authorization = header.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
-        String destination = header.getDestination();
+        StompHeaderAccessor accessor = StompHeaderAccessor.wrap(message);
+        String authorization = accessor.getFirstNativeHeader(HttpHeaders.AUTHORIZATION);
+        String destination = accessor.getDestination();
         String memberId = "";
         String jwt = "";
+
 
         log.info("=========================================");
         log.info("============ StompInterceptor ===========");
         log.info("================ preSend ================");
+        log.info("getCommand ... : {}", accessor.getCommand().toString());
+        log.info("getDestination ... : {}", accessor.getDestination());
+        log.info("getSessionId ... : {}", accessor.getSessionId());
 
-        log.info("getCommand ... : {}", header.getCommand().toString());
-        log.info("getDestination ... : {}", header.getDestination());
+        log.info("jwtComponent : {}", jwtComponent);
+
         if (authorization != null) {
-            log.info("getSessionId ... : {}", header.getSessionId());
-
             jwt = authorization.substring("Bearer".length()).trim();
-
-            memberId = (String) Jwts.parser()
-                    .setSigningKey("secret")
-                    .parseClaimsJws(jwt)
-                    .getBody()
-                    .get("memberId");
-
+            log.info("jwt ... {}", jwt);
+            jwtComponent.checkToken(jwt);
+            memberId = jwtComponent.getClaimValueByTokenForWebSocket(jwt, JwtComponent.MEMBER_ID);
 
             log.info("memberId ... : {}", memberId);
         }
 
-        StompCommand command = Optional.ofNullable(header.getCommand()).orElseThrow(() -> new RuntimeException("command is null"));
+        StompCommand command = Optional.ofNullable(accessor.getCommand())
+                .orElseThrow(() -> new RuntimeException("Command is null.."));
+
         switch (command) {
             case CONNECT:
                 log.info("CONNECT");
-                processingSessions.put(memberId, header.getSessionId());
+                processingSessions.put(memberId, accessor.getSessionId());
 
                 break;
             case DISCONNECT:
@@ -69,13 +69,10 @@ public class StompInterceptor implements ChannelInterceptor {
             case SEND:
                 log.info("SEND");
                 if (destination != null && destination.equals("/api/orders/update")) {
-                    log.info("jwt ... {}", jwt);
-//                    jwtComponent.checkToken(jwt);
-//
-//                    if (!jwtComponent.getClaimValueByToken("role").equals(MemberRole.ADMIN.toString())) {
-//                        throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
-//                    }
-//                    log.info("jwtComponent ADMIN CHECK SUCCEED");
+                    log.info("안녕? 나는 관리자가 SEND을 잡아낼거야 ><");
+
+                    jwtComponent.checkAdminForWebSocket(jwt);
+                    log.info("jwt checkadmin 통과 ㅎ");
                 }
                 break;
 

@@ -27,6 +27,11 @@ public class WebConfig implements WebMvcConfigurer {
         return new AuthorizationInterceptor();
     }
 
+    @Bean
+    public StompInterceptor stompInterceptor() {
+        return new StompInterceptor();
+    }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

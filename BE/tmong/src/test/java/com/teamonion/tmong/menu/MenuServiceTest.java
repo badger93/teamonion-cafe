@@ -78,6 +78,7 @@ public class MenuServiceTest {
         Mockito.when(menuRepository.findById(id)).thenReturn(Optional.of(menu));
 
         menuService.deleteByMenuId(id);
+
     }
 
 }
