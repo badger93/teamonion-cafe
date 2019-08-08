@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setWsConnectAction } from '../../../redux/actions/orderAction';
 import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
 import CanvasModal from './components/CanvasModal';
@@ -8,6 +9,7 @@ import './styles/MyOrderContainer.scss';
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
   const { changed_order } = useSelector(state => state.order);
+  const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
   const [changedData, setChangedData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -18,6 +20,11 @@ const MyOrderContainer = () => {
   useEffect(() => {
     if (!changed_order.errorMessage) setChangedData(changed_order);
   }, [changed_order]);
+
+  useEffect(() => {
+    const beConnect = orders.length > 0 ? true : false;
+    dispatch(setWsConnectAction(beConnect));
+  }, [orders]);
 
   useEffect(() => {
     const fetchMyOrder = async () => {
