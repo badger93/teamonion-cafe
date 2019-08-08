@@ -1,12 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
-import MenuListItem from './components/MenuListItem';
 import MenuDetail from './components/MenuDetail';
 import './styles/MainPresenter.scss';
 import Loading from '../../../components/Loading';
 import SearchBar from '../../../components/SearchBar';
 import Pagination from '../../../components/pagination';
 import MenuListItems from './components/MenuListItems';
+import UserRank from './components/UserRank';
 
 const MainPresenter = ({
   isLoading,
@@ -33,14 +33,15 @@ const MainPresenter = ({
     e => {
       return searchText
         ? searchMenuListByName(searchText, e.target.value - 1)
-        : getMenuByPage({ itemSize: 20, page: e.target.value - 1 });
+        : getMenuByPage({ itemSize: 12, page: e.target.value - 1 });
     },
-    [getMenuByPage, searchMenuListByName],
+    [getMenuByPage, searchMenuListByName, searchText],
   );
   return (
     <>
       {isLoading && <Loading />}
       <div className="mainPresenter">
+        <UserRank />
         <div className="head">
           <h1>MENU</h1>
           <SearchBar searchCallback={searchMenuListByName} />

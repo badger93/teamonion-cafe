@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
+import CanvasModal from './components/CanvasModal';
+import './styles/MyOrderContainer.scss';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
@@ -11,6 +13,7 @@ const MyOrderContainer = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isChanging, setIsChanging] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isCanvasOpen, setIsCanvasOpen] = useState(false);
 
   useEffect(() => {
     if (!changed_order.errorMessage) setChangedData(changed_order);
@@ -78,8 +81,10 @@ const MyOrderContainer = () => {
   }, [changedData]);
 
   return (
-    <>
+    <div className="myOrderContainer">
+      {isCanvasOpen && <CanvasModal setIsCanvasOpen={setIsCanvasOpen} />}
       <MyOrderPresenter
+        setIsCanvasOpen={setIsCanvasOpen}
         isLoading={isLoading}
         orders={orders}
         setOrders={setOrders}
@@ -88,7 +93,7 @@ const MyOrderContainer = () => {
         changedData={changedData}
         isDeleting={isDeleting}
       />
-    </>
+    </div>
   );
 };
 

@@ -46,7 +46,10 @@ const MobileHeader = ({
                 <>
                   <div className="header_mobile-point">
                     Point
-                    <span>{` ${user.point} `}</span>P
+                    <span>{` ${user.point
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} `}</span>
+                    P
                   </div>
                   <div className="header_mobile-refresh" onClick={onRefreshClick}>
                     <FontAwesomeIcon icon={faRedo} />

@@ -27,14 +27,14 @@ public class MenuController {
 
     @CheckJwt
     @PostMapping
-    public ResponseEntity add(@Valid MenuSaveDto menuSaveDto) {
-        return new ResponseEntity<>(menuService.add(menuSaveDto), HttpStatus.CREATED);
+    public ResponseEntity add(@Valid MenuAddRequest menuAddRequest) {
+        return new ResponseEntity<>(menuService.add(menuAddRequest), HttpStatus.CREATED);
     }
 
     @CheckJwt
     @PutMapping("/{menu_id}")
-    public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuUpdateDto menuUpdateDto) {
-        menuService.updateMenu(menu_id, menuUpdateDto);
+    public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuUpdateRequest menuUpdateRequest) {
+        menuService.updateMenu(menu_id, menuUpdateRequest);
         return new ResponseEntity(HttpStatus.OK);
     }
 

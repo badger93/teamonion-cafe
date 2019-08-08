@@ -2,7 +2,7 @@ import fetchClient from './axios';
 
 const axios = fetchClient();
 
-const getNonpickupAllUrl = 'https://my-json-server.typicode.com/badger012/mockserver/orders';
+// const getNonpickupAllUrl = 'https://my-json-server.typicode.com/badger012/mockserver/orders';
 
 const getNonpickupAll = callback => {
   axios

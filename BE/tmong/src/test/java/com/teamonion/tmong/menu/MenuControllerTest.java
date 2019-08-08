@@ -38,27 +38,27 @@ public class MenuControllerTest {
     @MockBean
     JwtComponent jwtComponent;
 
-    private MenuSaveDto menuSaveDto;
-    private MenuUpdateDto menuUpdateDto;
+    private MenuAddRequest menuAddRequest;
+    private MenuUpdateRequest menuUpdateRequest;
     private MockMultipartFile mockMultipartFile;
 
     @Before
     public void setUp() throws IOException {
-        menuSaveDto = new MenuSaveDto();
-        menuUpdateDto = new MenuUpdateDto();
+        menuAddRequest = new MenuAddRequest();
+        menuUpdateRequest = new MenuUpdateRequest();
 
         String imagePath = "src/test/resources/cat.jpg";
         mockMultipartFile = new MockMultipartFile("name", "name.jpg",
                 "image/jpg", new FileInputStream(new File(imagePath)));
 
-        menuSaveDto.setName("americano");
-        menuSaveDto.setPrice(1000);
-        menuSaveDto.setInformation("맛있는 음료");
-        menuSaveDto.setImageFile(mockMultipartFile);
+        menuAddRequest.setName("americano");
+        menuAddRequest.setPrice(1000L);
+        menuAddRequest.setInformation("맛있는 음료");
+        menuAddRequest.setImageFile(mockMultipartFile);
 
-        menuUpdateDto.setName("americano");
-        menuUpdateDto.setPrice(1100);
-        menuUpdateDto.setInformation("카페인 잔뜩 ! 졸음을 내쫒는 기가막힌 음료 !");
+        menuUpdateRequest.setName("americano");
+        menuUpdateRequest.setPrice(1100L);
+        menuUpdateRequest.setInformation("카페인 잔뜩 ! 졸음을 내쫒는 기가막힌 음료 !");
 
     }
 
@@ -66,10 +66,10 @@ public class MenuControllerTest {
     public void 메뉴추가() throws Exception {
         mockMvc.perform(multipart("/api/menus")
                 .file("imageFile", mockMultipartFile.getBytes())
-                .param("name", menuSaveDto.getName())
-                .param("price", String.valueOf(menuSaveDto.getPrice()))
-                .param("information", menuSaveDto.getInformation())
-                .param("imageFile", String.valueOf(menuSaveDto.getImageFile()))
+                .param("name", menuAddRequest.getName())
+                .param("price", String.valueOf(menuAddRequest.getPrice()))
+                .param("information", menuAddRequest.getInformation())
+                .param("imageFile", String.valueOf(menuAddRequest.getImageFile()))
                 .header("Authorization", "Bearer " + jwtComponent))
                 .andDo(print())
                 .andExpect(status().isCreated());
@@ -80,9 +80,9 @@ public class MenuControllerTest {
         Long menu_id = 1L;
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/menus/" + menu_id)
-                .param("name", menuUpdateDto.getName())
-                .param("price", String.valueOf(menuUpdateDto.getPrice()))
-                .param("information", menuUpdateDto.getInformation())
+                .param("name", menuUpdateRequest.getName())
+                .param("price", String.valueOf(menuUpdateRequest.getPrice()))
+                .param("information", menuUpdateRequest.getInformation())
                 .header("Authorization", "Bearer " + jwtComponent))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -95,9 +95,6 @@ public class MenuControllerTest {
                 .param("size", "20"))
                 .andDo(print())
                 .andExpect(status().isOk());
-
-        //.andExpect(content().contentType("application/json")
-        // java.lang.AssertionError: Content type not set
     }
 
     @Test
