@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.statistics.Statistics;
+import com.teamonion.tmong.statistics.StatisticsService;
 import org.hibernate.criterion.Order;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,6 +53,12 @@ public class OrdersControllerTest {
 
     @MockBean
     OrdersResponse ordersResponse;
+
+    @MockBean
+    StatisticsService statisticsService;
+
+    @MockBean
+    Statistics statistics;
 
     @Test
     public void makeOrder() throws Exception {

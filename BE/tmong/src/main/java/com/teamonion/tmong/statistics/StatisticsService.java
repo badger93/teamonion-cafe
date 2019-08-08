@@ -34,6 +34,7 @@ public class StatisticsService {
     public void save(String memberId) {
         Statistics statistics = statisticsRepository.findByMemberId(memberId).orElseGet(() -> new Statistics(memberId));
         statistics.countUp();
+        statistics.updateModifiedDate();
         statisticsRepository.save(statistics);
     }
 }

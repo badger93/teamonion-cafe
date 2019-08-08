@@ -9,7 +9,6 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@EntityListeners(AuditingEntityListener.class)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
@@ -27,7 +26,6 @@ public class Statistics {
     @Column(nullable = false)
     private int ordersCount;
 
-    @LastModifiedDate
     private LocalDateTime modifiedDate;
 
     Statistics(String memberId) {
@@ -38,5 +36,9 @@ public class Statistics {
 
     public void countUp() {
         this.ordersCount++;
+    }
+
+    public void updateModifiedDate() {
+        modifiedDate = LocalDateTime.now();
     }
 }
