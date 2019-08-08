@@ -19,10 +19,7 @@ const GlobalWs = withRouter(({ location }) => {
     return localToken ? `Bearer ${localToken}` : '' || sessionToken ? `Bearer ${sessionToken}` : '';
   };
 
-  const client = useMemo(
-    () => Stomp.over(new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {})),
-    [],
-  );
+  const client = useMemo(() => Stomp.over(new SockJS('/teamonion', null, {})), []);
 
   const socketOrderInit = () => {
     client.connect({ Authorization: token() }, frame => {
