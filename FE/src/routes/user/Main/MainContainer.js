@@ -43,7 +43,7 @@ const MainContainer = () => {
   };
 
   useEffect(() => {
-    getMenuByPage({ itemSize: 20, page: 0 });
+    getMenuByPage({ itemSize: 12, page: 0 });
   }, []);
 
   return (

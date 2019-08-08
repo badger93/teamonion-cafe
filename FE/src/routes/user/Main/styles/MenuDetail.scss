@@ -85,6 +85,7 @@
     }
 
     .informationArea {
+      width: 88%;
       height: 55%;
       position: relative;
       margin-left: 10px;
@@ -96,6 +97,7 @@
       }
 
       .information {
+        margin-top: 10px;
         color: rgba(0, 0, 0, 0.6);
         font: {
           size: 1rem;
@@ -155,13 +157,13 @@
 @media (max-width: 400px) {
   .menuDetail {
     width: 90%;
-    height: 80%;
+    height: 90%;
     aside {
       float: inherit;
       display: block;
       width: 100%;
       margin: 0 auto;
-      height: 60%;
+      height: 80%;
       div {
         height: 100%;
       }
