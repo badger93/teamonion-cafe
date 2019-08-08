@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import '../styles/WsMsgPop.scss';
 import { isArray } from 'util';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -20,6 +20,15 @@ const WsMsgPop = ({ setIsPopup, popMsg }) => {
     quantity = 0;
     itemTitle = menuNameList;
   }
+
+  useEffect(() => {
+    const popupTimer = setTimeout(() => {
+      setIsPopup(false);
+    }, 3000);
+    return () => {
+      clearTimeout(popupTimer);
+    };
+  });
 
   return (
     <div className="wsMsgPop">

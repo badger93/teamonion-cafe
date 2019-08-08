@@ -3,11 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
-import { setChangedOrderAction } from '../redux/actions/orderAction';
+import { setChangedOrderAction, sendOrderStateAction } from '../redux/actions/orderAction';
 import WsMsgPop from './WsMsgPop';
 
 const GlobalWs = withRouter(({ location }) => {
   const { isSignedIn, me } = useSelector(state => state.user);
+  const { sendOrderState } = useSelector(state => state.order);
   const [isConnect, setIsConnect] = useState(false);
   const [popMsg, setPopMsg] = useState('');
   const [isPopup, setIsPopup] = useState(false);
@@ -19,7 +20,10 @@ const GlobalWs = withRouter(({ location }) => {
     return localToken ? `Bearer ${localToken}` : '' || sessionToken ? `Bearer ${sessionToken}` : '';
   };
 
-  const client = useMemo(() => Stomp.over(new SockJS('/teamonion', null, {})), []);
+  const client = useMemo(
+    () => Stomp.over(new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {})),
+    [],
+  );
 
   const socketOrderInit = () => {
     client.connect({ Authorization: token() }, frame => {
@@ -29,16 +33,30 @@ const GlobalWs = withRouter(({ location }) => {
           setIsPopup(false);
           const res = msg.body && JSON.parse(msg.body);
           dispatch(setChangedOrderAction(res));
-          setPopMsg(res);
+          if (res.made && !res.pickup) {
+            setPopMsg(res);
+          }
         });
       } else if (me.memberRole === 'ADMIN') {
-        const adminSocket = client.subscribe('/topic/orders/add', msg => {
+        const adminAddSocket = client.subscribe('/topic/orders/add', msg => {
+          setIsPopup(false);
           const res = JSON.parse(msg.body);
+          dispatch(setChangedOrderAction(res));
           setPopMsg(res);
+        });
+        const adminChangeSocket = client.subscribe('/topic/orders/update', msg => {
+          const res = JSON.parse(msg.body);
+          dispatch(setChangedOrderAction(res));
         });
       }
     });
   };
+
+  useEffect(() => {
+    if (Object.keys(sendOrderState).length > 0) {
+      client.send('/api/orders/update', { Authorization: token() }, JSON.stringify(sendOrderState));
+    }
+  }, [sendOrderState]);
 
   const wsPopup = useMemo(() => {
     return isPopup && <WsMsgPop popMsg={popMsg} setIsPopup={setIsPopup} />;
@@ -56,12 +74,7 @@ const GlobalWs = withRouter(({ location }) => {
     }
   }, [isSignedIn, location.pathname]);
 
-  return (
-    <div className="wsPresenter">
-      <input type="button" value="popbtn" onClick={() => setIsPopup(true)} />
-      {wsPopup}
-    </div>
-  );
+  return <div className="wsPresenter">{wsPopup}</div>;
 });
 
 export default GlobalWs;
