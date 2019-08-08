@@ -24,6 +24,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.Arrays;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -52,9 +53,6 @@ public class OrdersControllerTest {
     ResponseEntity responseEntity;
 
     @MockBean
-    OrdersResponse ordersResponse;
-
-    @MockBean
     StatisticsService statisticsService;
 
     @MockBean
@@ -67,23 +65,26 @@ public class OrdersControllerTest {
         ordersAddRequest.setPaymentType(PaymentType.POINT);
         ordersAddRequest.setPaid(true);
 
-//        Menu menu = new Menu();
-//        Member member = Member.builder()
-//                            .memberId("memberId")
-//                            .password("password")
-//                            .build();
-//        Orders orders = ordersAddRequest.toEntity(2000L, member, Arrays.asList(menu, menu));
-//        orders.setId(1L);
-//
-//        Mockito.when(ordersService.makeOrder(ordersAddRequest))
-//                .thenReturn(new OrdersResponse(orders));
-//
-//        mockMvc.perform(post("/api/orders")
-//                .contentType(MediaType.APPLICATION_JSON_UTF8)
-//                .content(objectMapper.writeValueAsString(ordersAddRequest))
-//                .header("Authorization", "Bearer " + jwtComponent))
-//                .andDo(print())
-//                .andExpect(status().isCreated());
+
+        Menu menu = new Menu();
+        Member member = Member.builder()
+                            .memberId("memberId")
+                            .password("password")
+                            .build();
+        Orders orders = ordersAddRequest.toEntity(2000L, member, Arrays.asList(menu, menu));
+        orders.setId(1L);
+
+        OrdersResponse ordersResponse = new OrdersResponse(orders);
+
+        Mockito.when(ordersService.makeOrder(any()))
+                .thenReturn(ordersResponse);
+
+        mockMvc.perform(post("/api/orders")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(ordersAddRequest))
+                .header("Authorization", "Bearer " + jwtComponent))
+                .andDo(print())
+                .andExpect(status().isCreated());
     }
 
     @Test

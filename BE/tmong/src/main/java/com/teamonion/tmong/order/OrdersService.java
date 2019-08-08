@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -68,6 +69,7 @@ public class OrdersService {
         List<Menu> menuList = new ArrayList<>();
         long amount = 0;
 
+//        menuList = ordersAddRequest.getMenuIdList().stream().filter(e -> menuRepository.findByIdAndDeletedFalse(e)).collect(Collectors.toList());
         for (Long id : ordersAddRequest.getMenuIdList()) {
             Menu menu = menuRepository.findByIdAndDeletedFalse(id)
                     .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
@@ -138,7 +140,7 @@ public class OrdersService {
             WebSocketResponse webSocketResponse = new WebSocketResponse(ordersRepository.save(orders));
 
             Long count = ordersRepository.countByBuyerIdAndPickupFalse(orders.getBuyer().getId());
-            log.info("is Last Checkt count ... {}", count);
+
             if(count == 0) {
                 webSocketResponse.setLast(true);
             }

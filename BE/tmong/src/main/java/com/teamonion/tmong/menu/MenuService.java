@@ -37,8 +37,6 @@ public class MenuService {
 
     @Transactional
     public void updateMenu(Long id, MenuUpdateRequest menuUpdateRequest) {
-        // TODO : 이미지 validation - 메뉴 추가와 수정이 다른 request객체로 받아야 할지 ?
-        // TODO : 수정 - 이미지 필수가 아닌 로직으로 변경
         jwtComponent.checkAdmin();
 
         Menu menu = menuRepository.findById(id)
@@ -47,13 +45,10 @@ public class MenuService {
         String imagePath = menu.getImagePath();
         MultipartFile imageFile = menuUpdateRequest.getImageFile();
 
-//        if(imageFile == null) {
-//            log.info("메뉴 업데이트 콜 - 메뉴 사진 없음");
-//        }
         if (imageFile != null) {
             imageFileService.deleteImageFile(imagePath);
-            // TODO : 이미지 존재 여부 중복 확인 수정
-            imagePath = imageFileService.imageAddProcess(imageFile);
+            imagePath
+                    = imageFileService.imageAddProcess(imageFile);
         }
 
         menu = menuUpdateRequest.toEntity(imagePath);
