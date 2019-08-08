@@ -3,61 +3,43 @@ import { useDispatch, useSelector } from 'react-redux';
 import AdminOrderManagePresenter from './AdminOrderManagePresenter';
 import getNonpickupAll from '../../../api/adminOrderApi';
 import { sendOrderStateAction } from '../../../redux/actions/orderAction';
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
 
 const AdminOrderManageContainer = () => {
   const [currentOrderList, setCurrentOrderList] = useState([]);
   const [arrangedItem, setArrangedItem] = useState(null);
   const dispatch = useDispatch();
-  const { changed_order, sendOrderState } = useSelector(state => state.order);
+  const { changed_order } = useSelector(state => state.order);
 
-  const localToken = localStorage.getItem('TOKEN');
-  const sessionToken = sessionStorage.getItem('TOKEN');
-  const token = localToken
-    ? `Bearer ${localToken}`
-    : '' || sessionToken
-    ? `Bearer ${sessionToken}`
-    : '';
+  useEffect(() => {
+    if (!changed_order.errorMessage) {
+      const isAdd =
+        changed_order.hasOwnProperty('createdDate') ||
+        changed_order.hasOwnProperty('amount') ||
+        changed_order.hasOwnProperty('paymentType');
 
-  //const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
-  const client = Stomp.over(
-    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
-      // transports: sockJsProtocols,
-    }),
-  );
-
-  const socketOrderInit = () => {
-    client.connect({ Authorization: token }, frame => {
-      //상태변경 구독
-      client.subscribe('/topic/orders/update', msg => {
-        const res = JSON.parse(msg.body);
+      if (isAdd) {
         setArrangedItem({
-          ...res,
-          order_id: res.id,
-          member_id: res.buyerId,
+          ...changed_order,
+          order_id: changed_order.id,
+          menus: changed_order.menuNameList,
+          member_id: changed_order.buyerId,
         });
-      });
-      // 주문추가 구독
-      client.subscribe('/topic/orders/add', msg => {
-        const res = JSON.parse(msg.body);
+      } else {
         setArrangedItem({
-          ...res,
-          order_id: res.id,
-          menus: res.menuNameList,
-          member_id: res.buyerId,
+          ...changed_order,
+          order_id: changed_order.id,
+          member_id: changed_order.buyerId,
         });
-      });
-    });
-  };
+      }
+    }
+  }, [changed_order]);
 
   const socketSetOrderState = async ({ order_id, member_id, made, paid, pickup }, change) => {
     const payload = Object.assign({ id: order_id, buyerId: member_id, made, paid, pickup }, change);
     try {
-      await client.send('/api/orders/update', { Authorization: token }, JSON.stringify(payload));
+      await dispatch(sendOrderStateAction(payload));
     } catch (err) {
       alert('연결 없음');
-      await socketOrderInit();
     }
   };
 
@@ -66,15 +48,11 @@ const AdminOrderManageContainer = () => {
     const socketInit = async () => {
       try {
         await getNonpickupAll(setCurrentOrderList);
-        await socketOrderInit();
       } catch (err) {
         console.log(err);
       }
     };
     socketInit();
-    return () => {
-      client.disconnect(() => {});
-    };
   }, []);
 
   // 변경된 아이템이 감지되면 렌더하기 위한 코드
