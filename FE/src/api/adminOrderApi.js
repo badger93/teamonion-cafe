@@ -25,7 +25,7 @@ const getNonpickupAll = callback => {
       callback(listData);
     }) // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, membe_id
     .catch(err => {
-      alert('주문가져오기실패', err);
+      // alert('주문가져오기실패', err);
     });
 };
 

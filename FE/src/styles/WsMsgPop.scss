@@ -28,14 +28,10 @@
     }
 
     .popHead {
-      padding: 2px 5px 2px;
+      padding: 5px 10px 2px;
       text-align: right;
-      input {
+      .closeBtn {
         cursor: pointer;
-        background: none;
-        border: none;
-        color: #666;
-        font-size: 14px;
       }
     }
 
