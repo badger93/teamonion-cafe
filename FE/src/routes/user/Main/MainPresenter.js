@@ -6,6 +6,7 @@ import Loading from '../../../components/Loading';
 import SearchBar from '../../../components/SearchBar';
 import Pagination from '../../../components/pagination';
 import MenuListItems from './components/MenuListItems';
+import UserRank from './components/UserRank';
 
 const MainPresenter = ({
   isLoading,
@@ -32,7 +33,7 @@ const MainPresenter = ({
     e => {
       return searchText
         ? searchMenuListByName(searchText, e.target.value - 1)
-        : getMenuByPage({ itemSize: 20, page: e.target.value - 1 });
+        : getMenuByPage({ itemSize: 12, page: e.target.value - 1 });
     },
     [getMenuByPage, searchMenuListByName, searchText],
   );
@@ -40,6 +41,7 @@ const MainPresenter = ({
     <>
       {isLoading && <Loading />}
       <div className="mainPresenter">
+        <UserRank />
         <div className="head">
           <h1>MENU</h1>
           <SearchBar searchCallback={searchMenuListByName} />

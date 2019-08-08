@@ -93,7 +93,8 @@ const userReducer = (state = initState, action) => {
           memberRole: 'NORMAL',
           point: 0,
           jwt: null,
-          ...state.me,
+          lastSignInTime: null,
+          orderList: [],
         },
       };
     }
