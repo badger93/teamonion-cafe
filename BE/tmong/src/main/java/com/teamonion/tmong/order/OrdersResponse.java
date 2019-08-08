@@ -2,6 +2,7 @@ package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.menu.Menu;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.time.LocalDateTime;

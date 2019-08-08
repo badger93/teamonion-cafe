@@ -44,26 +44,19 @@ public class MenuControllerTest {
 
     @Before
     public void setUp() throws IOException {
-        menuAddRequest = new MenuAddRequest();
-        menuUpdateRequest = new MenuUpdateRequest();
-
         String imagePath = "src/test/resources/cat.jpg";
         mockMultipartFile = new MockMultipartFile("name", "name.jpg",
                 "image/jpg", new FileInputStream(new File(imagePath)));
+    }
 
+    @Test
+    public void 메뉴추가() throws Exception {
+        menuAddRequest = new MenuAddRequest();
         menuAddRequest.setName("americano");
         menuAddRequest.setPrice(1000L);
         menuAddRequest.setInformation("맛있는 음료");
         menuAddRequest.setImageFile(mockMultipartFile);
 
-        menuUpdateRequest.setName("americano");
-        menuUpdateRequest.setPrice(1100L);
-        menuUpdateRequest.setInformation("카페인 잔뜩 ! 졸음을 내쫒는 기가막힌 음료 !");
-
-    }
-
-    @Test
-    public void 메뉴추가() throws Exception {
         mockMvc.perform(multipart("/api/menus")
                 .file("imageFile", mockMultipartFile.getBytes())
                 .param("name", menuAddRequest.getName())
@@ -77,6 +70,11 @@ public class MenuControllerTest {
 
     @Test
     public void 메뉴수정() throws Exception {
+        menuUpdateRequest = new MenuUpdateRequest();
+        menuUpdateRequest.setName("americano");
+        menuUpdateRequest.setPrice(1100L);
+        menuUpdateRequest.setInformation("카페인 잔뜩 ! 졸음을 내쫒는 기가막힌 음료 !");
+
         Long menu_id = 1L;
 
         mockMvc.perform(MockMvcRequestBuilders.put("/api/menus/" + menu_id)
