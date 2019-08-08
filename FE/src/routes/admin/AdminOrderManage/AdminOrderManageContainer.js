@@ -22,7 +22,7 @@ const AdminOrderManageContainer = () => {
 
   //const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
   const client = Stomp.over(
-    new SockJS('/teamonion', null, {
+    new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {
       // transports: sockJsProtocols,
     }),
   );

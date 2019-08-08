@@ -8,6 +8,7 @@
   height: 100vh;
   width: 100vw;
   pointer-events: all;
+  z-index: 19;
 }
 
 .menuDetailContainer::after {

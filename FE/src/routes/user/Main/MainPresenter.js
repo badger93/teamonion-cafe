@@ -43,7 +43,7 @@ const MainPresenter = ({
       <div className="mainPresenter">
         <UserRank />
         <div className="head">
-          <h1>MENU</h1>
+          <h1>메뉴</h1>
           <SearchBar searchCallback={searchMenuListByName} />
         </div>
         {/* <div className="menulist">{mapMenuListItem}</div> */}

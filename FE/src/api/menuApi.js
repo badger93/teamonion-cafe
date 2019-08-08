@@ -21,3 +21,5 @@ export const updateMenuList = (id, item) =>
 
 export const searchMenu = (menuName, page = 0, size = 20) =>
   axios.get(`api/menus/search?page=${page}&size=${size}&menu_name=${menuName}`);
+
+export const getRankApi = () => axios.get('api/statistics/orders/rank');
