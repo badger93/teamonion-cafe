@@ -1,5 +1,8 @@
 package com.teamonion.tmong.config;
 
+import com.teamonion.tmong.websocket.StompInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.ChannelRegistration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
@@ -25,7 +28,12 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureClientInboundChannel(ChannelRegistration registration) {
-        registration.interceptors(new StompInterceptor());
+        registration.interceptors(stompInterceptor());
+    }
+
+    @Bean
+    public StompInterceptor stompInterceptor() {
+        return new StompInterceptor();
     }
 }
 

@@ -1,5 +1,6 @@
 package com.teamonion.tmong.order;
 
+import com.teamonion.tmong.websocket.WebSocketResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

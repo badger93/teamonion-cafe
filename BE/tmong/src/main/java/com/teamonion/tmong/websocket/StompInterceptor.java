@@ -1,8 +1,7 @@
-package com.teamonion.tmong.config;
+package com.teamonion.tmong.websocket;
 
 import com.google.common.net.HttpHeaders;
 import com.teamonion.tmong.security.JwtComponent;
-import io.jsonwebtoken.Jwts;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,11 +37,8 @@ public class StompInterceptor implements ChannelInterceptor {
         log.info("=========================================");
         log.info("============ StompInterceptor ===========");
         log.info("================ preSend ================");
-        log.info("getCommand ... : {}", accessor.getCommand().toString());
         log.info("getDestination ... : {}", accessor.getDestination());
         log.info("getSessionId ... : {}", accessor.getSessionId());
-
-        log.info("jwtComponent : {}", jwtComponent);
 
         if (authorization != null) {
             jwt = authorization.substring("Bearer".length()).trim();
@@ -53,7 +50,7 @@ public class StompInterceptor implements ChannelInterceptor {
         }
 
         StompCommand command = Optional.ofNullable(accessor.getCommand())
-                .orElseThrow(() -> new RuntimeException("Command is null.."));
+                .orElseThrow(() -> new RuntimeException("Command is Null ..."));
 
         switch (command) {
             case CONNECT:
@@ -68,11 +65,10 @@ public class StompInterceptor implements ChannelInterceptor {
                 break;
             case SEND:
                 log.info("SEND");
+                // 관리자 - 주문 상태 변경
                 if (destination != null && destination.equals("/api/orders/update")) {
-                    log.info("안녕? 나는 관리자가 SEND을 잡아낼거야 ><");
-
                     jwtComponent.checkAdminForWebSocket(jwt);
-                    log.info("jwt checkadmin 통과 ㅎ");
+                    log.info("jwt checkAdmin Success ...");
                 }
                 break;
 

@@ -1,6 +1,7 @@
-package com.teamonion.tmong.order;
+package com.teamonion.tmong.websocket;
 
 import com.teamonion.tmong.menu.Menu;
+import com.teamonion.tmong.order.Orders;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;

@@ -7,6 +7,7 @@ import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
 import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.websocket.WebSocketResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -111,8 +112,7 @@ public class OrdersService {
         return response.map(OrdersResponse::new);
     }
 
-    WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
-//        jwtComponent.checkAdmin();
+    public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
         try {
             if (ordersUpdateRequest.getId() == null) {
                 throw new RuntimeException("주문 번호 정보가 올바르지 않습니다");
