@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import AdminOrderManagePresenter from './AdminOrderManagePresenter';
 import getNonpickupAll from '../../../api/adminOrderApi';
+import { sendOrderStateAction } from '../../../redux/actions/orderAction';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 
 const AdminOrderManageContainer = () => {
   const [currentOrderList, setCurrentOrderList] = useState([]);
   const [arrangedItem, setArrangedItem] = useState(null);
+  const dispatch = useDispatch();
+  const { changed_order, sendOrderState } = useSelector(state => state.order);
+
   const localToken = localStorage.getItem('TOKEN');
   const sessionToken = sessionStorage.getItem('TOKEN');
   const token = localToken
@@ -28,10 +33,8 @@ const AdminOrderManageContainer = () => {
       client.subscribe('/topic/orders/update', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
+          ...res,
           order_id: res.id,
-          paid: res.paid,
-          made: res.made,
-          pickup: res.pickup,
           member_id: res.buyerId,
         });
       });
@@ -39,14 +42,9 @@ const AdminOrderManageContainer = () => {
       client.subscribe('/topic/orders/add', msg => {
         const res = JSON.parse(msg.body);
         setArrangedItem({
+          ...res,
           order_id: res.id,
           menus: res.menuNameList,
-          paymentType: res.paymentType,
-          paid: res.paid,
-          made: res.made,
-          pickup: res.pickup,
-          createdDate: res.createdDate,
-          amount: res.amount,
           member_id: res.buyerId,
         });
       });

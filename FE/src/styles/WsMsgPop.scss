@@ -1,0 +1,52 @@
+.wsPresenter {
+  .wsMsgPop {
+    background: url('../image/icon_cup.png') 50% 30px no-repeat;
+    background-size: 50px auto;
+    position: relative;
+    width: 220px;
+    height: 150px;
+    background-color: #fff;
+    position: fixed;
+    right: 60px;
+    $popupHeight: 20px;
+    bottom: $popupHeight;
+    box-shadow: 5px 5px 5px #ccc;
+    border: 1px solid #666;
+    border-radius: 8px;
+
+    animation-duration: 1s;
+    animation-name: popup;
+
+    @keyframes popup {
+      from {
+        bottom: -150px -$popupHeight;
+      }
+
+      to {
+        bottom: 0 + $popupHeight;
+      }
+    }
+
+    .popHead {
+      padding: 5px 10px 2px;
+      text-align: right;
+      .closeBtn {
+        cursor: pointer;
+      }
+    }
+
+    .popBody {
+      margin: 0;
+      padding: 38px 10px 0;
+      p {
+        font-size: 14px;
+        color: 000;
+        right: 0;
+        text-align: center;
+        span {
+          color: #ff6600;
+        }
+      }
+    }
+  }
+}

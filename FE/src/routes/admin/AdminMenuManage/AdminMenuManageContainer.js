@@ -41,13 +41,16 @@ const AdminMenuManageContainer = () => {
   const createItem = (formData, fakeImg) => {
     createMenuList(formData)
       .then(res => {
-        const list = menuList.concat({
-          id: res.data,
-          name: formData.get('name'),
-          price: formData.get('price'),
-          information: formData.get('information'),
-          imageFile: fakeImg,
-        });
+        const list = [
+          {
+            id: res.data,
+            name: formData.get('name'),
+            price: formData.get('price'),
+            information: formData.get('information'),
+            imageFile: fakeImg,
+          },
+          ...menuList,
+        ];
         setMenuList(list);
       })
       .catch(err => {

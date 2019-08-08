@@ -2,46 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
-import SockJS from 'sockjs-client';
-import Stomp from 'stompjs';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
+  const { changed_order } = useSelector(state => state.order);
   const [orders, setOrders] = useState([]);
   const [changedData, setChangedData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [letsConnection, setLetsConnection] = useState(false);
   const [isChanging, setIsChanging] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const localToken = localStorage.getItem('TOKEN');
-  const sessionToken = sessionStorage.getItem('TOKEN');
-
-  const token = localToken
-    ? `Bearer ${localToken}`
-    : '' || sessionToken
-    ? `Bearer ${sessionToken}`
-    : '';
-
-  //const sockJsProtocols = ['xhr-streaming', 'xhr-polling'];
-  // const [currentOrderList, setCurrentOrderList] = useState([]);
-  const client = Stomp.over(
-    new SockJS('/teamonion', null, {
-      // transports: sockJsProtocols,
-    }),
-  );
-
-  const socketMyOrderInit = () => {
-    if (client.connected === false) {
-      client.connect({ Authorization: token }, frame => {
-        client.subscribe('/user/queue/orders/update', msg => {
-          const Data = msg.body && JSON.parse(msg.body);
-          //  console.log(Data);
-          setChangedData(Data);
-        });
-      });
-    }
-  };
+  useEffect(() => {
+    if (!changed_order.errorMessage) setChangedData(changed_order);
+  }, [changed_order]);
 
   useEffect(() => {
     const fetchMyOrder = async () => {
@@ -52,7 +25,6 @@ const MyOrderContainer = () => {
           } = await userOrderAPI(me.id, false);
           // console.log(content);
           setOrders([...content]);
-          setLetsConnection(true);
           setIsLoading(false);
         }
       } catch (e) {
@@ -62,24 +34,6 @@ const MyOrderContainer = () => {
     fetchMyOrder();
     // console.log(orders);
   }, []);
-
-  useEffect(() => {
-    if (letsConnection === true) {
-      // 한번만 연결 되도록
-      socketMyOrderInit();
-    }
-    return () => {
-      try {
-        if (client.connected === true) {
-          client.disconnect(() => {
-            // alert('socket disconnected!');
-          });
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    };
-  }, [letsConnection]);
 
   useEffect(() => {
     // 변경될 것 있을시 추가
