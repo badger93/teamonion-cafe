@@ -1,10 +1,12 @@
 package com.teamonion.tmong.order;
 
+import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
+import com.teamonion.tmong.menu.MenuAddRequest;
 import com.teamonion.tmong.menu.MenuRepository;
 import com.teamonion.tmong.security.JwtComponent;
-import org.hibernate.criterion.Order;
+import org.aspectj.weaver.ast.Or;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,63 +53,71 @@ public class OrdersServiceTest {
     @InjectMocks
     OrdersService ordersService;
 
-//    @Test
-//    public void 주문진행() {
-//        OrdersAddRequest ordersAddRequest = new OrdersAddRequest();
-//        ordersAddRequest.setMenuIdList(Arrays.asList(1L, 2L, 3L));
-//
-//        Menu menu = new Menu();
-//        Orders orders;
-//
-//        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
-//        memberSignUpRequest.setMemberId("memberId");
-//        memberSignUpRequest.setPassword("password123");
-//        memberSignUpRequest.setPasswordCheck("password123");
-//        Member member = memberSignUpRequest.toEntity();
-//
-//        orders = ordersAddRequest.toEntity(3000, member, Arrays.asList(menu, menu));
-//        orders.setId(1L);
-//
-//        Mockito.when(menuRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(menu));
-//        Mockito.when(memberService.findByMemberId(any())).thenReturn(member);
-//        Mockito.when(ordersRepository.save(orders)).thenReturn(orders);
-//
-//        ordersService.makeOrder(ordersAddRequest);
-//    }
-
-    private Orders orders;
-    private OrdersAddRequest ordersAddRequest;
     private Pageable pageable;
     private Page<Orders> ordersCategoryResponse;
 
     @Before
     public void setUp() {
         pageable = PageRequest.of(0, 20);
-
         List<Orders> list = new ArrayList<>();
         ordersCategoryResponse = new PageImpl<>(list);
     }
+    // TODO : 현준님께 질문
+//    @Test
+//    public void 주문진행2() {
+//        List<Long> menuIdList = Arrays.asList(1L, 2L, 3L);
+//        OrdersAddRequest ordersAddRequest = new OrdersAddRequest();
+//        ordersAddRequest.setMenuIdList(menuIdList);
+//
+//        Menu menu = Menu.builder()
+//                .price(1000L)
+//                .build();
+//
+//        Mockito.when(menuRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(menu));
+//
+//        ordersService.makeOrder(ordersAddRequest);
+//    }
 
+
+//    private Orders orders;
+//    private Menu menu;
+
+//
 //    @Test
 //    public void 주문진행() {
-//        List<Long> menuIdList = Arrays.asList(1L,2L,3L);
+//        //given
+//        List<Long> menuIdList = Arrays.asList(1L, 2L, 3L);
+//
+//        MenuAddRequest menuAddRequest = new MenuAddRequest();
+//        menuAddRequest.setPrice(1000L);
+//        menu = menuAddRequest.toEntity("example");
+//
+//        Member member = Member.builder()
+//                .memberId("onion")
+//                .password("123456789a")
+//                .build();
+//
+//        orders = Orders.builder()
+//                .amount(2000L)
+//                .buyer(member)
+//                .menuList(Arrays.asList(menu, menu, menu))
+//                .paid(true)
+//                .paymentType(PaymentType.POINT)
+//                .build();
 //
 //        ordersAddRequest = new OrdersAddRequest();
 //        ordersAddRequest.setMenuIdList(menuIdList);
-//        ordersAddRequest.setPaymentType(PaymentType.POINT);
-//        ordersAddRequest.setPaid(true);
+//        ordersAddRequest.setPaymentType(orders.getPaymentType());
+//        ordersAddRequest.setPaid(orders.isPaid());
 //
-//        Menu menu = new Menu();
-//        orders = new Orders();
-//        orders.setId(1L);
-//
-////        OrdersResponse ordersResponse = new OrdersResponse(orders);
-//
+//        //when
 //        Mockito.when(menuRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(menu));
 //        Mockito.when(ordersRepository.save(orders)).thenReturn(orders);
+////        orders.setId(1L);
 //
+//        //then
 //        ordersService.makeOrder(ordersAddRequest);
-////        assertThat(ordersService.makeOrder(ordersAddRequest)).isEqualTo(ordersResponse);
+//        //        assertThat(ordersService.makeOrder(ordersAddRequest)).isEqualTo(ordersResponse);
 //    }
 
     @Test
@@ -153,6 +163,12 @@ public class OrdersServiceTest {
         Mockito.when(ordersRepository.findAllByPickupFalse(pageable)).thenReturn(ordersCategoryResponse);
 
         assertThat(ordersService.getOrdersByCategory(pageable, category)).isEqualTo(ordersCategoryResponse);
+    }
+
+    @Test
+    public void 주문상태변경() {
+        OrdersUpdateRequest ordersUpdateRequest = new OrdersUpdateRequest();
+        ordersService.updateOrder(ordersUpdateRequest);
     }
 
 }

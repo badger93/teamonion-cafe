@@ -67,5 +67,6 @@ public class Orders {
         this.pickup = true;
     }
 
+    // TODO : for Test. Remove !
     public void setId(Long id) {this.id = id; }
 }

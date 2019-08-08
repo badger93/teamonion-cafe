@@ -14,4 +14,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     Page<Orders> findAllByMadeTrue(Pageable pageable);
 
     Page<Orders> findAllByPickupFalse(Pageable pageable);
+
+    Long countByBuyerIdAndPickupFalse(Long buyerId);
 }

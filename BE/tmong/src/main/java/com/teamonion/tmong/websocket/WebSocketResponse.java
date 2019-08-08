@@ -20,6 +20,7 @@ public class WebSocketResponse {
     private List<String> menuNameList;
     private boolean valid;
     private String errorMessage;
+    private boolean last = false;
 
     public WebSocketResponse(Orders orders) {
         this.id = orders.getId();
@@ -46,5 +47,9 @@ public class WebSocketResponse {
         this.valid = valid;
         this.errorMessage = errorMessage;
         this.menuNameList = null;
+    }
+
+    public void setLast(boolean last) {
+        this.last = last;
     }
 }
