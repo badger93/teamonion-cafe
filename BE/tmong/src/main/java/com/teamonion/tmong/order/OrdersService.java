@@ -7,6 +7,7 @@ import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
 import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.statistics.StatisticsService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -16,8 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -39,14 +39,16 @@ public class OrdersService {
     @NonNull
     private final JwtComponent jwtComponent;
 
+    @NonNull
+    private final StatisticsService statisticsService;
+
     @Transactional
     public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
         Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
-
         Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
 
         pointService.pointProcess(orders);
-
+        statisticsService.save(buyer.getMemberId());
         return new OrdersResponse(ordersRepository.save(orders));
     }
 
@@ -140,4 +142,5 @@ public class OrdersService {
         log.info("=========================");
         return ordersResponse;
     }
+
 }

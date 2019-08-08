@@ -10,11 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -72,5 +68,4 @@ public class OrdersController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, String category) {
         return new ResponseEntity<>(ordersService.getOrdersByCategory(pageable, category), HttpStatus.OK);
     }
-
 }
