@@ -1,12 +1,16 @@
 package com.teamonion.tmong.security;
 
+import com.google.common.net.HttpHeaders;
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberRole;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -66,4 +70,21 @@ public class JwtComponent {
             throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
     }
+
+    public String getClaimValueByTokenForWebSocket(String jwt, String claimName) {
+        return (String) Jwts.parser()
+                .setSigningKey(secret)
+                .parseClaimsJws(jwt)
+                .getBody()
+                .get(claimName);
+    }
+
+    public void checkAdminForWebSocket(String jwt) {
+        if (!getClaimValueByTokenForWebSocket(jwt, ROLE).equals(MemberRole.ADMIN.toString())) {
+            log.debug("checkAdmin fail.. this member role : {}", getClaimValueByTokenForWebSocket(jwt, ROLE));
+            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
+        }
+    }
+
+
 }

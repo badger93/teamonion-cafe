@@ -16,9 +16,10 @@ public class OrdersAddRequest {
 
     private PaymentType paymentType;
 
-    @NotNull(message = "주문 메뉴 정보가 없습니다")
+    @NotNull(message = "주문 메뉴 정보가 필요합니다")
     private List<Long> menuIdList;
 
+    @NotNull(message = "결제 여부 정보가 필요합니다")
     private boolean paid;
 
     Orders toEntity(long amount, Member buyer, List<Menu> menuList) {

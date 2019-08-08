@@ -11,14 +11,14 @@ import javax.validation.constraints.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(exclude = "imageFile")
-public class MenuSaveDto {
+public class MenuAddRequest {
 
     @NotEmpty(message = "메뉴명을 입력해주세요")
     private String name;
 
-    @NumberFormat(style = NumberFormat.Style.NUMBER)
     @DecimalMin(value = "0", message = "메뉴 가격은 음수입력이 불가능합니다")
-    private long price;
+    @NotNull
+    private Long price;
 
     private String information;
 
