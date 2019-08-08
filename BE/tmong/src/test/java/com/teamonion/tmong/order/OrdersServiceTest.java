@@ -55,18 +55,23 @@ public class OrdersServiceTest {
 
     private Pageable pageable;
     private Page<Orders> ordersCategoryResponse;
+    private Orders orders;
+    private Menu menu;
+    private OrdersAddRequest ordersAddRequest;
 
     @Before
     public void setUp() {
         pageable = PageRequest.of(0, 20);
         List<Orders> list = new ArrayList<>();
         ordersCategoryResponse = new PageImpl<>(list);
+
+        ordersAddRequest = new OrdersAddRequest();
     }
-    // TODO : 현준님께 질문
+
+//    // TODO : 현준님께 질문
 //    @Test
 //    public void 주문진행2() {
 //        List<Long> menuIdList = Arrays.asList(1L, 2L, 3L);
-//        OrdersAddRequest ordersAddRequest = new OrdersAddRequest();
 //        ordersAddRequest.setMenuIdList(menuIdList);
 //
 //        Menu menu = Menu.builder()
@@ -79,10 +84,6 @@ public class OrdersServiceTest {
 //    }
 
 
-//    private Orders orders;
-//    private Menu menu;
-
-//
 //    @Test
 //    public void 주문진행() {
 //        //given
@@ -98,12 +99,13 @@ public class OrdersServiceTest {
 //                .build();
 //
 //        orders = Orders.builder()
+//                .paymentType(PaymentType.POINT)
 //                .amount(2000L)
 //                .buyer(member)
 //                .menuList(Arrays.asList(menu, menu, menu))
 //                .paid(true)
-//                .paymentType(PaymentType.POINT)
 //                .build();
+//        orders.setId(1L);
 //
 //        ordersAddRequest = new OrdersAddRequest();
 //        ordersAddRequest.setMenuIdList(menuIdList);
@@ -113,7 +115,7 @@ public class OrdersServiceTest {
 //        //when
 //        Mockito.when(menuRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(menu));
 //        Mockito.when(ordersRepository.save(orders)).thenReturn(orders);
-////        orders.setId(1L);
+////
 //
 //        //then
 //        ordersService.makeOrder(ordersAddRequest);
