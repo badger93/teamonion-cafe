@@ -30,11 +30,12 @@ const GlobalWs = withRouter(({ location }) => {
 
   // ws 연결을 시도하는 함수
   const socketOrderInit = () => {
-    client.connect({ Authorization: token() }, frame => {
+    const wsclient = Stomp.over(new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {}));
+    wsclient.connect({ Authorization: token() }, frame => {
       setIsConnect(true);
       // 일반유저일 때 구독
       if (me.memberRole === 'NORMAL') {
-        const userSocket = client.subscribe('/user/queue/orders/update', msg => {
+        const userSocket = wsclient.subscribe('/user/queue/orders/update', msg => {
           setIsPopup(false);
           const res = msg.body && JSON.parse(msg.body);
           dispatch(setChangedOrderAction(res));
@@ -44,7 +45,7 @@ const GlobalWs = withRouter(({ location }) => {
           // 마지막 주문이라면 연결을 끊는다
           if (res.last) {
             setIsConnect(false);
-            client.disconnect();
+            wsclient.disconnect();
           }
         });
         // 관리자 일 때 구독
@@ -100,7 +101,7 @@ const GlobalWs = withRouter(({ location }) => {
           const {
             data: { content },
           } = await userOrderAPI(me.id, false);
-          if (content.length > 0) callback();
+          if (content.length > 0 || me.memberRole === 'ADMIN') callback();
         }
       } catch (e) {
         console.log(e);
@@ -111,6 +112,7 @@ const GlobalWs = withRouter(({ location }) => {
 
   // 매 로그인 여부 변경시마다 동작, 로그인과 연결 상태에 따라 연결을 맺고 끊는다. 주문정보 유무에 따라 연결 조정을 해야할듯
   useEffect(() => {
+    console.log(isSignedIn && !isConnect);
     if (isSignedIn && !isConnect) {
       checkOrder(socketOrderInit); // 주문 있으면 ws연결
     } else if (!isSignedIn && isConnect) {
