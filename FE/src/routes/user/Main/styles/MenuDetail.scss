@@ -112,7 +112,7 @@
       color: red;
       opacity: 0.8;
     }
-    @media (max-width: 400) {
+    @media (max-width: 415px) {
       .cart-added {
         height: 100%;
         display: flex;
@@ -155,7 +155,7 @@
   }
 }
 
-@media (max-width: 400px) {
+@media (max-width: 415px) {
   .menuDetail {
     position: relative;
     width: 90%;

@@ -41,7 +41,7 @@ const MainPresenter = ({
     <>
       {isLoading && <Loading />}
       <div className="mainPresenter">
-        <UserRank />
+        <UserRank ranking={[]} />
         <div className="head">
           <h1>메뉴</h1>
           <SearchBar searchCallback={searchMenuListByName} />

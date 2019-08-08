@@ -58,7 +58,7 @@ const UserRank = ({
         return '';
     }
   };
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <div className="mainPresenter-rank">
@@ -90,8 +90,8 @@ const UserRank = ({
                   </div>
                   <div className="rank-title">
                     <span>Rank </span>
-                    <span>{ranking[1].rank}</span>
-                    <span>{endWordValidator(ranking[1].rank)}</span>
+                    <span>{ranking[1].rank} </span>
+                    <span>{endWordValidator(ranking[1].rank)} </span>
                   </div>
                   <div className="rank-id">{ranking[1].memberId}</div>
                   <div className="rank-amount">{`${ranking[1].count}건`}</div>
@@ -108,7 +108,7 @@ const UserRank = ({
                   <div className="rank-title">
                     <span>Rank </span>
                     <span>{ranking[0].rank} </span>
-                    <span>{endWordValidator(ranking[0].rank)}</span>
+                    <span>{endWordValidator(ranking[0].rank)} </span>
                   </div>
                   <div className="rank-id">{ranking[0].memberId}</div>
                   <div className="rank-amount">{`${ranking[0].count}건`}</div>
@@ -143,7 +143,6 @@ const UserRank = ({
 UserRank.propTypes = {
   ranking: propTypes.arrayOf(
     propTypes.shape({
-      //배열안에 오브젝트가있을때
       rank: propTypes.number,
       memberId: propTypes.string,
       count: propTypes.number,
