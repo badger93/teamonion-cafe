@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import MyOrderCard from './components/MyOrderCard';
 import './styles/MyOrderPresenter.scss';
 import Loading from '../../../components/Loading';
+import tmony4 from '../../../image/tmony4.png';
 
 const MyOrderPresenter = ({
   setIsCanvasOpen,
@@ -52,7 +53,7 @@ const MyOrderPresenter = ({
             )}
           {!isLoading && orders.length === 0 && (
             <div className="myorder-nothing">
-              <div className="myorder-nothing-cry" />
+              <div className="myorder-nothing-cry" style={{ backgroundImage: `url(${tmony4})` }} />
               <div className="myorder-nothing-empty">Empty</div>
               <div className="myorder-nothing-uu">주문이 없어요 ㅠㅠ</div>
             </div>

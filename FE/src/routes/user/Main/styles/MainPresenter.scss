@@ -8,8 +8,13 @@
   .head {
     display: flex;
     justify-content: space-between;
+    background-color: #f4f4f2;
+    h1 {
+      margin-left: 20px;
+    }
     .SearchBar {
       margin-top: 20px;
+      margin-right: 20px;
     }
   }
 

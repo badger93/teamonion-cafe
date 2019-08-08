@@ -67,6 +67,7 @@ const GlobalWs = withRouter(({ location }) => {
     if (isSignedIn && !isConnect) {
       socketOrderInit();
     } else if (!isSignedIn && isConnect) {
+      setIsConnect(false);
       client.disconnect();
     }
   }, [isSignedIn, location.pathname]);
