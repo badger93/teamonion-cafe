@@ -50,5 +50,4 @@ public class OrdersController {
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, String category) {
         return new ResponseEntity<>(ordersService.getOrdersByCategory(pageable, category), HttpStatus.OK);
     }
-
 }

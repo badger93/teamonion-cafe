@@ -8,6 +8,7 @@ import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
 import com.teamonion.tmong.security.JwtComponent;
 import com.teamonion.tmong.websocket.WebSocketResponse;
+import com.teamonion.tmong.statistics.StatisticsService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,8 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -40,6 +40,9 @@ public class OrdersService {
     @NonNull
     private final JwtComponent jwtComponent;
 
+    @NonNull
+    private final StatisticsService statisticsService;
+
     @Transactional
     public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
         String buyerId = jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID);
@@ -50,6 +53,8 @@ public class OrdersService {
         pointService.pointProcess(orders);
 
         orders = ordersRepository.save(orders);
+
+        statisticsService.save(buyer.getMemberId());
 
         // TODO : processingOrders 생성
         log.info("------------------------------------");
@@ -143,4 +148,5 @@ public class OrdersService {
         }
 
     }
+
 }
