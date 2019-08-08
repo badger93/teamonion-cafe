@@ -43,8 +43,8 @@ const MainContainer = () => {
   };
 
   const getRank = async () => {
-    const result = await getRankApi();
-    console.dir(result);
+    const { data: { ranking = [] } = [] } = await getRankApi();
+    setRankData(ranking);
   };
 
   useEffect(() => {
@@ -54,6 +54,7 @@ const MainContainer = () => {
 
   return (
     <MainPresenter
+      rankData={rankData}
       isLoading={isLoading}
       list={storeList}
       menuDetailData={menuDetailData}

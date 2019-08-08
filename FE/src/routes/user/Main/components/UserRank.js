@@ -8,30 +8,12 @@ import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowAltCircleDown, faArrowAltCircleUp } from '@fortawesome/free-solid-svg-icons';
 
-const UserRank = ({
-  ranking = [
-    {
-      rank: 1,
-      memberId: 'test1',
-      count: 10,
-    },
-    {
-      rank: 2,
-      memberId: 'test2',
-      count: 4,
-    },
-    {
-      rank: 2,
-      memberId: 'test3',
-      count: 4,
-    },
-  ],
-}) => {
+const UserRank = ({ ranking = [] }) => {
   const Time = moment().format('YYYY MMMM Do, h:mm a');
 
   const heightCalculateFunc = () => {
     //600을 기준으로 주문량에 따라 길이를 나눠주는 함수
-    if (ranking.length > 0) {
+    if (ranking.length > 2) {
       const countSum = ranking[0].count + ranking[1].count + ranking[2].count;
       const height0 = (600 * ranking[0].count) / countSum;
       const height1 = (600 * ranking[1].count) / countSum;
@@ -44,15 +26,29 @@ const UserRank = ({
 
   const height = heightCalculateFunc();
 
-  const endWordValidator = number => {
-    // 1 2 3 끝 문자 정해주는 함수
+  const medalValidator = number => {
+    // 랭크따라 보이는 메달 다르게 하는 함수
     switch (number) {
       case 1:
-        return 'st';
+        return '🥇';
       case 2:
-        return 'nd';
+        return '🥈';
       case 3:
-        return 'rd';
+        return '🥉';
+
+      default:
+        return '';
+    }
+  };
+  const rankNumSizeValidator = number => {
+    // 랭크따라 글자크기 다르게 하는 함수
+    switch (number) {
+      case 1:
+        return '2.3rem';
+      case 2:
+        return '1.8rem';
+      case 3:
+        return '1.5rem';
 
       default:
         return '';
@@ -63,7 +59,7 @@ const UserRank = ({
   return (
     <div className="mainPresenter-rank">
       <div className="mainPresenter-rank-header">
-        <h1>이 달의 티몽 중독자</h1>
+        <h1>티몽 중독 용의자 랭킹</h1>
         <div className="openBtn" onClick={() => setIsOpen(prev => !prev)}>
           {isOpen ? (
             <FontAwesomeIcon icon={faArrowAltCircleUp} />
@@ -73,7 +69,7 @@ const UserRank = ({
         </div>
       </div>
       {isOpen &&
-        (ranking.length > 0 ? (
+        (ranking.length > 2 ? (
           <>
             <h2>실시간 랭킹</h2>
             <span className="time">{`${Time} 기준`}</span>
@@ -89,12 +85,20 @@ const UserRank = ({
                     />
                   </div>
                   <div className="rank-title">
-                    <span>Rank </span>
-                    <span>{ranking[1].rank} </span>
-                    <span>{endWordValidator(ranking[1].rank)} </span>
+                    <span />
+                    <span style={{ fontSize: `${rankNumSizeValidator(ranking[1].rank)}` }}>
+                      {ranking[1].rank}{' '}
+                    </span>
+                    <span>위</span>
                   </div>
-                  <div className="rank-id">{ranking[1].memberId}</div>
-                  <div className="rank-amount">{`${ranking[1].count}건`}</div>
+                  <div className="rank-id">
+                    {medalValidator(ranking[1].rank)}
+                    {ranking[1].memberId}
+                  </div>
+                  <div className="rank-amount">
+                    <span>{`${ranking[1].count}`}</span>
+                    <span> 건</span>
+                  </div>
                 </div>
                 <div className="tmony-container mainPresenter-rank-firstPrize">
                   <div className="imgContainer">
@@ -106,12 +110,20 @@ const UserRank = ({
                     />
                   </div>
                   <div className="rank-title">
-                    <span>Rank </span>
-                    <span>{ranking[0].rank} </span>
-                    <span>{endWordValidator(ranking[0].rank)} </span>
+                    <span />
+                    <span style={{ fontSize: `${rankNumSizeValidator(ranking[0].rank)}` }}>
+                      {ranking[0].rank}{' '}
+                    </span>
+                    <span>위</span>
                   </div>
-                  <div className="rank-id">{ranking[0].memberId}</div>
-                  <div className="rank-amount">{`${ranking[0].count}건`}</div>
+                  <div className="rank-id">
+                    {medalValidator(ranking[0].rank)}
+                    {ranking[0].memberId}
+                  </div>
+                  <div className="rank-amount">
+                    <span>{`${ranking[0].count}`}</span>
+                    <span> 건</span>
+                  </div>
                 </div>
                 <div className="tmony-container mainPresenter-rank-thirdPrize">
                   <div className="imgContainer">
@@ -123,12 +135,20 @@ const UserRank = ({
                     />
                   </div>
                   <div className="rank-title">
-                    <span>Rank </span>
-                    <span>{ranking[2].rank} </span>
-                    <span>{endWordValidator(ranking[2].rank)}</span>
+                    <span />
+                    <span style={{ fontSize: `${rankNumSizeValidator(ranking[2].rank)}` }}>
+                      {ranking[2].rank}{' '}
+                    </span>
+                    <span>위</span>
                   </div>
-                  <div className="rank-id">{ranking[2].memberId}</div>
-                  <div className="rank-amount">{`${ranking[2].count}건`}</div>
+                  <div className="rank-id">
+                    {medalValidator(ranking[2].rank)}
+                    {ranking[2].memberId}
+                  </div>
+                  <div className="rank-amount">
+                    <span>{`${ranking[2].count}`}</span>
+                    <span> 건</span>
+                  </div>
                 </div>
               </div>
             </div>

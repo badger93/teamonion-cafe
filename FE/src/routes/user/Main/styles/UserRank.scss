@@ -85,6 +85,8 @@
       }
       .tmonyImg1 {
         margin-bottom: 10px;
+        position: relative;
+        left: -15px;
       }
       .tmonyImg2 {
         margin-bottom: 10px;
@@ -98,16 +100,14 @@
       }
       .rank-amount {
         font-size: 1rem;
+        span:nth-child(1) {
+          color: #fe6600;
+        }
       }
     }
     .mainPresenter-rank-firstPrize {
       position: relative;
       z-index: 10;
-      .rank-title {
-        span:nth-child(2) {
-          font-size: 2rem;
-        }
-      }
       .tmonyImg1 {
         animation: goUp 1s;
       }
@@ -115,11 +115,6 @@
     .mainPresenter-rank-secondPrize {
       position: relative;
       z-index: 11;
-      .rank-title {
-        span:nth-child(2) {
-          font-size: 1.5rem;
-        }
-      }
       .tmonyImg2 {
         animation: goUp 1s;
       }
@@ -127,11 +122,6 @@
     .mainPresenter-rank-thirdPrize {
       position: relative;
       z-index: 10;
-      .rank-title {
-        span:nth-child(2) {
-          font-size: 1.3rem;
-        }
-      }
       .tmonyImg3 {
         animation: goUp 1s;
       }
