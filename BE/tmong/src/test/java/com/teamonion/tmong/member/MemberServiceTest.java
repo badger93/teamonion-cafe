@@ -72,7 +72,7 @@ public class MemberServiceTest {
         String memberId = "pizza";
 
         //when
-        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.empty());
+        Mockito.when(memberRepository.existsByMemberId(memberId)).thenReturn(false);
 
         //then
         assertThat(memberService.isDuplicate(memberId)).isFalse();
@@ -84,7 +84,7 @@ public class MemberServiceTest {
         String memberId = "onion";
 
         //when
-        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.of(member));
+        Mockito.when(memberRepository.existsByMemberId(memberId)).thenReturn(true);
 
         //then
         assertThat(memberService.isDuplicate(memberId)).isTrue();
