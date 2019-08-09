@@ -55,6 +55,7 @@ const AdminMenuManagePresenter = ({
   ];
 
   const rows = useMemo(() => {
+    console.log(menuList);
     return menuList.map(item => ({
       id: item.id,
       imageFile: item.imagePath,
@@ -62,7 +63,7 @@ const AdminMenuManagePresenter = ({
       price: item.price,
       information: item.information,
     }));
-  });
+  }, [menuList]);
 
   const getCellActions = (column, row) => {
     const cellActions = {
