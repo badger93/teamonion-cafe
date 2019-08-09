@@ -5,6 +5,7 @@ import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberRepository;
 import com.teamonion.tmong.member.MemberService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PointService {
 
-    private final MemberRepository memberRepository;
-
+    @NonNull
     private final MemberService memberService;
 
     private static final double BONUS_RATE = 0.1;
@@ -37,20 +37,13 @@ public class PointService {
             throw new HandleRuntimeException(GlobalExceptionType.ORDER_POINT_LACK);
         }
 
-        return pointUpdate(buyer.getId(), point);
+        return memberService.pointUpdate(buyer.getId(), point);
     }
 
     private void addBonusPoint(Member buyer, long buyerOwnPoint, long amount) {
         long point = (long) (amount * BONUS_RATE) + buyerOwnPoint;
 
-        pointUpdate(buyer.getId(), point);
+        memberService.pointUpdate(buyer.getId(), point);
     }
-
-    private long pointUpdate(Long id, long point) {
-        Member member = memberService.findById(id);
-        member.pointUpdate(point);
-        return memberRepository.save(member).getPoint();
-    }
-
 
 }

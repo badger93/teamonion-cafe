@@ -10,20 +10,19 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Optional;
 
 @Component
 public class JwtComponent {
     private static final Logger log = LoggerFactory.getLogger(JwtComponent.class);
-    private Long tokenExpirationTimeMillis = 1000 * 60 * 60 * 24L;
-    private String secret = "secret";
+    private static final String AUTHORIZATION_TYPE = "Bearer";
+    private static long TOKEN_EXPIRATION_TIME_MILLIS = 1000 * 60 * 60 * 24L;
+    private static String SECRET_KEY = "secret";
     public static final String MEMBER_ID = "memberId";
     public static final String ROLE = "role";
 
@@ -34,46 +33,49 @@ public class JwtComponent {
                 .setHeaderParam("alg", "HS256")
                 .claim(MEMBER_ID, member.getMemberId())
                 .claim(ROLE, member.getMemberRole())
-                .setExpiration(new Date(System.currentTimeMillis() + tokenExpirationTimeMillis))
-                .signWith(SignatureAlgorithm.HS256, secret)
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME_MILLIS))
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
 
-    public void checkToken(String jwt) {
+    public void checkValidToken(String jwt) {
         try {
             Jwts.parser()
-                    .setSigningKey(secret)
+                    .setSigningKey(SECRET_KEY)
                     .parseClaimsJws(jwt);
         } catch (JwtException e) {
-            log.debug("jwt is invalid : {}", e.getMessage());
+            log.debug("JWT is invalid : {}", e.getMessage());
             throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
     }
 
+    public void checkAdmin() {
+        if (!getClaimValueByToken(ROLE).equals(MemberRole.ADMIN.toString())) {
+            log.debug("checkAdmin fail.. this MemberRole : {}", getClaimValueByToken(ROLE));
+            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
+        }
+        log.debug("Hello Admin");
+    }
+
     public String getClaimValueByToken(String claimName) {
-        Optional<HttpServletRequest> request = Optional
-                .ofNullable(((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest());
-        String authorization = request.orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.REQUEST_IS_NULL))
-                .getHeader("Authorization");
-        String jwt = authorization.substring("Bearer".length()).trim();
+        String authorization = Optional.ofNullable(
+                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
+        )
+                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.REQUEST_IS_NULL))
+                .getHeader(HttpHeaders.AUTHORIZATION);
+
+        String jwt = authorization.substring(AUTHORIZATION_TYPE.length()).trim();
 
         return (String) Jwts.parser()
-                .setSigningKey(secret)
+                .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(jwt)
                 .getBody()
                 .get(claimName);
     }
 
-    public void checkAdmin() {
-        if (!getClaimValueByToken(ROLE).equals(MemberRole.ADMIN.toString())) {
-            log.debug("checkAdmin fail.. this member role : {}", getClaimValueByToken(ROLE));
-            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
-        }
-    }
-
     public String getClaimValueByTokenForWebSocket(String jwt, String claimName) {
         return (String) Jwts.parser()
-                .setSigningKey(secret)
+                .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(jwt)
                 .getBody()
                 .get(claimName);
@@ -81,7 +83,7 @@ public class JwtComponent {
 
     public void checkAdminForWebSocket(String jwt) {
         if (!getClaimValueByTokenForWebSocket(jwt, ROLE).equals(MemberRole.ADMIN.toString())) {
-            log.debug("checkAdmin fail.. this member role : {}", getClaimValueByTokenForWebSocket(jwt, ROLE));
+            log.debug("checkAdmin fail.. this MemberRole : {}", getClaimValueByTokenForWebSocket(jwt, ROLE));
             throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
         }
     }

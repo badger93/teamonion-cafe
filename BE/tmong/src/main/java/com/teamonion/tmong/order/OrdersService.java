@@ -56,8 +56,6 @@ public class OrdersService {
     }
 
     Page<OrdersResponse> getOrdersByCategory(Pageable pageable, String category) {
-        jwtComponent.checkAdmin();
-
         Page<Orders> response;
         switch (category) {
             case "PAID_TRUE":

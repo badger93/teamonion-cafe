@@ -1,5 +1,6 @@
 package com.teamonion.tmong.menu;
 
+import com.teamonion.tmong.member.MemberRole;
 import com.teamonion.tmong.security.CheckJwt;
 import lombok.NonNull;
 import org.slf4j.Logger;
@@ -25,13 +26,13 @@ public class MenuController {
         this.menuService = menuService;
     }
 
-    @CheckJwt
+    @CheckJwt(role = MemberRole.ADMIN)
     @PostMapping
     public ResponseEntity add(@Valid MenuAddRequest menuAddRequest) {
         return new ResponseEntity<>(menuService.add(menuAddRequest), HttpStatus.CREATED);
     }
 
-    @CheckJwt
+    @CheckJwt(role = MemberRole.ADMIN)
     @PutMapping("/{menu_id}")
     public ResponseEntity updateOne(@PathVariable Long menu_id, @Valid MenuUpdateRequest menuUpdateRequest) {
         menuService.updateMenu(menu_id, menuUpdateRequest);
@@ -49,7 +50,7 @@ public class MenuController {
         return new ResponseEntity<>(menuService.selectByName(pageable, menu_name), HttpStatus.OK);
     }
 
-    @CheckJwt
+    @CheckJwt(role = MemberRole.ADMIN)
     @DeleteMapping("/{menu_id}")
     public ResponseEntity deleteOne(@PathVariable Long menu_id) {
         menuService.deleteByMenuId(menu_id);

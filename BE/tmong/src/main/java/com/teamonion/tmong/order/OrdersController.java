@@ -1,5 +1,6 @@
 package com.teamonion.tmong.order;
 
+import com.teamonion.tmong.member.MemberRole;
 import com.teamonion.tmong.security.CheckJwt;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -44,7 +45,7 @@ public class OrdersController {
         return new ResponseEntity<>(ordersService.getMyOrders(pageable, pickup), HttpStatus.OK);
     }
 
-    @CheckJwt
+    @CheckJwt(role = MemberRole.ADMIN)
     @GetMapping
     public ResponseEntity<Page<OrdersResponse>> getOrdersByCategory(
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, String category) {

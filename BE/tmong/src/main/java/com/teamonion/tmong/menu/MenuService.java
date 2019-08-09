@@ -31,8 +31,6 @@ public class MenuService {
     private final JwtComponent jwtComponent;
 
     Long add(MenuAddRequest menuAddRequest) {
-        jwtComponent.checkAdmin();
-
         String path = imageFileService.imageAddProcess(menuAddRequest.getImageFile());
 
         return menuRepository.save(menuAddRequest.toEntity(path)).getId();
@@ -40,7 +38,8 @@ public class MenuService {
 
     @Transactional
     public void updateMenu(Long id, MenuUpdateRequest menuUpdateRequest) {
-        jwtComponent.checkAdmin();
+        // TODO : 이미지 validation - 메뉴 추가와 수정이 다른 request객체로 받아야 할지 ?
+        // TODO : 수정 - 이미지 필수가 아닌 로직으로 변경
 
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
@@ -69,8 +68,6 @@ public class MenuService {
 
     @Transactional
     void deleteByMenuId(Long id) {
-        jwtComponent.checkAdmin();
-
         Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
         String imagePath = menu.getImagePath();

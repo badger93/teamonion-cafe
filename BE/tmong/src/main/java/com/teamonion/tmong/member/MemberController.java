@@ -39,14 +39,14 @@ public class MemberController {
         return new ResponseEntity<>(memberService.login(memberLoginRequest), HttpStatus.OK);
     }
 
-    @CheckJwt
+    @CheckJwt(role = MemberRole.ADMIN)
     @GetMapping
     public ResponseEntity<Page<Member>> getMembers(
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(memberService.getMembers(pageable), HttpStatus.OK);
     }
 
-    @CheckJwt
+    @CheckJwt(role = MemberRole.ADMIN)
     @GetMapping("/search")
     public ResponseEntity<Page<Member>> search(Pageable pageable, @RequestParam String memberId) {
         return new ResponseEntity<>(memberService.search(pageable, memberId), HttpStatus.OK);
@@ -58,7 +58,7 @@ public class MemberController {
         return new ResponseEntity<>(memberService.getPoint(id), HttpStatus.OK);
     }
 
-    @CheckJwt
+    @CheckJwt(role = MemberRole.ADMIN)
     @PutMapping("/{id}/point")
     public ResponseEntity pointUpdate(@PathVariable Long id, @RequestBody long point) {
         memberService.pointUpdate(id, point);
