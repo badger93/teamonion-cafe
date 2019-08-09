@@ -30,7 +30,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         CheckJwt checkJwt = ((HandlerMethod) handler).getMethodAnnotation(CheckJwt.class);
-        if (checkJwt == null || !checkJwt.handle()) {
+        if (checkJwt == null) {
             return true;
         }
 

@@ -56,7 +56,7 @@ public class MemberControllerTest {
     public void 아이디_중복체크() throws Exception {
         String memberId = "onion";
 
-        Mockito.when(memberService.isOverlap(memberId)).thenReturn(false);
+        Mockito.when(memberService.isDuplicate(memberId)).thenReturn(false);
 
         mockMvc.perform(get("/api/members/overlap")
                 .param("memberId", memberId))

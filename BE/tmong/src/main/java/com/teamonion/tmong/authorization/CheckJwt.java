@@ -10,6 +10,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface CheckJwt {
-    boolean handle() default true;
     MemberRole role() default MemberRole.NORMAL;
 }

@@ -19,7 +19,7 @@ public class MemberService {
     private final JwtComponent jwtComponent;
 
     public MemberLoginResponse signUp(MemberSignUpRequest memberSignUpRequest) {
-        if (isOverlap(memberSignUpRequest.getMemberId())) {
+        if (isDuplicate(memberSignUpRequest.getMemberId())) {
             throw new ValidCustomException(ValidExceptionType.MEMBERID_OVERLAP);
         }
         Member savedMember = memberRepository.save(memberSignUpRequest.toEntity());
@@ -39,8 +39,8 @@ public class MemberService {
         return new MemberLoginResponse(member, jwtComponent.createToken(member));
     }
 
-    public boolean isOverlap(String memberId) {
-        return memberRepository.findByMemberId(memberId).isPresent();
+    public boolean isDuplicate(String memberId) {
+        return memberRepository.existsByMemberId(memberId);
     }
 
     public Page<Member> getMembers(Pageable pageable) {

@@ -26,9 +26,9 @@ public class MemberController {
         return new ResponseEntity<>(memberService.signUp(memberSignUpRequest), HttpStatus.CREATED);
     }
 
-    @GetMapping("/overlap")
-    public ResponseEntity<Boolean> overlapCheck(String memberId) {
-        return new ResponseEntity<>(memberService.isOverlap(memberId), HttpStatus.OK);
+    @GetMapping("/duplicate")
+    public ResponseEntity<Boolean> duplicateCheck(String memberId) {
+        return new ResponseEntity<>(memberService.isDuplicate(memberId), HttpStatus.OK);
     }
 
     @PostMapping("/login")

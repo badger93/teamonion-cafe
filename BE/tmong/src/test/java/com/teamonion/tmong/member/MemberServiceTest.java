@@ -75,7 +75,7 @@ public class MemberServiceTest {
         Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.empty());
 
         //then
-        assertThat(memberService.isOverlap(memberId)).isFalse();
+        assertThat(memberService.isDuplicate(memberId)).isFalse();
     }
 
     @Test
@@ -87,6 +87,6 @@ public class MemberServiceTest {
         Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.of(member));
 
         //then
-        assertThat(memberService.isOverlap(memberId)).isTrue();
+        assertThat(memberService.isDuplicate(memberId)).isTrue();
     }
 }
