@@ -9,6 +9,7 @@ const SearchBar = ({ searchCallback }) => {
     e => {
       e.preventDefault();
       searchCallback(searchText);
+      setSearchText('');
     },
     [searchText, searchCallback],
   );
