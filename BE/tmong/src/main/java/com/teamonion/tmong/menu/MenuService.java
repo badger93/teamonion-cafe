@@ -2,7 +2,7 @@ package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.GlobalException;
-import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.authorization.JwtComponent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

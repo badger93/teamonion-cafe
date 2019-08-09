@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @ToString
+@NoArgsConstructor
 public class OrdersResponse {
     private Long id;
     private String buyerId;

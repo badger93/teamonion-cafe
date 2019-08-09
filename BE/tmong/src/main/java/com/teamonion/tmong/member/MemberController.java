@@ -1,10 +1,8 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.security.CheckJwt;
+import com.teamonion.tmong.authorization.CheckJwt;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,14 +17,13 @@ import javax.validation.Valid;
 @RequestMapping("/api/members")
 @RestController
 public class MemberController {
-    private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 
     @NonNull
     private final MemberService memberService;
 
     @PostMapping
     public ResponseEntity<MemberLoginResponse> signUp(@RequestBody @Valid MemberSignUpRequest memberSignUpRequest) {
-        return new ResponseEntity<>(memberService.save(memberSignUpRequest), HttpStatus.CREATED);
+        return new ResponseEntity<>(memberService.signUp(memberSignUpRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/overlap")

@@ -1,4 +1,4 @@
-package com.teamonion.tmong.security;
+package com.teamonion.tmong.authorization;
 
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.GlobalException;
@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
-
 public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     private static final Logger log = LoggerFactory.getLogger(AuthorizationInterceptor.class);
     private static final String AUTHORIZATION_TYPE = "Bearer";
@@ -25,7 +24,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // like swagger
-        if(!(handler instanceof HandlerMethod)) {
+        if (!(handler instanceof HandlerMethod)) {
             log.debug("handler : {}", handler);
             return true;
         }
@@ -39,8 +38,8 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
                 .orElseThrow(() -> new GlobalException(GlobalExceptionType.UNAUTHORIZED));
         String jwt = authorization.substring(AUTHORIZATION_TYPE.length()).trim();
 
-        jwtComponent.checkValidToken(jwt);
-        if(checkJwt.role().equals(MemberRole.ADMIN)) {
+        jwtComponent.checkTokenValidation(jwt);
+        if (checkJwt.role().equals(MemberRole.ADMIN)) {
             jwtComponent.checkAdmin();
         }
         return true;

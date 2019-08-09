@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/statistics")
 @RestController
 public class StatisticsController {
+
     @NonNull
     private final StatisticsService statisticsService;
 

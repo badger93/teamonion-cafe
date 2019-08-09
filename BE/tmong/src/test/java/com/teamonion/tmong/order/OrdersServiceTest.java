@@ -5,7 +5,7 @@ import com.teamonion.tmong.member.MemberRepository;
 import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuService;
-import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.authorization.JwtComponent;
 import com.teamonion.tmong.statistics.StatisticsRepository;
 import com.teamonion.tmong.statistics.StatisticsService;
 import org.junit.Before;

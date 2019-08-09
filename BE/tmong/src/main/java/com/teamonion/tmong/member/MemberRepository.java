@@ -8,5 +8,6 @@ import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByMemberId(String memberId);
+
     Page<Member> findByMemberIdContaining(Pageable pageable, String memberId);
 }
