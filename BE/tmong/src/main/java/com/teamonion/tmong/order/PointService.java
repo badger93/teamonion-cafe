@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class PointService {
 
     private final MemberRepository memberRepository;
+
     private final MemberService memberService;
 
     private static final double BONUS_RATE = 0.1;
@@ -46,7 +47,7 @@ public class PointService {
     }
 
     private long pointUpdate(Long id, long point) {
-        Member member =  memberService.findById(id);
+        Member member = memberService.findById(id);
         member.pointUpdate(point);
         return memberRepository.save(member).getPoint();
     }

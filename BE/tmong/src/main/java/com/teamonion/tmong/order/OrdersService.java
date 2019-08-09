@@ -4,22 +4,16 @@ import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberService;
-import com.teamonion.tmong.menu.Menu;
-import com.teamonion.tmong.menu.MenuRepository;
+import com.teamonion.tmong.menu.MenuService;
 import com.teamonion.tmong.security.JwtComponent;
-import com.teamonion.tmong.websocket.StompInterceptor;
-import com.teamonion.tmong.websocket.WebSocketResponse;
 import com.teamonion.tmong.statistics.StatisticsService;
+import com.teamonion.tmong.websocket.WebSocketResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -28,7 +22,7 @@ public class OrdersService {
     private final OrdersRepository ordersRepository;
 
     @NonNull
-    private final MenuRepository menuRepository;
+    private final MenuService menuService;
 
     @NonNull
     private final MemberService memberService;
@@ -42,42 +36,18 @@ public class OrdersService {
     @NonNull
     private final StatisticsService statisticsService;
 
-    private static final Logger log = LoggerFactory.getLogger(OrdersService.class);
-
     @Transactional
     public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
-        String buyerId = jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID);
-        Member buyer = memberService.findByMemberId(buyerId);
+        Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
 
-        Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
+        Orders orders = ordersAddRequest.toEntity(buyer, menuService.getOrderMenus(ordersAddRequest.getMenuIdList()));
 
         pointService.pointProcess(orders);
 
-        orders = ordersRepository.save(orders);
-
         statisticsService.save(buyer.getMemberId());
 
-        return new OrdersResponse(orders);
+        return new OrdersResponse(ordersRepository.save(orders));
     }
-
-    private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
-        if (ordersAddRequest.getMenuIdList().size() == 0) {
-            throw new HandleRuntimeException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
-        }
-
-        List<Menu> menuList = new ArrayList<>();
-        long amount = 0;
-
-        for (Long id : ordersAddRequest.getMenuIdList()) {
-            Menu menu = menuRepository.findByIdAndDeletedFalse(id)
-                    .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
-            menuList.add(menu);
-            amount += menu.getPrice();
-        }
-
-        return ordersAddRequest.toEntity(amount, buyer, menuList);
-    }
-
 
     public Page<OrdersResponse> getMyOrders(Pageable pageable, boolean pickup) {
         Long buyer_id = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID)).getId();
@@ -138,8 +108,8 @@ public class OrdersService {
             WebSocketResponse webSocketResponse = new WebSocketResponse(ordersRepository.save(orders));
 
             Long count = ordersRepository.countByBuyerIdAndPickupFalse(orders.getBuyer().getId());
-            log.info("is Last Checkt count ... {}", count);
-            if(count == 0) {
+
+            if (count == 0) {
                 webSocketResponse.setLast(true);
             }
 
