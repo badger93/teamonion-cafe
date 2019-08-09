@@ -47,7 +47,12 @@ const MyOrderContainer = () => {
 
   useEffect(() => {
     // 변경될 것 있을시 추가
-    if (changedData && me.memberId === changedData.buyerId && orders.length > 0) {
+    if (
+      changedData &&
+      Object.keys(changedData).length > 0 &&
+      me.memberId === changedData.buyerId &&
+      orders.length > 0
+    ) {
       // console.dir(orders);
       let newOrders = [...orders];
       const changedDataIndex = newOrders.findIndex(e => {
@@ -66,7 +71,7 @@ const MyOrderContainer = () => {
           newOrders = [...ordersWithoutAfterPickup];
           setIsDeleting(false);
           setOrders([...newOrders]);
-        }, 3000);
+        }, 1000);
       } else if (changedDataIndex >= 0) {
         // 변화만 된 주문정보 변경
         setIsChanging(true);
@@ -79,7 +84,7 @@ const MyOrderContainer = () => {
           };
           setIsChanging(false);
           setOrders([...newOrders]);
-        }, 3000);
+        }, 1000);
 
         // console.dir(newOrders[changedDataIndex]);
       }
