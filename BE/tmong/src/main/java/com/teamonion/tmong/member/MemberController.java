@@ -39,7 +39,7 @@ public class MemberController {
         return new ResponseEntity<>(memberService.login(memberLoginRequest), HttpStatus.OK);
     }
 
-//    @CheckJwt
+    @CheckJwt
     @GetMapping
     public ResponseEntity<Page<Member>> getMembers(Pageable pageable) {
         return new ResponseEntity<>(memberService.getMembers(pageable), HttpStatus.OK);

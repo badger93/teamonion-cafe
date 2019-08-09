@@ -37,9 +37,6 @@ public class MemberAcceptanceTest {
     @Autowired
     TestRestTemplate template;
 
-    @Autowired
-    ObjectMapper objectMapper;
-
     @Test
     public void singUpTest_성공() {
         String memberId = "chicken";
@@ -98,17 +95,16 @@ public class MemberAcceptanceTest {
     }
 
     @Test
-    public void getMembersTest() throws IOException {
-        String memberId = "chicken4";
-        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
-        memberSignUpRequest.setMemberId(memberId);
-        memberSignUpRequest.setPassword("123456789a");
-        memberSignUpRequest.setPasswordCheck("123456789a");
-
-        template.postForEntity("/api/members", memberSignUpRequest, MemberLoginResponse.class);
+    public void getMembers_헤더에_admin_jwt_주면_성공() {
+//        String memberId = "chicken4";
+//        MemberSignUpRequest memberSignUpRequest = new MemberSignUpRequest();
+//        memberSignUpRequest.setMemberId(memberId);
+//        memberSignUpRequest.setPassword("123456789a");
+//        memberSignUpRequest.setPasswordCheck("123456789a");
+//
+//        template.postForEntity("/api/members", memberSignUpRequest, MemberLoginResponse.class);
 
         UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString("/api/members");
-
 
         String jwt = Jwts.builder()
                     .setHeaderParam("typ", "JWT")
@@ -118,32 +114,14 @@ public class MemberAcceptanceTest {
                     .signWith(SignatureAlgorithm.HS256, "secret")
                     .compact();
 
-
         HttpHeaders headers = new HttpHeaders();
         headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
         HttpEntity entity = new HttpEntity(headers);
 
+        ResponseEntity<Map> response = template.exchange(
+                uriComponentsBuilder.toUriString(), HttpMethod.GET, entity, Map.class, new HashMap<>());
 
-
-        ResponseEntity<Object> response = template.exchange(
-                uriComponentsBuilder.toUriString(), HttpMethod.GET, entity, Object.class, new HashMap<>());
-
-        System.out.println("------body : " + response.getBody());
-        objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-//        PageResponse pageResponse = objectMapper.convertValue(response, TypeFactory.defaultInstance().constructCollectionType(List.class, Member.class));
-
-        String s = response.getBody().toString();
-        s.replaceAll("\"","");
-
-
-        objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
-
-        System.out.println("-----" + s);
-        PageResponse pageResponse = objectMapper.readValue(
-                s, PageResponse.class
-        );
-
-        System.out.println(pageResponse);
+        assertThat(response.getBody().get("content")).isNotNull();
     }
 
 }
