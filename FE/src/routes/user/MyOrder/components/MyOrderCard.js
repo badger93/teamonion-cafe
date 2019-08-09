@@ -26,14 +26,23 @@ const MyOrderCard = ({
       orderId === changedData.id &&
       orders.length > 0
     ) {
-      let newOrders = [...orders];
-      const changedDataIndex = newOrders.findIndex(e => {
-        // 변화된 주문정보 찾기
-        return e.id === changedData.id;
-      });
-      if (changedData.pickup === true && changedDataIndex >= 0) {
+      if (changedData.pickup === true) {
         setIsDeleting(true);
-        setTimeout(() => {
+      } else {
+        setIsChanging(true);
+      }
+
+      setTimeout(() => {
+        let newOrders = [...orders];
+        const changedDataIndex = newOrders.findIndex(e => {
+          // 변화된 주문정보 찾기
+          return e.id === changedData.id;
+        });
+        if (changedDataIndex < 0) {
+          return;
+        }
+
+        if (changedData.pickup === true) {
           const ordersWithoutAfterPickup = [
             ...newOrders.slice(0, changedDataIndex),
             ...newOrders.slice(changedDataIndex + 1, newOrders.length),
@@ -41,11 +50,7 @@ const MyOrderCard = ({
           newOrders = [...ordersWithoutAfterPickup];
           setIsDeleting(false);
           setOrders([...newOrders]);
-        }, 3000);
-      } else if (changedDataIndex >= 0) {
-        setIsChanging(true);
-
-        setTimeout(() => {
+        } else {
           newOrders[changedDataIndex] = {
             ...newOrders[changedDataIndex],
             made: changedData.made,
@@ -53,8 +58,8 @@ const MyOrderCard = ({
           };
           setIsChanging(false);
           setOrders([...newOrders]);
-        }, 3000);
-      }
+        }
+      }, 1500);
     }
   }, [changedData]);
 
