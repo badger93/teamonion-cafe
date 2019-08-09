@@ -19,7 +19,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/members")
 @RestController
 public class MemberController {
-    private static Logger log = LoggerFactory.getLogger(MemberController.class);
+    private static final Logger log = LoggerFactory.getLogger(MemberController.class);
 
     @NonNull
     private final MemberService memberService;
