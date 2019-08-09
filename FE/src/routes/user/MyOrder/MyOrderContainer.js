@@ -24,7 +24,7 @@ const MyOrderContainer = () => {
   useEffect(() => {
     const beConnect = orders.length > 0 ? true : false;
     dispatch(setWsConnectAction(beConnect));
-  }, [orders]);
+  }, [orders, dispatch]);
 
   useEffect(() => {
     const fetchMyOrder = async () => {
