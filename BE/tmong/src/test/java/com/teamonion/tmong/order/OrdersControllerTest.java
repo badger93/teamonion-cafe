@@ -1,20 +1,17 @@
 package com.teamonion.tmong.order;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.security.JwtComponent;
 import com.teamonion.tmong.statistics.Statistics;
 import com.teamonion.tmong.statistics.StatisticsService;
-import org.hibernate.criterion.Order;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -23,7 +20,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -66,12 +62,16 @@ public class OrdersControllerTest {
         ordersAddRequest.setPaid(true);
 
 
-        Menu menu = new Menu();
+        Menu menu = Menu.builder()
+                .price(1000L)
+                .build();
+
         Member member = Member.builder()
-                            .memberId("memberId")
-                            .password("password")
-                            .build();
-        Orders orders = ordersAddRequest.toEntity(2000L, member, Arrays.asList(menu, menu));
+                .memberId("memberId")
+                .password("password")
+                .build();
+
+        Orders orders = ordersAddRequest.toEntity(member, Arrays.asList(menu, menu));
         orders.setId(1L);
 
         OrdersResponse ordersResponse = new OrdersResponse(orders);

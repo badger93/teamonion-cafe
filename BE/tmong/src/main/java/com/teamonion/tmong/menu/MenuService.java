@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -83,21 +82,9 @@ public class MenuService {
     }
 
     public List<Menu> getOrderMenus(List<Long> menuIdList) {
-        List<Menu> menus;
-
-        menus = menuIdList.stream()
+        return menuIdList.stream()
                 .map(e -> menuRepository.findByIdAndDeletedFalse(e)
                         .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_MENU_NOT_FOUND)))
                 .collect(Collectors.toList());
-
-        return menus;
-    }
-
-    public long getOrderAmount(List<Menu> menuList) {
-        long amount;
-
-        amount = menuList.stream().mapToLong(Menu::getPrice).sum();
-
-        return amount;
     }
 }

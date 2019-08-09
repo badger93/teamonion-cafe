@@ -4,7 +4,6 @@ import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.HandleRuntimeException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberService;
-import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuService;
 import com.teamonion.tmong.security.JwtComponent;
 import com.teamonion.tmong.statistics.StatisticsService;
@@ -15,8 +14,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -41,23 +38,15 @@ public class OrdersService {
 
     @Transactional
     public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
-        String buyerId = jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID);
-        Member buyer = memberService.findByMemberId(buyerId);
+        Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
 
-        Orders orders = makeOrdersDetail(ordersAddRequest, buyer);
+        Orders orders = ordersAddRequest.toEntity(buyer, menuService.getOrderMenus(ordersAddRequest.getMenuIdList()));
 
         pointService.pointProcess(orders);
 
         statisticsService.save(buyer.getMemberId());
 
         return new OrdersResponse(ordersRepository.save(orders));
-    }
-
-    private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
-        List<Menu> menuList = menuService.getOrderMenus(ordersAddRequest.getMenuIdList());
-        long amount = menuService.getOrderAmount(menuList);
-
-        return ordersAddRequest.toEntity(amount, buyer, menuList);
     }
 
     public Page<OrdersResponse> getMyOrders(Pageable pageable, boolean pickup) {

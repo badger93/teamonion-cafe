@@ -39,7 +39,7 @@ public class MenuServiceTest {
     @Before
     public void setUp() throws IOException {
         menuAddRequest = new MenuAddRequest();
-        menuUpdateRequest =  new MenuUpdateRequest();
+        menuUpdateRequest = new MenuUpdateRequest();
 
         MockMultipartFile mockMultipartFile = new MockMultipartFile("test", "test", "image/jpg"
                 , new FileInputStream(new File("src/test/resources/cat.jpg")));

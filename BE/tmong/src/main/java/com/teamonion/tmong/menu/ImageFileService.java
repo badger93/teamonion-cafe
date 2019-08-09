@@ -52,15 +52,20 @@ public class ImageFileService {
             // TODO : file directory divide
             int randomString = (int) (Math.random() * 10000) + 1;
             String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();
-            String date = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "/";
+            LocalDate today = LocalDate.now();
 
-            Path filePath = Paths.get(downloadPath + date);
+            Path datePath = Paths.get(String.valueOf(today.getYear()), String.valueOf(today.getMonthValue()), String.valueOf(today.getDayOfMonth()));
+
+            Path filePath = Paths.get(downloadPath, datePath.toString());
             Files.createDirectories(filePath);
 
-            Path imagePath = Paths.get(downloadPath + date + fileName);
+            Path imagePath = Paths.get(downloadPath, datePath.toString(), fileName);
             imageFile.transferTo(imagePath);
 
-            return date + fileName;
+//            log.info("imagePath .. {}", imagePath.toString());
+
+            // TODO : "/"를 사용하지 않을 방법
+            return datePath.toString() + "/" + fileName;
         } catch (IOException e) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
         }

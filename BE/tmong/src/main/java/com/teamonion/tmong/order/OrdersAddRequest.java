@@ -25,10 +25,10 @@ public class OrdersAddRequest {
     @NotNull(message = "결제 여부 정보가 필요합니다")
     private boolean paid;
 
-    Orders toEntity(long amount, Member buyer, List<Menu> menuList) {
+    Orders toEntity(Member buyer, List<Menu> menuList) {
         return Orders.builder()
                 .paymentType(paymentType)
-                .amount(amount)
+                .amount(menuList.stream().mapToLong(Menu::getPrice).sum())
                 .buyer(buyer)
                 .menuList(menuList)
                 .paid(paid)
