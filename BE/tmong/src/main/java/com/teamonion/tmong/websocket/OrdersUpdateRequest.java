@@ -1,6 +1,5 @@
-package com.teamonion.tmong.order;
+package com.teamonion.tmong.websocket;
 
-import com.teamonion.tmong.websocket.WebSocketResponse;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +16,6 @@ public class OrdersUpdateRequest {
     private boolean made;
     private boolean pickup;
 
-    // TODO : 에러 발생 시 에러 정보 처리 - valid 무조건 false
     // TODO : 메소드명 수정
     public WebSocketResponse toEntity(boolean valid, String errorMessage) {
         return WebSocketResponse.builder()

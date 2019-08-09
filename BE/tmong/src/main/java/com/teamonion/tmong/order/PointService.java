@@ -1,7 +1,7 @@
 package com.teamonion.tmong.order;
 
-import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.GlobalException;
+import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberService;
 import lombok.NonNull;
@@ -18,15 +18,13 @@ public class PointService {
     private static final double BONUS_RATE = 0.1;
 
     void pointProcess(Orders orders) {
-        long buyerOwnPoint = getBuyerPoint(orders.getBuyer().getId());
+        long buyerOwnPoint = memberService.getPoint(orders.getBuyer().getId());
+
         if (orders.getPaymentType().equals(PaymentType.POINT)) {
             buyerOwnPoint = payByPoint(orders.getBuyer(), buyerOwnPoint, orders.getAmount());
         }
-        addBonusPoint(orders.getBuyer(), buyerOwnPoint, orders.getAmount());
-    }
 
-    private long getBuyerPoint(Long id) {
-        return memberService.getPoint(id);
+        addBonusPoint(orders.getBuyer(), buyerOwnPoint, orders.getAmount());
     }
 
     private long payByPoint(Member buyer, long buyerOwnPoint, long amount) {

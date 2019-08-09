@@ -1,7 +1,7 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.exception.GlobalException;
+import com.teamonion.tmong.exception.GlobalExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,7 +21,7 @@ public class ImageFileService {
     @Value("${download-path}")
     private String downloadPath;
 
-    String imageAddProcess(MultipartFile imageFile) {
+    String imageSaveProcess(MultipartFile imageFile) {
 
         if (imageFile.isEmpty()) {
             throw new GlobalException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
@@ -46,22 +46,22 @@ public class ImageFileService {
 
     private String setMenuImagePath(MultipartFile imageFile) {
         try {
-            // TODO : Study .. new Random()
-            // TODO : file directory divide
+            // 저장 이미지 새로운 이름 생성
             int randomString = (int) (Math.random() * 10000) + 1;
             String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();
+
+            // 디렉토리 생성
             LocalDate today = LocalDate.now();
-
-            Path datePath = Paths.get(String.valueOf(today.getYear()), String.valueOf(today.getMonthValue()), String.valueOf(today.getDayOfMonth()));
-
+            Path datePath = Paths.get(String.valueOf(today.getYear()), String.valueOf(today.getMonthValue())
+                    , String.valueOf(today.getDayOfMonth()));
             Path filePath = Paths.get(downloadPath, datePath.toString());
             Files.createDirectories(filePath);
 
+            // 이미지 저장
             Path imagePath = Paths.get(downloadPath, datePath.toString(), fileName);
             imageFile.transferTo(imagePath);
 
-//            log.info("imagePath .. {}", imagePath.toString());
-
+            // 저장된 이미지 디렉토리 반환
             // TODO : "/"를 사용하지 않을 방법
             return datePath.toString() + "/" + fileName;
         } catch (IOException e) {

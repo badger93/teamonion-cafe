@@ -165,11 +165,11 @@ public class OrdersServiceTest {
         assertThat(ordersService.getOrdersByCategory(pageable, category)).isEqualTo(ordersCategoryResponse);
     }
 
-    @Test
-    public void 주문상태변경() {
-        OrdersUpdateRequest ordersUpdateRequest = new OrdersUpdateRequest();
-
-        ordersService.updateOrder(ordersUpdateRequest);
-    }
+//    @Test
+//    public void 주문상태변경() {
+//        OrdersUpdateRequest ordersUpdateRequest = new OrdersUpdateRequest();
+//
+//        ordersService.updateOrder(ordersUpdateRequest);
+//    }
 
 }
