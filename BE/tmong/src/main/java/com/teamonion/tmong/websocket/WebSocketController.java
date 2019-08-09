@@ -1,5 +1,9 @@
 package com.teamonion.tmong.websocket;
 
+import com.teamonion.tmong.exception.GlobalException;
+import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.order.Orders;
+import com.teamonion.tmong.order.OrdersRepository;
 import com.teamonion.tmong.order.OrdersService;
 import com.teamonion.tmong.order.OrdersUpdateRequest;
 import com.teamonion.tmong.security.CheckJwt;
@@ -11,6 +15,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -19,16 +24,16 @@ public class WebSocketController {
 
     private static final Logger log = LoggerFactory.getLogger(WebSocketController.class);
 
-    private final OrdersService ordersService;
+    private final OrdersRepository ordersRepository;
 
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @CheckJwt
     @MessageMapping("/api/orders/update")
-    public void updateOrder(@Payload OrdersUpdateRequest ordersUpdateRequest) {
+    public void update(@Payload OrdersUpdateRequest ordersUpdateRequest) {
         WebSocketResponse webSocketResponse;
 
-        webSocketResponse = ordersService.updateOrder(ordersUpdateRequest);
+        webSocketResponse = updateOrder(ordersUpdateRequest);
         processSendMessage(webSocketResponse);
     }
 
@@ -46,6 +51,47 @@ public class WebSocketController {
 
         // 관리자
         simpMessagingTemplate.convertAndSend("/topic/orders/update", webSocketResponse);
+    }
+
+    @Transactional
+    public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
+        try {
+            if (ordersUpdateRequest.getId() == null) {
+                throw new RuntimeException("주문 번호 정보가 올바르지 않습니다");
+            }
+
+            if (ordersUpdateRequest.getBuyerId() == null) {
+                throw new RuntimeException("주문자 정보가 올바르지 않습니다");
+            }
+
+            Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
+                    .orElseThrow(() -> new GlobalException(GlobalExceptionType.ORDER_NOT_FOUND));
+
+            if (ordersUpdateRequest.isPaid()) {
+                orders.pay();
+            }
+            if (ordersUpdateRequest.isMade()) {
+                orders.make();
+            }
+            if (ordersUpdateRequest.isPickup()) {
+                orders.pick();
+            }
+
+            WebSocketResponse webSocketResponse = new WebSocketResponse(ordersRepository.save(orders));
+
+            Long count = ordersRepository.countByBuyerIdAndPickupFalse(orders.getBuyer().getId());
+
+            if (count == 0) {
+                webSocketResponse.setLast(true);
+            }
+
+            return webSocketResponse;
+        } catch (GlobalException e) {
+            return ordersUpdateRequest.toEntity(false, e.getErrorMessage());
+        } catch (RuntimeException e) {
+            return ordersUpdateRequest.toEntity(false, e.getMessage());
+        }
+
     }
 
 }

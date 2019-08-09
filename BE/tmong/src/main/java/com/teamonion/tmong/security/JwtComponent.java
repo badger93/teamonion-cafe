@@ -2,7 +2,7 @@ package com.teamonion.tmong.security;
 
 import com.google.common.net.HttpHeaders;
 import com.teamonion.tmong.exception.GlobalExceptionType;
-import com.teamonion.tmong.exception.HandleRuntimeException;
+import com.teamonion.tmong.exception.GlobalException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberRole;
 import io.jsonwebtoken.JwtException;
@@ -45,14 +45,14 @@ public class JwtComponent {
                     .parseClaimsJws(jwt);
         } catch (JwtException e) {
             log.debug("JWT is invalid : {}", e.getMessage());
-            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
+            throw new GlobalException(GlobalExceptionType.UNAUTHORIZED);
         }
     }
 
     public void checkAdmin() {
         if (!getClaimValueByToken(ROLE).equals(MemberRole.ADMIN.toString())) {
             log.debug("checkAdmin fail.. this MemberRole : {}", getClaimValueByToken(ROLE));
-            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
+            throw new GlobalException(GlobalExceptionType.UNAUTHORIZED);
         }
         log.debug("Hello Admin");
     }
@@ -61,7 +61,7 @@ public class JwtComponent {
         String authorization = Optional.ofNullable(
                 ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
         )
-                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.REQUEST_IS_NULL))
+                .orElseThrow(() -> new GlobalException(GlobalExceptionType.REQUEST_IS_NULL))
                 .getHeader(HttpHeaders.AUTHORIZATION);
 
         String jwt = authorization.substring(AUTHORIZATION_TYPE.length()).trim();
@@ -84,7 +84,7 @@ public class JwtComponent {
     public void checkAdminForWebSocket(String jwt) {
         if (!getClaimValueByTokenForWebSocket(jwt, ROLE).equals(MemberRole.ADMIN.toString())) {
             log.debug("checkAdmin fail.. this MemberRole : {}", getClaimValueByTokenForWebSocket(jwt, ROLE));
-            throw new HandleRuntimeException(GlobalExceptionType.UNAUTHORIZED);
+            throw new GlobalException(GlobalExceptionType.UNAUTHORIZED);
         }
     }
 

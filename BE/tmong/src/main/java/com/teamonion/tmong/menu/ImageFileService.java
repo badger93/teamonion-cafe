@@ -1,7 +1,7 @@
 package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.exception.GlobalExceptionType;
-import com.teamonion.tmong.exception.HandleRuntimeException;
+import com.teamonion.tmong.exception.GlobalException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,8 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Random;
 
 @Service
 public class ImageFileService {
@@ -26,7 +24,7 @@ public class ImageFileService {
     String imageAddProcess(MultipartFile imageFile) {
 
         if (imageFile.isEmpty()) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
+            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
         checkFileType(imageFile.getContentType());
@@ -37,11 +35,11 @@ public class ImageFileService {
     private void checkFileType(String contentType) {
         // the content type, or null if not defined (or no file has been chosen in the multipart form)
         if (contentType == null) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
+            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
         if (!contentType.contains("image")) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_FILE_TYPE_ERROR);
+            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_FILE_TYPE_ERROR);
         }
 
     }
@@ -67,7 +65,7 @@ public class ImageFileService {
             // TODO : "/"를 사용하지 않을 방법
             return datePath.toString() + "/" + fileName;
         } catch (IOException e) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
+            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
         }
     }
 
@@ -77,7 +75,7 @@ public class ImageFileService {
         try {
             Files.delete(filePath);
         } catch (IOException e) {
-            throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_DELETE_ERROR);
+            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_DELETE_ERROR);
         }
     }
 }

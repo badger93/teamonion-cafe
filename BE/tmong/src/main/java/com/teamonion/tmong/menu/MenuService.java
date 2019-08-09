@@ -1,7 +1,7 @@
 package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.exception.GlobalExceptionType;
-import com.teamonion.tmong.exception.HandleRuntimeException;
+import com.teamonion.tmong.exception.GlobalException;
 import com.teamonion.tmong.security.JwtComponent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +42,7 @@ public class MenuService {
         // TODO : 수정 - 이미지 필수가 아닌 로직으로 변경
 
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(GlobalExceptionType.MENU_NOT_FOUND));
 
         String imagePath = menu.getImagePath();
         MultipartFile imageFile = menuUpdateRequest.getImageFile();
@@ -69,7 +69,7 @@ public class MenuService {
     @Transactional
     void deleteByMenuId(Long id) {
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.MENU_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(GlobalExceptionType.MENU_NOT_FOUND));
         String imagePath = menu.getImagePath();
 
         menu.delete();
@@ -81,7 +81,7 @@ public class MenuService {
     public List<Menu> getOrderMenus(List<Long> menuIdList) {
         return menuIdList.stream()
                 .map(e -> menuRepository.findByIdAndDeletedFalse(e)
-                        .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_MENU_NOT_FOUND)))
+                        .orElseThrow(() -> new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND)))
                 .collect(Collectors.toList());
     }
 }

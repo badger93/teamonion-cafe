@@ -1,7 +1,7 @@
 package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.exception.GlobalExceptionType;
-import com.teamonion.tmong.exception.HandleRuntimeException;
+import com.teamonion.tmong.exception.GlobalException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.MenuService;
@@ -74,50 +74,9 @@ public class OrdersService {
                 response = ordersRepository.findAll(pageable);
                 break;
             default:
-                throw new HandleRuntimeException(GlobalExceptionType.ORDER_CATEGORY_INVALID);
+                throw new GlobalException(GlobalExceptionType.ORDER_CATEGORY_INVALID);
         }
         return response.map(OrdersResponse::new);
-    }
-
-    @Transactional
-    public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
-        try {
-            if (ordersUpdateRequest.getId() == null) {
-                throw new RuntimeException("주문 번호 정보가 올바르지 않습니다");
-            }
-
-            if (ordersUpdateRequest.getBuyerId() == null) {
-                throw new RuntimeException("주문자 정보가 올바르지 않습니다");
-            }
-
-            Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
-                    .orElseThrow(() -> new HandleRuntimeException(GlobalExceptionType.ORDER_NOT_FOUND));
-
-            if (ordersUpdateRequest.isPaid()) {
-                orders.pay();
-            }
-            if (ordersUpdateRequest.isMade()) {
-                orders.make();
-            }
-            if (ordersUpdateRequest.isPickup()) {
-                orders.pick();
-            }
-
-            WebSocketResponse webSocketResponse = new WebSocketResponse(ordersRepository.save(orders));
-
-            Long count = ordersRepository.countByBuyerIdAndPickupFalse(orders.getBuyer().getId());
-
-            if (count == 0) {
-                webSocketResponse.setLast(true);
-            }
-
-            return webSocketResponse;
-        } catch (HandleRuntimeException e) {
-            return ordersUpdateRequest.toEntity(false, e.getErrorMessage());
-        } catch (RuntimeException e) {
-            return ordersUpdateRequest.toEntity(false, e.getMessage());
-        }
-
     }
 
 }
