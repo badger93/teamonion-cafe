@@ -8,12 +8,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Random;
 
 @Service
 public class ImageFileService {
@@ -39,7 +40,7 @@ public class ImageFileService {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
-        if (!contentType.substring(0, contentType.indexOf("/")).equals("image")) {
+        if (!contentType.contains("image")) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_FILE_TYPE_ERROR);
         }
 
@@ -47,15 +48,17 @@ public class ImageFileService {
 
     private String setMenuImagePath(MultipartFile imageFile) {
         try {
+            // TODO : Study .. new Random()
+            // TODO : file directory divide
             int randomString = (int) (Math.random() * 10000) + 1;
             String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();
             String date = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE) + "/";
 
-            File file = new File(downloadPath + date);
-            file.mkdirs();
+            Path filePath = Paths.get(downloadPath + date);
+            Files.createDirectories(filePath);
 
-            Path path = Paths.get(downloadPath + date + fileName);
-            imageFile.transferTo(path);
+            Path imagePath = Paths.get(downloadPath + date + fileName);
+            imageFile.transferTo(imagePath);
 
             return date + fileName;
         } catch (IOException e) {
@@ -64,10 +67,11 @@ public class ImageFileService {
     }
 
     void deleteImageFile(String imagePath) {
-        File file = new File(downloadPath + imagePath);
+        Path filePath = Paths.get(downloadPath + imagePath);
 
-        final boolean checkDeleted = file.delete();
-        if (!checkDeleted) {
+        try {
+            Files.delete(filePath);
+        } catch (IOException e) {
             throw new HandleRuntimeException(GlobalExceptionType.MENU_IMAGE_DELETE_ERROR);
         }
     }

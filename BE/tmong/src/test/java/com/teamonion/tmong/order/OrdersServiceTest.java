@@ -6,6 +6,7 @@ import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuAddRequest;
 import com.teamonion.tmong.menu.MenuRepository;
+import com.teamonion.tmong.menu.MenuService;
 import com.teamonion.tmong.security.JwtComponent;
 import com.teamonion.tmong.statistics.Statistics;
 import com.teamonion.tmong.statistics.StatisticsRepository;
@@ -40,7 +41,7 @@ public class OrdersServiceTest {
     OrdersRepository ordersRepository;
 
     @Mock
-    MenuRepository menuRepository;
+    MenuService menuService;
 
     @Mock
     MemberRepository memberRepository;
@@ -112,13 +113,16 @@ public class OrdersServiceTest {
         //when
         Mockito.when(jwtComponent.getClaimValueByToken(any())).thenReturn(member.getMemberId());
         Mockito.when(memberService.findByMemberId(any())).thenReturn(member);
-        Mockito.when(menuRepository.findByIdAndDeletedFalse(any())).thenReturn(Optional.of(menu));
         Mockito.when(ordersRepository.save(any())).thenReturn(orders);
 
+        //then
+        OrdersResponse response = ordersService.makeOrder(ordersAddRequest);
 
-        assertThat(ordersService.makeOrder(ordersAddRequest).getBuyerId()).isEqualTo(ordersResponse.getBuyerId());
-        assertThat(ordersService.makeOrder(ordersAddRequest).getAmount()).isEqualTo(ordersResponse.getAmount());
-        assertThat(ordersService.makeOrder(ordersAddRequest).getPaymentType()).isEqualTo(ordersResponse.getPaymentType());
+        assertThat(response.getBuyerId()).isEqualTo(ordersResponse.getBuyerId());
+        assertThat(response.getAmount()).isEqualTo(ordersResponse.getAmount());
+        assertThat(response.getPaymentType()).isEqualTo(ordersResponse.getPaymentType());
+        assertThat(response.getCreatedDate()).isEqualTo(ordersResponse.getCreatedDate());
+        assertThat(response.getMenuNameList()).isEqualTo(ordersResponse.getMenuNameList());
     }
 
     @Test
