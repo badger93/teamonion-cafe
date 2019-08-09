@@ -9,6 +9,7 @@ import MenuListItems from './components/MenuListItems';
 import UserRank from './components/UserRank';
 
 const MainPresenter = ({
+  rankData,
   isLoading,
   list,
   mapDetailData,
@@ -41,9 +42,9 @@ const MainPresenter = ({
     <>
       {isLoading && <Loading />}
       <div className="mainPresenter">
-        <UserRank />
+        <UserRank ranking={rankData} />
         <div className="head">
-          <h1>MENU</h1>
+          <h1>메뉴</h1>
           <SearchBar searchCallback={searchMenuListByName} />
         </div>
         {/* <div className="menulist">{mapMenuListItem}</div> */}

@@ -17,6 +17,8 @@ public class OrdersUpdateRequest {
     private boolean made;
     private boolean pickup;
 
+    // TODO : 에러 발생 시 에러 정보 처리 - valid 무조건 false
+    // TODO : 메소드명 수정
     WebSocketResponse toEntity(boolean valid, String errorMessage) {
         return WebSocketResponse.builder()
                 .id(id)

@@ -7,7 +7,9 @@ import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.Menu;
 import com.teamonion.tmong.menu.MenuRepository;
 import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.websocket.StompInterceptor;
 import com.teamonion.tmong.websocket.WebSocketResponse;
+import com.teamonion.tmong.statistics.StatisticsService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -17,14 +19,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
 public class OrdersService {
-    private static final Logger log = LoggerFactory.getLogger(OrdersService.class);
-
     @NonNull
     private final OrdersRepository ordersRepository;
 
@@ -40,6 +39,11 @@ public class OrdersService {
     @NonNull
     private final JwtComponent jwtComponent;
 
+    @NonNull
+    private final StatisticsService statisticsService;
+
+    private static final Logger log = LoggerFactory.getLogger(OrdersService.class);
+
     @Transactional
     public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
         String buyerId = jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID);
@@ -51,17 +55,12 @@ public class OrdersService {
 
         orders = ordersRepository.save(orders);
 
-        // TODO : processingOrders 생성
-        log.info("------------------------------------");
-        log.info("------------- makeOrder ------------");
-        log.info("buyer Id : {}", buyerId);
-        log.info("--------------- END ---------------");
+        statisticsService.save(buyer.getMemberId());
 
         return new OrdersResponse(orders);
     }
 
     private Orders makeOrdersDetail(OrdersAddRequest ordersAddRequest, Member buyer) {
-        log.info("사이즈 : {}", ordersAddRequest.getMenuIdList().size());
         if (ordersAddRequest.getMenuIdList().size() == 0) {
             throw new HandleRuntimeException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
         }
@@ -112,6 +111,7 @@ public class OrdersService {
         return response.map(OrdersResponse::new);
     }
 
+    @Transactional
     public WebSocketResponse updateOrder(OrdersUpdateRequest ordersUpdateRequest) {
         try {
             if (ordersUpdateRequest.getId() == null) {
@@ -135,7 +135,15 @@ public class OrdersService {
                 orders.pick();
             }
 
-            return new WebSocketResponse(ordersRepository.save(orders));
+            WebSocketResponse webSocketResponse = new WebSocketResponse(ordersRepository.save(orders));
+
+            Long count = ordersRepository.countByBuyerIdAndPickupFalse(orders.getBuyer().getId());
+            log.info("is Last Checkt count ... {}", count);
+            if(count == 0) {
+                webSocketResponse.setLast(true);
+            }
+
+            return webSocketResponse;
         } catch (HandleRuntimeException e) {
             return ordersUpdateRequest.toEntity(false, e.getErrorMessage());
         } catch (RuntimeException e) {
@@ -143,4 +151,5 @@ public class OrdersService {
         }
 
     }
+
 }

@@ -1,0 +1,130 @@
+@keyframes goUp {
+  0% {
+    transform: translateY(1000px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.mainPresenter-rank {
+  height: 40%;
+  width: 100%;
+  margin-bottom: 50px;
+  h2 {
+    margin-left: 20px;
+  }
+  .norank {
+    margin-left: 20px;
+    margin-top: 10px;
+    font-size: 1rem;
+    color: rgba(0, 0, 0, 0.8);
+  }
+  .time {
+    margin-left: 20px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+  .mainPresenter-rank-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f4f4f2;
+    padding: 2px;
+    h1 {
+      margin-left: 20px;
+    }
+    .openBtn {
+      margin-right: 20px;
+      font-size: 1.5rem;
+      color: rgba(0, 0, 0, 0.3);
+      cursor: pointer;
+      transition: 0.5s ease-in-out;
+      &:hover {
+        color: rgba(0, 0, 0, 0.8);
+      }
+    }
+  }
+  .mainPresenter-rank-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  .mainPresenter-rank-container {
+    display: flex;
+    width: 70%;
+    @media (max-width: 800px) {
+      width: 100%;
+    }
+    justify-content: space-around;
+    align-items: flex-end;
+    overflow: scroll;
+
+    .tmony-container {
+      display: flex;
+      width: 20%;
+      @media (max-width: 800px) {
+        width: 30%;
+      }
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      .imgContainer {
+        overflow: hidden;
+      }
+      .rank-title {
+        color: rgba(0, 0, 0, 0.5);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+        span:nth-child(1) {
+          font-size: 1.2rem;
+        }
+        span:nth-child(2) {
+          color: #fe6600;
+        }
+        span:nth-child(3) {
+          font-size: 1.2rem;
+        }
+      }
+      .tmonyImg1 {
+        margin-bottom: 10px;
+        position: relative;
+        left: -15px;
+      }
+      .tmonyImg2 {
+        margin-bottom: 10px;
+      }
+      .tmonyImg3 {
+        margin-bottom: 10px;
+      }
+      .rank-id {
+        font-size: 1.5rem;
+        font-weight: 800;
+      }
+      .rank-amount {
+        font-size: 1rem;
+        span:nth-child(1) {
+          color: #fe6600;
+        }
+      }
+    }
+    .mainPresenter-rank-firstPrize {
+      position: relative;
+      z-index: 10;
+      .tmonyImg1 {
+        animation: goUp 1s;
+      }
+    }
+    .mainPresenter-rank-secondPrize {
+      position: relative;
+      z-index: 11;
+      .tmonyImg2 {
+        animation: goUp 1s;
+      }
+    }
+    .mainPresenter-rank-thirdPrize {
+      position: relative;
+      z-index: 10;
+      .tmonyImg3 {
+        animation: goUp 1s;
+      }
+    }
+  }
+}

@@ -30,8 +30,6 @@ public class WebSocketController {
 
         webSocketResponse = ordersService.updateOrder(ordersUpdateRequest);
         processSendMessage(webSocketResponse);
-
-        log.info("--------------- END ---------------");
     }
 
     private void processSendMessage(WebSocketResponse webSocketResponse) {
