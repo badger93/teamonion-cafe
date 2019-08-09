@@ -10,10 +10,6 @@ import Payment from '../routes/user/Payment';
 import SignUp from '../routes/user/SignUp';
 import UserInfo from '../routes/user/UserInfo';
 import GlobalWs from './GlobalWs';
-// import AdminMemberManage from '../routes/admin/AdminMemberManage';
-// import AdminMenuManage from '../routes/admin/AdminMenuManage';
-// import AdminOrderManage from '../routes/admin/AdminOrderManage';
-// import AdminOrderHistory from '../routes/admin/AdminOrderHistory';
 import Footer from './Footer';
 import Loading from './Loading';
 
