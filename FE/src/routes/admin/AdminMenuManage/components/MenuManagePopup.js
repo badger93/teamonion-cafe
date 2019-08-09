@@ -39,7 +39,17 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
         alert('내용을 마저 채워주세요');
       }
     },
-    [popupName, popupPrice, popupInformation, popupFile],
+    [
+      popupName,
+      popupPrice,
+      popupInformation,
+      popupFile,
+      createItem,
+      id,
+      isEdit,
+      setIsPopup,
+      updateItem,
+    ],
   );
 
   useEffect(() => {
@@ -58,7 +68,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
       setPopupFile(null);
       inputImgRef.current.setAttribute('src', ''); // 이미지 미리보기 초기화
     }
-  }, [menuPopupData]);
+  }, [menuPopupData, imageFile, information, isEdit, name, price]);
 
   return (
     // name, price, information, imageFile(src)
