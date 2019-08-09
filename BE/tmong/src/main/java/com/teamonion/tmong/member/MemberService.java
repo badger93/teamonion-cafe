@@ -30,7 +30,6 @@ public class MemberService {
     }
 
     public Page<Member> search(Pageable pageable, String memberId) {
-        jwtComponent.checkAdmin();
         return memberRepository.findByMemberIdContaining(pageable, memberId);
     }
 
@@ -49,12 +48,10 @@ public class MemberService {
     }
 
     public Page<Member> getMembers(Pageable pageable) {
-        jwtComponent.checkAdmin();
         return memberRepository.findAll(pageable);
     }
 
     public long pointUpdate(Long id, long point) {
-        jwtComponent.checkAdmin();
         Member member = findById(id);
         member.pointUpdate(point);
         return memberRepository.save(member).getPoint();

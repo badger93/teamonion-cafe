@@ -10,7 +10,6 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +42,7 @@ public class StompInterceptor implements ChannelInterceptor {
         if (authorization != null) {
             jwt = authorization.substring("Bearer".length()).trim();
             log.info("jwt ... {}", jwt);
-            jwtComponent.checkToken(jwt);
+            jwtComponent.checkValidToken(jwt);
             memberId = jwtComponent.getClaimValueByTokenForWebSocket(jwt, JwtComponent.MEMBER_ID);
 
             log.info("memberId ... : {}", memberId);
