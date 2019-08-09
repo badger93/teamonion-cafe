@@ -3,7 +3,7 @@ package com.teamonion.tmong.order;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.menu.Menu;
-import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.authorization.JwtComponent;
 import com.teamonion.tmong.statistics.Statistics;
 import com.teamonion.tmong.statistics.StatisticsService;
 import org.junit.Test;

@@ -1,7 +1,7 @@
 package com.teamonion.tmong.websocket;
 
 import com.google.common.net.HttpHeaders;
-import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.authorization.JwtComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +42,7 @@ public class StompInterceptor implements ChannelInterceptor {
         if (authorization != null) {
             jwt = authorization.substring("Bearer".length()).trim();
             log.info("jwt ... {}", jwt);
-            jwtComponent.checkValidToken(jwt);
+            jwtComponent.checkTokenValidation(jwt);
             memberId = jwtComponent.getClaimValueByTokenForWebSocket(jwt, JwtComponent.MEMBER_ID);
 
             log.info("memberId ... : {}", memberId);

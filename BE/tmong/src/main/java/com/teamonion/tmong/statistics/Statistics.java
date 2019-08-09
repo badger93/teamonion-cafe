@@ -3,8 +3,6 @@ package com.teamonion.tmong.statistics;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -38,7 +36,7 @@ public class Statistics {
         this.ordersCount++;
     }
 
-    public void updateModifiedDate() {
+    public void refreshModifiedDate() {
         modifiedDate = LocalDateTime.now();
     }
 }

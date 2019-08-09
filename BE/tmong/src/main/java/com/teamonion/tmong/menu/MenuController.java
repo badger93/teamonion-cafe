@@ -1,7 +1,7 @@
 package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.member.MemberRole;
-import com.teamonion.tmong.security.CheckJwt;
+import com.teamonion.tmong.authorization.CheckJwt;
 import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

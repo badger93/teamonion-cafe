@@ -1,4 +1,4 @@
-package com.teamonion.tmong.security;
+package com.teamonion.tmong.authorization;
 
 import com.teamonion.tmong.member.MemberRole;
 

@@ -1,7 +1,6 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.security.JwtComponent;
-import com.teamonion.tmong.exception.ValidCustomException;
+import com.teamonion.tmong.authorization.JwtComponent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +48,7 @@ public class MemberServiceTest {
         Mockito.when(jwtComponent.createToken(member)).thenReturn(null);
 
         //then
-        assertThat(memberService.save(memberSignUpRequest).getMemberId()).isEqualTo(member.getMemberId());
+        assertThat(memberService.signUp(memberSignUpRequest).getMemberId()).isEqualTo(member.getMemberId());
     }
 
     @Test

@@ -1,10 +1,9 @@
 package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.member.MemberRole;
-import com.teamonion.tmong.security.CheckJwt;
+import com.teamonion.tmong.authorization.CheckJwt;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -16,14 +15,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@RequiredArgsConstructor
 @RequestMapping("/api/orders")
 @RestController
-@RequiredArgsConstructor
 public class OrdersController {
-    private static final Logger log = LoggerFactory.getLogger(OrdersController.class);
 
+    @NonNull
     private final OrdersService ordersService;
 
+    @NonNull
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @CheckJwt

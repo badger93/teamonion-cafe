@@ -1,4 +1,4 @@
-package com.teamonion.tmong.validate;
+package com.teamonion.tmong.exception;
 
 import lombok.Getter;
 

@@ -13,7 +13,6 @@ import java.util.List;
 
 @Setter
 @Getter
-@NoArgsConstructor
 public class OrdersAddRequest {
 
     @NotNull(message = "결제 방식이 필요합니다")

@@ -1,4 +1,4 @@
-package com.teamonion.tmong.security;
+package com.teamonion.tmong.authorization;
 
 import com.google.common.net.HttpHeaders;
 import com.teamonion.tmong.exception.GlobalExceptionType;
@@ -38,7 +38,7 @@ public class JwtComponent {
                 .compact();
     }
 
-    public void checkValidToken(String jwt) {
+    public void checkTokenValidation(String jwt) {
         try {
             Jwts.parser()
                     .setSigningKey(SECRET_KEY)

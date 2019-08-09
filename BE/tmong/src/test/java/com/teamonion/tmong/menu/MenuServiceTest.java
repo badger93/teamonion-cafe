@@ -1,6 +1,6 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.authorization.JwtComponent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

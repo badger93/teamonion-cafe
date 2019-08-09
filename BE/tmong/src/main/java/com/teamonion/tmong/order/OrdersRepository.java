@@ -18,7 +18,5 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     Page<Orders> findAllByPickupFalse(Pageable pageable);
 
-    List<Orders> findByCreatedDateBetween(LocalDateTime start, LocalDateTime end);
-
     Long countByBuyerIdAndPickupFalse(Long buyerId);
 }
