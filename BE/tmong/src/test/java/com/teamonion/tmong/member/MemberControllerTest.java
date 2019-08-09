@@ -58,7 +58,7 @@ public class MemberControllerTest {
 
         Mockito.when(memberService.isDuplicate(memberId)).thenReturn(false);
 
-        mockMvc.perform(get("/api/members/overlap")
+        mockMvc.perform(get("/api/members/duplicate")
                 .param("memberId", memberId))
                 .andDo(print())
                 .andExpect(status().isOk())

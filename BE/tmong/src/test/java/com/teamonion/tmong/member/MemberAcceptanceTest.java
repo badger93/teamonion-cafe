@@ -48,7 +48,7 @@ public class MemberAcceptanceTest {
 
         template.postForEntity("/api/members", memberSignUpRequest, MemberLoginResponse.class);
 
-        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString("/api/members/overlap")
+        UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString("/api/members/duplicate")
                 .queryParam("memberId", memberId);
         ResponseEntity<Boolean> response = template
                 .getForEntity(uriComponentsBuilder.toUriString(), Boolean.class);
