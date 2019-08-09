@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MyOrderCard.scss';
 import magicCircle from '../../../../image/magiccircle.png';
@@ -7,12 +7,57 @@ const MyOrderCard = ({
   // 전체 주문목록 새로고침
   changedData,
   orderId,
-  isChanging,
-  isDeleting,
   paid,
   made,
+  setOrders,
+  orders,
+  userId,
   menu = [],
 }) => {
+  const [isChanging, setIsChanging] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    // 변경될 것 있을시 추가
+    if (
+      changedData &&
+      Object.keys(changedData).length > 0 &&
+      userId === changedData.buyerId &&
+      orderId === changedData.id &&
+      orders.length > 0
+    ) {
+      let newOrders = [...orders];
+      const changedDataIndex = newOrders.findIndex(e => {
+        // 변화된 주문정보 찾기
+        return e.id === changedData.id;
+      });
+      if (changedData.pickup === true && changedDataIndex >= 0) {
+        setIsDeleting(true);
+        setTimeout(() => {
+          const ordersWithoutAfterPickup = [
+            ...newOrders.slice(0, changedDataIndex),
+            ...newOrders.slice(changedDataIndex + 1, newOrders.length),
+          ];
+          newOrders = [...ordersWithoutAfterPickup];
+          setIsDeleting(false);
+          setOrders([...newOrders]);
+        }, 3000);
+      } else if (changedDataIndex >= 0) {
+        setIsChanging(true);
+
+        setTimeout(() => {
+          newOrders[changedDataIndex] = {
+            ...newOrders[changedDataIndex],
+            made: changedData.made,
+            paid: changedData.paid,
+          };
+          setIsChanging(false);
+          setOrders([...newOrders]);
+        }, 3000);
+      }
+    }
+  }, [changedData]);
+
   return (
     <div className="myorder-card-container">
       {changedData && changedData.id === orderId && isDeleting && (
@@ -82,8 +127,6 @@ const MyOrderCard = ({
   );
 };
 MyOrderCard.propTypes = {
-  isDeleting: propTypes.bool.isRequired,
-  isChanging: propTypes.bool.isRequired,
   paid: propTypes.bool.isRequired,
   made: propTypes.bool.isRequired,
   menu: propTypes.arrayOf(propTypes.string).isRequired,

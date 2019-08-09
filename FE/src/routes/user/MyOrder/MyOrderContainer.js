@@ -13,8 +13,8 @@ const MyOrderContainer = () => {
   const [orders, setOrders] = useState([]);
   const [changedData, setChangedData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isChanging, setIsChanging] = useState(false);
-  const [isDeleting, setIsDeleting] = useState(false);
+  // const [isChanging, setIsChanging] = useState(false);
+  // const [isDeleting, setIsDeleting] = useState(false);
   const [isCanvasOpen, setIsCanvasOpen] = useState(false);
 
   useEffect(() => {
@@ -45,52 +45,45 @@ const MyOrderContainer = () => {
     // console.log(orders);
   }, []);
 
-  useEffect(() => {
-    // 변경될 것 있을시 추가
-    if (
-      changedData &&
-      Object.keys(changedData).length > 0 &&
-      me.memberId === changedData.buyerId &&
-      orders.length > 0
-    ) {
-      // console.dir(orders);
-      let newOrders = [...orders];
-      const changedDataIndex = newOrders.findIndex(e => {
-        // 변화된 주문정보 찾기
-        return e.id === changedData.id;
-      });
-      // console.log('dataindex:' + changedDataIndex);
-      if (changedData.pickup === true && changedDataIndex >= 0) {
-        // 픽업된 주문정보 삭제
-        setIsDeleting(true);
-        setTimeout(() => {
-          const ordersWithoutAfterPickup = [
-            ...newOrders.slice(0, changedDataIndex),
-            ...newOrders.slice(changedDataIndex + 1, newOrders.length),
-          ];
-          newOrders = [...ordersWithoutAfterPickup];
-          setIsDeleting(false);
-          setOrders([...newOrders]);
-        }, 1000);
-      } else if (changedDataIndex >= 0) {
-        // 변화만 된 주문정보 변경
-        setIsChanging(true);
+  // useEffect(() => {
+  //   // 변경될 것 있을시 추가
+  //   if (
+  //     changedData &&
+  //     Object.keys(changedData).length > 0 &&
+  //     me.memberId === changedData.buyerId &&
+  //     orders.length > 0
+  //   ) {
+  //     let newOrders = [...orders];
+  //     const changedDataIndex = newOrders.findIndex(e => {
+  //       // 변화된 주문정보 찾기
+  //       return e.id === changedData.id;
+  //     });
+  //     if (changedData.pickup === true && changedDataIndex >= 0) {
+  //       setIsDeleting(true);
+  //       setTimeout(() => {
+  //         const ordersWithoutAfterPickup = [
+  //           ...newOrders.slice(0, changedDataIndex),
+  //           ...newOrders.slice(changedDataIndex + 1, newOrders.length),
+  //         ];
+  //         newOrders = [...ordersWithoutAfterPickup];
+  //         setIsDeleting(false);
+  //         setOrders([...newOrders]);
+  //       }, 3000);
+  //     } else if (changedDataIndex >= 0) {
+  //       setIsChanging(true);
 
-        setTimeout(() => {
-          newOrders[changedDataIndex] = {
-            ...newOrders[changedDataIndex],
-            made: changedData.made,
-            paid: changedData.paid,
-          };
-          setIsChanging(false);
-          setOrders([...newOrders]);
-        }, 1000);
-
-        // console.dir(newOrders[changedDataIndex]);
-      }
-      // console.dir(newOrders);
-    }
-  }, [changedData]);
+  //       setTimeout(() => {
+  //         newOrders[changedDataIndex] = {
+  //           ...newOrders[changedDataIndex],
+  //           made: changedData.made,
+  //           paid: changedData.paid,
+  //         };
+  //         setIsChanging(false);
+  //         setOrders([...newOrders]);
+  //       }, 3000);
+  //     }
+  //   }
+  // }, [changedData]);
 
   return (
     <div className="myOrderContainer">
@@ -100,10 +93,8 @@ const MyOrderContainer = () => {
         isLoading={isLoading}
         orders={orders}
         setOrders={setOrders}
-        userId={me.id}
-        isChanging={isChanging}
+        userId={me.memberId}
         changedData={changedData}
-        isDeleting={isDeleting}
       />
     </div>
   );
