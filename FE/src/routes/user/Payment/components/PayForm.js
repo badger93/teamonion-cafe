@@ -18,6 +18,7 @@ const PayForm = ({
   payErrorReason,
 }) => {
   let totalPrice = 0;
+  let timeoutFunc = null;
   const [afterPoint, setAfterPoint] = useState(0);
 
   const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
@@ -25,6 +26,7 @@ const PayForm = ({
   useEffect(() => {
     const Point = user.point - totalPrice + totalPrice / 10;
     setAfterPoint(Point);
+    return () => clearTimeout(timeoutFunc);
   }, []);
 
   useEffect(() => {
@@ -43,7 +45,7 @@ const PayForm = ({
     };
     dispatch(payRequestAction(requestInfo));
     // PayRequest
-    setTimeout(() => dispatch(payFinishAction()), 500);
+    timeoutFunc = setTimeout(() => dispatch(payFinishAction()), 500);
     // PayFinish, redux state change
   };
 

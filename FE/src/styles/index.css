@@ -26,4 +26,5 @@ input {
 
 button {
   appearance: none;
+  outline: none;
 }
