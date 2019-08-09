@@ -30,7 +30,7 @@ public class Orders {
 
     private LocalDateTime createdDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Member buyer;
 
     @ManyToMany
