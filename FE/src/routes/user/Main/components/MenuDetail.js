@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuDetail.scss';
 import { useLocalStorage } from '../../../../utils/cart';
@@ -12,11 +12,13 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
   const [isCart, setIsCart] = useState(false);
   const [isPay, setIsPay] = useState(false);
   const dispatch = useDispatch();
+  let lsTimeout;
+  let payTimeout;
 
   const onClickPay = () => {
     dispatch(cartToPayAction({ 0: { id, menuName: name, menuPrice: price } }));
     setIsPay(true);
-    setTimeout(() => setIsPay(false), 5000);
+    payTimeout = setTimeout(() => setIsPay(false), 5000);
   };
 
   // 장바구니 로컬스토리지 추가버튼
@@ -44,8 +46,15 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
       },
     ]); // 로컬스토리지에 추가
     setIsCart(true);
-    setTimeout(() => setIsCart(false), 800);
+    lsTimeout = setTimeout(() => setIsCart(false), 800);
   };
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(lsTimeout);
+      clearTimeout(payTimeout);
+    };
+  }, []);
 
   return (
     <>

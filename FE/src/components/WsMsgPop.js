@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import '../styles/WsMsgPop.scss';
+import { Link } from 'react-router-dom';
 import { isArray } from 'util';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
@@ -11,6 +12,7 @@ const WsMsgPop = ({ setIsPopup, popMsg }) => {
     popMsg.hasOwnProperty('amount') ||
     popMsg.hasOwnProperty('paymentType');
   const classification = isAdd ? '주문추가' : '제작완료';
+  const linkUrl = isAdd ? '/admin/order-manage' : '/myorder';
   let quantity;
   let itemTitle;
   if (isArray(menuNameList)) {
@@ -40,19 +42,21 @@ const WsMsgPop = ({ setIsPopup, popMsg }) => {
           size="lg"
         />
       </div>
-      <div className="popBody">
-        {quantity < 1 ? (
-          <p>
-            {itemTitle} <br />
-            <span>{classification}</span> 되었습니다.
-          </p>
-        ) : (
-          <p>
-            {itemTitle} 외 {quantity}개 <br />
-            <span>{classification}</span> 되었습니다.
-          </p>
-        )}
-      </div>
+      <Link to={linkUrl}>
+        <div className="popBody">
+          {quantity < 1 ? (
+            <p>
+              {itemTitle} <br />
+              <span>{classification}</span> 되었습니다.
+            </p>
+          ) : (
+            <p>
+              {itemTitle} 외 {quantity}개 <br />
+              <span>{classification}</span> 되었습니다.
+            </p>
+          )}
+        </div>
+      </Link>
     </div>
   );
 };
