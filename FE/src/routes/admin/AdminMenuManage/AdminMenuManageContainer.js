@@ -27,7 +27,7 @@ const AdminMenuManageContainer = () => {
                 name: formData.get('name'),
                 price: formData.get('price'),
                 information: formData.get('information'),
-                imageFile: fakeImg,
+                imagePath: fakeImg,
               }
             : item,
         );
@@ -47,7 +47,7 @@ const AdminMenuManageContainer = () => {
             name: formData.get('name'),
             price: formData.get('price'),
             information: formData.get('information'),
-            imageFile: fakeImg,
+            imagePath: fakeImg,
           },
           ...menuList,
         ];

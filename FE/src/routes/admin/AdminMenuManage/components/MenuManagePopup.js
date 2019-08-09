@@ -17,13 +17,20 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
     e => {
       e.preventDefault();
       if (popupName && popupPrice && popupInformation) {
-        const formData = new FormData();
-        formData.append('name', popupName);
-        formData.append('price', popupPrice);
-        formData.append('information', popupInformation);
-        if (!isEdit) formData.append('imageFile', popupFile);
-
         const fakeImg = inputImgRef.current.getAttribute('src');
+        const formData = new FormData();
+
+        if (isEdit && !fileInputRef.current.files[0]) {
+          formData.append('name', popupName);
+          formData.append('price', popupPrice);
+          formData.append('information', popupInformation);
+        } else {
+          formData.append('name', popupName);
+          formData.append('price', popupPrice);
+          formData.append('information', popupInformation);
+          formData.append('imageFile', popupFile);
+        }
+
         if (isEdit) {
           updateItem(formData, id, fakeImg);
           setIsPopup(false);

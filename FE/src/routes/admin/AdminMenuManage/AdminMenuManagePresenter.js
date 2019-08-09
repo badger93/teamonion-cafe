@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import { Formatters } from 'react-data-grid-addons';
@@ -54,13 +54,16 @@ const AdminMenuManagePresenter = ({
     },
   ];
 
-  const rows = menuList.map(item => ({
-    id: item.id,
-    imageFile: item.imagePath,
-    name: item.name,
-    price: item.price,
-    information: item.information,
-  }));
+  const rows = useMemo(() => {
+    console.log(menuList);
+    return menuList.map(item => ({
+      id: item.id,
+      imageFile: item.imagePath,
+      name: item.name,
+      price: item.price,
+      information: item.information,
+    }));
+  }, [menuList]);
 
   const getCellActions = (column, row) => {
     const cellActions = {
