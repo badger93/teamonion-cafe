@@ -3,8 +3,8 @@ package com.teamonion.tmong.menu;
 import com.teamonion.tmong.member.MemberRole;
 import com.teamonion.tmong.security.CheckJwt;
 import lombok.NonNull;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -16,19 +16,15 @@ import javax.validation.Valid;
 
 @RequestMapping("/api/menus")
 @RestController
+@RequiredArgsConstructor
 public class MenuController {
-    private static final Logger log = LoggerFactory.getLogger(MenuService.class);
 
     @NonNull
     private final MenuService menuService;
 
-    public MenuController(MenuService menuService) {
-        this.menuService = menuService;
-    }
-
     @CheckJwt(role = MemberRole.ADMIN)
     @PostMapping
-    public ResponseEntity add(@Valid MenuAddRequest menuAddRequest) {
+    public ResponseEntity<Long> add(@Valid MenuAddRequest menuAddRequest) {
         return new ResponseEntity<>(menuService.add(menuAddRequest), HttpStatus.CREATED);
     }
 
@@ -40,13 +36,13 @@ public class MenuController {
     }
 
     @GetMapping
-    public ResponseEntity selectAll(
+    public ResponseEntity<Page<Menu>> selectAll(
             @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
         return new ResponseEntity<>(menuService.selectAll(pageable), HttpStatus.OK);
     }
 
     @GetMapping("/search")
-    public ResponseEntity selectByName(Pageable pageable, @RequestParam String menu_name) {
+    public ResponseEntity<Page<Menu>> selectByName(Pageable pageable, @RequestParam String menu_name) {
         return new ResponseEntity<>(menuService.selectByName(pageable, menu_name), HttpStatus.OK);
     }
 
@@ -58,3 +54,5 @@ public class MenuController {
     }
 
 }
+
+

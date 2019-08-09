@@ -28,7 +28,7 @@ public class OrdersController {
 
     @CheckJwt
     @PostMapping
-    public ResponseEntity makeOrder(@RequestBody @Valid OrdersAddRequest ordersAddRequest) {
+    public ResponseEntity<Long> makeOrder(@RequestBody @Valid OrdersAddRequest ordersAddRequest) {
         OrdersResponse ordersResponse = ordersService.makeOrder(ordersAddRequest);
 
         simpMessagingTemplate.convertAndSend("/topic/orders/add", ordersResponse);

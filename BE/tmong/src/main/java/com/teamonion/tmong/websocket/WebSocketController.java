@@ -4,8 +4,6 @@ import com.teamonion.tmong.exception.GlobalException;
 import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.order.Orders;
 import com.teamonion.tmong.order.OrdersRepository;
-import com.teamonion.tmong.order.OrdersService;
-import com.teamonion.tmong.order.OrdersUpdateRequest;
 import com.teamonion.tmong.security.CheckJwt;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

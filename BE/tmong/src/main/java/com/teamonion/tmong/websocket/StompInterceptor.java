@@ -32,7 +32,6 @@ public class StompInterceptor implements ChannelInterceptor {
         String memberId = "";
         String jwt = "";
 
-
         log.info("=========================================");
         log.info("============ StompInterceptor ===========");
         log.info("================ preSend ================");
@@ -42,6 +41,7 @@ public class StompInterceptor implements ChannelInterceptor {
         if (authorization != null) {
             jwt = authorization.substring("Bearer".length()).trim();
             log.info("jwt ... {}", jwt);
+
             jwtComponent.checkValidToken(jwt);
             memberId = jwtComponent.getClaimValueByTokenForWebSocket(jwt, JwtComponent.MEMBER_ID);
 
@@ -78,11 +78,9 @@ public class StompInterceptor implements ChannelInterceptor {
         return message;
     }
 
-    public static Map<String, String> getProcessingSessions() {
+    static Map<String, String> getProcessingSessions() {
         log.info("processingSessions Size : {} ", processingSessions.size());
-        for (String key : processingSessions.keySet()) {
-            log.info("키 : {}, 값 : {}", key, processingSessions.get(key));
-        }
+
         return processingSessions;
     }
 
