@@ -45,7 +45,8 @@ public class MemberController {
 
     @CheckJwt(role = MemberRole.ADMIN)
     @GetMapping("/search")
-    public ResponseEntity<Page<Member>> search(Pageable pageable, @RequestParam String memberId) {
+    public ResponseEntity<Page<Member>> search(
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam String memberId) {
         return new ResponseEntity<>(memberService.search(pageable, memberId), HttpStatus.OK);
     }
 
