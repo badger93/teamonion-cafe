@@ -122,47 +122,37 @@ public class OrdersServiceTest {
 
     @Test
     public void 카테고리별주문조회_전체() {
-        String category = "ALL";
-
         Mockito.when(ordersRepository.findAll(pageable)).thenReturn(ordersCategoryResponse);
 
-        assertThat(ordersService.getOrdersByCategory(pageable, category)).isEqualTo(ordersCategoryResponse);
+        assertThat(ordersService.getOrdersByCategory(pageable, OrdersCategory.ALL)).isEqualTo(ordersCategoryResponse);
     }
 
     @Test
     public void 카테고리별주문조회_결제완료() {
-        String category = "PAID_TRUE";
-
         Mockito.when(ordersRepository.findAllByPaidTrue(pageable)).thenReturn(ordersCategoryResponse);
 
-        assertThat(ordersService.getOrdersByCategory(pageable, category)).isEqualTo(ordersCategoryResponse);
+        assertThat(ordersService.getOrdersByCategory(pageable, OrdersCategory.PAID_TRUE)).isEqualTo(ordersCategoryResponse);
     }
 
     @Test
     public void 카테고리별주문조회_미결제() {
-        String category = "PAID_FALSE";
-
         Mockito.when(ordersRepository.findAllByPaidFalse(pageable)).thenReturn(ordersCategoryResponse);
 
-        assertThat(ordersService.getOrdersByCategory(pageable, category)).isEqualTo(ordersCategoryResponse);
+        assertThat(ordersService.getOrdersByCategory(pageable, OrdersCategory.PAID_FALSE)).isEqualTo(ordersCategoryResponse);
     }
 
     @Test
     public void 카테고리별주문조회_제작완료() {
-        String category = "MADE_TRUE";
-
         Mockito.when(ordersRepository.findAllByMadeTrue(pageable)).thenReturn(ordersCategoryResponse);
 
-        assertThat(ordersService.getOrdersByCategory(pageable, category)).isEqualTo(ordersCategoryResponse);
+        assertThat(ordersService.getOrdersByCategory(pageable, OrdersCategory.MADE_TRUE)).isEqualTo(ordersCategoryResponse);
     }
 
     @Test
     public void 카테고리별주문조회_픽업완료() {
-        String category = "PICKUP_FALSE";
-
         Mockito.when(ordersRepository.findAllByPickupFalse(pageable)).thenReturn(ordersCategoryResponse);
 
-        assertThat(ordersService.getOrdersByCategory(pageable, category)).isEqualTo(ordersCategoryResponse);
+        assertThat(ordersService.getOrdersByCategory(pageable, OrdersCategory.PICKUP_FALSE)).isEqualTo(ordersCategoryResponse);
     }
 
 //    @Test
