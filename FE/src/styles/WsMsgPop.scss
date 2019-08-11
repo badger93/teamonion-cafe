@@ -1,11 +1,10 @@
 .wsPresenter {
   .wsMsgPop {
-    background: url('../image/icon_cup.png') 50% 30px no-repeat;
+    background: url('../image/icon_cup.png') 50% 30px no-repeat #fff;
     background-size: 50px auto;
     position: relative;
     width: 220px;
     height: 150px;
-    background-color: #fff;
     position: fixed;
     right: 60px;
     $popupHeight: 20px;
