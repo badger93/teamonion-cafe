@@ -1,7 +1,5 @@
 package com.teamonion.tmong.order;
 
-import com.teamonion.tmong.exception.GlobalException;
-import com.teamonion.tmong.exception.GlobalExceptionType;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberService;
 import com.teamonion.tmong.menu.MenuService;
@@ -54,28 +52,8 @@ public class OrdersService {
                 .map(OrdersResponse::new);
     }
 
-    Page<OrdersResponse> getOrdersByCategory(Pageable pageable, String category) {
-        Page<Orders> response;
-        switch (category) {
-            case "PAID_TRUE":
-                response = ordersRepository.findAllByPaidTrue(pageable);
-                break;
-            case "PAID_FALSE":
-                response = ordersRepository.findAllByPaidFalse(pageable);
-                break;
-            case "MADE_TRUE":
-                response = ordersRepository.findAllByMadeTrue(pageable);
-                break;
-            case "PICKUP_FALSE":
-                response = ordersRepository.findAllByPickupFalse(pageable);
-                break;
-            case "ALL":
-                response = ordersRepository.findAll(pageable);
-                break;
-            default:
-                throw new GlobalException(GlobalExceptionType.ORDER_CATEGORY_INVALID);
-        }
-        return response.map(OrdersResponse::new);
+    Page<OrdersResponse> getOrdersByCategory(Pageable pageable, OrdersCategory category) {
+        return category.getOrders(ordersRepository, pageable).map(OrdersResponse::new);
     }
 
 }
