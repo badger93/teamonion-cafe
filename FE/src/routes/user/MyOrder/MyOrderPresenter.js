@@ -8,8 +8,6 @@ import tmony4 from '../../../image/tmony4.png';
 const MyOrderPresenter = ({
   setIsCanvasOpen,
   changedData,
-  isDeleting,
-  isChanging,
   isLoading,
   orders,
   setOrders,
@@ -46,8 +44,7 @@ const MyOrderPresenter = ({
                     menu={order.menuNameList}
                     setOrders={setOrders}
                     userId={userId}
-                    isChanging={isChanging}
-                    isDeleting={isDeleting}
+                    orders={orders}
                   />
                 ),
             )}
@@ -66,8 +63,6 @@ const MyOrderPresenter = ({
 
 MyOrderPresenter.propTypes = {
   setIsCanvasOpen: propTypes.func.isRequired,
-  isDeleting: propTypes.bool.isRequired,
-  isChanging: propTypes.bool.isRequired,
   isLoading: propTypes.bool.isRequired,
   orders: propTypes.arrayOf(
     propTypes.shape({
