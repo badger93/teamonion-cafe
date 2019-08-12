@@ -57,10 +57,13 @@ public class JwtComponent {
         log.debug("Hello Admin");
     }
 
+    /**
+     * Optional 을 사용하는 이유 중 하나는 '.' 으로 이루어진 NPE 를 mapping 형태로 방지하기 위함이기도해요
+     * getHeader 를 마지막에 가져오기 보다 orElseThrow 하기 전에 .map 으로 맵핑시켜보는 건 어떨까요
+     */
     public String getClaimValueByToken(String claimName) {
         String authorization = Optional.ofNullable(
-                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest()
-        )
+                ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest())
                 .orElseThrow(() -> new GlobalException(GlobalExceptionType.REQUEST_IS_NULL))
                 .getHeader(HttpHeaders.AUTHORIZATION);
 

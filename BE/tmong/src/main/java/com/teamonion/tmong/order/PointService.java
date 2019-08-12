@@ -17,6 +17,10 @@ public class PointService {
 
     private static final double BONUS_RATE = 0.1;
 
+    /**
+     * 포인트를 처리하는 프로세스 메소드에서 포인트타입을 검사하는게 어색해 보여요
+     * 포인트 검사를 앞쪽에서 진행하고 여기서는 포인트 처리만 담당하는 건 어떨까요
+     */
     void pointProcess(Orders orders) {
         long buyerOwnPoint = memberService.getPoint(orders.getBuyer().getId());
 

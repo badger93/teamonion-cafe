@@ -31,6 +31,10 @@ public class ImageFileService {
         return setMenuImagePath(imageFile);
     }
 
+    /**
+     * 취향 차이지만 check 보다 Validate 라는 말을 많이써요
+     * @see javax.xml.validation.Validator 예를 들면 이런형태로 쓰기도 해요
+     */
     private void checkFileType(String contentType) {
         // the content type, or null if not defined (or no file has been chosen in the multipart form)
         if (contentType == null) {
@@ -45,6 +49,10 @@ public class ImageFileService {
 
     private String setMenuImagePath(MultipartFile imageFile) {
         try {
+            /**
+             * Random String 을 사용할 때 UUID 라는 클래스가 있어요 참고해봐요
+             * "_" 같은 스트링은 보통 상수로 쓰기도 해요
+             */
             // 저장 이미지 새로운 이름 생성
             int randomString = (int) (Math.random() * 10000) + 1;
             String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();

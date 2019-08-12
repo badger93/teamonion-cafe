@@ -12,6 +12,19 @@ public enum OrdersCategory {
     PICKUP_FALSE,
     ALL;
 
+    /**
+     * abstract Page<Orders> getOrders(OrdersRepository ordersRepository, Pageable pageable);
+     * 추상 메소드로 작성해 구현하면 switch case 문을 없앨 수 있지 않을까요?
+     * enum 에서 if else 를 처리하기 위해 자주 사용하는 방법이기도 해요
+     *
+     * PAID_TRUE {
+     *         @Override
+     *         Page<Orders> getOrders(OrdersRepository ordersRepository, Pageable pageable) {
+     *             return null;
+     *         }
+     *     },
+     */
+
     public Page<Orders> getOrders(OrdersRepository ordersRepository, Pageable pageable) {
         switch (this) {
             case PAID_TRUE:

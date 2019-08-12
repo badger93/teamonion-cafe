@@ -2,6 +2,10 @@ package com.teamonion.tmong.exception;
 
 import org.springframework.http.HttpStatus;
 
+/**
+ * GlobalExceptionType 이라는 말이 추상적으로 느껴져요
+ * 어느 정도 세분화 해서 구분 지으면 좋을거 같아요
+ */
 public enum GlobalExceptionType {
     MENU_NOT_FOUND("해당 메뉴 정보가 존재하지 않습니다", HttpStatus.BAD_REQUEST),
     MENU_IMAGE_NOT_FOUND("이미지 파일이 존재하지 않습니다", HttpStatus.BAD_REQUEST),

@@ -20,6 +20,11 @@ public class StompInterceptor implements ChannelInterceptor {
     @Autowired
     private JwtComponent jwtComponent;
 
+    /**
+     * 프로세싱 세션 들을 관리하는 객체를 일급 컬렉션으로 만들어 보면 어떨까요
+     * 책임과 역할이 좀 더 분명해질 것 같아요
+     * @link https://jojoldu.tistory.com/412
+     */
     private static Map<String, String> processingSessions = new HashMap<>();
 
     private static final Logger log = LoggerFactory.getLogger(StompInterceptor.class);

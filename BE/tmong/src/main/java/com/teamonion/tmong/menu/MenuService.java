@@ -45,6 +45,20 @@ public class MenuService {
         return addedMenu.getId();
     }
 
+
+    /**
+     * String imagePath = menu.getImagePath();
+     * MultipartFile imageFile = menuUpdateRequest.getImageFile();
+     *
+     * if (imageFile != null) {
+     *    imageFileService.deleteImageFile(imagePath);
+     *    imagePath = imageFileService.imageSaveProcess(imageFile);
+     * }
+     *
+     * 이 부분은 imageFileService 에 어울리는 역할인 거 같아요
+     * 마틴 파울러의 tell don't ask 라는 말이 있는데 한번 찾아보세요
+     * @link https://martinfowler.com/bliki/TellDontAsk.html
+     */
     @Transactional
     public void updateMenu(Long id, MenuUpdateRequest menuUpdateRequest) {
         Menu menu = menuRepository.findById(id)
@@ -71,6 +85,9 @@ public class MenuService {
         return menuRepository.findByNameContainingAndDeletedFalse(pageable, name);
     }
 
+    /**
+     * 파일이 삭제 된 후 DB 를 삭제하는게 맞지 않을까요?
+     */
     @Transactional
     void deleteByMenuId(Long id) {
         Menu menu = menuRepository.findById(id)
