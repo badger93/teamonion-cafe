@@ -101,7 +101,7 @@
       border-radius: 15px;
       border: none;
       transition: all 1s ease-in-out;
-      animation: fadein 2s infinite;
+      animation: fadein 1s infinite;
       animation-fill-mode: both;
       filter: blur(8px);
       opacity: 1;
@@ -213,28 +213,28 @@
       left: 45%;
     }
     .butterfly:nth-child(5) {
-      animation: fly 2s infinite;
-      animation-delay: 2s;
+      animation: fly 1.5s infinite;
+      //animation-delay: 2s;
     }
     .butterfly:nth-child(6) {
-      animation: fly2 2s infinite;
-      animation-delay: 2s;
+      animation: fly2 1.5s infinite;
+      //animation-delay: 2s;
     }
     .butterfly:nth-child(7) {
-      animation: fly3 2s infinite;
-      animation-delay: 2s;
+      animation: fly3 1.5s infinite;
+      // animation-delay: 2s;
     }
     .butterfly:nth-child(8) {
-      animation: fly4 2s infinite;
-      animation-delay: 2s;
+      animation: fly4 1.5s infinite;
+      // animation-delay: 2s;
     }
     .butterfly:nth-child(9) {
-      animation: fly5 2s infinite;
-      animation-delay: 2s;
+      animation: fly5 1.5s infinite;
+      // animation-delay: 2s;
     }
     .butterfly:nth-child(10) {
-      animation: fly6 2s infinite;
-      animation-delay: 2s;
+      animation: fly6 1.5s infinite;
+      // animation-delay: 2s;
     }
     .magiccircle {
       position: relative;
@@ -349,7 +349,7 @@
       }
       .cloud:nth-child(1) {
         position: absolute;
-        animation: showUp1 3s infinite;
+        animation: showUp1 1.5s infinite;
         top: 50%;
         left: 20%;
         z-index: 30;
@@ -360,7 +360,7 @@
       }
       .cloud:nth-child(2) {
         position: absolute;
-        animation: showUp2 3s infinite;
+        animation: showUp2 1.5s infinite;
         z-index: 30;
         top: 20%;
         right: 20%;
@@ -371,7 +371,7 @@
       }
       .cloud:nth-child(3) {
         position: absolute;
-        animation: showUp3 3s infinite;
+        animation: showUp3 1.5s infinite;
         z-index: 30;
         width: 165px;
         height: 110px;
