@@ -18,7 +18,7 @@ const PayForm = ({
   payErrorReason,
 }) => {
   let totalPrice = 0;
-  let timeoutFunc = null;
+
   const [afterPoint, setAfterPoint] = useState(0);
 
   const { setShowupStringFunc, showupString, isShowing } = useShowupString('');

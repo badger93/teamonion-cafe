@@ -26,7 +26,7 @@ const GlobalWs = withRouter(({ location }) => {
   // ws 연결을 시도하는 함수
   const socketOrderInit = () => {
     // 진짜 웹소켓 정의
-    const wsclient = Stomp.over(new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {}));
+    const wsclient = Stomp.over(new SockJS('/teamonion', null, {}));
     setwscl(wsclient);
     wsclient.connect({ Authorization: token() }, frame => {
       setIsConnect(true);
