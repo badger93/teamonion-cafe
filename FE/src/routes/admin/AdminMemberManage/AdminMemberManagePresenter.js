@@ -61,8 +61,10 @@ const AdminMemberManagePresenter = ({
 
   return (
     <div className="AdminMemberManagePresenter">
-      <SearchBar searchCallback={searchUserByID} />
-      <div className="pageTitle">사용자관리</div>
+      <div className="memberManageListTitle">
+        <div className="pageTitle">사용자관리</div>
+        <SearchBar searchCallback={searchUserByID} />
+      </div>
       <div className="memberManageList">
         <ReactDataGrid
           className="memberGrid"
