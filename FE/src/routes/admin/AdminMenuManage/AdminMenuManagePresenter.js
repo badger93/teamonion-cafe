@@ -55,7 +55,6 @@ const AdminMenuManagePresenter = ({
   ];
 
   const rows = useMemo(() => {
-    console.log(menuList);
     return menuList.map(item => ({
       id: item.id,
       imageFile: item.imagePath,
