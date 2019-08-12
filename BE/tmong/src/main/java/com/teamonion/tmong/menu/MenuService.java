@@ -1,8 +1,8 @@
 package com.teamonion.tmong.menu;
 
-import com.teamonion.tmong.exception.GlobalExceptionType;
-import com.teamonion.tmong.exception.GlobalException;
 import com.teamonion.tmong.authorization.JwtComponent;
+import com.teamonion.tmong.exception.GlobalException;
+import com.teamonion.tmong.exception.GlobalExceptionType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -30,10 +29,20 @@ public class MenuService {
     @NonNull
     private final JwtComponent jwtComponent;
 
+    // TODO : 이미지 저장 후 DB 저장,
+    // TODO : DB저장 실패했을 경우 저장된 이미지 삭제되도록 !
     Long add(MenuAddRequest menuAddRequest) {
         String path = imageFileService.imageSaveProcess(menuAddRequest.getImageFile());
 
-        return menuRepository.save(menuAddRequest.toEntity(path)).getId();
+        Menu addedMenu = menuRepository.save(menuAddRequest.toEntity(path));
+
+        // TODO : save 실패 시 ?
+        if(addedMenu == null) {
+            imageFileService.deleteImageFile(path);
+//            throw new RuntimeException("메뉴를 추가하는데 실패했습니다. - DB Connection");
+        }
+
+        return addedMenu.getId();
     }
 
     @Transactional
@@ -75,9 +84,11 @@ public class MenuService {
     }
 
     public List<Menu> getOrderMenus(List<Long> menuIdList) {
-        return menuIdList.stream()
-                .map(e -> menuRepository.findByIdAndDeletedFalse(e)
-                        .orElseThrow(() -> new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND)))
-                .collect(Collectors.toList());
+        List<Menu> list = menuRepository.findByDeletedFalseAndIdIn(menuIdList);
+
+        if(menuIdList.size() != list.size()){
+            throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
+        }
+        return list;
     }
 }

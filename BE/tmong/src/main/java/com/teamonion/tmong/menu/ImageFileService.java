@@ -21,8 +21,7 @@ public class ImageFileService {
     @Value("${download-path}")
     private String downloadPath;
 
-    String imageSaveProcess(MultipartFile imageFile) {
-
+    public String imageSaveProcess(MultipartFile imageFile) {
         if (imageFile.isEmpty()) {
             throw new GlobalException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
         }
@@ -69,7 +68,7 @@ public class ImageFileService {
         }
     }
 
-    void deleteImageFile(String imagePath) {
+    public void deleteImageFile(String imagePath) {
         Path filePath = Paths.get(downloadPath + imagePath);
 
         try {

@@ -56,6 +56,7 @@ public class OrdersService {
 
     Page<OrdersResponse> getOrdersByCategory(Pageable pageable, String category) {
         Page<Orders> response;
+        // TODO : enum 활용 interface 구현 가능
         switch (category) {
             case "PAID_TRUE":
                 response = ordersRepository.findAllByPaidTrue(pageable);
