@@ -1,37 +1,18 @@
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useCallback, useMemo, useRef, useState, useEffect } from 'react';
 import propTypes from 'prop-types';
 import '../styles/AdminOrderListItem.scss';
 
-const AdminOrderListItem = ({ list, socketSetOrderState }) => {
+const AdminOrderListItem = ({ list, socketSetOrderState, setIsBlock }) => {
   const { order_id, menus, made, paid, createdDate, amount, member_id } = list;
   const orderCard = useRef(null);
-  let timer;
+  const [timer, setTimer] = useState(false);
 
   const cardEffect = (element, effect) => {
     element.classList.add(effect);
     setTimeout(() => {
       element.classList.remove(effect);
-    }, 1000);
+    }, 1600);
   };
-
-  // state 변경 callback
-  const handleChangeState = useCallback(
-    (list, state, graphicEffect) => {
-      const controlChange = async () => {
-        if (!timer) {
-          if (!timer && graphicEffect) {
-            await graphicEffect();
-          }
-          timer = await setTimeout(async () => {
-            timer = null;
-            socketSetOrderState(list, state);
-          }, 1000);
-        }
-      };
-      controlChange();
-    },
-    [socketSetOrderState],
-  );
 
   // 메뉴 아이콘 ui
   const alignMenus = menus.map((item, index) => {
@@ -53,7 +34,7 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
         className="madeBtn"
       />
     );
-  }, [made, list, handleChangeState]);
+  }, [made, list]);
 
   // 결제버튼 조건렌더
   const memoPaidBtn = useMemo(() => {
@@ -72,7 +53,7 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
         />
       </>
     );
-  }, [amount, paid, list, handleChangeState]);
+  }, [amount, paid, list]);
 
   // 픽업버튼 조건렌더
   const memoPickupBtn = useMemo(() => {
@@ -88,7 +69,28 @@ const AdminOrderListItem = ({ list, socketSetOrderState }) => {
     ) : (
       <></>
     );
-  }, [made, paid, list, handleChangeState]);
+  }, [made, paid, list]);
+
+  // state 변경 callback
+  const handleChangeState = useCallback(
+    (list, state, graphicEffect) => {
+      if (!timer) {
+        if (!timer && graphicEffect) {
+          graphicEffect();
+        }
+        setTimer(true);
+        setTimeout(() => {
+          socketSetOrderState(list, state);
+          setTimer(false);
+        }, 1500);
+      }
+    },
+    [timer],
+  );
+
+  useEffect(() => {
+    timer ? setIsBlock(true) : setIsBlock(false);
+  }, [timer]);
 
   return (
     <div className="AdminOrderListItem" ref={orderCard}>
