@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import MainPresenter from './MainPresenter';
-import { getMenuList, searchMenu } from '../../../api/menuApi';
+import { getMenuList, searchMenu, getRankApi } from '../../../api/menuApi';
+import changeImagePath from '../../../utils/changeImagePath';
 
 const MainContainer = () => {
   const [storeList, setStoreList] = useState([]);
   const [menuDetailData, setMenuDetailData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
-  const [menuPageData, setMenuPageData] = useState([]);
+  const [menuPageData, setMenuPageData] = useState({});
   const [searchText, setSearchText] = useState('');
-
+  const [rankData, setRankData] = useState([]);
   // 상품상세 레이어 팝업에 데이터를 전달하기 위한 콜백
   const mapDetailData = data => {
     setMenuDetailData(data);
@@ -18,7 +19,8 @@ const MainContainer = () => {
     try {
       const res = await searchMenu(menuName, page, itemSize);
       const { content, totalPages } = res.data;
-      setStoreList(content);
+      const newContent = changeImagePath(content);
+      setStoreList(newContent);
       setMenuPageData({ page, totalPages });
       setIsLoading(false);
       setSearchText(menuName);
@@ -31,7 +33,8 @@ const MainContainer = () => {
     try {
       const res = await getMenuList({ itemSize, page });
       const { content, totalPages } = res.data;
-      setStoreList(content);
+      const newContent = changeImagePath(content);
+      setStoreList(newContent);
       setMenuPageData({ page, totalPages });
       setIsLoading(false);
     } catch (err) {
@@ -39,12 +42,19 @@ const MainContainer = () => {
     }
   };
 
+  const getRank = async () => {
+    const { data: { ranking = [] } = [] } = await getRankApi();
+    setRankData(ranking);
+  };
+
   useEffect(() => {
-    getMenuByPage({ itemSize: 20, page: 0 });
+    getMenuByPage({ itemSize: 12, page: 0 });
+    getRank();
   }, []);
 
   return (
     <MainPresenter
+      rankData={rankData}
       isLoading={isLoading}
       list={storeList}
       menuDetailData={menuDetailData}

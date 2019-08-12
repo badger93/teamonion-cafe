@@ -1,20 +1,17 @@
-import React, { useState, useCallback } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import './styles/AdminOrderHistoryPresenter.scss';
 import Pagination from '../../../components/pagination';
 
-const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory, pageData }) => {
+const AdminOrderHistoryPresenter = ({
+  orderHistoryData,
+  getHistoryDataByCategory,
+  pageData,
+  queryCategory,
+}) => {
   // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
-  const [currentCategory, setCurrentCategory] = useState('ALL');
-
-  const changeStateCallback = useCallback(
-    category => {
-      setCurrentCategory(category);
-      getHistoryDataByCategory(category);
-    },
-    [currentCategory],
-  );
 
   const colums = [
     {
@@ -88,30 +85,30 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
     <div className="AdminOrderHistoryPresenter">
       <div className="pageTitle">주문이력</div>
       <div className="orderTabArea">
-        <input
-          className={`allBtn ${currentCategory == 'ALL' && 'active'}`}
-          type="button"
-          value="전체보기"
-          onClick={() => changeStateCallback('ALL')}
-        />
-        <input
-          className={`nonpayBtn ${currentCategory == 'PAID_FALSE' && 'active'}`}
-          type="button"
-          value="미결제"
-          onClick={() => changeStateCallback('PAID_FALSE')}
-        />
-        <input
-          className={`paidBtn ${currentCategory == 'PAID_TRUE' && 'active'}`}
-          type="button"
-          value="결제완료"
-          onClick={() => changeStateCallback('PAID_TRUE')}
-        />
-        <input
-          className={`madeBtn ${currentCategory == 'MADE_TRUE' && 'active'}`}
-          type="button"
-          value="제작완료"
-          onClick={() => changeStateCallback('MADE_TRUE')}
-        />
+        <Link
+          className={`categoryBtn ${queryCategory === 'ALL' ? 'active' : ''}`}
+          to="/admin/order-history?category=ALL"
+        >
+          전체보기
+        </Link>
+        <Link
+          className={`categoryBtn ${queryCategory === 'PAID_FALSE' ? 'active' : ''}`}
+          to="/admin/order-history?category=PAID_FALSE"
+        >
+          미결제
+        </Link>
+        <Link
+          className={`categoryBtn ${queryCategory === 'PAID_TRUE' ? 'active' : ''}`}
+          to="/admin/order-history?category=PAID_TRUE"
+        >
+          결제완료
+        </Link>
+        <Link
+          className={`categoryBtn ${queryCategory === 'MADE_TRUE' ? 'active' : ''}`}
+          to="/admin/order-history?category=MADE_TRUE"
+        >
+          제작완료
+        </Link>
       </div>
 
       <div className="historyList">
@@ -125,7 +122,7 @@ const AdminOrderHistoryPresenter = ({ orderHistoryData, getHistoryDataByCategory
       <Pagination
         pageData={pageData}
         callback={e => {
-          getHistoryDataByCategory(currentCategory, e.target.value - 1, 10);
+          getHistoryDataByCategory(queryCategory, e.target.value - 1, 10);
         }}
       />
     </div>
@@ -140,9 +137,12 @@ AdminOrderHistoryPresenter.defaultProps = {
 };
 
 AdminOrderHistoryPresenter.propTypes = {
-  orderHistoryData: propTypes.arrayOf(),
+  orderHistoryData: propTypes.arrayOf(propTypes.object),
   getHistoryDataByCategory: propTypes.func,
-  pageData: propTypes.objectOf,
+  pageData: propTypes.shape({
+    page: propTypes.number,
+    totalPage: propTypes.number,
+  }),
   fetchHistoryAPI: propTypes.func,
 };
 

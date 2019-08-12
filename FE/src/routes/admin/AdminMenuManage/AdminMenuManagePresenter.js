@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import propTypes from 'prop-types';
 import ReactDataGrid from 'react-data-grid';
 import { Formatters } from 'react-data-grid-addons';
-import MenuManagePopup from '../../../components/MenuManagePopup';
+import MenuManagePopup from './components/MenuManagePopup';
 import './styles/AdminMenuManagePresenter.scss';
 import Pagination from '../../../components/pagination';
 
@@ -54,13 +54,15 @@ const AdminMenuManagePresenter = ({
     },
   ];
 
-  const rows = menuList.map(item => ({
-    id: item.id,
-    imageFile: item.imageFile,
-    name: item.name,
-    price: item.price,
-    information: item.information,
-  }));
+  const rows = useMemo(() => {
+    return menuList.map(item => ({
+      id: item.id,
+      imageFile: item.imagePath,
+      name: item.name,
+      price: item.price,
+      information: item.information,
+    }));
+  }, [menuList]);
 
   const getCellActions = (column, row) => {
     const cellActions = {
@@ -73,6 +75,7 @@ const AdminMenuManagePresenter = ({
               name: row.name,
               price: row.price,
               information: row.information,
+              imageFile: row.imageFile,
             });
             setIsPopup(true);
           },
@@ -145,7 +148,10 @@ AdminMenuManagePresenter.propTypes = {
   updateItem: propTypes.func,
   createItem: propTypes.func,
   getMenuBypage: propTypes.func,
-  pageData: propTypes.objectOf,
+  pageData: propTypes.shape({
+    page: propTypes.number,
+    total: propTypes.number,
+  }),
 };
 
 export default AdminMenuManagePresenter;

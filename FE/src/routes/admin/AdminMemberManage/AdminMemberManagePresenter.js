@@ -56,13 +56,15 @@ const AdminMemberManagePresenter = ({
         ? searchUserByID(searchText, e.target.value - 1)
         : getUserByPage({ itemSize: 10, page: e.target.value - 1 });
     },
-    [searchText],
+    [searchText, searchUserByID, getUserByPage],
   );
 
   return (
     <div className="AdminMemberManagePresenter">
-      <SearchBar searchCallback={searchUserByID} />
-      <div className="pageTitle">사용자관리</div>
+      <div className="memberManageListTitle">
+        <div className="pageTitle">사용자관리</div>
+        <SearchBar searchCallback={searchUserByID} />
+      </div>
       <div className="memberManageList">
         <ReactDataGrid
           className="memberGrid"
@@ -88,8 +90,11 @@ AdminMemberManagePresenter.defaultProps = {
 };
 
 AdminMemberManagePresenter.propTypes = {
-  memberListData: propTypes.arrayOf(),
-  memberListPageData: propTypes.objectOf(),
+  memberListData: propTypes.arrayOf(propTypes.object),
+  memberListPageData: propTypes.shape({
+    page: propTypes.number,
+    totalPages: propTypes.number,
+  }),
   setPoint: propTypes.func,
   getUserByPage: propTypes.func,
   searchUserByID: propTypes.func,

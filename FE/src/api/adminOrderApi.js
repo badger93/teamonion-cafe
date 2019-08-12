@@ -2,11 +2,11 @@ import fetchClient from './axios';
 
 const axios = fetchClient();
 
-const getNonpickupAllUrl = 'https://my-json-server.typicode.com/badger012/mockserver/orders';
+// const getNonpickupAllUrl = 'https://my-json-server.typicode.com/badger012/mockserver/orders';
 
 const getNonpickupAll = callback => {
   axios
-    .get(`api/orders?page=0&size=10&category=PICKUP_FALSE`)
+    .get(`api/orders?page=0&size=100&category=PICKUP_FALSE`)
     .then(res => {
       const resList = res.data.content;
       const listData = resList.map(item => {
@@ -25,7 +25,7 @@ const getNonpickupAll = callback => {
       callback(listData);
     }) // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, membe_id
     .catch(err => {
-      alert('주문가져오기실패', err);
+      // alert('주문가져오기실패', err);
     });
 };
 

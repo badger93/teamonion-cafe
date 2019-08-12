@@ -1,7 +1,6 @@
 package com.teamonion.tmong.member;
 
-import com.teamonion.tmong.security.JwtComponent;
-import com.teamonion.tmong.exception.ValidCustomException;
+import com.teamonion.tmong.authorization.JwtComponent;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,7 +48,7 @@ public class MemberServiceTest {
         Mockito.when(jwtComponent.createToken(member)).thenReturn(null);
 
         //then
-        assertThat(memberService.save(memberSignUpRequest).getMemberId()).isEqualTo(member.getMemberId());
+        assertThat(memberService.signUp(memberSignUpRequest).getMemberId()).isEqualTo(member.getMemberId());
     }
 
     @Test
@@ -73,10 +72,10 @@ public class MemberServiceTest {
         String memberId = "pizza";
 
         //when
-        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.empty());
+        Mockito.when(memberRepository.existsByMemberId(memberId)).thenReturn(false);
 
         //then
-        assertThat(memberService.isOverlap(memberId)).isFalse();
+        assertThat(memberService.isDuplicate(memberId)).isFalse();
     }
 
     @Test
@@ -85,9 +84,9 @@ public class MemberServiceTest {
         String memberId = "onion";
 
         //when
-        Mockito.when(memberRepository.findByMemberId(memberId)).thenReturn(Optional.of(member));
+        Mockito.when(memberRepository.existsByMemberId(memberId)).thenReturn(true);
 
         //then
-        assertThat(memberService.isOverlap(memberId)).isTrue();
+        assertThat(memberService.isDuplicate(memberId)).isTrue();
     }
 }

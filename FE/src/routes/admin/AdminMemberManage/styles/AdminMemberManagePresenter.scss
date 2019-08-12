@@ -6,7 +6,13 @@
     width: 90%;
   }
   position: relative;
-
+  .memberManageListTitle {
+    margin-top: 30px;
+    display: flex;
+    justify-content: space-between;
+    // align-items: center;
+    height: 50px;
+  }
   .SearchBar {
     position: absolute;
     top: 0;
@@ -21,6 +27,6 @@
   }
   .memberManageList {
     position: relative;
-    margin-top: 65px;
+    margin-top: 30px;
   }
 }

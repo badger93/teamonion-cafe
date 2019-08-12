@@ -1,9 +1,9 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import UserInfoCard from '../../../components/UserInfoCard';
+import UserInfoCard from './components/UserInfoCard';
 
 import './styles/UserInfoPresenter.scss';
-import MyHistory from '../../../components/MyHistory';
+import MyHistory from './components/MyHistory';
 import Loading from '../../../components/Loading';
 import Pagination from '../../../components/pagination';
 
@@ -35,7 +35,7 @@ UserInfoPresenter.propTypes = {
   point: propTypes.number.isRequired,
   columns: propTypes.array.isRequired,
   rows: propTypes.array.isRequired,
-  pageData: propTypes.objectOf,
+  pageData: propTypes.object,
   fetchHistoryAPI: propTypes.func,
 };
 

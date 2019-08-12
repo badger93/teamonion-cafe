@@ -1,6 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
-import PayForm from '../../../components/PayForm';
+import PayForm from './components/PayForm';
 import './styles/PaymentPresenter.scss';
 import Loading from '../../../components/Loading';
 
@@ -23,7 +23,6 @@ const PaymentPresenter = ({
         <PayForm
           dispatch={dispatch}
           itemsForPay={itemsForPay}
-          isPaying={isPaying}
           isPaid={isPaid}
           user={user}
           howPay={howPay}

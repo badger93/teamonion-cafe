@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.teamonion</groupId>
     <artifactId>tmong</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.6</version>
     <name>tmong</name>
     <description>Demo project for Spring Boot</description>
 
@@ -50,6 +50,15 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.9.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.9</version>
         </dependency>
 
         <dependency>

@@ -6,7 +6,7 @@ import { useCart, useLocalStorage } from '../../../utils/cart';
 const CartContainer = () => {
   const cartLocalStorage = useLocalStorage('CART', []);
   const handleCart = useCart(cartLocalStorage.storedValue, cartLocalStorage);
-  const [checkedItem, setCheckedItem] = useState([]);
+  const [checkedItem, setCheckedItem] = useState([...cartLocalStorage.storedValue]);
   const dispatch = useDispatch();
   const { isSignedIn, signInRef } = useSelector(state => state.user);
 

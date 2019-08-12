@@ -20,13 +20,15 @@ const PcHeader = ({ isSignedIn, user = null, logOutDispatch, onRefreshClick }) =
       <div className="header_pc-wrap">
         <div className="header_pc-logo">
           <img src={tmonglogo} alt="logo" />
-          {user.memberRole === 'ADMIN' ? <Link to="/admin/order-manage" /> : <Link to="/" />}
+          <Link to="/" />
         </div>
         <div className="header_pc-column">
           <div className="header_pc-column-top">
             {isSignedIn ? (
               <>
-                <span className="header_pc-point">{`보유포인트 : ${user.point}`}</span>
+                <span className="header_pc-point">{`보유포인트 : ${user.point
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ',')}`}</span>
                 <span className="header_pc-refresh" onClick={onRefreshClick}>
                   <FontAwesomeIcon icon={faRedo} />
                 </span>
@@ -53,8 +55,8 @@ const PcHeader = ({ isSignedIn, user = null, logOutDispatch, onRefreshClick }) =
             {user.memberRole === 'ADMIN' ? (
               <>
                 <Link to="/admin/order-manage">주문현황</Link>
+                <Link to="/admin/order-history?category=ALL">주문히스토리</Link>
                 <Link to="/admin/menu-manage">메뉴관리</Link>
-                <Link to="/admin/order-history">주문히스토리</Link>
                 <Link to="/admin/member-manage">사용자관리</Link>
               </>
             ) : (

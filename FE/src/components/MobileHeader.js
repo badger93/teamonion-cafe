@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import '../styles/MobileHeader.scss';
 import { Link } from 'react-router-dom';
@@ -18,9 +18,9 @@ const MobileHeader = ({
 }) => {
   const dispatch = useDispatch();
 
-  const popupControl = useCallback(() => {
+  const popupControl = () => {
     dispatch(signInPopupChangeAction());
-  }, [dispatch]);
+  };
 
   return (
     <>
@@ -34,7 +34,7 @@ const MobileHeader = ({
             <>
               <Link to="/admin/order-manage">주문현황</Link>
               <Link to="/admin/menu-manage">메뉴관리</Link>
-              <Link to="/admin/order-history">주문히스토리</Link>
+              <Link to="/admin/order-history?category=ALL">주문히스토리</Link>
               <Link to="/admin/member-manage">사용자관리</Link>
               <div className="logout_btn" onClick={logOutDispatch}>
                 LogOut
@@ -46,7 +46,10 @@ const MobileHeader = ({
                 <>
                   <div className="header_mobile-point">
                     Point
-                    <span>{` ${user.point} `}</span>P
+                    <span>{` ${user.point
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} `}</span>
+                    P
                   </div>
                   <div className="header_mobile-refresh" onClick={onRefreshClick}>
                     <FontAwesomeIcon icon={faRedo} />
@@ -80,7 +83,7 @@ const MobileHeader = ({
               setIsList(prev => !prev);
             }}
           >
-            <FontAwesomeIcon icon={faTimes} size="1.3x" />
+            <FontAwesomeIcon icon={faTimes} size="lg" />
           </button>
           <Link to="/">
             <div

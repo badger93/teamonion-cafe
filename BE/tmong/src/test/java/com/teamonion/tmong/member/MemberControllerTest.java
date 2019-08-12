@@ -1,7 +1,7 @@
 package com.teamonion.tmong.member;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.authorization.JwtComponent;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -42,7 +42,7 @@ public class MemberControllerTest {
 
         Member member = memberSignUpRequest.toEntity();
 
-        Mockito.when(memberService.save(memberSignUpRequest))
+        Mockito.when(memberService.signUp(memberSignUpRequest))
                 .thenReturn(new MemberLoginResponse(member, null));
 
         mockMvc.perform(post("/api/members")
@@ -56,9 +56,9 @@ public class MemberControllerTest {
     public void 아이디_중복체크() throws Exception {
         String memberId = "onion";
 
-        Mockito.when(memberService.isOverlap(memberId)).thenReturn(false);
+        Mockito.when(memberService.isDuplicate(memberId)).thenReturn(false);
 
-        mockMvc.perform(get("/api/members/overlap")
+        mockMvc.perform(get("/api/members/duplicate")
                 .param("memberId", memberId))
                 .andDo(print())
                 .andExpect(status().isOk())

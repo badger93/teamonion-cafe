@@ -1,6 +1,6 @@
 package com.teamonion.tmong.config;
 
-import com.teamonion.tmong.security.AuthorizationInterceptor;
+import com.teamonion.tmong.authorization.AuthorizationInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,12 +18,12 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor())
+        registry.addInterceptor(authorizationInterceptor())
                 .addPathPatterns("/**");
     }
 
     @Bean
-    public AuthorizationInterceptor jwtInterceptor() {
+    public AuthorizationInterceptor authorizationInterceptor() {
         return new AuthorizationInterceptor();
     }
 

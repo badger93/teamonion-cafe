@@ -1,0 +1,41 @@
+.canvasModal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+
+  max-width: 800px;
+  min-width: 350px;
+  top: 130px;
+  @media (max-width: 960px) {
+    top: 80px;
+  }
+  background-color: rgba(0, 0, 0, 0.1);
+  border: 0.5px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  width: 90vw;
+  height: 80vh;
+  z-index: 50;
+  button {
+    width: 100px;
+    margin-top: 20px;
+  }
+
+  .canvasModal-closeBtn {
+    position: relative;
+    margin-bottom: 20px;
+    right: -150px;
+    opacity: 1;
+    height: 20px;
+    font-size: 1.2rem;
+    text-align: end;
+    margin-top: 10px;
+    margin-right: 20px;
+    color: white;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}

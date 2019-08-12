@@ -1,0 +1,220 @@
+.menuDetailContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  pointer-events: all;
+  z-index: 19;
+}
+
+.menuDetailContainer::after {
+  content: '';
+  width: 100%;
+  height: 200%;
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  z-index: 19;
+}
+
+.menuDetail {
+  border: 2px solid #222f3e;
+  border-radius: 10px;
+  width: 650px;
+  height: 350px;
+  padding: 0;
+  z-index: 20;
+  background-color: #fff;
+  position: relative;
+
+  aside {
+    width: 45%;
+    float: left;
+    height: 100%;
+
+    .img-area {
+      width: 200px;
+      height: 210px;
+      margin: 0 auto;
+      margin-top: 40px;
+      position: relative;
+
+      img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  main {
+    width: 55%;
+    float: left;
+    height: 100%;
+
+    .closeBtn {
+      width: 20px;
+      height: 20px;
+      position: absolute;
+      cursor: pointer;
+      border: none;
+      background: none;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      color: gray;
+    }
+
+    .titleArea {
+      display: flex;
+      align-items: center;
+      margin-top: 30px;
+      margin-bottom: 10px;
+      margin-left: 10px;
+      .title {
+        display: block;
+        vertical-align: middle;
+        font: {
+          size: 1.6rem;
+          weight: 600;
+        }
+      }
+    }
+
+    .informationArea {
+      width: 88%;
+      height: 55%;
+      position: relative;
+      margin-left: 10px;
+      .price {
+        font: {
+          size: 1.1rem;
+        }
+        color: #fe6600;
+      }
+
+      .information {
+        margin-top: 10px;
+        color: rgba(0, 0, 0, 0.6);
+        font: {
+          size: 1rem;
+        }
+      }
+    }
+    .cart-added {
+      position: absolute;
+      bottom: 90px;
+      right: 100px;
+      color: red;
+      opacity: 0.8;
+    }
+    @media (max-width: 415px) {
+      .cart-added {
+        height: 100%;
+        display: flex;
+        right: 0px;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        height: 20px;
+      }
+    }
+
+    .btnArea {
+      display: flex;
+      justify-content: space-between;
+      height: 20%;
+      width: 90%;
+      .buyBtn {
+        display: inline-block;
+        width: 40%;
+        height: 40px;
+        border: none;
+        border-radius: 0;
+        background: none;
+        color: white;
+        cursor: pointer;
+        background-color: rgb(254, 102, 0);
+        margin: 0 10px;
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+      .cartBtn {
+        @extend .buyBtn;
+        background-color: rgb(34, 32, 32);
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 415px) {
+  .menuDetail {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    overflow: hidden;
+    aside {
+      float: inherit;
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+      height: 50%;
+      div {
+        height: 100%;
+      }
+      .img-area {
+        width: 100%;
+        height: 100%;
+        margin-top: 0px;
+        img {
+          object-fit: cover;
+        }
+      }
+    }
+    main {
+      float: inherit;
+      display: block;
+      width: 100%;
+      height: auto;
+      padding: 0 20px;
+      .closeBtn {
+        color: #fff;
+      }
+      .titleArea {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        margin-top: 15px;
+        height: auto;
+      }
+      .informationArea {
+        height: 40%;
+        overflow: scroll;
+        margin-left: 10px;
+        .information {
+          margin-top: 10px;
+        }
+      }
+      .btnArea {
+        width: 90%;
+        position: absolute;
+        height: auto;
+        display: block;
+        bottom: 15px;
+        display: flex;
+        justify-content: space-around;
+        .buyBtn {
+          margin: 0;
+        }
+      }
+    }
+  }
+}

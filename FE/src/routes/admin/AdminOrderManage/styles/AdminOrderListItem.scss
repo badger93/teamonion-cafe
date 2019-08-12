@@ -1,0 +1,114 @@
+.AdminOrderListItem {
+  width: 100%;
+  border-radius: 0 0 3px 3px;
+  margin: 30px 0 20px 0;
+  padding: 10px 10px 35px;
+  position: relative;
+  background-color: #fff;
+  display: inline-block;
+
+  .orderNum {
+    position: absolute;
+    top: -28px;
+    left: 0;
+    background-color: rgb(255, 103, 0);
+    border-radius: 3px 3px 0 0;
+    padding: 5px 15px;
+    color: #fff;
+  }
+
+  .madeBtn {
+    margin: 0;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 3px;
+    background-color: #222f3e;
+    color: #fff;
+    padding: 0 10px;
+    font-weight: bold;
+  }
+
+  .member_id {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      border: 1px solid gray;
+      border-radius: 31px;
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 13px;
+      margin: 3px 0;
+    }
+    li + li {
+      margin-left: 5px;
+    }
+  }
+
+  .payArea {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    .paid {
+      display: inline-block;
+      font-size: 14px;
+      color: rgb(59, 212, 29);
+    }
+    .non-paid {
+      display: inline-block;
+      font-size: 14px;
+      color: red;
+    }
+    .payBtn {
+      margin-left: 10px;
+      cursor: pointer;
+      border-style: none;
+      border-radius: 3px;
+      background-color: #222f3e;
+      color: #fff;
+      padding: 5px 10px;
+    }
+  }
+  .createdDate {
+    text-align: right;
+    position: absolute;
+    bottom: -20px;
+    color: rgba(102, 101, 101, 0.575);
+    right: 5px;
+  }
+
+  .pickupBtn {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    cursor: pointer;
+    background-color: rgb(192, 31, 152);
+    padding: 5px 10px;
+    color: #fff;
+    display: block;
+    margin: 0 auto;
+    border-style: none;
+    border-radius: 25px;
+  }
+}
+
+.AdminOrderListItem.ghost {
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(200px, 0px);
+  transition: transform 1s linear, visibility 0s 1s, opacity 1s linear;
+}
+
+.AdminOrderListItem.fly {
+  visibility: hidden;
+  opacity: 0;
+  transform: translate(200px, -160px);
+  transition: transform 1s linear, visibility 0s 1s, opacity 1s linear;
+}

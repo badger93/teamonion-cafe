@@ -33,7 +33,7 @@ public class Orders {
     @ManyToOne
     private Member buyer;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Menu> menuList = new ArrayList<>();
 
     @Column(nullable = false)
@@ -66,4 +66,7 @@ public class Orders {
     public void pick() {
         this.pickup = true;
     }
+
+    // TODO : for Test. Remove !
+    public void setId(Long id) {this.id = id; }
 }

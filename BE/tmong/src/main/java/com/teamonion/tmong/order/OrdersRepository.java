@@ -4,6 +4,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
     Page<Orders> findByBuyerIdAndPickup(Pageable pageable, Long buyer_id, boolean pickup);
 
@@ -14,4 +17,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     Page<Orders> findAllByMadeTrue(Pageable pageable);
 
     Page<Orders> findAllByPickupFalse(Pageable pageable);
+
+    Long countByBuyerIdAndPickupFalse(Long buyerId);
 }

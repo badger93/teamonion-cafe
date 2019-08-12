@@ -1,11 +1,9 @@
 package com.teamonion.tmong.member;
 
 import com.teamonion.tmong.exception.*;
-import com.teamonion.tmong.security.JwtComponent;
+import com.teamonion.tmong.authorization.JwtComponent;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,6 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class MemberService {
-    private static final Logger log = LoggerFactory.getLogger(MemberService.class);
 
     @NonNull
     private final MemberRepository memberRepository;
@@ -21,8 +18,8 @@ public class MemberService {
     @NonNull
     private final JwtComponent jwtComponent;
 
-    public MemberLoginResponse save(MemberSignUpRequest memberSignUpRequest) {
-        if (isOverlap(memberSignUpRequest.getMemberId())) {
+    public MemberLoginResponse signUp(MemberSignUpRequest memberSignUpRequest) {
+        if (isDuplicate(memberSignUpRequest.getMemberId())) {
             throw new ValidCustomException(ValidExceptionType.MEMBERID_OVERLAP);
         }
         Member savedMember = memberRepository.save(memberSignUpRequest.toEntity());
@@ -30,7 +27,6 @@ public class MemberService {
     }
 
     public Page<Member> search(Pageable pageable, String memberId) {
-        jwtComponent.checkAdmin();
         return memberRepository.findByMemberIdContaining(pageable, memberId);
     }
 
@@ -40,21 +36,18 @@ public class MemberService {
         if (!member.match(memberLoginRequest.getPassword())) {
             throw new ValidCustomException(ValidExceptionType.PASSWORD_MISMATCH);
         }
-
         return new MemberLoginResponse(member, jwtComponent.createToken(member));
     }
 
-    public boolean isOverlap(String memberId) {
-        return memberRepository.findByMemberId(memberId).isPresent();
+    public boolean isDuplicate(String memberId) {
+        return memberRepository.existsByMemberId(memberId);
     }
 
     public Page<Member> getMembers(Pageable pageable) {
-        jwtComponent.checkAdmin();
         return memberRepository.findAll(pageable);
     }
 
     public long pointUpdate(Long id, long point) {
-        jwtComponent.checkAdmin();
         Member member = findById(id);
         member.pointUpdate(point);
         return memberRepository.save(member).getPoint();

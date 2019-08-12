@@ -1,4 +1,14 @@
+@keyframes searchShowUp {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .SearchBar {
+  animation: searchShowUp 1s;
   input {
     border: none;
     height: 30px;
@@ -8,11 +18,29 @@
     margin-left: 10px;
   }
   input[type='text'] {
-    border: 4px solid #f96503;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    &:focus {
+      border: 1px solid #fe6600;
+    }
   }
   input[type='submit'] {
+    cursor: pointer;
     background-color: #222f3e;
     border: 4px solid #222f3e;
     color: #fff;
+  }
+}
+.searchGlass {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  position: relative;
+  margin-right: 20px;
+  color: rgba(0, 0, 0, 0.3);
+  transition: 0.3s ease-in-out;
+  &:hover {
+    color: rgba(0, 0, 0, 0.8);
   }
 }

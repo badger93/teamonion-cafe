@@ -1,13 +1,15 @@
 import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
-import MenuListItem from '../../../components/MenuListItem';
-import MenuDetail from '../../../components/MenuDetail';
+import MenuDetail from './components/MenuDetail';
 import './styles/MainPresenter.scss';
 import Loading from '../../../components/Loading';
 import SearchBar from '../../../components/SearchBar';
 import Pagination from '../../../components/pagination';
+import MenuListItems from './components/MenuListItems';
+import UserRank from './components/UserRank';
 
 const MainPresenter = ({
+  rankData,
   isLoading,
   list,
   mapDetailData,
@@ -18,30 +20,25 @@ const MainPresenter = ({
   searchText,
 }) => {
   const [isMenuPopup, setIsMenuPopup] = useState(false);
-  // 메뉴 리스트 뿌리기
-  const mapMenuListItem = list.map((item, index) => (
-    <MenuListItem
-      key={`item-${index}`}
-      item={item}
-      mapDetailData={mapDetailData}
-      setIsMenuPopup={setIsMenuPopup}
-    />
-  ));
 
-  const pageCallback = useCallback(e => {
-    return searchText
-      ? searchMenuListByName(searchText, e.target.value - 1)
-      : getMenuByPage({ itemSize: 20, page: e.target.value - 1 });
-  });
+  const pageCallback = useCallback(
+    e => {
+      return searchText
+        ? searchMenuListByName(searchText, e.target.value - 1)
+        : getMenuByPage({ itemSize: 12, page: e.target.value - 1 });
+    },
+    [getMenuByPage, searchMenuListByName, searchText],
+  );
   return (
     <>
       {isLoading && <Loading />}
       <div className="mainPresenter">
+        <UserRank ranking={rankData} />
         <div className="head">
-          <h1>MENU</h1>
+          <h1>메뉴</h1>
           <SearchBar searchCallback={searchMenuListByName} />
         </div>
-        <div className="menulist">{mapMenuListItem}</div>
+        <MenuListItems list={list} mapDetailData={mapDetailData} setIsMenuPopup={setIsMenuPopup} />
         {isMenuPopup && (
           <div className="menuDetailContainer">
             <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
@@ -68,7 +65,10 @@ MainPresenter.propTypes = {
   list: propTypes.arrayOf(propTypes.object),
   mapDetailData: propTypes.func,
   searchMenuListByName: propTypes.func,
-  menuPageData: propTypes.objectOf(),
+  menuPageData: propTypes.shape({
+    page: propTypes.number,
+    totalPages: propTypes.number,
+  }),
   getMenuByPage: propTypes.func,
   menuDetailData: propTypes.shape({
     deleted: propTypes.bool,
