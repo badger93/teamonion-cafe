@@ -73,7 +73,7 @@ MyOrderPresenter.propTypes = {
     }),
   ),
   setOrders: propTypes.func.isRequired,
-  userId: propTypes.number.isRequired,
+  userId: propTypes.string.isRequired,
 };
 
 export default MyOrderPresenter;

@@ -136,7 +136,7 @@ MyOrderCard.propTypes = {
   made: propTypes.bool.isRequired,
   menu: propTypes.arrayOf(propTypes.string).isRequired,
   setOrders: propTypes.func.isRequired,
-  userId: propTypes.number.isRequired,
+  userId: propTypes.string.isRequired,
 };
 
 export default MyOrderCard;
