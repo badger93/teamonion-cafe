@@ -45,7 +45,7 @@ public class OrdersController {
     @CheckJwt(role = MemberRole.ADMIN)
     @GetMapping
     public ResponseEntity<Page<OrdersResponse>> getOrdersByCategory(
-            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, String category) {
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, OrdersCategory category) {
         return new ResponseEntity<>(ordersService.getOrdersByCategory(pageable, category), HttpStatus.OK);
     }
 }

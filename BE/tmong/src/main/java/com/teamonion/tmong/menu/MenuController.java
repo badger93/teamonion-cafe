@@ -42,7 +42,8 @@ public class MenuController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<Page<Menu>> selectByName(Pageable pageable, @RequestParam String menu_name) {
+    public ResponseEntity<Page<Menu>> selectByName(
+            @PageableDefault(sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, @RequestParam String menu_name) {
         return new ResponseEntity<>(menuService.selectByName(pageable, menu_name), HttpStatus.OK);
     }
 
