@@ -114,7 +114,7 @@ const AdminMenuManagePresenter = ({
         />
       </div>
       {isPopup && (
-        <div className="MenuManagePopupContainer">
+        <div className="MenuManagePopupContainer" onClick={() => setIsPopup(false)}>
           <MenuManagePopup
             menuPopupData={menuPopupData}
             updateItem={updateItem}

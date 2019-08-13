@@ -120,7 +120,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
 
   return (
     // name, price, information, imageFile(src)
-    <div className="MenuManagePopup">
+    <div className="MenuManagePopup" onClick={e => e.stopPropagation()}>
       <input
         type="button"
         value="x"
