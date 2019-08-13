@@ -83,7 +83,8 @@ const AdminMenuManagePresenter = ({
         {
           icon: <span className="gridBtn">삭제</span>,
           callback: () => {
-            deleteItem(row.id);
+            const isDelete = window.confirm(`정말로 ${row.name}을/를 삭제하시겠습니까?`);
+            isDelete && deleteItem(row.id);
           },
         },
       ],
