@@ -1,6 +1,6 @@
 .userinfo_section {
   width: 100%;
-  height: 100vh;
+  // height: 100vh;
   display: flex;
   justify-content: center;
   margin-top: 30px;
@@ -8,7 +8,9 @@
   color: rgba(0, 0, 0, 0.8);
   .userinfo_wrapper {
     border: solid 0.5px rgba(0, 0, 0, 0.3);
+    // height: 100%;
     width: 80%;
+    // overflow: scroll;
     padding: 30px;
     border-radius: 6px;
 

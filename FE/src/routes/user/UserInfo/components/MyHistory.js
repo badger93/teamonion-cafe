@@ -6,7 +6,7 @@ const MyHistory = ({ columns, rows = [] }) => (
     columns={columns}
     rowGetter={i => rows[i]}
     rowsCount={rows.length}
-    minHeight={400}
+    // minHeight={400}
     isScrolling={true}
   />
 );
