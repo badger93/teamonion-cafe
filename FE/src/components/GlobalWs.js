@@ -8,7 +8,7 @@ import WsMsgPop from './WsMsgPop';
 import { userOrderAPI } from '../api/userApi';
 import { useTokenCheck } from '../utils/tokenCheck';
 
-const GlobalWs = withRouter(({ location }) => {
+const GlobalWs = withRouter(() => {
   const { isSignedIn, me } = useSelector(state => state.user);
   const { sendOrderState, wsConnect } = useSelector(state => state.order);
   const [isConnect, setIsConnect] = useState(false);
@@ -27,7 +27,7 @@ const GlobalWs = withRouter(({ location }) => {
 
   // ws 연결을 시도하는 함수
   const socketOrderInit = () => {
-    // 진짜 웹소켓 정의
+    // 웹소켓 정의
     const wsclient = Stomp.over(new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {}));
     setwscl(wsclient);
     wsclient.connect({ Authorization: token() }, frame => {
