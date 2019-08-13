@@ -80,4 +80,14 @@ public class ImageFileService {
             throw new GlobalException(GlobalExceptionType.MENU_IMAGE_DELETE_ERROR);
         }
     }
+
+    public String imageUpdateProcess(MultipartFile imageFile, String imagePath) {
+        if (imageFile != null) {
+            deleteImageFile(imagePath);
+
+            imagePath = imageSaveProcess(imageFile);
+        }
+
+        return imagePath;
+    }
 }
