@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import MenuListItem from './MenuListItem';
-
+import '../styles/MenuListItems.scss';
 const MenuListItems = ({ list, mapDetailData, setIsMenuPopup }) => {
   return (
-    <div>
+    <div className="menuListItems-wrapper">
       {list &&
         list.map((item, index) => (
           <MenuListItem
