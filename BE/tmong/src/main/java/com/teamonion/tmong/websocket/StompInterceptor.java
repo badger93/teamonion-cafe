@@ -11,16 +11,19 @@ import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
 import org.springframework.messaging.support.ChannelInterceptor;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class StompInterceptor implements ChannelInterceptor {
 
     @Autowired
     private JwtComponent jwtComponent;
 
-    private static Map<String, String> processingSessions = new HashMap<>();
+//    private static Map<String, String> processingSessions = Collections.synchronizedMap(new HashMap<>());
+    private static Map<String, String> processingSessions = new ConcurrentHashMap<>();
 
     private static final Logger log = LoggerFactory.getLogger(StompInterceptor.class);
 

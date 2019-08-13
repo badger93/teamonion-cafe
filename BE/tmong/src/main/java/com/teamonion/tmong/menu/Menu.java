@@ -26,6 +26,7 @@ public class Menu {
 
     private String information;
 
+    @Column(nullable = false)
     private String imagePath;
 
     @Column(nullable = false)
