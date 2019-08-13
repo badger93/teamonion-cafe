@@ -15,7 +15,7 @@ const MainContainer = () => {
     setMenuDetailData(data);
   };
 
-  const searchMenuListByName = async (menuName, page = 0, itemSize = 20) => {
+  const searchMenuListByName = async (menuName, page = 0, itemSize = 12) => {
     try {
       const res = await searchMenu(menuName, page, itemSize);
       const { content, totalPages } = res.data;

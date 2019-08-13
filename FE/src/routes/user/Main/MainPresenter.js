@@ -40,7 +40,7 @@ const MainPresenter = ({
         </div>
         <MenuListItems list={list} mapDetailData={mapDetailData} setIsMenuPopup={setIsMenuPopup} />
         {isMenuPopup && (
-          <div className="menuDetailContainer">
+          <div className="menuDetailContainer" onClick={() => setIsMenuPopup(false)}>
             <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
           </div>
         )}

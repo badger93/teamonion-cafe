@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
-import { logOutAction, changePoint } from '../redux/actions/userAction';
+import { logOutAction, changePoint, signInPopupChangeAction } from '../redux/actions/userAction';
 import Loading from './Loading';
 import moment from 'moment';
 
@@ -61,7 +61,7 @@ const Header = () => {
         onRefreshClick={onRefreshClick}
       />
       {signInPopup && (
-        <div className="signInContainer">
+        <div className="signInContainer" onClick={() => dispatch(signInPopupChangeAction())}>
           {isSigningIn && <Loading />}
           <SignInPopup isSigningIn={isSigningIn} />
         </div>

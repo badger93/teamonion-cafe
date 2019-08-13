@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import '../styles/SearchBar.scss';
+import { isSpecial, trimStr } from '../utils/validateText';
 
 const SearchBar = ({ searchCallback }) => {
   const [searchText, setSearchText] = useState('');
@@ -11,8 +12,14 @@ const SearchBar = ({ searchCallback }) => {
   const submitCallback = useCallback(
     e => {
       e.preventDefault();
-      searchCallback(searchText);
-      setSearchText('');
+      if (isSpecial(searchText)) {
+        alert('검색어에 특수문자를 포함 할 수 없습니다');
+        setSearchText('');
+      } else {
+        const trimedStr = trimStr(searchText);
+        searchCallback(trimedStr);
+        setSearchText('');
+      }
     },
     [searchText, searchCallback],
   );
