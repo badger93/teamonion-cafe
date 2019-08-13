@@ -6,8 +6,9 @@ import Stomp from 'stompjs';
 import { setChangedOrderAction } from '../redux/actions/orderAction';
 import WsMsgPop from './WsMsgPop';
 import { userOrderAPI } from '../api/userApi';
+import { useTokenCheck } from '../utils/tokenCheck';
 
-const GlobalWs = withRouter(({ location }) => {
+const GlobalWs = withRouter(() => {
   const { isSignedIn, me } = useSelector(state => state.user);
   const { sendOrderState, wsConnect } = useSelector(state => state.order);
   const [isConnect, setIsConnect] = useState(false);
@@ -15,6 +16,7 @@ const GlobalWs = withRouter(({ location }) => {
   const [isPopup, setIsPopup] = useState(false);
   const dispatch = useDispatch();
   const [wscl, setwscl] = useState(null);
+  const { tokenCheck } = useTokenCheck();
 
   // 인증 토큰은 로그인 될 때 마다 localStorage에 저장, 저장된 토큰을 꺼내 쓰는 함수
   const token = () => {
@@ -25,8 +27,8 @@ const GlobalWs = withRouter(({ location }) => {
 
   // ws 연결을 시도하는 함수
   const socketOrderInit = () => {
-    // 진짜 웹소켓 정의
-    const wsclient = Stomp.over(new SockJS('/teamonion', null, {}));
+    // 웹소켓 정의
+    const wsclient = Stomp.over(new SockJS('http://teamonion-idev.tmon.co.kr/teamonion', null, {}));
     setwscl(wsclient);
     wsclient.connect({ Authorization: token() }, frame => {
       setIsConnect(true);
@@ -102,7 +104,7 @@ const GlobalWs = withRouter(({ location }) => {
           if (content.length > 0 || me.memberRole === 'ADMIN') callback();
         }
       } catch (e) {
-        console.log(e);
+        tokenCheck(e);
       }
     };
     fetchMyOrder();
