@@ -77,6 +77,20 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
     }
   }, [menuPopupData, imageFile, information, isEdit, name, price]);
 
+  const imgTypeValidate = obj => {
+    const file_kind = obj.value.lastIndexOf('.');
+    const file_name = obj.value.substring(file_kind + 1, obj.length);
+    const file_type = file_name.toLowerCase();
+
+    const check_file_type = ['jpg', 'gif', 'png', 'jpeg', 'bmp'];
+
+    if (check_file_type.indexOf(file_type) == -1) {
+      alert('이미지 파일만 선택할 수 있습니다.');
+      return false;
+    }
+    return true;
+  };
+
   return (
     // name, price, information, imageFile(src)
     <div className="MenuManagePopup">
@@ -126,7 +140,13 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
             type="file"
             className="fileInput"
             ref={fileInputRef}
+            accept="image/gif, image/jpeg, image/png"
             onChange={e => {
+              if (!imgTypeValidate(e.target)) {
+                e.target.files = undefined;
+                e.target.value = '';
+                return false;
+              }
               inputImgPreview(fileInputRef.current, inputImgRef.current);
               setPopupFile(e.target.files[0]);
             }}
