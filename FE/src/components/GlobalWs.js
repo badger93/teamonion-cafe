@@ -7,7 +7,6 @@ import { setChangedOrderAction } from '../redux/actions/orderAction';
 import WsMsgPop from './WsMsgPop';
 import { userOrderAPI } from '../api/userApi';
 import { useTokenCheck } from '../utils/tokenCheck';
-import { logOutAction } from '../redux/actions/userAction';
 
 const GlobalWs = withRouter(({ location }) => {
   const { isSignedIn, me } = useSelector(state => state.user);
@@ -17,11 +16,7 @@ const GlobalWs = withRouter(({ location }) => {
   const [isPopup, setIsPopup] = useState(false);
   const dispatch = useDispatch();
   const [wscl, setwscl] = useState(null);
-
-  const logout = () => {
-    dispatch(logOutAction());
-    return false;
-  };
+  const { tokenCheck } = useTokenCheck();
 
   // 인증 토큰은 로그인 될 때 마다 localStorage에 저장, 저장된 토큰을 꺼내 쓰는 함수
   const token = () => {
@@ -109,7 +104,7 @@ const GlobalWs = withRouter(({ location }) => {
           if (content.length > 0 || me.memberRole === 'ADMIN') callback();
         }
       } catch (e) {
-        logout();
+        tokenCheck(e);
       }
     };
     fetchMyOrder();
