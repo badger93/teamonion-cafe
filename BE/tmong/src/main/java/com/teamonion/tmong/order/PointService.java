@@ -1,7 +1,7 @@
 package com.teamonion.tmong.order;
 
 import com.teamonion.tmong.exception.GlobalException;
-import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.OrdersExceptionType;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberService;
 import lombok.NonNull;
@@ -35,7 +35,7 @@ public class PointService {
         long point = buyerOwnPoint - amount;
 
         if (point < 0) {
-            throw new GlobalException(GlobalExceptionType.ORDER_POINT_LACK);
+            throw new GlobalException(OrdersExceptionType.ORDER_POINT_LACK);
         }
 
         return memberService.pointUpdate(buyer.getId(), point);

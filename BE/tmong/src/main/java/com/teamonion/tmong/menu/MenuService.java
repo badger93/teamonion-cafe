@@ -2,7 +2,8 @@ package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.authorization.JwtComponent;
 import com.teamonion.tmong.exception.GlobalException;
-import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.MenuExceptionType;
+import com.teamonion.tmong.exception.OrdersExceptionType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -42,10 +43,11 @@ public class MenuService {
     @Transactional
     public void updateMenu(Long id, MenuUpdateRequest menuUpdateRequest) {
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new GlobalException(GlobalExceptionType.MENU_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(MenuExceptionType.MENU_NOT_FOUND));
 
         MultipartFile imageFile = menuUpdateRequest.getImageFile();
-        String imagePath = imageFileService.imageUpdateProcess(imageFile, menu.getImagePath());;
+        String imagePath = imageFileService.imageUpdateProcess(imageFile, menu.getImagePath());
+        ;
 
         menu = menuUpdateRequest.toEntity(imagePath);
         menu.update(id);
@@ -66,7 +68,7 @@ public class MenuService {
     @Transactional
     void deleteByMenuId(Long id) {
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new GlobalException(GlobalExceptionType.MENU_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(MenuExceptionType.MENU_NOT_FOUND));
         String imagePath = menu.getImagePath();
 
         menu.delete();
@@ -78,8 +80,8 @@ public class MenuService {
     public List<Menu> getOrderMenus(List<Long> menuIdList) {
         List<Menu> list = menuRepository.findByDeletedFalseAndIdIn(menuIdList);
 
-        if(menuIdList.size() != list.size()){
-            throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
+        if (menuIdList.size() != list.size()) {
+            throw new GlobalException(OrdersExceptionType.ORDER_MENU_NOT_FOUND);
         }
         return list;
     }

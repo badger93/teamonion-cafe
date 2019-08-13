@@ -1,7 +1,7 @@
 package com.teamonion.tmong.authorization;
 
 import com.google.common.net.HttpHeaders;
-import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.AuthorizationExceptionType;
 import com.teamonion.tmong.exception.GlobalException;
 import com.teamonion.tmong.member.Member;
 import com.teamonion.tmong.member.MemberRole;
@@ -11,11 +11,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Optional;
 
@@ -47,23 +45,23 @@ public class JwtComponent {
                     .parseClaimsJws(jwt);
         } catch (JwtException e) {
             log.debug("JWT is invalid : {}", e.getMessage());
-            throw new GlobalException(GlobalExceptionType.UNAUTHORIZED);
+            throw new GlobalException(AuthorizationExceptionType.UNAUTHORIZED);
         }
     }
 
     public void checkAdmin() {
         if (!getClaimValueByToken(ROLE).equals(MemberRole.ADMIN.toString())) {
             log.debug("checkAdmin fail.. this MemberRole : {}", getClaimValueByToken(ROLE));
-            throw new GlobalException(GlobalExceptionType.UNAUTHORIZED);
+            throw new GlobalException(AuthorizationExceptionType.UNAUTHORIZED);
         }
         log.debug("Hello Admin");
     }
 
     public String getClaimValueByToken(String claimName) {
-        String authorization = Optional.ofNullable((ServletRequestAttributes)RequestContextHolder.currentRequestAttributes())
+        String authorization = Optional.ofNullable((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
                 .map(ServletRequestAttributes::getRequest)
                 .map(r -> r.getHeader(HttpHeaders.AUTHORIZATION))
-                .orElseThrow(() -> new GlobalException(GlobalExceptionType.REQUEST_IS_NULL));
+                .orElseThrow(() -> new GlobalException(AuthorizationExceptionType.REQUEST_IS_NULL));
         String jwt = authorization.substring(AUTHORIZATION_TYPE.length()).trim();
 
         return (String) Jwts.parser()
@@ -84,7 +82,7 @@ public class JwtComponent {
     public void checkAdminForWebSocket(String jwt) {
         if (!getClaimValueByTokenForWebSocket(jwt, ROLE).equals(MemberRole.ADMIN.toString())) {
             log.debug("checkAdmin fail.. this MemberRole : {}", getClaimValueByTokenForWebSocket(jwt, ROLE));
-            throw new GlobalException(GlobalExceptionType.UNAUTHORIZED);
+            throw new GlobalException(AuthorizationExceptionType.UNAUTHORIZED);
         }
     }
 

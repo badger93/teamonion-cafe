@@ -2,7 +2,7 @@ package com.teamonion.tmong.websocket;
 
 import com.teamonion.tmong.authorization.CheckJwt;
 import com.teamonion.tmong.exception.GlobalException;
-import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.OrdersExceptionType;
 import com.teamonion.tmong.order.Orders;
 import com.teamonion.tmong.order.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,7 @@ public class WebSocketController {
             }
 
             Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
-                    .orElseThrow(() -> new GlobalException(GlobalExceptionType.ORDER_NOT_FOUND));
+                    .orElseThrow(() -> new GlobalException(OrdersExceptionType.ORDER_NOT_FOUND));
 
             /**
              * Orders 객체에게 요청을 넘기며 처리해달라고 부탁 해보는 건 어떨까요
