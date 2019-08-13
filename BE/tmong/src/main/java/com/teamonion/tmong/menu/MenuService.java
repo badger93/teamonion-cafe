@@ -108,7 +108,7 @@ public class MenuService {
                 .collect(toMap(Menu::getId, identity()));
 
         // 주문한 메뉴가 주문 가능한 메뉴인지 확인
-        if(menus.keySet().containsAll(menuIds)){
+        if(!menus.keySet().containsAll(menuIds)){
             throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
         }
 
