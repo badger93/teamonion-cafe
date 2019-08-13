@@ -66,7 +66,7 @@ const AdminOrderManageContainer = () => {
     }
     // 추가
     if (arrangedItem && arrangedItem.menus) {
-      const arrangedList = currentOrderList.concat(arrangedItem);
+      const arrangedList = [arrangedItem].concat(currentOrderList);
       setCurrentOrderList(arrangedList);
     }
   }, [arrangedItem]);
