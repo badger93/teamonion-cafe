@@ -1,7 +1,7 @@
 import { all, fork, takeLatest, call, put } from 'redux-saga/effects';
 import { PAY_FAILURE, PAY_SUCCESS, PAY_REQUEST } from '../actions/payAction';
 import { payAPI } from '../../api/payApi';
-import { CHANGE_POINT_REQUEST } from '../actions/userAction';
+import { CHANGE_POINT_REQUEST, LOG_OUT } from '../actions/userAction';
 
 function* pay(action) {
   try {
@@ -16,6 +16,15 @@ function* pay(action) {
     });
   } catch (e) {
     const { response: { data = '' } = {} } = e;
+    console.log(e);
+    if (data === '' || data === '인증에 실패했습니다') {
+      yield put({
+        type: LOG_OUT,
+      });
+      localStorage.removeItem('USER');
+      localStorage.removeItem('CART');
+      localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
+    }
     yield put({
       type: PAY_FAILURE,
       payErrorReason: data,

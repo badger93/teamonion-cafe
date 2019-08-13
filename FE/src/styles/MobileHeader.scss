@@ -151,9 +151,10 @@
 .header_mobile-list-none {
   position: absolute;
   width: 0%;
+  height: 0;
   top: 0;
   right: 0;
-  display: flex;
+  display: none;
   flex-direction: column;
   height: 100vh;
   color: white;

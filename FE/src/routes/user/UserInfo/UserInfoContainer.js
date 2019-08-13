@@ -34,6 +34,7 @@ const UserInfoContainer = () => {
       console.log(e);
       dispatch(logOutAction());
       localStorage.removeItem('USER');
+      localStorage.removeItem('CART');
       localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
     }
   };
