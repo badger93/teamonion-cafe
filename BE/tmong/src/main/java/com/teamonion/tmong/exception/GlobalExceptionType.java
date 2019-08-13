@@ -10,11 +10,11 @@ public enum GlobalExceptionType {
     MENU_IMAGE_DELETE_ERROR("메뉴 이미지를 삭제하는데 실패했습니다", HttpStatus.INTERNAL_SERVER_ERROR),
     ORDER_MEMBER_NOT_FOUND("주문자 정보가 올바르지 않습니다", HttpStatus.BAD_REQUEST),
     ORDER_POINT_LACK("보유한 포인트가 부족합니다", HttpStatus.PAYMENT_REQUIRED),
-    UNAUTHORIZED("인증에 실패했습니다", HttpStatus.UNAUTHORIZED),
-    REQUEST_IS_NULL("Request가 null 입니다", HttpStatus.BAD_REQUEST),
     ORDER_CATEGORY_INVALID("유효하지 않은 카테고리 입니다", HttpStatus.BAD_REQUEST),
     ORDER_NOT_FOUND("주문이 존재하지 않습니다", HttpStatus.BAD_REQUEST),
-    ORDER_MENU_NOT_FOUND("주문 메뉴 정보가 존재하지 않습니다", HttpStatus.BAD_REQUEST);
+    ORDER_MENU_NOT_FOUND("주문 메뉴 정보가 존재하지 않습니다", HttpStatus.BAD_REQUEST),
+    REQUEST_IS_NULL("Request가 null 입니다", HttpStatus.BAD_REQUEST),
+    UNAUTHORIZED("인증에 실패했습니다", HttpStatus.UNAUTHORIZED);
 
     private String errorMessage;
     private HttpStatus httpStatus;

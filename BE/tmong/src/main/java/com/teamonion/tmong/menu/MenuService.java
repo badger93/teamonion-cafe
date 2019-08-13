@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -89,21 +90,14 @@ public class MenuService {
     public List<Menu> getOrderMenus(List<Long> menuIdList) {
         List<Menu> tempMenusList = menuRepository.findByDeletedFalseAndIdIn(menuIdList.stream().distinct().collect(Collectors.toList()));
 
-        // TODO : 내용물이 다 들어있는지 확인
-        // 모두 포함
-
-        log.info("======== tempMenusList =======");
-
-        for (Menu m : tempMenusList) {
-            log.info("m.getId() : {}", m.getId());
-        }
-
+        // 주문한 메뉴 정보가 존재하는지 확인
         if (!tempMenusList.stream().map(Menu::getId).collect(Collectors.toList()).containsAll(menuIdList)) {
             throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
         }
 
         List<Menu> list = new ArrayList<>();
 
+        // TODO : 차례대로 list에 담기
         for (Long id : menuIdList) {
             for (Menu menu : tempMenusList) {
                 if (menu.getId().equals(id)) {
@@ -112,8 +106,12 @@ public class MenuService {
             }
         }
 
+//        list = tempMenusList.stream()
+//                .filter(menu -> menuIdList.stream().anyMatch(id -> menu.getId().equals(id)))
+//                .collect(Collectors.toList());
+
 //        list = menuIdList.stream()
-//                .filter(id -> tempMenusList.stream().mapToLong(Menu::getId).anyMatch(Predicate.isEqual(id)))
+//                .filter(id -> tempMenusList.stream().anyMatch(menu -> id.equals(menu.getId())))
 //                .collect(Collectors.toList());
 
         log.info("======== list =======");
@@ -121,20 +119,7 @@ public class MenuService {
         for (Menu m : list) {
             log.info("m.getId() : {}", m.getId());
         }
-//        menuIdList.stream().filter((id) -> tempMenusList.stream().filter(menu -> menu.getId().equals(id)));
-//
-//        list.add(null);
 
-        // TODO : 차례대로 list에 담기
-
-        // 1,1,2,8
-        // 1,2,8 크기 다르고 내용물 다르고
-        // 1, 1, 1
-        // 1
-        // 크기 다르고 내용물은 같고
-//        if(menuIdList.size() != list.size()){
-//            throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
-//        }
         return list;
     }
 }
