@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/Payform.scss';
 import { Redirect } from 'react-router-dom';
@@ -44,8 +44,14 @@ const PayForm = ({
     }
   }, [isPaid]);
 
+  const isInitialMount = useRef(true);
+
   useEffect(() => {
-    setShowupStringFunc(payErrorReason);
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      setShowupStringFunc(payErrorReason);
+    }
   }, [payErrorReason]);
 
   const onSubmit = async e => {
