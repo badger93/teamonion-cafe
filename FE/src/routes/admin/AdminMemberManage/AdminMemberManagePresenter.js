@@ -47,7 +47,10 @@ const AdminMemberManagePresenter = ({
 
   const onGridRowsUpdated = ({ toRow, updated }) => {
     const data = Object.assign({}, { id: rows[toRow].id, changePoint: updated.point });
-    setPoint(data);
+    const isPointChange = window.confirm(
+      `${rows[toRow].memberId}님의 포인트를 ${data.changePoint}로 변경하시겠습니까?`,
+    );
+    isPointChange && setPoint(data);
   };
 
   const pageCallback = useCallback(
