@@ -34,10 +34,12 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
         if (isEdit) {
           updateItem(formData, id, fakeImg);
           setIsPopup(false);
+          alert(`${popupName} 수정되었습니다`);
         } else {
           if (popupFile) {
             createItem(formData, fakeImg);
             setIsPopup(false);
+            alert(`${popupName} 추가되었습니다`);
           } else {
             alert('이미지를 넣어주세요');
           }
