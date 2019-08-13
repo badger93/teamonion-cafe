@@ -13,11 +13,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.LongPredicate;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 @RequiredArgsConstructor
 @Service
@@ -87,18 +93,16 @@ public class MenuService {
         imageFileService.deleteImageFile(imagePath);
     }
 
-    public List<Menu> getOrderMenus(List<Long> menuIdList) {
-        List<Menu> tempMenusList = menuRepository.findByDeletedFalseAndIdIn(menuIdList.stream().distinct().collect(Collectors.toList()));
+    public List<Menu> getOrderMenus(List<Long> menuIds) {
 
-        // 주문한 메뉴 정보가 존재하는지 확인
-        if (!tempMenusList.stream().map(Menu::getId).collect(Collectors.toList()).containsAll(menuIdList)) {
-            throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
-        }
+        Map<Long, Menu> menus = getDistinctMenus(menuIds);
 
-        List<Menu> list = new ArrayList<>();
+        return menuIds.stream()
+                .map(menus::get)
+                .collect(toList());
 
         // TODO : 차례대로 list에 담기
-        for (Long id : menuIdList) {
+        for (Long id : menuIds) {
             for (Menu menu : tempMenusList) {
                 if (menu.getId().equals(id)) {
                     list.add(menu);
@@ -121,5 +125,20 @@ public class MenuService {
         }
 
         return list;
+    }
+
+    private Map<Long, Menu> getDistinctMenus(List<Long> menuIds) {
+        Map<Long, Menu> menus = menuRepository.findByDeletedFalseAndIdIn(menuIds)
+                .stream()
+                .distinct()
+                .collect(toMap(Menu::getId, identity()));
+
+        // 주문한 메뉴 정보가 존재하는지 확인
+        if (!tempMenusList.stream().map(Menu::getId).collect(toList()).containsAll(menuIds)) {
+            throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
+        }
+
+        return  menus;
+
     }
 }
