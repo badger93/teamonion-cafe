@@ -13,7 +13,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -37,7 +40,7 @@ public class MenuService {
         Menu addedMenu = menuRepository.save(menuAddRequest.toEntity(path));
 
         // TODO : save 실패 시 ?
-        if(addedMenu == null) {
+        if (addedMenu == null) {
             imageFileService.deleteImageFile(path);
 //            throw new RuntimeException("메뉴를 추가하는데 실패했습니다. - DB Connection");
         }
@@ -84,11 +87,54 @@ public class MenuService {
     }
 
     public List<Menu> getOrderMenus(List<Long> menuIdList) {
-        List<Menu> list = menuRepository.findByDeletedFalseAndIdIn(menuIdList);
+        List<Menu> tempMenusList = menuRepository.findByDeletedFalseAndIdIn(menuIdList.stream().distinct().collect(Collectors.toList()));
 
-        if(menuIdList.size() != list.size()){
+        // TODO : 내용물이 다 들어있는지 확인
+        // 모두 포함
+
+        log.info("======== tempMenusList =======");
+
+        for (Menu m : tempMenusList) {
+            log.info("m.getId() : {}", m.getId());
+        }
+
+        if (!tempMenusList.stream().map(Menu::getId).collect(Collectors.toList()).containsAll(menuIdList)) {
             throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
         }
+
+        List<Menu> list = new ArrayList<>();
+
+        for (Long id : menuIdList) {
+            for (Menu menu : tempMenusList) {
+                if (menu.getId().equals(id)) {
+                    list.add(menu);
+                }
+            }
+        }
+
+//        list = menuIdList.stream()
+//                .filter(id -> tempMenusList.stream().mapToLong(Menu::getId).anyMatch(Predicate.isEqual(id)))
+//                .collect(Collectors.toList());
+
+        log.info("======== list =======");
+
+        for (Menu m : list) {
+            log.info("m.getId() : {}", m.getId());
+        }
+//        menuIdList.stream().filter((id) -> tempMenusList.stream().filter(menu -> menu.getId().equals(id)));
+//
+//        list.add(null);
+
+        // TODO : 차례대로 list에 담기
+
+        // 1,1,2,8
+        // 1,2,8 크기 다르고 내용물 다르고
+        // 1, 1, 1
+        // 1
+        // 크기 다르고 내용물은 같고
+//        if(menuIdList.size() != list.size()){
+//            throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
+//        }
         return list;
     }
 }
