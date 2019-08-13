@@ -13,6 +13,11 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
   const inputImgRef = useRef(null); // 인풋 미리보기 img 태그
   const fileInputRef = useRef(null); // 파일 input 태그
 
+  const isSpecial = str => {
+    const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
+    return reg.test(str);
+  };
+
   const onSubmitCallback = useCallback(
     e => {
       e.preventDefault();
@@ -124,7 +129,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
           <input
             type="number"
             value={popupPrice}
-            onChange={e => setPopupPrice(e.target.value)}
+            onChange={e => setPopupPrice(`${parseInt(e.target.value)}`)}
             className="priceInput"
           />
         </div>
