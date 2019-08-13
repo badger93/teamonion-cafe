@@ -16,7 +16,9 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
   const [tryPay, setTryPay] = useState(false); // 로그인후 바로 리디렉션을 위한 값
   const [willPay, setWillPay] = useState(false); // 리디렉션을 위한 값
 
-  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
+  const { setShowupStringFunc, showupString, isShowing, timeOut } = useShowupString('');
+
+  let cartTimeOut = null;
 
   const popupControl = useCallback(() => {
     dispatch(signInPopupChangeAction());
@@ -47,7 +49,7 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
         }
 
         setWillPay(true); // 리디렉션을 위한 값
-        setTimeout(() => setWillPay(false), 5000);
+        cartTimeOut = setTimeout(() => setWillPay(false), 1000);
       }
       asyncSubmit();
     },
@@ -63,6 +65,13 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
       setShowupStringFunc,
     ],
   );
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(timeOut);
+      clearTimeout(cartTimeOut);
+    };
+  }, []);
 
   const isInitialMount = useRef(true); // 최초 마운트시점이 아닌 업데이트시만 작동하도록 확인
 

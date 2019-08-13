@@ -22,7 +22,7 @@ const PayForm = ({
 
   const [afterPoint, setAfterPoint] = useState(0);
 
-  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
+  const { setShowupStringFunc, showupString, isShowing, timeOut } = useShowupString('');
 
   const cartLocalStorage = useLocalStorage('CART', []);
   const { cart, setAllCart } = useCart(cartLocalStorage.storedValue, cartLocalStorage);
@@ -30,7 +30,10 @@ const PayForm = ({
   useEffect(() => {
     const Point = user.point - totalPrice + totalPrice / 10;
     setAfterPoint(Point);
-    return () => dispatch(payFinishAction());
+    return () => {
+      dispatch(payFinishAction());
+      clearTimeout(timeOut);
+    };
   }, []);
 
   useEffect(() => {
@@ -56,6 +59,7 @@ const PayForm = ({
       member_id: user.id,
     };
     dispatch(payRequestAction(requestInfo));
+    setShowupStringFunc(payErrorReason);
     // PayRequest
 
     // PayFinish, redux state change
