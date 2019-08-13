@@ -13,38 +13,56 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
   const inputImgRef = useRef(null); // 인풋 미리보기 img 태그
   const fileInputRef = useRef(null); // 파일 input 태그
 
+  // 특수문자있는지 체크
   const isSpecial = str => {
     const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
     return reg.test(str);
   };
 
+  // 문자 좌우 공백 제거
+  const trimStr = str => {
+    return str.replace(/^\s+|\s+$/g, '');
+  };
+
+  // 제출버튼 callback
   const onSubmitCallback = useCallback(
     e => {
       e.preventDefault();
       if (popupName && popupPrice && popupInformation) {
+        // 서버와 통신하지 않고 이미지를 바로 리스트에 올리기 위한 fakeImg 지정
         const fakeImg = inputImgRef.current.getAttribute('src');
-        const formData = new FormData();
+        const trimedName = trimStr(popupName);
+        const trimedPrice = `${parseInt(popupPrice)}`;
 
+        // 상품명엔 특수문자 포함 할 수 없음
+        if (isSpecial(popupName)) {
+          alert('제목에 특수문자를 포함 할 수 없습니다');
+          return false;
+        }
+
+        // 폼데이터 담기 수정일때 / 추가일때
+        const formData = new FormData();
         if (isEdit && !fileInputRef.current.files[0]) {
-          formData.append('name', popupName);
-          formData.append('price', popupPrice);
+          formData.append('name', trimedName);
+          formData.append('price', trimedPrice);
           formData.append('information', popupInformation);
         } else {
-          formData.append('name', popupName);
-          formData.append('price', popupPrice);
+          formData.append('name', trimedName);
+          formData.append('price', trimedPrice);
           formData.append('information', popupInformation);
           formData.append('imageFile', popupFile);
         }
 
+        // 폼데이터 전송 수정일때 / 추가일때
         if (isEdit) {
           updateItem(formData, id, fakeImg);
           setIsPopup(false);
-          alert(`${popupName} 수정되었습니다`);
+          alert(`${trimedName} 수정되었습니다`);
         } else {
           if (popupFile) {
             createItem(formData, fakeImg);
             setIsPopup(false);
-            alert(`${popupName} 추가되었습니다`);
+            alert(`${trimedName} 추가되었습니다`);
           } else {
             alert('이미지를 넣어주세요');
           }
@@ -66,11 +84,12 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
     ],
   );
 
+  // 팝업 내용을 초기화 해 줌
   useEffect(() => {
     if (isEdit) {
       // 수정모드 init
       setPopupName(name);
-      setPopupPrice(price);
+      setPopupPrice(String(price));
       setPopupInformation(information);
       setPopupFile(null);
       inputImgRef.current.setAttribute('src', imageFile);
@@ -84,6 +103,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
     }
   }, [menuPopupData, imageFile, information, isEdit, name, price]);
 
+  // input file form에 들어간 이미지 validation
   const imgTypeValidate = obj => {
     const file_kind = obj.value.lastIndexOf('.');
     const file_name = obj.value.substring(file_kind + 1, obj.length);
@@ -129,7 +149,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
           <input
             type="number"
             value={popupPrice}
-            onChange={e => setPopupPrice(`${parseInt(e.target.value)}`)}
+            onChange={e => setPopupPrice(e.target.value)}
             className="priceInput"
           />
         </div>
