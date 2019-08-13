@@ -3,10 +3,8 @@ import { logOutAction } from '../redux/actions/userAction';
 
 export const useTokenCheck = () => {
   const dispatch = useDispatch();
-  const tokenCheck = err => {
-    if (err) {
-      dispatch(logOutAction());
-    }
+  const tokenCheck = () => {
+    dispatch(logOutAction());
     return false;
   };
   return { tokenCheck };
