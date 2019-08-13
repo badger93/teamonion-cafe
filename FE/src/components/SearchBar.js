@@ -3,26 +3,16 @@ import propTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import '../styles/SearchBar.scss';
+import { isSpecial, trimStr } from '../utils/validateText';
 
 const SearchBar = ({ searchCallback }) => {
   const [searchText, setSearchText] = useState('');
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
-  // 특수문자있는지 체크
-  const isSpecial = str => {
-    const reg = /[\{\}\[\]\/?.,;:|\)*~`!^\-+<>@\#$%&\\\=\(\'\"]/gi;
-    return reg.test(str);
-  };
-
-  // 문자 좌우 공백 제거
-  const trimStr = str => {
-    return str.replace(/^\s+|\s+$/g, '');
-  };
-
   const submitCallback = useCallback(
     e => {
       e.preventDefault();
-      if (!isSpecial) {
+      if (isSpecial(searchText)) {
         alert('검색어에 특수문자를 포함 할 수 없습니다');
         setSearchText('');
       } else {
