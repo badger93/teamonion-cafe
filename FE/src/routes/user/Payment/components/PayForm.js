@@ -6,6 +6,7 @@ import PayListItem from './PayListItem';
 import { payRequestAction, payFinishAction } from '../../../../redux/actions/payAction';
 import { useShowupString } from '../../../../utils/signUpForm';
 import ShowUpMessage from '../../../../components/ShowUpMessage';
+import { useCart, useLocalStorage, CartDelete } from '../../../../utils/cart';
 
 const PayForm = ({
   dispatch,
@@ -23,11 +24,22 @@ const PayForm = ({
 
   const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
 
+  const cartLocalStorage = useLocalStorage('CART', []);
+  const { cart, setAllCart } = useCart(cartLocalStorage.storedValue, cartLocalStorage);
+
   useEffect(() => {
     const Point = user.point - totalPrice + totalPrice / 10;
     setAfterPoint(Point);
     return () => dispatch(payFinishAction());
   }, []);
+
+  useEffect(() => {
+    // 결제완료시 삭제
+    if (isPaid) {
+      const paidItems = itemsForPay && Object.values(itemsForPay);
+      paidItems && paidItems.forEach(item => CartDelete(cart, setAllCart, item.cartId));
+    }
+  }, [isPaid]);
 
   useEffect(() => {
     setShowupStringFunc(payErrorReason);

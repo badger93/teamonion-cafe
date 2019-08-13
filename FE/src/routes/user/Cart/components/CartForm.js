@@ -43,14 +43,7 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
 
         // 체크된 메뉴들 삭제
         for (let i = 0; i < checkedItem.length; i + 1) {
-          CartDelete(
-            cart,
-            setAllCart,
-            checkedItem[i].cartId,
-            checkedItem,
-            setCheckedItem,
-            setShowupStringFunc,
-          );
+          CartDelete(cart, null, checkedItem[i].cartId, checkedItem, setCheckedItem);
         }
 
         setWillPay(true); // 리디렉션을 위한 값
