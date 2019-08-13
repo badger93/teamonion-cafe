@@ -50,7 +50,6 @@ const AdminOrderManageContainer = () => {
     const socketInit = async () => {
       try {
         const res = await getNonpickupAll();
-        console.log(res);
         const resList = res.data.content;
         const listData = resList.map(item => {
           return {
