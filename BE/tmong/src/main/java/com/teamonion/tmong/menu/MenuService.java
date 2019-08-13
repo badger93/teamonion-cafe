@@ -93,52 +93,25 @@ public class MenuService {
         imageFileService.deleteImageFile(imagePath);
     }
 
-    public List<Menu> getOrderMenus(List<Long> menuIds) {
-
-        Map<Long, Menu> menus = getDistinctMenus(menuIds);
+    public List<Menu> getMenus(List<Long> menuIds) {
+        Map<Long, Menu> menus = getValidMenus(menuIds);
 
         return menuIds.stream()
                 .map(menus::get)
                 .collect(toList());
-
-        // TODO : 차례대로 list에 담기
-        for (Long id : menuIds) {
-            for (Menu menu : tempMenusList) {
-                if (menu.getId().equals(id)) {
-                    list.add(menu);
-                }
-            }
-        }
-
-//        list = tempMenusList.stream()
-//                .filter(menu -> menuIdList.stream().anyMatch(id -> menu.getId().equals(id)))
-//                .collect(Collectors.toList());
-
-//        list = menuIdList.stream()
-//                .filter(id -> tempMenusList.stream().anyMatch(menu -> id.equals(menu.getId())))
-//                .collect(Collectors.toList());
-
-        log.info("======== list =======");
-
-        for (Menu m : list) {
-            log.info("m.getId() : {}", m.getId());
-        }
-
-        return list;
     }
 
-    private Map<Long, Menu> getDistinctMenus(List<Long> menuIds) {
+    private Map<Long, Menu> getValidMenus(List<Long> menuIds) {
         Map<Long, Menu> menus = menuRepository.findByDeletedFalseAndIdIn(menuIds)
                 .stream()
                 .distinct()
                 .collect(toMap(Menu::getId, identity()));
 
-        // 주문한 메뉴 정보가 존재하는지 확인
-        if (!tempMenusList.stream().map(Menu::getId).collect(toList()).containsAll(menuIds)) {
+        // 주문한 메뉴가 주문 가능한 메뉴인지 확인
+        if(menus.keySet().containsAll(menuIds)){
             throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
         }
 
         return  menus;
-
     }
 }
