@@ -59,7 +59,7 @@ const MenuDetail = ({ menuDetailData, setIsMenuPopup }) => {
   return (
     <>
       {isPay && <Redirect to="/payment" />}
-      <div className="menuDetail">
+      <div className="menuDetail" onClick={e => e.stopPropagation()}>
         <aside>
           <div className="img-area">
             <img src={imagePath} alt="제품이미지" />
