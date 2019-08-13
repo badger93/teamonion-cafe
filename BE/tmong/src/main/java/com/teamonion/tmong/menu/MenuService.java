@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.function.LongPredicate;
@@ -22,8 +23,7 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.*;
 
 @RequiredArgsConstructor
 @Service
@@ -108,7 +108,7 @@ public class MenuService {
                 .collect(toMap(Menu::getId, identity()));
 
         // 주문한 메뉴가 주문 가능한 메뉴인지 확인
-        if(!menus.keySet().containsAll(menuIds)){
+        if(!menus.keySet().containsAll(new HashSet<>(menuIds))){
             throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
         }
 
