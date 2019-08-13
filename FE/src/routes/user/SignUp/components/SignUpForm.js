@@ -11,7 +11,6 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [passwordCheck, setPasswordCheck] = useState('');
-  const [passwordError, setPasswordError] = useState(false);
   const [duplicateError, setDuplicateError] = useState(true);
 
   const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
@@ -79,13 +78,26 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
     }
   }, []);
 
-  const onChangePassword = useCallback(e => {
-    setPassword(e.target.value);
-  }, []);
+  const onChangePassword = useCallback(
+    e => {
+      if (!/^[a-zA-Z0-9]{8,16}$/.test(e.target.value)) {
+        setShowupStringFunc('password는 8~16자 입력과 영문,숫자조합이 필요합니다');
+      } else if (e.target.value !== passwordCheck) {
+        setShowupStringFunc('비밀번호가 다릅니다');
+      }
+
+      setPassword(e.target.value);
+    },
+    [passwordCheck],
+  );
 
   const onChangePasswordCheck = useCallback(
     e => {
-      setPasswordError(e.target.value !== password); // 비밀번호체크
+      if (!/^[a-zA-Z0-9]{8,16}$/.test(e.target.value)) {
+        setShowupStringFunc('password는 8~16자 입력과 영문,숫자조합이 필요합니다');
+      } else if (e.target.value !== password) {
+        setShowupStringFunc('비밀번호가 다릅니다');
+      }
       setPasswordCheck(e.target.value);
     },
     [password],
@@ -101,6 +113,7 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
           className="signup_input signup_id_input"
           value={id}
           onChange={onChangeId}
+          required
         />
         <button type="submit" onClick={onDuplicateSubmit}>
           중복검사
@@ -113,6 +126,7 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
           className="signup_input"
           value={password}
           onChange={onChangePassword}
+          required
         />
       </div>
       <div className="signup_form_row">
@@ -122,9 +136,9 @@ const SignUpForm = ({ dispatch, isSigningUp, isSignedUp }) => {
           className="signup_input"
           value={passwordCheck}
           onChange={onChangePasswordCheck}
+          required
         />
       </div>
-      {passwordError && <div style={{ color: 'red' }}>비밀번호가 다릅니다!</div>}
       <ShowUpMessage isShowing={isShowing} showupString={showupString} />
       <div className="signup_form_row signup_form_submit">
         <button className="submit_button" type="submit">
