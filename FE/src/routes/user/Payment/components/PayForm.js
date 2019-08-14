@@ -47,7 +47,7 @@ const PayForm = ({
     setShowupStringFunc(payErrorReason);
   }, [payErrorReason]);
 
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault();
 
     const menuIdList = Object.values(itemsForPay).map(item => item.id);

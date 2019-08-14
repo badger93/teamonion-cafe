@@ -92,7 +92,7 @@ const MyOrderContainer = () => {
 
   return (
     <div className="myOrderContainer">
-      {isCanvasOpen && <CanvasModal setIsCanvasOpen={setIsCanvasOpen} />}
+      {/* {isCanvasOpen && <CanvasModal setIsCanvasOpen={setIsCanvasOpen} />} */}
       <MyOrderPresenter
         setIsCanvasOpen={setIsCanvasOpen}
         isLoading={isLoading}
