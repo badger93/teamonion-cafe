@@ -37,7 +37,7 @@ public class WebSocketController {
 
     private void processSendMessage(WebSocketResponse webSocketResponse) {
         // 주문자
-        String buyerSessionId = StompInterceptor.getProcessingSessions().get(webSocketResponse.getBuyerId());
+        String buyerSessionId = ConnectedSession.get(webSocketResponse.getBuyerId());
         if (buyerSessionId != null) {
             log.info("buyerSessionId exist ... {}", buyerSessionId);
             SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);

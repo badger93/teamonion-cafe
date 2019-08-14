@@ -34,6 +34,16 @@ public class ImageFileService {
         return setMenuImagePath(imageFile);
     }
 
+    public String imageUpdateProcess(MultipartFile imageFile, String imagePath) {
+        if (imageFile != null) {
+            deleteImageFile(imagePath);
+
+            imagePath = imageSaveProcess(imageFile);
+        }
+
+        return imagePath;
+    }
+
     private void validImageFile(String contentType) {
         // the content type, or null if not defined (or no file has been chosen in the multipart form)
         if (contentType == null) {
@@ -80,13 +90,4 @@ public class ImageFileService {
         }
     }
 
-    public String imageUpdateProcess(MultipartFile imageFile, String imagePath) {
-        if (imageFile != null) {
-            deleteImageFile(imagePath);
-
-            imagePath = imageSaveProcess(imageFile);
-        }
-
-        return imagePath;
-    }
 }
