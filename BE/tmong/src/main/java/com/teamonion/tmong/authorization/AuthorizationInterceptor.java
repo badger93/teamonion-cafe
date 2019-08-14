@@ -1,6 +1,6 @@
 package com.teamonion.tmong.authorization;
 
-import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.AuthorizationExceptionType;
 import com.teamonion.tmong.exception.GlobalException;
 import com.teamonion.tmong.member.MemberRole;
 import org.slf4j.Logger;
@@ -35,7 +35,7 @@ public class AuthorizationInterceptor extends HandlerInterceptorAdapter {
         }
 
         String authorization = Optional.ofNullable(request.getHeader(HttpHeaders.AUTHORIZATION))
-                .orElseThrow(() -> new GlobalException(GlobalExceptionType.UNAUTHORIZED));
+                .orElseThrow(() -> new GlobalException(AuthorizationExceptionType.UNAUTHORIZED));
         String jwt = authorization.substring(AUTHORIZATION_TYPE.length()).trim();
 
         jwtComponent.checkTokenValidation(jwt);

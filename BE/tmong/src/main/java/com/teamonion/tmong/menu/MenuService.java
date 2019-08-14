@@ -2,7 +2,8 @@ package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.authorization.JwtComponent;
 import com.teamonion.tmong.exception.GlobalException;
-import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.MenuExceptionType;
+import com.teamonion.tmong.exception.OrdersExceptionType;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -29,18 +30,12 @@ public class MenuService {
     @NonNull
     private final JwtComponent jwtComponent;
 
-    // TODO : 이미지 저장 후 DB 저장,
-    // TODO : DB저장 실패했을 경우 저장된 이미지 삭제되도록 !
     Long add(MenuAddRequest menuAddRequest) {
         String path = imageFileService.imageSaveProcess(menuAddRequest.getImageFile());
 
         Menu addedMenu = menuRepository.save(menuAddRequest.toEntity(path));
 
-        // TODO : save 실패 시 ?
-        if(addedMenu == null) {
-            imageFileService.deleteImageFile(path);
-//            throw new RuntimeException("메뉴를 추가하는데 실패했습니다. - DB Connection");
-        }
+        // TODO : save 실패 시 저장된 이미지 관리
 
         return addedMenu.getId();
     }
@@ -48,15 +43,11 @@ public class MenuService {
     @Transactional
     public void updateMenu(Long id, MenuUpdateRequest menuUpdateRequest) {
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new GlobalException(GlobalExceptionType.MENU_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(MenuExceptionType.MENU_NOT_FOUND));
 
-        String imagePath = menu.getImagePath();
         MultipartFile imageFile = menuUpdateRequest.getImageFile();
-
-        if (imageFile != null) {
-            imageFileService.deleteImageFile(imagePath);
-            imagePath = imageFileService.imageSaveProcess(imageFile);
-        }
+        String imagePath = imageFileService.imageUpdateProcess(imageFile, menu.getImagePath());
+        ;
 
         menu = menuUpdateRequest.toEntity(imagePath);
         menu.update(id);
@@ -74,7 +65,7 @@ public class MenuService {
     @Transactional
     void deleteByMenuId(Long id) {
         Menu menu = menuRepository.findById(id)
-                .orElseThrow(() -> new GlobalException(GlobalExceptionType.MENU_NOT_FOUND));
+                .orElseThrow(() -> new GlobalException(MenuExceptionType.MENU_NOT_FOUND));
         String imagePath = menu.getImagePath();
 
         menu.delete();
@@ -86,8 +77,8 @@ public class MenuService {
     public List<Menu> getOrderMenus(List<Long> menuIdList) {
         List<Menu> list = menuRepository.findByDeletedFalseAndIdIn(menuIdList);
 
-        if(menuIdList.size() != list.size()){
-            throw new GlobalException(GlobalExceptionType.ORDER_MENU_NOT_FOUND);
+        if (menuIdList.size() != list.size()) {
+            throw new GlobalException(OrdersExceptionType.ORDER_MENU_NOT_FOUND);
         }
         return list;
     }

@@ -2,7 +2,7 @@ package com.teamonion.tmong.websocket;
 
 import com.teamonion.tmong.authorization.CheckJwt;
 import com.teamonion.tmong.exception.GlobalException;
-import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.OrdersExceptionType;
 import com.teamonion.tmong.order.Orders;
 import com.teamonion.tmong.order.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -37,7 +37,7 @@ public class WebSocketController {
 
     private void processSendMessage(WebSocketResponse webSocketResponse) {
         // 주문자
-        String buyerSessionId = StompInterceptor.getProcessingSessions().get(webSocketResponse.getBuyerId());
+        String buyerSessionId = ConnectedSession.get(webSocketResponse.getBuyerId());
         if (buyerSessionId != null) {
             log.info("buyerSessionId exist ... {}", buyerSessionId);
             SimpMessageHeaderAccessor headerAccessor = SimpMessageHeaderAccessor.create(SimpMessageType.MESSAGE);
@@ -63,7 +63,7 @@ public class WebSocketController {
             }
 
             Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
-                    .orElseThrow(() -> new GlobalException(GlobalExceptionType.ORDER_NOT_FOUND));
+                    .orElseThrow(() -> new GlobalException(OrdersExceptionType.ORDER_NOT_FOUND));
 
             if (ordersUpdateRequest.isPaid()) {
                 orders.pay();

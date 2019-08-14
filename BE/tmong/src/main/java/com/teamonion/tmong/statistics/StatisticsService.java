@@ -29,7 +29,7 @@ public class StatisticsService {
         return ordersRankingResponse;
     }
 
-    @Async
+    @Async("threadPoolTaskExecutor")
     public void save(String memberId) {
         Statistics statistics = statisticsRepository.findByMemberId(memberId).orElseGet(() -> new Statistics(memberId));
         statistics.countUp();

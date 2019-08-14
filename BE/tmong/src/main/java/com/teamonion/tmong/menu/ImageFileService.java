@@ -1,7 +1,7 @@
 package com.teamonion.tmong.menu;
 
 import com.teamonion.tmong.exception.GlobalException;
-import com.teamonion.tmong.exception.GlobalExceptionType;
+import com.teamonion.tmong.exception.MenuExceptionType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Service
 public class ImageFileService {
@@ -21,24 +22,36 @@ public class ImageFileService {
     @Value("${download-path}")
     private String downloadPath;
 
+    private static final String UNDERSCORE = "_";
+
     public String imageSaveProcess(MultipartFile imageFile) {
         if (imageFile.isEmpty()) {
-            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
+            throw new GlobalException(MenuExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
-        checkFileType(imageFile.getContentType());
+        validImageFile(imageFile.getContentType());
 
         return setMenuImagePath(imageFile);
     }
 
-    private void checkFileType(String contentType) {
+    public String imageUpdateProcess(MultipartFile imageFile, String imagePath) {
+        if (imageFile != null) {
+            deleteImageFile(imagePath);
+
+            imagePath = imageSaveProcess(imageFile);
+        }
+
+        return imagePath;
+    }
+
+    private void validImageFile(String contentType) {
         // the content type, or null if not defined (or no file has been chosen in the multipart form)
         if (contentType == null) {
-            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_NOT_FOUND);
+            throw new GlobalException(MenuExceptionType.MENU_IMAGE_NOT_FOUND);
         }
 
         if (!contentType.contains("image")) {
-            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_FILE_TYPE_ERROR);
+            throw new GlobalException(MenuExceptionType.MENU_IMAGE_FILE_TYPE_ERROR);
         }
 
     }
@@ -46,8 +59,7 @@ public class ImageFileService {
     private String setMenuImagePath(MultipartFile imageFile) {
         try {
             // 저장 이미지 새로운 이름 생성
-            int randomString = (int) (Math.random() * 10000) + 1;
-            String fileName = System.currentTimeMillis() + "_" + randomString + "_" + imageFile.getOriginalFilename();
+            String fileName = UUID.randomUUID().toString() + UNDERSCORE + imageFile.getOriginalFilename();
 
             // 디렉토리 생성
             LocalDate today = LocalDate.now();
@@ -64,7 +76,7 @@ public class ImageFileService {
             // TODO : "/"를 사용하지 않을 방법
             return datePath.toString() + "/" + fileName;
         } catch (IOException e) {
-            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_RENDER_ERROR);
+            throw new GlobalException(MenuExceptionType.MENU_IMAGE_RENDER_ERROR);
         }
     }
 
@@ -74,7 +86,8 @@ public class ImageFileService {
         try {
             Files.delete(filePath);
         } catch (IOException e) {
-            throw new GlobalException(GlobalExceptionType.MENU_IMAGE_DELETE_ERROR);
+            throw new GlobalException(MenuExceptionType.MENU_IMAGE_DELETE_ERROR);
         }
     }
+
 }
