@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import propTypes from 'prop-types';
 import '../styles/MenuManagePopup.scss';
 import inputImgPreview from '../../../../utils/inputImgPreview';
@@ -11,9 +11,23 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
   const [popupPrice, setPopupPrice] = useState('');
   const [popupInformation, setPopupInformation] = useState('');
   const [popupFile, setPopupFile] = useState(null);
+  const [isCompression, setIsCompression] = useState(false);
   const isEdit = Object.keys(menuPopupData).length > 1;
   const inputImgRef = useRef(null); // 인풋 미리보기 img 태그
   const fileInputRef = useRef(null); // 파일 input 태그
+
+  const compressionDim = useMemo(() => {
+    return (
+      isCompression && (
+        <div className="compressionDim">
+          <div className="dimContents">
+            <img src="https://www.gaitame.com/img/dojo/loader.gif" alt="압축중" />
+            <p>이미지 압축중...</p>
+          </div>
+        </div>
+      )
+    );
+  }, [isCompression]);
 
   // 제출버튼 callback
   const onSubmitCallback = useCallback(
@@ -179,9 +193,11 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
                 e.target.value = '';
                 return false;
               }
+              setIsCompression(prev => !prev);
               imgCompression(e, file => {
                 inputImgPreview(fileInputRef.current, inputImgRef.current);
                 setPopupFile(file);
+                setIsCompression(prev => !prev);
               });
             }}
           />
@@ -191,6 +207,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
           <input type="submit" value="저  장" className="submitPopup" />
         </div>
       </form>
+      {compressionDim}
     </div>
   );
 };
