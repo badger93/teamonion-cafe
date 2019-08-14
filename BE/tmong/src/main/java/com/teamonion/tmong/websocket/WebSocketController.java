@@ -65,9 +65,6 @@ public class WebSocketController {
             Orders orders = ordersRepository.findById(ordersUpdateRequest.getId())
                     .orElseThrow(() -> new GlobalException(OrdersExceptionType.ORDER_NOT_FOUND));
 
-            /**
-             * Orders 객체에게 요청을 넘기며 처리해달라고 부탁 해보는 건 어떨까요
-             */
             if (ordersUpdateRequest.isPaid()) {
                 orders.pay();
             }
