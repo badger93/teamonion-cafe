@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRedo } from '@fortawesome/free-solid-svg-icons';
 import { signInPopupChangeAction } from '../redux/actions/userAction';
 import tmonglogo from '../image/tmonglogo.png';
+import ColorToggle from './ColorToggle';
 
 const PcHeader = ({ isSignedIn, user = null, logOutDispatch, onRefreshClick }) => {
   const dispatch = useDispatch();
