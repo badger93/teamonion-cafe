@@ -34,6 +34,7 @@ const AdminMenuManageContainer = () => {
             : item,
         );
         setMenuList(change);
+        alert(`${formData.get('name')} 수정되었습니다`);
       })
       .catch(err => {
         tokenCheck(err);
@@ -54,6 +55,7 @@ const AdminMenuManageContainer = () => {
           ...menuList,
         ];
         setMenuList(list);
+        alert(`${formData.get('name')} 추가되었습니다`);
       })
       .catch(err => {
         tokenCheck(err);
