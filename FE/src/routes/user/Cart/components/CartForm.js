@@ -16,7 +16,7 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
   const [tryPay, setTryPay] = useState(false); // 로그인후 바로 리디렉션을 위한 값
   const [willPay, setWillPay] = useState(false); // 리디렉션을 위한 값
 
-  const { setShowupStringFunc, showupString, isShowing, timeOut } = useShowupString('');
+  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
 
   let cartTimeOut = null;
 
@@ -46,7 +46,6 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
         CartDelete(cart, null, checkedItem[i].cartId, checkedItem, setCheckedItem);
       }
       setWillPay(true); // 리디렉션을 위한 값
-      cartTimeOut = setTimeout(() => setWillPay(false), 1000);
     },
     [
       cart,
@@ -63,8 +62,8 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
 
   useEffect(() => {
     return () => {
-      clearTimeout(timeOut);
       clearTimeout(cartTimeOut);
+      setWillPay(false);
     };
   }, []);
 

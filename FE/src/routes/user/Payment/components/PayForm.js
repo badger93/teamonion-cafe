@@ -22,7 +22,7 @@ const PayForm = ({
 
   const [afterPoint, setAfterPoint] = useState(0);
 
-  const { setShowupStringFunc, showupString, isShowing, timeOut } = useShowupString('');
+  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
 
   const cartLocalStorage = useLocalStorage('CART', []);
   const { cart, setAllCart } = useCart(cartLocalStorage.storedValue, cartLocalStorage);
@@ -32,7 +32,6 @@ const PayForm = ({
     setAfterPoint(Point);
     return () => {
       dispatch(payFinishAction());
-      clearTimeout(timeOut);
     };
   }, []);
 
