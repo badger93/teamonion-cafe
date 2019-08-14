@@ -23,6 +23,8 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
         const fakeImg = inputImgRef.current.getAttribute('src');
         const trimedName = trimStr(popupName);
         const trimedPrice = `${parseInt(popupPrice)}`;
+        const currentImgSize = fileInputRef.current.files[0].size;
+        const maxImgSize = 1 * 1024 * 1024; // 이미지 최대용량 설정 MB단위
 
         // 상품명엔 특수문자 포함 할 수 없음
         if (isSpecial(popupName)) {
@@ -34,13 +36,16 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
           alert('상품명 최대 글자수 14글자를 넘겼습니다');
           return false;
         }
-        // 최대 금액 1억 ...
+        // 메뉴 금액제한 최대금액 1억 ...
         if (popupPrice > 100000000) {
           alert('상품 최대 금액 초과');
           return false;
         }
-
-        // 메뉴 금액 제한
+        // 이미지 사이즈 제한
+        if (currentImgSize > maxImgSize) {
+          alert(`이미지 사이즈는 ${maxImgSize / 1024 / 1024} MB 로 제한됩니다`);
+          return false;
+        }
 
         // 폼데이터 담기 수정일때 / 추가일때
         const formData = new FormData();
