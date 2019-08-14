@@ -7,6 +7,7 @@ import SearchBar from '../../../components/SearchBar';
 import Pagination from '../../../components/pagination';
 import MenuListItems from './components/MenuListItems';
 import UserRank from './components/UserRank';
+import Toggle from '../../../components/Toggle';
 
 const MainPresenter = ({
   rankData,
@@ -21,6 +22,14 @@ const MainPresenter = ({
 }) => {
   const [isMenuPopup, setIsMenuPopup] = useState(false);
 
+  const [isRankFirst, setIsRankFirst] = useState(() =>
+    localStorage.getItem('ISRANKFIRST') === null
+      ? true
+      : localStorage.getItem('ISRANKFIRST') === 'false'
+      ? false
+      : true,
+  );
+
   const pageCallback = useCallback(
     e => {
       return searchText
@@ -29,22 +38,50 @@ const MainPresenter = ({
     },
     [getMenuByPage, searchMenuListByName, searchText],
   );
+
   return (
     <>
       {isLoading && <Loading />}
       <div className="mainPresenter">
-        <UserRank ranking={rankData} />
-        <div className="head">
-          <h1>메뉴</h1>
-          <SearchBar searchCallback={searchMenuListByName} />
-        </div>
-        <MenuListItems list={list} mapDetailData={mapDetailData} setIsMenuPopup={setIsMenuPopup} />
-        {isMenuPopup && (
-          <div className="menuDetailContainer" onClick={() => setIsMenuPopup(false)}>
-            <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
-          </div>
+        <Toggle isRankFirst={isRankFirst} setIsRankFirst={setIsRankFirst} />
+        {isRankFirst ? (
+          <>
+            <UserRank ranking={rankData} />
+            <div className="head">
+              <h1>메뉴</h1>
+              <SearchBar searchCallback={searchMenuListByName} />
+            </div>
+            <MenuListItems
+              list={list}
+              mapDetailData={mapDetailData}
+              setIsMenuPopup={setIsMenuPopup}
+            />
+            {isMenuPopup && (
+              <div className="menuDetailContainer" onClick={() => setIsMenuPopup(false)}>
+                <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
+              </div>
+            )}
+            <Pagination pageData={menuPageData} maxIndex={8} callback={e => pageCallback(e)} />
+          </>
+        ) : (
+          <>
+            <div className="head">
+              <h1>메뉴</h1>
+              <SearchBar searchCallback={searchMenuListByName} />
+            </div>
+            <MenuListItems
+              list={list}
+              mapDetailData={mapDetailData}
+              setIsMenuPopup={setIsMenuPopup}
+            />
+            {isMenuPopup && (
+              <div className="menuDetailContainer" onClick={() => setIsMenuPopup(false)}>
+                <MenuDetail menuDetailData={menuDetailData} setIsMenuPopup={setIsMenuPopup} />
+              </div>
+            )}
+            <Pagination pageData={menuPageData} maxIndex={8} callback={e => pageCallback(e)} />
+          </>
         )}
-        <Pagination pageData={menuPageData} maxIndex={8} callback={e => pageCallback(e)} />
       </div>
     </>
   );
