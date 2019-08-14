@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 export const useShowupString = string => {
   const [showupString, setShowupString] = useState('');
@@ -6,16 +6,19 @@ export const useShowupString = string => {
   const setShowupStringFunc = useCallback(
     string => {
       setShowupString(string);
-      setIsShowing(true);
-
-      if (isShowing) {
-        setTimeout(() => {
-          setIsShowing(false);
-        }, 2000);
+      if (string !== '') {
+        setIsShowing(true);
       }
     },
     [setShowupString, setIsShowing],
   );
+  useEffect(() => {
+    if (isShowing) {
+      setTimeout(() => {
+        setIsShowing(false);
+      }, 2000);
+    }
+  }, [isShowing]);
 
   return { setShowupStringFunc, showupString, isShowing, setIsShowing };
 };
