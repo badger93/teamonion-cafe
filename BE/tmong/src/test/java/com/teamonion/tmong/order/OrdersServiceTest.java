@@ -29,6 +29,11 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 
+
+/**
+ * 사용하지 않는 불필요한 객체는 제거해주세요
+ * 주문쪽도 통합테스트를 고려해보세요
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class OrdersServiceTest {
 
