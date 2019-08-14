@@ -4,18 +4,18 @@ async function imgCompression(event, callback) {
   const imageFile = event.target.files[0];
 
   let options = {
-    maxSizeMB: 0.02,
+    maxSizeMB: 0.1,
     maxWidthOrHeight: 280,
     useWebWorker: true,
   };
   try {
     const compressedFile =
-      imageFile.size > options.maxSizeMB * 1024
+      imageFile.size > options.maxSizeMB * 1024 * 1024
         ? await imageCompression(imageFile, options)
         : imageFile;
     await callback(compressedFile);
   } catch (error) {
-    console.log(error);
+    alert('이미지 압축 실패!');
   }
 }
 
