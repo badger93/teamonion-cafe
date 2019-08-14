@@ -39,7 +39,9 @@ public class OrdersService {
 
         Orders orders = ordersAddRequest.toEntity(buyer, menuService.getMenus(ordersAddRequest.getMenuIdList()));
 
-        pointService.pointProcess(orders);
+        if(ordersAddRequest.getPaymentType().equals(PaymentType.POINT)) {
+            pointService.pointProcess(orders);
+        }
 
         statisticsService.save(buyer.getMemberId());
 

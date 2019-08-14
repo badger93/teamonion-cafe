@@ -21,27 +21,13 @@ public class PointService {
     void pointProcess(Orders orders) {
         long buyerOwnPoint = memberService.getPoint(orders.getBuyer().getId());
 
-        if (orders.getPaymentType().equals(PaymentType.POINT)) {
-            long point = buyerOwnPoint - orders.getAmount();
-
-            if (point < 0) {
-                throw new GlobalException(GlobalExceptionType.ORDER_POINT_LACK);
-            }
-
-            memberService.pointUpdate(orders.getBuyer().getId(), point);
-//            payByPoint(orders.getBuyer(), buyerOwnPoint, orders.getAmount());
-        }
-//        addBonusPoint(orders.getBuyer(), buyerOwnPoint, orders.getAmount());
-    }
-
-    private long payByPoint(Member buyer, long buyerOwnPoint, long amount) {
-        long point = buyerOwnPoint - amount;
+        long point = buyerOwnPoint - orders.getAmount();
 
         if (point < 0) {
             throw new GlobalException(GlobalExceptionType.ORDER_POINT_LACK);
         }
 
-        return memberService.pointUpdate(buyer.getId(), point);
+        memberService.pointUpdate(orders.getBuyer().getId(), point);
     }
 
     public void addBonusPoint(Orders orders) {
