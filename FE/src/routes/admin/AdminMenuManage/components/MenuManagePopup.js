@@ -29,6 +29,18 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
           alert('제목에 특수문자를 포함 할 수 없습니다');
           return false;
         }
+        // 메뉴 글자수 제한
+        if (popupName.length > 15) {
+          alert('상품명 최대 글자수 14글자를 넘겼습니다');
+          return false;
+        }
+        // 최대 금액 1억 ...
+        if (popupPrice > 100000000) {
+          alert('상품 최대 금액 초과');
+          return false;
+        }
+
+        // 메뉴 금액 제한
 
         // 폼데이터 담기 수정일때 / 추가일때
         const formData = new FormData();
