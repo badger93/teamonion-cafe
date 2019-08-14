@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import '../styles/MenuManagePopup.scss';
 import inputImgPreview from '../../../../utils/inputImgPreview';
 import { isSpecial, trimStr } from '../../../../utils/validateText';
+import imgCompression from '../../../../utils/imgCompression';
 
 const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) => {
   const { id, name, price, information, imageFile } = menuPopupData;
@@ -124,7 +125,6 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
   };
 
   return (
-    // name, price, information, imageFile(src)
     <div className="MenuManagePopup" onClick={e => e.stopPropagation()}>
       <input
         type="button"
@@ -179,8 +179,10 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
                 e.target.value = '';
                 return false;
               }
-              inputImgPreview(fileInputRef.current, inputImgRef.current);
-              setPopupFile(e.target.files[0]);
+              imgCompression(e, file => {
+                inputImgPreview(fileInputRef.current, inputImgRef.current);
+                setPopupFile(file);
+              });
             }}
           />
           <div className="previewImgWrap">
