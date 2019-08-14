@@ -34,7 +34,7 @@ const MyOrderCard = ({
         setIsChanging(true);
       }
 
-      waitForFinishingAnimation = setTimeout(() => {
+      setTimeout(() => {
         let newOrders = [...orders];
         const changedDataIndex = newOrders.findIndex(e => {
           // 변화된 주문정보 찾기
@@ -63,10 +63,6 @@ const MyOrderCard = ({
         }
       }, 1500);
     }
-
-    return () => {
-      clearTimeout(waitForFinishingAnimation);
-    };
   }, [changedData]);
 
   return (
