@@ -3,6 +3,7 @@ import propTypes from 'prop-types';
 import '../styles/MyOrderCard.scss';
 import magicCircle from '../../../../image/magiccircle.png';
 import butterfly from '../../../../image/butterfly.png';
+import { clearTimeout } from 'timers';
 const MyOrderCard = ({
   // 전체 주문목록 새로고침
   changedData,
@@ -19,6 +20,7 @@ const MyOrderCard = ({
 
   useEffect(() => {
     // 변경될 것 있을시 추가
+    let waitForFinishingAnimation = null;
     if (
       changedData &&
       Object.keys(changedData).length > 0 &&

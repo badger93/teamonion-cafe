@@ -22,17 +22,16 @@ const PayForm = ({
 
   const [afterPoint, setAfterPoint] = useState(0);
 
-  const { setShowupStringFunc, showupString, isShowing, timeOut } = useShowupString('');
+  const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
 
   const cartLocalStorage = useLocalStorage('CART', []);
   const { cart, setAllCart } = useCart(cartLocalStorage.storedValue, cartLocalStorage);
 
   useEffect(() => {
-    const Point = user.point - totalPrice + totalPrice / 10;
+    const Point = Math.floor(user.point - totalPrice + totalPrice / 10);
     setAfterPoint(Point);
     return () => {
       dispatch(payFinishAction());
-      clearTimeout(timeOut);
     };
   }, []);
 
@@ -54,7 +53,7 @@ const PayForm = ({
     }
   }, [payErrorReason]);
 
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault();
 
     const menuIdList = Object.values(itemsForPay).map(item => item.id);
@@ -138,14 +137,16 @@ const PayForm = ({
             </div>
             <div>
               <div>포인트 적립</div>
-              <div>{`${(totalPrice / 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</div>
+              <div>{`${Math.floor(totalPrice / 10)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</div>
             </div>
             <div>
-              <div>결제 후 내 포인트</div>
+              <div>거래 후 내 포인트</div>
               <div>
                 {howPay === 1
                   ? `${afterPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`
-                  : `${(user.point + totalPrice / 10)
+                  : `${Math.floor(user.point + totalPrice / 10)
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}
               </div>

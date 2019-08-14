@@ -1,14 +1,21 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 export const useShowupString = string => {
-  let timeOut = null;
   const [showupString, setShowupString] = useState('');
   const [isShowing, setIsShowing] = useState(false);
-  const setShowupStringFunc = string => {
-    setShowupString(string);
-    setIsShowing(true);
-    timeOut = setTimeout(() => setIsShowing(false), 2000);
-  };
+  const setShowupStringFunc = useCallback(
+    string => {
+      setShowupString(string);
+      setIsShowing(true);
 
-  return { setShowupStringFunc, showupString, isShowing, setIsShowing, timeOut };
+      if (isShowing) {
+        setTimeout(() => {
+          setIsShowing(false);
+        }, 2000);
+      }
+    },
+    [setShowupString, setIsShowing],
+  );
+
+  return { setShowupStringFunc, showupString, isShowing, setIsShowing };
 };
