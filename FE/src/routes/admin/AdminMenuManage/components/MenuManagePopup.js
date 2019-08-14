@@ -16,6 +16,24 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
   const inputImgRef = useRef(null); // 인풋 미리보기 img 태그
   const fileInputRef = useRef(null); // 파일 input 태그
 
+  const inputImgCallback = useCallback(
+    e => {
+      if (!imgTypeValidate(e.target)) {
+        e.target.files = undefined;
+        e.target.value = '';
+        return false;
+      }
+      setIsCompression(prev => !prev);
+      imgCompression(e, file => {
+        inputImgPreview(fileInputRef.current, inputImgRef.current);
+        setPopupFile(file);
+        setIsCompression(prev => !prev);
+      });
+    },
+    [setIsCompression, setPopupFile],
+  );
+
+  // 이미지 압축시 dim 띄우는 useMemo
   const compressionDim = useMemo(() => {
     return (
       isCompression && (
@@ -189,19 +207,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
             className="fileInput"
             ref={fileInputRef}
             accept="image/gif, image/jpeg, image/png"
-            onChange={e => {
-              if (!imgTypeValidate(e.target)) {
-                e.target.files = undefined;
-                e.target.value = '';
-                return false;
-              }
-              setIsCompression(prev => !prev);
-              imgCompression(e, file => {
-                inputImgPreview(fileInputRef.current, inputImgRef.current);
-                setPopupFile(file);
-                setIsCompression(prev => !prev);
-              });
-            }}
+            onChange={inputImgCallback}
           />
           <div className="previewImgWrap">
             <img src="" alt="" ref={inputImgRef} className="imgInput" />
