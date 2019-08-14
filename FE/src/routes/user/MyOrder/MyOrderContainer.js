@@ -5,6 +5,7 @@ import MyOrderPresenter from './MyOrderPresenter';
 import { userOrderAPI } from '../../../api/userApi';
 import CanvasModal from './components/CanvasModal';
 import './styles/MyOrderContainer.scss';
+import { logOutAction } from '../../../redux/actions/userAction';
 
 const MyOrderContainer = () => {
   const { me } = useSelector(state => state.user);
@@ -39,6 +40,10 @@ const MyOrderContainer = () => {
         }
       } catch (e) {
         console.log(e);
+        dispatch(logOutAction());
+        localStorage.removeItem('USER');
+        localStorage.removeItem('CART');
+        localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
       }
     };
     fetchMyOrder();

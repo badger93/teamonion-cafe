@@ -24,8 +24,10 @@ public class Menu {
     @Column(nullable = false)
     private Long price;
 
+    @Lob
     private String information;
 
+    @Column(nullable = false)
     private String imagePath;
 
     @Column(nullable = false)

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AdminOrderManagePresenter from './AdminOrderManagePresenter';
 import getNonpickupAll from '../../../api/adminOrderApi';
+import { useTokenCheck } from '../../../utils/tokenCheck';
 import { sendOrderStateAction } from '../../../redux/actions/orderAction';
 
 const AdminOrderManageContainer = () => {
@@ -9,6 +10,7 @@ const AdminOrderManageContainer = () => {
   const [arrangedItem, setArrangedItem] = useState(null);
   const dispatch = useDispatch();
   const { changed_order } = useSelector(state => state.order);
+  const { tokenCheck } = useTokenCheck();
 
   useEffect(() => {
     if (!changed_order.errorMessage) {
@@ -39,7 +41,7 @@ const AdminOrderManageContainer = () => {
     try {
       await dispatch(sendOrderStateAction(payload));
     } catch (err) {
-      alert('연결 없음');
+      tokenCheck(err);
     }
   };
 
@@ -47,9 +49,24 @@ const AdminOrderManageContainer = () => {
   useEffect(() => {
     const socketInit = async () => {
       try {
-        await getNonpickupAll(setCurrentOrderList);
+        const res = await getNonpickupAll();
+        const resList = res.data.content;
+        const listData = resList.map(item => {
+          return {
+            order_id: item.id,
+            menus: item.menuNameList,
+            paymentType: item.paymentType,
+            paid: item.paid,
+            made: item.made,
+            pickup: item.pickup,
+            createdDate: item.createdDate,
+            amount: item.amount,
+            member_id: item.buyerId,
+          };
+        });
+        setCurrentOrderList(listData);
       } catch (err) {
-        console.log(err);
+        tokenCheck(err);
       }
     };
     socketInit();
@@ -66,7 +83,7 @@ const AdminOrderManageContainer = () => {
     }
     // 추가
     if (arrangedItem && arrangedItem.menus) {
-      const arrangedList = currentOrderList.concat(arrangedItem);
+      const arrangedList = [arrangedItem].concat(currentOrderList);
       setCurrentOrderList(arrangedList);
     }
   }, [arrangedItem]);

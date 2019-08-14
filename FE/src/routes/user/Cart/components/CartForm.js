@@ -18,6 +18,8 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
 
   const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
 
+  let cartTimeOut = null;
+
   const popupControl = useCallback(() => {
     dispatch(signInPopupChangeAction());
   }, [dispatch]);
@@ -26,37 +28,24 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
     e => {
       e && e.preventDefault();
 
-      async function asyncSubmit() {
-        if (checkedItem.length === 0) {
-          // 선택안하고 결제 눌렀을시 예외처리
-          setShowupStringFunc('상품 선택이 필요합니다');
-          return;
-        }
-        if (!isSignedIn) {
-          // 로그인 안할경우 오픈팝업
-          popupControl();
-          setTryPay(true); // 로그인 성공하면 바로 결제로 가도록
-          return;
-        }
-
-        await dispatch(cartToPayAction({ ...checkedItem }));
-
-        // 체크된 메뉴들 삭제
-        for (let i = 0; i < checkedItem.length; i + 1) {
-          CartDelete(
-            cart,
-            setAllCart,
-            checkedItem[i].cartId,
-            checkedItem,
-            setCheckedItem,
-            setShowupStringFunc,
-          );
-        }
-
-        setWillPay(true); // 리디렉션을 위한 값
-        setTimeout(() => setWillPay(false), 5000);
+      if (checkedItem.length === 0) {
+        // 선택안하고 결제 눌렀을시 예외처리
+        setShowupStringFunc('상품 선택이 필요합니다');
+        return;
       }
-      asyncSubmit();
+      if (!isSignedIn) {
+        // 로그인 안할경우 오픈팝업
+        popupControl();
+        setTryPay(true); // 로그인 성공하면 바로 결제로 가도록
+        return;
+      }
+      dispatch(cartToPayAction({ ...checkedItem }));
+
+      // 체크된 메뉴들 삭제
+      for (let i = 0; i < checkedItem.length; i + 1) {
+        CartDelete(cart, null, checkedItem[i].cartId, checkedItem, setCheckedItem);
+      }
+      setWillPay(true); // 리디렉션을 위한 값
     },
     [
       cart,
@@ -70,6 +59,13 @@ const CartForm = ({ handleCart, handleCheckedCart, dispatch, isSignedIn }) => {
       setShowupStringFunc,
     ],
   );
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(cartTimeOut);
+      setWillPay(false);
+    };
+  }, []);
 
   const isInitialMount = useRef(true); // 최초 마운트시점이 아닌 업데이트시만 작동하도록 확인
 

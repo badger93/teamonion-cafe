@@ -5,6 +5,7 @@ import com.teamonion.tmong.exception.GlobalException;
 import com.teamonion.tmong.exception.OrdersExceptionType;
 import com.teamonion.tmong.order.Orders;
 import com.teamonion.tmong.order.OrdersRepository;
+import com.teamonion.tmong.order.PointService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,10 @@ public class WebSocketController {
 
     private final OrdersRepository ordersRepository;
 
+    private final PointService pointService;
+
     private final SimpMessagingTemplate simpMessagingTemplate;
+
 
     @CheckJwt
     @MessageMapping("/api/orders/update")
@@ -73,6 +77,7 @@ public class WebSocketController {
             }
             if (ordersUpdateRequest.isPickup()) {
                 orders.pick();
+                pointService.addBonusPoint(orders);
             }
 
             WebSocketResponse webSocketResponse = new WebSocketResponse(ordersRepository.save(orders));

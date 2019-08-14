@@ -15,7 +15,7 @@ const MainContainer = () => {
     setMenuDetailData(data);
   };
 
-  const searchMenuListByName = async (menuName, page = 0, itemSize = 20) => {
+  const searchMenuListByName = async (menuName, page = 0, itemSize = 12) => {
     try {
       const res = await searchMenu(menuName, page, itemSize);
       const { content, totalPages } = res.data;
@@ -25,7 +25,7 @@ const MainContainer = () => {
       setIsLoading(false);
       setSearchText(menuName);
     } catch (err) {
-      alert(`메뉴검색 실패 : ${err}`);
+      alert(`상품검색에러 ${err}`);
     }
   };
 
@@ -38,7 +38,7 @@ const MainContainer = () => {
       setMenuPageData({ page, totalPages });
       setIsLoading(false);
     } catch (err) {
-      alert('상품로드 실패', err);
+      alert(`상품조회에러 ${err}`);
     }
   };
 

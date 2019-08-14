@@ -1,3 +1,7 @@
+img {
+  object-fit: cover;
+}
+
 .menuDetailContainer {
   position: fixed;
   top: 0;
@@ -76,6 +80,8 @@
       margin-bottom: 10px;
       margin-left: 10px;
       .title {
+        overflow: hidden;
+        width: 90%;
         display: block;
         vertical-align: middle;
         font: {
@@ -87,7 +93,8 @@
 
     .informationArea {
       width: 88%;
-      height: 55%;
+      height: 180px;
+      overflow: scroll;
       position: relative;
       margin-left: 10px;
       .price {
@@ -175,6 +182,7 @@
         height: 100%;
         margin-top: 0px;
         img {
+          width: 100%;
           object-fit: cover;
         }
       }

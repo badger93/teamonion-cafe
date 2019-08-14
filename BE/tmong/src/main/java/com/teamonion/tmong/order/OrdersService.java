@@ -37,9 +37,11 @@ public class OrdersService {
     public OrdersResponse makeOrder(OrdersAddRequest ordersAddRequest) {
         Member buyer = memberService.findByMemberId(jwtComponent.getClaimValueByToken(JwtComponent.MEMBER_ID));
 
-        Orders orders = ordersAddRequest.toEntity(buyer, menuService.getOrderMenus(ordersAddRequest.getMenuIdList()));
+        Orders orders = ordersAddRequest.toEntity(buyer, menuService.getMenus(ordersAddRequest.getMenuIdList()));
 
-        pointService.pointProcess(orders);
+        if(ordersAddRequest.getPaymentType().equals(PaymentType.POINT)) {
+            pointService.pointProcess(orders);
+        }
 
         statisticsService.save(buyer.getMemberId());
 

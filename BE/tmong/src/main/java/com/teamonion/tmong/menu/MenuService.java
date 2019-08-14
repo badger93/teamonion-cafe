@@ -14,7 +14,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 @RequiredArgsConstructor
 @Service
@@ -34,8 +40,6 @@ public class MenuService {
         String path = imageFileService.imageSaveProcess(menuAddRequest.getImageFile());
 
         Menu addedMenu = menuRepository.save(menuAddRequest.toEntity(path));
-
-        // TODO : save 실패 시 저장된 이미지 관리
 
         return addedMenu.getId();
     }
@@ -74,12 +78,25 @@ public class MenuService {
         imageFileService.deleteImageFile(imagePath);
     }
 
-    public List<Menu> getOrderMenus(List<Long> menuIdList) {
-        List<Menu> list = menuRepository.findByDeletedFalseAndIdIn(menuIdList);
+    public List<Menu> getMenus(List<Long> menuIds) {
+        Map<Long, Menu> menus = getValidMenus(menuIds);
 
-        if (menuIdList.size() != list.size()) {
+        return menuIds.stream()
+                .map(menus::get)
+                .collect(toList());
+    }
+
+    private Map<Long, Menu> getValidMenus(List<Long> menuIds) {
+        Map<Long, Menu> menus = menuRepository.findByDeletedFalseAndIdIn(menuIds)
+                .stream()
+                .distinct()
+                .collect(toMap(Menu::getId, identity()));
+
+        // 주문한 메뉴가 주문 가능한 메뉴인지 확인
+        if (!menus.keySet().containsAll(new HashSet<>(menuIds))) {
             throw new GlobalException(OrdersExceptionType.ORDER_MENU_NOT_FOUND);
         }
-        return list;
+
+        return menus;
     }
 }
