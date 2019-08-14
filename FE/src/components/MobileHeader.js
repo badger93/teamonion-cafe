@@ -74,8 +74,13 @@ const MobileHeader = ({
             </>
           )}
         </div>
+        <div
+          className={isList ? 'list-cover' : 'list-cover-none'}
+          onClick={() => {
+            setIsList(prev => !prev);
+          }}
+        />
         <div className={isList ? 'header_mobile-list' : 'header_mobile-list-none'}>
-          <div className="list-cover" />
           <button
             type="button"
             className="list-button"
