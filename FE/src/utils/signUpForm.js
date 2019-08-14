@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 
 export const useShowupString = string => {
   const [showupString, setShowupString] = useState('');
