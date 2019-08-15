@@ -92,7 +92,7 @@ public class MenuService {
                 .distinct()
                 .collect(toMap(Menu::getId, identity()));
 
-        // 주문한 메뉴가 주문 가능한 메뉴인지 확인
+        // 주문 들어온 메뉴가 주문 가능한 메뉴인지 확인
         if (!menus.keySet().containsAll(new HashSet<>(menuIds))) {
             throw new GlobalException(OrdersExceptionType.ORDER_MENU_NOT_FOUND);
         }
