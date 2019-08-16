@@ -86,7 +86,6 @@ function* changePoint(action) {
   try {
     const me = localStorage.getItem('USER') && JSON.parse(localStorage.getItem('USER'));
     const result = yield call(() => myPointApi(me.id));
-    // yield delay(2000);
     yield put({
       type: CHANGE_POINT_SUCCESS,
       data: result.data,

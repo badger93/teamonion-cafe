@@ -2,8 +2,6 @@ import fetchClient from './axios';
 
 const axios = fetchClient();
 
-// 'https://my-json-server.typicode.com/badger012/mockserver/menus'
-
 // name, price, information, imageFile(src)
 export const getMenuList = ({ itemSize, page }) =>
   axios.get(`api/menus?page=${page}&size=${itemSize}`);

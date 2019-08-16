@@ -33,7 +33,6 @@ const Header = () => {
     const nowTime = new Date();
     const oldTime = new Date(me.lastSignInTime);
     const gap = moment.duration(nowTime - oldTime).asMinutes();
-    // console.log(gap);
     return gap > 1380 ? true : false;
   };
 

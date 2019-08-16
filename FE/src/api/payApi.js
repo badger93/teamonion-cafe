@@ -1,5 +1,3 @@
-// import axios from 'axios';
-
 import fetchClient from './axios';
 
 const axios = fetchClient();

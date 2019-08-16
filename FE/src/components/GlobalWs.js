@@ -119,7 +119,7 @@ const GlobalWs = withRouter(() => {
     fetchMyOrder();
   };
 
-  // 매 로그인 여부 변경시마다 동작, 로그인과 연결 상태에 따라 연결을 맺고 끊는다. 주문정보 유무에 따라 연결 조정을 해야할듯
+  // 매 로그인 여부 변경시마다 동작, 로그인과 연결 상태에 따라 연결을 맺고 끊는다.
   useEffect(() => {
     if (isSignedIn && !isConnect) {
       checkOrder(socketOrderInit); // 주문 있으면 ws연결

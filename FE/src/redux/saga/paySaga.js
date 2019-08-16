@@ -6,7 +6,6 @@ import { CHANGE_POINT_REQUEST, LOG_OUT } from '../actions/userAction';
 function* pay(action) {
   try {
     yield call(() => payAPI(action.data));
-    // yield delay(2000);
     yield put({
       type: PAY_SUCCESS,
     });
