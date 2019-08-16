@@ -13,6 +13,11 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * 단위 테스트는 잘 작성했는데 몇개 빈 부분도 있지만
+ * DB 를 연동한 통합 테스트가 가능한 테스트 클래스를 만들어 보면 좋을 거 같아요
+ * 지금은 목으로 처리하고 있지만 실제로 DB 에 접속해서 저장하고 수정하고 조회하고 삭제하는 시나리오로 테스트를 해보면 어떨까요
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class MemberServiceTest {
 
