@@ -44,7 +44,7 @@ public class MenuServiceTest {
         menuAddRequest = new MenuAddRequest();
         menuUpdateRequest = new MenuUpdateRequest();
 
-        MockMultipartFile mockMultipartFile = new MockMultipartFile("test", "test", "image/jpg"
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("test", "test.jpg", "image/jpg"
                 , new FileInputStream(new File("src/test/resources/cat.jpg")));
 
         MockMultipartFile mockEmptyMultipartFile = new MockMultipartFile("test", null, null, (byte[]) null);
