@@ -37,14 +37,10 @@ import static org.mockito.ArgumentMatchers.any;
 @RunWith(MockitoJUnitRunner.class)
 public class OrdersServiceTest {
 
-    @Mock
     OrdersRepository ordersRepository;
 
     @Mock
     MenuService menuService;
-
-    @Mock
-    MemberRepository memberRepository;
 
     @Mock
     MemberService memberService;
@@ -57,12 +53,6 @@ public class OrdersServiceTest {
 
     @Mock
     StatisticsService statisticsService;
-
-    @Mock
-    StatisticsRepository statisticsRepository;
-
-    @Autowired
-    TestRestTemplate template;
 
     @InjectMocks
     OrdersService ordersService;
@@ -159,12 +149,5 @@ public class OrdersServiceTest {
 
         assertThat(ordersService.getOrdersByCategory(pageable, OrdersCategory.PICKUP_FALSE)).isEqualTo(ordersCategoryResponse);
     }
-
-//    @Test
-//    public void 주문상태변경() {
-//        OrdersUpdateRequest ordersUpdateRequest = new OrdersUpdateRequest();
-//
-//        ordersService.updateOrder(ordersUpdateRequest);
-//    }
 
 }
