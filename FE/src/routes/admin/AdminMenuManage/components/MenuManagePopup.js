@@ -60,7 +60,7 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
         const currentImgSize = fileInputRef.current.files[0]
           ? fileInputRef.current.files[0].size
           : ZERO;
-        const maxImgSize = 1 * 1024 * 1024; // 이미지 최대용량 설정 MB단위
+        const maxImgSize = 10 * 1024 * 1024; // 이미지 최대용량 설정 MB단위
 
         // 상품명엔 특수문자 포함 할 수 없음
         if (isSpecial(popupName)) {
