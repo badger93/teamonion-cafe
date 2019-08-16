@@ -54,11 +54,12 @@ const MenuManagePopup = ({ menuPopupData, updateItem, createItem, setIsPopup }) 
       if (popupName && popupPrice && popupInformation) {
         // 서버와 통신하지 않고 이미지를 바로 리스트에 올리기 위한 fakeImg 지정
         const fakeImg = inputImgRef.current.getAttribute('src');
+        const ZERO = 0; // 서버 배포 에러를 막기 위한 상수 지정
         const trimedName = trimStr(popupName);
         const trimedPrice = `${parseInt(popupPrice)}`;
         const currentImgSize = fileInputRef.current.files[0]
           ? fileInputRef.current.files[0].size
-          : 0;
+          : ZERO;
         const maxImgSize = 1 * 1024 * 1024; // 이미지 최대용량 설정 MB단위
 
         // 상품명엔 특수문자 포함 할 수 없음
