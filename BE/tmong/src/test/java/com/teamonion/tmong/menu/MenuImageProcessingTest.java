@@ -6,6 +6,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -23,6 +25,8 @@ import static org.junit.Assert.assertNotNull;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, properties = "classpath:application.properties")
 public class MenuImageProcessingTest {
+
+    private static final Logger log = LoggerFactory.getLogger(MenuImageProcessingTest.class);
 
     @Autowired
     TestRestTemplate template;
@@ -84,9 +88,11 @@ public class MenuImageProcessingTest {
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         HttpEntity entity = new HttpEntity<>(parameters, headers);
-        ResponseEntity responseEntity = template.exchange("/api/menus/" + menu_id, HttpMethod.PUT, entity, String.class);
+        ResponseEntity responseEntity = template.exchange("/api/menus/" + menu_id, HttpMethod.PUT, entity, (Class<Object>) null);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        log.info("responseEntity : .. {}" ,responseEntity.getBody()); // .. null
+
     }
 
     @Test
@@ -95,7 +101,7 @@ public class MenuImageProcessingTest {
 
         HttpEntity entity = new HttpEntity<>(parameters, headers);
 
-        ResponseEntity responseEntity = template.exchange("/api/menus/" + menu_id, HttpMethod.DELETE, entity, String.class);
+        ResponseEntity responseEntity = template.exchange("/api/menus/" + menu_id, HttpMethod.DELETE, entity, (Class<Object>) null);
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
