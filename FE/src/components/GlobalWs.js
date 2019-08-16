@@ -6,8 +6,9 @@ import Stomp from 'stompjs';
 import { setChangedOrderAction } from '../redux/actions/orderAction';
 import WsMsgPop from './WsMsgPop';
 import { userOrderAPI } from '../api/userApi';
+import { useTokenCheck } from '../utils/tokenCheck';
 
-const GlobalWs = withRouter(({ location }) => {
+const GlobalWs = withRouter(() => {
   const { isSignedIn, me } = useSelector(state => state.user);
   const { sendOrderState, wsConnect } = useSelector(state => state.order);
   const [isConnect, setIsConnect] = useState(false);
@@ -15,6 +16,7 @@ const GlobalWs = withRouter(({ location }) => {
   const [isPopup, setIsPopup] = useState(false);
   const dispatch = useDispatch();
   const [wscl, setwscl] = useState(null);
+  const { tokenCheck } = useTokenCheck();
 
   // 인증 토큰은 로그인 될 때 마다 localStorage에 저장, 저장된 토큰을 꺼내 쓰는 함수
   const token = () => {
@@ -23,44 +25,53 @@ const GlobalWs = withRouter(({ location }) => {
     return localToken ? `Bearer ${localToken}` : '' || sessionToken ? `Bearer ${sessionToken}` : '';
   };
 
+  const wsErrorCallback = err => {
+    tokenCheck(err);
+  };
+
   // ws 연결을 시도하는 함수
   const socketOrderInit = () => {
-    // 진짜 웹소켓 정의
+    // 웹소켓 정의
     const wsclient = Stomp.over(new SockJS('/teamonion', null, {}));
+    wsclient.debug = null;
     setwscl(wsclient);
-    wsclient.connect({ Authorization: token() }, frame => {
-      setIsConnect(true);
-      // 일반유저일 때 구독
-      if (me.memberRole === 'NORMAL') {
-        wsclient.subscribe('/user/queue/orders/update', msg => {
-          setIsPopup(false);
-          const res = msg.body && JSON.parse(msg.body);
-          dispatch(setChangedOrderAction(res));
-          if (res.made && !res.pickup) {
+    wsclient.connect(
+      { Authorization: token() },
+      frame => {
+        setIsConnect(true);
+        // 일반유저일 때 구독
+        if (me.memberRole === 'NORMAL') {
+          wsclient.subscribe('/user/queue/orders/update', msg => {
+            setIsPopup(false);
+            const res = msg.body && JSON.parse(msg.body);
+            dispatch(setChangedOrderAction(res));
+            if (res.made && !res.pickup) {
+              setPopMsg(res);
+            }
+            // 마지막 주문이라면 연결을 끊는다
+            if (res.last) {
+              setIsConnect(false);
+              wsclient.disconnect();
+            }
+          });
+          // 관리자 일 때 구독
+        } else if (me.memberRole === 'ADMIN') {
+          // 메뉴 추가시 동작
+          wsclient.subscribe('/topic/orders/add', msg => {
+            setIsPopup(false);
+            const res = JSON.parse(msg.body);
+            dispatch(setChangedOrderAction(res));
             setPopMsg(res);
-          }
-          // 마지막 주문이라면 연결을 끊는다
-          if (res.last) {
-            setIsConnect(false);
-            wsclient.disconnect();
-          }
-        });
-        // 관리자 일 때 구독
-      } else if (me.memberRole === 'ADMIN') {
-        // 메뉴 추가시 동작
-        wsclient.subscribe('/topic/orders/add', msg => {
-          setIsPopup(false);
-          const res = JSON.parse(msg.body);
-          dispatch(setChangedOrderAction(res));
-          setPopMsg(res);
-        });
-        // 관리자 상태 변경 메시지 받을때 동작
-        wsclient.subscribe('/topic/orders/update', msg => {
-          const res = JSON.parse(msg.body);
-          dispatch(setChangedOrderAction(res));
-        });
-      }
-    });
+          });
+          // 관리자 상태 변경 메시지 받을때 동작
+          wsclient.subscribe('/topic/orders/update', msg => {
+            const res = JSON.parse(msg.body);
+            dispatch(setChangedOrderAction(res));
+          });
+        }
+      },
+      wsErrorCallback,
+    );
   };
 
   // redux 상태 wsConnect를 이용하여 연결을 관리하고자 함, 첫 false 일 때 disconnect를 막아야 한다.
@@ -102,13 +113,13 @@ const GlobalWs = withRouter(({ location }) => {
           if (content.length > 0 || me.memberRole === 'ADMIN') callback();
         }
       } catch (e) {
-        console.log(e);
+        tokenCheck(e);
       }
     };
     fetchMyOrder();
   };
 
-  // 매 로그인 여부 변경시마다 동작, 로그인과 연결 상태에 따라 연결을 맺고 끊는다. 주문정보 유무에 따라 연결 조정을 해야할듯
+  // 매 로그인 여부 변경시마다 동작, 로그인과 연결 상태에 따라 연결을 맺고 끊는다.
   useEffect(() => {
     if (isSignedIn && !isConnect) {
       checkOrder(socketOrderInit); // 주문 있으면 ws연결

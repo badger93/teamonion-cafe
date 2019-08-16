@@ -45,7 +45,7 @@ const SignInPopup = ({ setIsLoginPopup }) => {
   }, [dispatch]);
 
   return (
-    <div className="loginPopup">
+    <div className="loginPopup" onClick={e => e.stopPropagation()}>
       <input
         className="closeBtn"
         type="button"

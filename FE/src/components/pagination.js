@@ -14,7 +14,7 @@ const Pagination = ({ pageData, maxIndex = 8, callback }) => {
   const startPage = currentPage - beforeShow;
   const endPage = currentPage + afterShow;
   const pageGoal = () => {
-    if (totalPages < maxIndex) {
+    if (totalPages < afterShow + currentPage) {
       return totalPages;
     }
     return endPage < maxIndex ? maxIndex : endPage;

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useRef } from 'react';
 import propTypes from 'prop-types';
 import '../styles/Payform.scss';
 import { Redirect } from 'react-router-dom';
@@ -6,6 +6,7 @@ import PayListItem from './PayListItem';
 import { payRequestAction, payFinishAction } from '../../../../redux/actions/payAction';
 import { useShowupString } from '../../../../utils/signUpForm';
 import ShowUpMessage from '../../../../components/ShowUpMessage';
+import { useCart, useLocalStorage, CartDelete } from '../../../../utils/cart';
 
 const PayForm = ({
   dispatch,
@@ -23,17 +24,36 @@ const PayForm = ({
 
   const { setShowupStringFunc, showupString, isShowing } = useShowupString('');
 
+  const cartLocalStorage = useLocalStorage('CART', []);
+  const { cart, setAllCart } = useCart(cartLocalStorage.storedValue, cartLocalStorage);
+
   useEffect(() => {
-    const Point = user.point - totalPrice + totalPrice / 10;
+    const Point = Math.floor(user.point - totalPrice + totalPrice / 10);
     setAfterPoint(Point);
-    return () => dispatch(payFinishAction());
+    return () => {
+      dispatch(payFinishAction());
+    };
   }, []);
 
   useEffect(() => {
-    setShowupStringFunc(payErrorReason);
+    // 결제완료시 삭제
+    if (isPaid) {
+      const paidItems = itemsForPay && Object.values(itemsForPay);
+      paidItems && paidItems.forEach(item => CartDelete(cart, setAllCart, item.cartId));
+    }
+  }, [isPaid]);
+
+  const isInitialMount = useRef(true);
+
+  useEffect(() => {
+    if (isInitialMount.current) {
+      isInitialMount.current = false;
+    } else {
+      setShowupStringFunc(payErrorReason);
+    }
   }, [payErrorReason]);
 
-  const onSubmit = async e => {
+  const onSubmit = e => {
     e.preventDefault();
 
     const menuIdList = Object.values(itemsForPay).map(item => item.id);
@@ -44,6 +64,7 @@ const PayForm = ({
       member_id: user.id,
     };
     dispatch(payRequestAction(requestInfo));
+    setShowupStringFunc(payErrorReason);
     // PayRequest
 
     // PayFinish, redux state change
@@ -116,14 +137,16 @@ const PayForm = ({
             </div>
             <div>
               <div>포인트 적립</div>
-              <div>{`${(totalPrice / 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</div>
+              <div>{`${Math.floor(totalPrice / 10)
+                .toString()
+                .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}</div>
             </div>
             <div>
-              <div>결제 후 내 포인트</div>
+              <div>거래 후 내 포인트</div>
               <div>
                 {howPay === 1
                   ? `${afterPoint.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`
-                  : `${(user.point + totalPrice / 10)
+                  : `${Math.floor(user.point + totalPrice / 10)
                       .toString()
                       .replace(/\B(?=(\d{3})+(?!\d))/g, ',')} P`}
               </div>

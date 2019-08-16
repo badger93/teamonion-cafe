@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import MobileHeader from './MobileHeader';
 import PcHeader from './PcHeader';
 import SignInPopup from './SignInPopup';
-import { logOutAction, changePoint } from '../redux/actions/userAction';
+import { logOutAction, changePoint, signInPopupChangeAction } from '../redux/actions/userAction';
 import Loading from './Loading';
 import moment from 'moment';
 
@@ -15,6 +15,7 @@ const Header = () => {
   const logOutDispatch = () => {
     dispatch(logOutAction());
     localStorage.removeItem('USER');
+    localStorage.removeItem('CART');
     localStorage.removeItem('TOKEN'); // 로그아웃시 토큰 삭제
   };
 
@@ -32,7 +33,6 @@ const Header = () => {
     const nowTime = new Date();
     const oldTime = new Date(me.lastSignInTime);
     const gap = moment.duration(nowTime - oldTime).asMinutes();
-    // console.log(gap);
     return gap > 1380 ? true : false;
   };
 
@@ -61,7 +61,7 @@ const Header = () => {
         onRefreshClick={onRefreshClick}
       />
       {signInPopup && (
-        <div className="signInContainer">
+        <div className="signInContainer" onClick={() => dispatch(signInPopupChangeAction())}>
           {isSigningIn && <Loading />}
           <SignInPopup isSigningIn={isSigningIn} />
         </div>

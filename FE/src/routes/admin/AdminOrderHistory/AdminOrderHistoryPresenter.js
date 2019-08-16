@@ -11,8 +11,6 @@ const AdminOrderHistoryPresenter = ({
   pageData,
   queryCategory,
 }) => {
-  // order_id ,menus, paymentType, paid, made, pickup, createdDate, amount, member_id
-
   const colums = [
     {
       key: 'order_id',

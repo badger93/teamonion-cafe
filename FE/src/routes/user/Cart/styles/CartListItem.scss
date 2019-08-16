@@ -13,11 +13,11 @@
   }
   .cart-item-column:nth-child(1) {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     width: 10%;
     position: relative;
-    left: 10px;
+
     .cart-item-checkbox {
       all: unset;
       display: inline-block;

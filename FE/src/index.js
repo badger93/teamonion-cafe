@@ -16,9 +16,9 @@ const sagaMiddleware = createSagaMiddleware(); // 사가만들고
 const middlewares = [sagaMiddleware];
 const enhancer = compose(
   applyMiddleware(...middlewares),
-  // typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__
-  //   ? window.__REDUX_DEVTOOLS_EXTENSION__() // 리덕스 데브툴즈이용
-  //   : f => f, // 배포시는 빼야한다
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__
+    ? window.__REDUX_DEVTOOLS_EXTENSION__() // 리덕스 데브툴즈이용
+    : f => f, // 배포시는 빼야한다
 );
 // compose는 미들웨어 합성
 

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import AdminMemberManagePresenter from './AdminMemberManagePresenter';
 import { getUserList, setUserPoint, searchUser } from '../../../api/userApi';
+import { useTokenCheck } from '../../../utils/tokenCheck';
 
 const AdminMemberManageContainer = () => {
   const [memberListData, setMemberListData] = useState([]);
   const [memberListPageData, setMemberPageData] = useState({});
   const [searchText, setSearchText] = useState('');
+  const { tokenCheck } = useTokenCheck();
 
   const getUserByPage = ({ itemSize, page }) => {
     getUserList({ itemSize, page })
@@ -14,7 +16,7 @@ const AdminMemberManageContainer = () => {
         setMemberListData(content);
         setMemberPageData({ page, totalPages });
       })
-      .catch(err => alert(`userList 가져오기 실패: ${err}`));
+      .catch(err => tokenCheck(err));
   };
 
   const setPoint = ({ id, changePoint }) => {
@@ -26,8 +28,7 @@ const AdminMemberManageContainer = () => {
         setMemberListData(result);
       })
       .catch(err => {
-        alert(`포인트 수정 실패 : ${err}`);
-        console.dir(err);
+        tokenCheck(err);
       });
   };
 
@@ -39,7 +40,7 @@ const AdminMemberManageContainer = () => {
       setMemberPageData({ page, totalPages });
       setSearchText(memberId);
     } catch (err) {
-      alert(`유저검색 실패 : ${err}`);
+      tokenCheck(err);
     }
   };
 

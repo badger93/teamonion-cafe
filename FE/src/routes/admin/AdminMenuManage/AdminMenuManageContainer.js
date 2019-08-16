@@ -2,10 +2,12 @@ import React, { useState, useEffect } from 'react';
 import AdminMenuManagePresenter from './AdminMenuManagePresenter';
 import { getMenuList, deleteMenuList, updateMenuList, createMenuList } from '../../../api/menuApi';
 import changeImagePath from '../../../utils/changeImagePath';
+import { useTokenCheck } from '../../../utils/tokenCheck';
 
 const AdminMenuManageContainer = () => {
   const [menuList, setMenuList] = useState([]);
   const [pageData, setPageData] = useState({});
+  const { tokenCheck } = useTokenCheck();
   const deleteItem = id => {
     deleteMenuList(id)
       .then(() => {
@@ -13,7 +15,7 @@ const AdminMenuManageContainer = () => {
         setMenuList(change);
       })
       .catch(err => {
-        alert(`삭제실패${err}`);
+        tokenCheck(err);
       });
   };
 
@@ -32,9 +34,10 @@ const AdminMenuManageContainer = () => {
             : item,
         );
         setMenuList(change);
+        alert(`${formData.get('name')} 수정되었습니다`);
       })
       .catch(err => {
-        alert(`수정실패${err}`);
+        tokenCheck(err);
       });
   };
 
@@ -52,10 +55,10 @@ const AdminMenuManageContainer = () => {
           ...menuList,
         ];
         setMenuList(list);
+        alert(`${formData.get('name')} 추가되었습니다`);
       })
       .catch(err => {
-        console.dir(err);
-        alert(`추가실패 ${err}`);
+        tokenCheck(err);
       });
   };
 
@@ -67,8 +70,7 @@ const AdminMenuManageContainer = () => {
       setMenuList(newContent);
       setPageData({ page, totalPages });
     } catch (err) {
-      alert('상품로드 실패', err);
-      console.dir(err);
+      tokenCheck(err);
     }
   };
 
